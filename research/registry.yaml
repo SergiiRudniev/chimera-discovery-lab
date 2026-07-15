@@ -54,3 +54,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H004.yaml
     result: research/results/CHM-W-H004.json
+  - id: CHM-W-H005
+    title: Mixed probe-random dynamics curriculum
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H005.yaml
+    result: research/results/CHM-W-H005.json

@@ -1,5 +1,26 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H005 registration
+
+- **Question:** Can a 50:50 probe/random curriculum retain H004's
+  intervention-effect gain without increasing four-step rollout error?
+- **Diagnosis inherited from H004:** Probe training improved effect prediction
+  materially. Probe-only distribution shift and instance discrimination damaged
+  rollout, while removing discrimination almost restored the random baseline.
+- **Change:** Pair the same generated mechanisms/worlds under probe and random
+  action policies in each train batch. Disable mechanism-discrimination loss.
+- **Controlled comparison:** Mixed, random-only and probe-only arms share model,
+  optimizer, seed, number of trajectories, closed-loop objective and hybrid
+  evaluator. Only train policy mixture differs.
+- **Development gate:** On seed `260910`, require effect ratio at most `0.90`
+  and rollout ratio at most `1.00` versus random-only before freezing any
+  validation configuration.
+- **Validation discipline:** Hyperparameters freeze before seeds
+  `260911..260913`; test remains sealed until their aggregate gate passes.
+- **Status:** `not_run`; no H005 model metric or checkpoint exists.
+- **Claim boundary:** Simulator curriculum evidence only; no real-world
+  causality, probe safety, business utility or production claim.
+
 ## 2026-07-15 — CHM-W-H004 development preflight
 
 - **Scope:** Development seed `260906`, 300 steps, `train` and `validation`

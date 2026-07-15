@@ -1,0 +1,87 @@
+id: CHM-W-H005
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  A 50:50 paired curriculum of controlled system-identification probes and
+  seeded random interventions, trained without instance-discrimination loss,
+  reduces intervention-effect prediction error by at least 10% without
+  increasing four-step rollout error in unseen world-family mappings compared
+  with matched random-only training.
+scope: mixed_active_identification_dynamics_transfer
+parent: CHM-W-H004
+data:
+  dataset_id: CHM-W-WG1
+  generator_config: configs/meta_world/world_generators_h004.yaml
+  training_policies:
+    deterministic_system_identification_probe_v1: 0.50
+    seeded_random: 0.50
+  evaluation_policy: probe_prefix_4_then_seeded_random_v1
+  paired_worlds_across_training_policies: true
+  language_input: false
+  hidden_metadata_excluded_from_model_forward:
+    - action_policy_id
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  model: relational_sequence_world_model
+  rollout_horizon: 4
+  rollout_mode: autoregressive_closed_loop
+  mechanism_discrimination_weight: 0.0
+  controlled_variable: training_policy_mixture
+  evaluator_policy_identical_across_arms: true
+protocol:
+  trial_id: CHM-W-T005
+  status: not_run
+  development_seed: 260910
+  frozen_validation_seeds:
+    - 260911
+    - 260912
+    - 260913
+  comparison_arms:
+    - mixed_probe_random_closed_loop_without_discrimination
+    - random_only_closed_loop_without_discrimination
+    - probe_only_closed_loop_without_discrimination
+    - one_step_relational_without_discrimination
+    - temporal_predictor_without_relational_state
+    - legal_random_intervention
+  validation_preflight:
+    hyperparameters_frozen_before_validation_seeds: true
+    freeze_trial_only_if:
+      median_intervention_effect_nrmse_ratio_vs_random_maximum: 0.90
+      median_four_step_rollout_nrmse_ratio_vs_random_maximum: 1.00
+      each_seed_four_step_rollout_nrmse_ratio_vs_random_maximum: 1.05
+      intervention_effect_90_coverage_minimum: 0.85
+      deterministic_replay_rate: 1.00
+      split_leakage_findings: 0
+      all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    intervention_effect_nrmse_ratio_vs_random_maximum: 0.90
+    intervention_effect_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_random_maximum: 1.00
+    four_step_rollout_paired_bootstrap_90_percent_ratio_upper_bound_maximum: 1.05
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - mechanism_retrieval_accuracy
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports a simulator training curriculum only. It is not
+    evidence of real-world causal discovery, safe real-world experimentation,
+    profitable business ideas, language-independent thought or production
+    readiness.
+result: research/results/CHM-W-H005.json

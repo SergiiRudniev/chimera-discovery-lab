@@ -20,6 +20,7 @@ def test_research_registry_is_valid() -> None:
         "CHM-W-H002",
         "CHM-W-H003",
         "CHM-W-H004",
+        "CHM-W-H005",
     ]
 
 
@@ -132,4 +133,14 @@ def test_h004_development_preflight_does_not_open_frozen_validation_or_test() ->
     assert preflight["decision"] == "do_not_freeze_T004"
     assert all(not arm["checkpoint"]["promoted"] for arm in preflight["arms"].values())
     assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h005_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H005.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H005"
+    assert result["trial_id"] == "CHM-W-T005"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
     assert result["metrics"] is None
