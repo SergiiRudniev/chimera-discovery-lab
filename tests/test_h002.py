@@ -60,6 +60,8 @@ def _training_config() -> MetaWorldTrainingConfig:
         alignment_weight=0.1,
         variance_weight=0.01,
         alignment_margin=0.2,
+        primary_effect_weight=2.0,
+        ema_decay=0.9,
         device="cpu",
         precision="float32",
     )
@@ -230,6 +232,22 @@ def test_h002_alignment_penalizes_collapsed_embeddings() -> None:
     separated_loss = _mechanism_alignment(separated, mechanism_ids, margin=0.2)
 
     assert separated_loss < collapsed_loss
+
+
+def test_h002_trainer_uses_ema_evaluation_weights() -> None:
+    _, sample = _sample()
+    model = RelationalSequenceWorldModel(_model_config())
+    trainer = H002Trainer(model, _training_config())
+    window = make_transition_window(sample, prediction_step=2, context_steps=4)  # type: ignore[arg-type]
+    before = {
+        name: value.clone() for name, value in trainer.evaluation_state_dict().items()
+    }
+
+    trainer.train_step(window)
+    after = trainer.evaluation_state_dict()
+
+    assert trainer.evaluation_weights_kind == "ema"
+    assert any(not torch.equal(before[name], after[name]) for name in before)
 
 
 def test_sequence_sampler_rejects_partial_alignment_groups() -> None:

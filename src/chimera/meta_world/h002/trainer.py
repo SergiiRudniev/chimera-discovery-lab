@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import copy
 import math
+from collections.abc import Mapping
 from typing import cast
 
 import torch
-from torch import nn
+from torch import Tensor, nn
 
 from chimera.meta_world.batch import MetaWorldBatch
 from chimera.meta_world.config import MetaWorldTrainingConfig
@@ -27,6 +29,11 @@ class H002Trainer:
             torch.set_float32_matmul_precision("high")
             torch.cuda.reset_peak_memory_stats(self.device)
         self.model = model.to(self.device)
+        self.ema_model = (
+            copy.deepcopy(self.model).requires_grad_(False)
+            if config.ema_decay > 0.0
+            else None
+        )
         self.optimizer = torch.optim.AdamW(
             self.model.parameters(),
             lr=config.learning_rate,
@@ -54,6 +61,20 @@ class H002Trainer:
             self.config.max_grad_norm,
         )
         self.optimizer.step()
+        if self.ema_model is not None:
+            with torch.no_grad():
+                for averaged, current in zip(
+                    self.ema_model.parameters(),
+                    self.model.parameters(),
+                    strict=True,
+                ):
+                    averaged.lerp_(current, 1.0 - self.config.ema_decay)
+                for averaged_buffer, current_buffer in zip(
+                    self.ema_model.buffers(),
+                    self.model.buffers(),
+                    strict=True,
+                ):
+                    averaged_buffer.copy_(current_buffer)
         metrics = {
             name: float(value.detach().float().cpu()) for name, value in losses.items()
         }
@@ -64,12 +85,20 @@ class H002Trainer:
 
     @torch.no_grad()
     def predict(self, batch: MetaWorldBatch) -> MetaWorldOutput:
-        self.model.eval()
+        evaluation_model = self.ema_model if self.ema_model is not None else self.model
+        evaluation_model.eval()
         with self._autocast():
-            return cast(MetaWorldOutput, self.model(batch.to(self.device)))
+            return cast(MetaWorldOutput, evaluation_model(batch.to(self.device)))
+
+    def evaluation_state_dict(self) -> Mapping[str, Tensor]:
+        evaluation_model = self.ema_model if self.ema_model is not None else self.model
+        return evaluation_model.state_dict()
+
+    @property
+    def evaluation_weights_kind(self) -> str:
+        return "ema" if self.ema_model is not None else "online"
 
     def peak_memory_bytes(self) -> int:
         if self.device.type != "cuda":
             return 0
         return int(torch.cuda.max_memory_allocated(self.device))
-

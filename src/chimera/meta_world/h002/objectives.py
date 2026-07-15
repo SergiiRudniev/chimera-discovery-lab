@@ -77,7 +77,16 @@ def h002_loss(
         output.effect_mean,
         output.effect_log_variance,
         batch.effect_targets,
-        torch.ones_like(batch.effect_targets, dtype=torch.bool),
+        torch.cat(
+            [
+                torch.ones_like(batch.effect_targets[:, :-1]),
+                torch.full_like(
+                    batch.effect_targets[:, -1:],
+                    config.primary_effect_weight,
+                ),
+            ],
+            dim=1,
+        ),
     )
     alignment = _mechanism_alignment(
         output.proposal_embedding,

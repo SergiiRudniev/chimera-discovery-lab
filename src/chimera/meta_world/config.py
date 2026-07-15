@@ -83,6 +83,8 @@ class MetaWorldTrainingConfig:
     alignment_weight: float = 0.1
     variance_weight: float = 0.01
     alignment_margin: float = 0.2
+    primary_effect_weight: float = 1.0
+    ema_decay: float = 0.0
     device: str = "cuda"
     precision: str = "bfloat16"
 
@@ -102,6 +104,10 @@ class MetaWorldTrainingConfig:
         ):
             if getattr(self, name) < 0:
                 raise ValueError(f"{name} must be non-negative")
+        if self.primary_effect_weight < 1.0:
+            raise ValueError("primary_effect_weight must be at least 1")
+        if not 0.0 <= self.ema_decay < 1.0:
+            raise ValueError("ema_decay must be in [0, 1)")
         if self.device not in {"auto", "cpu", "cuda", "mps"}:
             raise ValueError("device must be auto, cpu, cuda or mps")
         if self.precision not in {"float32", "bfloat16"}:
