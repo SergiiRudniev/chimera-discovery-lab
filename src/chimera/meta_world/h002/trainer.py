@@ -61,6 +61,18 @@ class H002Trainer:
             self.config.max_grad_norm,
         )
         self.optimizer.step()
+        self._update_ema()
+        metrics = {
+            name: float(value.detach().float().cpu()) for name, value in losses.items()
+        }
+        metrics["gradient_norm"] = float(gradient_norm.detach().float().cpu())
+        if not all(math.isfinite(value) for value in metrics.values()):
+            raise FloatingPointError("non-finite H002 training metric")
+        return metrics
+
+    def _update_ema(self) -> None:
+        """Update evaluation weights after one successful optimizer step."""
+
         if self.ema_model is not None:
             with torch.no_grad():
                 for averaged, current in zip(
@@ -75,13 +87,6 @@ class H002Trainer:
                     strict=True,
                 ):
                     averaged_buffer.copy_(current_buffer)
-        metrics = {
-            name: float(value.detach().float().cpu()) for name, value in losses.items()
-        }
-        metrics["gradient_norm"] = float(gradient_norm.detach().float().cpu())
-        if not all(math.isfinite(value) for value in metrics.values()):
-            raise FloatingPointError("non-finite H002 training metric")
-        return metrics
 
     @torch.no_grad()
     def predict(self, batch: MetaWorldBatch) -> MetaWorldOutput:

@@ -85,6 +85,8 @@ def test_generated_sequence_window_hides_service_metadata() -> None:
     window = make_transition_window(sample, prediction_step=2, context_steps=4)  # type: ignore[arg-type]
 
     assert sample.mechanism_ids.tolist() == [0, 0, 1, 1]  # type: ignore[attr-defined]
+    assert sample.mechanism_keys[0] == sample.mechanism_keys[1]  # type: ignore[attr-defined]
+    assert sample.mechanism_keys[0] != sample.mechanism_keys[2]  # type: ignore[attr-defined]
     assert window.observations.shape == (4, 4, 10, 8)
     assert window.intervention_parameters.shape == (4, 3)
     assert window.effect_targets.shape == (4, 4)
