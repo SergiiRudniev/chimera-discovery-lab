@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -51,3 +52,21 @@ def test_meta_world_hypothesis_namespace_is_valid(tmp_path: Path) -> None:
     records = load_research_registry(registry)
 
     assert records[0]["id"] == "CHM-W-H000"
+
+
+def test_h002_preflight_cannot_be_mistaken_for_scientific_result() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H002-validation.json").read_text(encoding="utf-8")
+    )
+    result = json.loads(Path("research/results/CHM-W-H002.json").read_text(encoding="utf-8"))
+
+    assert preflight["status"] == "completed_validation_preflight"
+    assert preflight["scientific_result"] is False
+    assert preflight["registered_trial_executed"] is False
+    assert preflight["opened_splits"] == ["train", "validation"]
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["decision"] == "do_not_freeze_T002"
+    assert all(not arm["checkpoint"]["promoted"] for arm in preflight["arms"].values())
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
+    assert result["metrics"] is None

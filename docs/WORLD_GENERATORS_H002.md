@@ -156,4 +156,6 @@ excluded from prediction targets because each step resamples them independently.
   causal identification.
 - Cross-platform bitwise equality across different NumPy versions is not yet a
   registered guarantee.
-- H002 remains `not_run`; no transfer metrics or checkpoint exist.
+- H002 remains `not_run`; validation-only engineering metrics and unpromoted
+  preflight checkpoints exist, but no registered test-transfer result or
+  production checkpoint exists.

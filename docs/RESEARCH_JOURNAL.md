@@ -1,5 +1,35 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H002 validation-only model preflight
+
+- **Scope:** Matched single-seed engineering preflight on `train` and
+  `validation` only. Every H002 test split remained sealed.
+- **Runtime:** NVIDIA GeForce RTX 5070, CUDA BF16, EMA weights, 1,000 optimizer
+  steps per arm, seed `260902`, Git commit `7cf8931`.
+- **Metric correction:** State and rollout targets now contain only the four
+  dynamic signal channels. Independently resampled renderer nuisance channels
+  remain visible inputs but are not treated as predictable future state.
+- **Aligned relational:** Intervention-effect NRMSE `0.693132`, four-step
+  rollout NRMSE `0.416371`, mechanism retrieval `0.03125`.
+- **Unaligned relational:** Intervention-effect NRMSE `0.663543`, four-step
+  rollout NRMSE `0.413200`, mechanism retrieval `0.0`.
+- **Temporal baseline:** Intervention-effect NRMSE `0.955519`, four-step
+  rollout NRMSE `0.417827`, mechanism retrieval `0.0`.
+- **Comparison:** The aligned relational arm reduced effect error by `27.46%`
+  versus the temporal baseline, but was `4.46%` worse than the same relational
+  architecture without alignment. Its rollout error was `0.77%` worse than the
+  unaligned relational arm.
+- **Decision:** Do not freeze `CHM-W-T002`; do not open test metrics and do not
+  promote any preflight checkpoint. The H002 result remains `not_run` because
+  the aligned arm did not plausibly satisfy the registered requirement to beat
+  the strongest baseline on both primary metrics.
+- **Next action:** Register a new immutable hypothesis for multi-step
+  closed-loop training and stronger cross-batch mechanism discrimination;
+  preserve H002 as an append-only negative validation diagnosis.
+- **Claim boundary:** Validation-only simulator engineering evidence. It does
+  not establish test-world transfer, causal discovery, business utility or
+  production readiness.
+
 ## 2026-07-15 — CHM-W-H002 generator implementation
 
 - **Architecture:** Implemented independent `MechanismGenerator`,
