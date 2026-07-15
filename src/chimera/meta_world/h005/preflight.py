@@ -7,8 +7,9 @@ import json
 import platform
 import subprocess
 import time
+from collections.abc import Mapping
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal
 
 import torch
 from torch import nn
@@ -143,16 +144,21 @@ def _policy_label(arm: H005Arm) -> str:
     return "seeded_random"
 
 
-def _execute_h005_run(
-    config_path: str | Path,
+def execute_policy_curriculum_run(
+    config_file: Path,
+    config: H005RunConfig,
     output_dir: str | Path,
     *,
     expected_mode: str,
+    hypothesis_id: str,
+    reported_arm: str,
+    effect_supervision: Literal["all", "random_half"],
+    result_metadata: Mapping[str, object] | None = None,
 ) -> dict[str, Any]:
-    config_file = Path(config_path)
-    config = H005RunConfig.from_yaml(config_file)
     if config.mode != expected_mode:
-        raise ValueError(f"H005 runner expected mode={expected_mode}")
+        raise ValueError(f"policy curriculum runner expected mode={expected_mode}")
+    if effect_supervision == "random_half" and config.arm is not H005Arm.MIXED:
+        raise ValueError("random-half effect routing requires the mixed sampler")
     frozen_validation = config.mode == "frozen_validation"
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
@@ -194,8 +200,8 @@ def _execute_h005_run(
         torch.save(
             {
                 "run_id": config.run_id,
-                "hypothesis_id": "CHM-W-H005",
-                "arm": config.arm.value,
+                "hypothesis_id": hypothesis_id,
+                "arm": reported_arm,
                 "model_class": model_class,
                 "step": step,
                 "model": trainer.evaluation_state_dict(),
@@ -233,12 +239,22 @@ def _execute_h005_run(
             step,
         )
         if isinstance(trainer, H003Trainer):
+            effect_supervision_mask: torch.Tensor | None = None
+            if effect_supervision == "random_half":
+                per_policy = train_sample.batch.batch_size // 2
+                effect_supervision_mask = torch.cat(
+                    [
+                        torch.zeros(per_policy, dtype=torch.bool),
+                        torch.ones(per_policy, dtype=torch.bool),
+                    ]
+                )
             training_metrics = trainer.train_sequence_step(
                 train_sample,
                 prediction_step=(
                     first_rollout_step + (step - 1) % rollout_start_count
                 ),
                 context_steps=config.model.context_steps,
+                effect_supervision_mask=effect_supervision_mask,
             )
         else:
             window = make_transition_window(
@@ -279,7 +295,7 @@ def _execute_h005_run(
                 best_metrics = evaluation
                 save_checkpoint(best_step)
     if frozen_validation and best_step != config.frozen_checkpoint_step:
-        raise RuntimeError("frozen H005 checkpoint step was not evaluated")
+        raise RuntimeError("frozen policy-curriculum checkpoint was not evaluated")
     metrics_path = output / "metrics.jsonl"
     metrics_path.write_text(
         "".join(json.dumps(row, sort_keys=True) + "\n" for row in metric_rows),
@@ -287,8 +303,8 @@ def _execute_h005_run(
     )
     checkpoint_manifest = {
         "run_id": config.run_id,
-        "hypothesis_id": "CHM-W-H005",
-        "arm": config.arm.value,
+        "hypothesis_id": hypothesis_id,
+        "arm": reported_arm,
         "model_class": model_class,
         "weights_kind": trainer.evaluation_weights_kind,
         "checkpoint": checkpoint_path.name,
@@ -301,23 +317,23 @@ def _execute_h005_run(
         "selection_score": best_score,
         "promoted": False,
         "scope": (
-            "frozen-validation-only H005 run"
+            f"frozen-validation-only {hypothesis_id} run"
             if frozen_validation
-            else "development-only H005 preflight"
+            else f"development-only {hypothesis_id} preflight"
         ),
         "opened_splits": [SplitName.TRAIN.value, SplitName.VALIDATION.value],
     }
     _write_json(output / "checkpoint_manifest.json", checkpoint_manifest)
     result: dict[str, Any] = {
         "run_id": config.run_id,
-        "hypothesis_id": "CHM-W-H005",
+        "hypothesis_id": hypothesis_id,
         "status": (
             "completed_frozen_validation"
             if frozen_validation
             else "completed_development_preflight"
         ),
         "decision": "validation_only" if frozen_validation else "engineering_only",
-        "arm": config.arm.value,
+        "arm": reported_arm,
         "seed": config.training.seed,
         "train_action_policy": _policy_label(config.arm),
         "evaluation_action_policy": evaluation_policy.policy_id,
@@ -362,8 +378,29 @@ def _execute_h005_run(
             "production claim."
         ),
     }
+    if result_metadata is not None:
+        result.update(result_metadata)
     _write_json(output / "result.json", result)
     return result
+
+
+def _execute_h005_run(
+    config_path: str | Path,
+    output_dir: str | Path,
+    *,
+    expected_mode: str,
+) -> dict[str, Any]:
+    config_file = Path(config_path)
+    config = H005RunConfig.from_yaml(config_file)
+    return execute_policy_curriculum_run(
+        config_file,
+        config,
+        output_dir,
+        expected_mode=expected_mode,
+        hypothesis_id="CHM-W-H005",
+        reported_arm=config.arm.value,
+        effect_supervision="all",
+    )
 
 
 def _run_h005(

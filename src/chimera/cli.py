@@ -29,6 +29,7 @@ from chimera.meta_world.h004 import (
     validate_h004_probe_dataset,
 )
 from chimera.meta_world.h005 import run_h005_preflight, run_h005_validation
+from chimera.meta_world.h006 import run_h006_preflight
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -286,6 +287,26 @@ def _h005_validation(arguments: argparse.Namespace) -> int:
                 "seed": result["seed"],
                 "parameters": result["parameters"],
                 "selected_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h006_preflight(arguments: argparse.Namespace) -> int:
+    result = run_h006_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "objective_routing": result["objective_routing"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
                 "output": str(arguments.output),
                 "test_metrics_opened": result["test_metrics_opened"],
             },
@@ -695,6 +716,17 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("runs/h005_validation_mixed_s260911"),
     )
+    h006_preflight_parser = subparsers.add_parser("meta-world-h006-preflight")
+    h006_preflight_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h006_development_routed.yaml"),
+    )
+    h006_preflight_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h006_development_routed"),
+    )
     return parser
 
 
@@ -742,6 +774,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h005_preflight(arguments)
     if arguments.command == "meta-world-h005-validate":
         return _h005_validation(arguments)
+    if arguments.command == "meta-world-h006-preflight":
+        return _h006_preflight(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

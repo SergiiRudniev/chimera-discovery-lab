@@ -14,11 +14,13 @@ from chimera.meta_world.generators import (
 )
 from chimera.meta_world.h002 import (
     RelationalSequenceWorldModel,
+    make_transition_window,
     materialize_sequence_sample,
 )
 from chimera.meta_world.h003 import (
     H003Trainer,
     MechanismMemoryQueue,
+    h003_closed_loop_loss,
     run_h003_preflight,
 )
 
@@ -137,6 +139,59 @@ def test_h003_closed_loop_step_is_finite_and_populates_queue() -> None:
     assert all(torch.isfinite(torch.tensor(value)) for value in metrics.values())
     assert metrics["mechanism_queue_entries"] == 4.0
     assert trainer.queue.size == 4
+
+
+def test_h003_closed_loop_accepts_trainer_only_effect_route() -> None:
+    sample = materialize_sequence_sample(
+        _pipeline(),
+        SplitName.TRAIN,
+        start_index=0,
+        batch_size=4,
+    )
+    trainer = H003Trainer(
+        RelationalSequenceWorldModel(_model_config()),
+        _training_config(),
+        rollout_horizon=4,
+        state_features=4,
+        queue_minimum_entries=4,
+        queue_maximum_entries=8,
+    )
+
+    metrics = trainer.train_sequence_step(
+        sample,
+        prediction_step=3,
+        context_steps=4,
+        effect_supervision_mask=torch.tensor([False, False, True, True]),
+    )
+
+    assert metrics["effect_supervision_fraction"] == 0.5
+    assert not hasattr(sample.batch, "effect_supervision_mask")
+
+
+def test_effect_route_removes_probe_examples_from_effect_gradient() -> None:
+    sample = materialize_sequence_sample(
+        _pipeline(),
+        SplitName.TRAIN,
+        start_index=0,
+        batch_size=4,
+    )
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)
+    output = RelationalSequenceWorldModel(_model_config())(window)
+    output.effect_mean.retain_grad()
+
+    losses, _ = h003_closed_loop_loss(
+        [output],
+        [window],
+        sample.mechanism_keys,
+        _training_config(),
+        MechanismMemoryQueue(minimum_entries=4, maximum_entries=8),
+        torch.tensor([False, False, True, True]),
+    )
+    losses["loss"].backward()
+
+    assert output.effect_mean.grad is not None
+    assert torch.count_nonzero(output.effect_mean.grad[:2]) == 0
+    assert torch.count_nonzero(output.effect_mean.grad[2:]) > 0
 
 
 def test_h003_preflight_keeps_test_splits_sealed(tmp_path: Path) -> None:

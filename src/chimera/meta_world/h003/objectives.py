@@ -127,11 +127,18 @@ def h003_closed_loop_loss(
     mechanism_keys: Tensor,
     training: MetaWorldTrainingConfig,
     queue: MechanismMemoryQueue,
+    effect_supervision_mask: Tensor | None = None,
 ) -> tuple[dict[str, Tensor], Tensor]:
     """Aggregate equally weighted autoregressive losses across the frozen horizon."""
 
     if not outputs or len(outputs) != len(windows):
         raise ValueError("closed-loop outputs and windows must have equal non-zero length")
+    if effect_supervision_mask is not None:
+        batch_size = windows[0].batch_size
+        if effect_supervision_mask.shape != (batch_size,):
+            raise ValueError("effect supervision mask must have shape [batch]")
+        if not bool(effect_supervision_mask.any()):
+            raise ValueError("effect supervision mask must retain at least one example")
     state_losses: list[Tensor] = []
     effect_losses: list[Tensor] = []
     variance_losses: list[Tensor] = []
@@ -154,6 +161,10 @@ def h003_closed_loop_loss(
             ],
             dim=1,
         )
+        if effect_supervision_mask is not None:
+            effect_weights = effect_weights * effect_supervision_mask[:, None].to(
+                effect_weights.dtype
+            )
         effect_losses.append(
             _masked_gaussian_nll(
                 output.effect_mean,

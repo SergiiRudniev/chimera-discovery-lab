@@ -51,6 +51,7 @@ class H003Trainer(H002Trainer):
         *,
         prediction_step: int,
         context_steps: int,
+        effect_supervision_mask: torch.Tensor | None = None,
     ) -> dict[str, float]:
         self.model.train()
         generated = sample.batch.to(self.device)
@@ -66,6 +67,11 @@ class H003Trainer(H002Trainer):
             world_family_ids=sample.world_family_ids.to(self.device),
             renderer_profile_ids=sample.renderer_profile_ids.to(self.device),
             trajectory_indices=sample.trajectory_indices.to(self.device),
+        )
+        device_effect_supervision = (
+            effect_supervision_mask.to(self.device)
+            if effect_supervision_mask is not None
+            else None
         )
         frames = list(generated.observations.unbind(dim=1))
         outputs: list[MetaWorldOutput] = []
@@ -103,6 +109,7 @@ class H003Trainer(H002Trainer):
                 device_sample.mechanism_keys,
                 self.config,
                 self.queue,
+                device_effect_supervision,
             )
         losses["loss"].backward()  # type: ignore[no-untyped-call]
         gradient_norm = nn.utils.clip_grad_norm_(
@@ -117,6 +124,10 @@ class H003Trainer(H002Trainer):
         }
         metrics["gradient_norm"] = float(gradient_norm.detach().float().cpu())
         metrics["mechanism_queue_entries"] = float(self.queue.size)
+        if device_effect_supervision is not None:
+            metrics["effect_supervision_fraction"] = float(
+                device_effect_supervision.float().mean().cpu()
+            )
         if not all(math.isfinite(value) for value in metrics.values()):
             raise FloatingPointError("non-finite H003 training metric")
         return metrics

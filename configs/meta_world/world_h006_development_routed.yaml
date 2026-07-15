@@ -1,0 +1,55 @@
+run_id: H006-DEVELOPMENT-ROUTED-A
+mode: preflight
+arm: routed_mixed_closed_loop_without_discrimination
+dataset_config: configs/meta_world/world_generators_h004.yaml
+model:
+  observation_features: 8
+  relation_features: 4
+  intervention_types: 1
+  intervention_parameters: 3
+  effect_dimensions: 4
+  domain_count: 1
+  mechanism_count: 8
+  hidden_dim: 512
+  num_heads: 8
+  spatial_layers: 8
+  temporal_layers: 6
+  transition_layers: 6
+  feedforward_multiplier: 4
+  max_slots: 10
+  context_steps: 4
+  dropout: 0.1
+  log_variance_min: -6.0
+  log_variance_max: 2.0
+training:
+  seed: 260914
+  batch_size: 16
+  active_slots: 4
+  steps: 300
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  next_state_weight: 1.0
+  effect_weight: 1.0
+  alignment_weight: 0.0
+  variance_weight: 0.01
+  alignment_margin: 0.2
+  primary_effect_weight: 4.0
+  ema_decay: 0.995
+  device: cuda
+  precision: bfloat16
+curriculum:
+  probe_fraction: 0.5
+closed_loop:
+  rollout_horizon: 4
+  queue_minimum_entries: 256
+  queue_maximum_entries: 2048
+evaluation:
+  evaluation_interval: 100
+  validation_trajectories: 64
+  rollout_horizon: 4
+objective_routing:
+  state_supervision: all
+  effect_supervision: random_half
+  route_passed_to_model: false
+
