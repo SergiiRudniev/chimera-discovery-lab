@@ -1,5 +1,23 @@
 # Research Journal
 
+## 2026-07-15 — Venture Trial T0
+
+- **Protocol:** `CHM-V-T000`, frozen at commit `72fcec8` before metrics were opened.
+- **Runtime:** Full 20,647,992-parameter Venture M0; 300 steps on an NVIDIA
+  GeForce RTX 5070 with PyTorch 2.13.0 and CUDA 13.2.
+- **Selection:** Step 175 minimized validation loss at 3.5133; the test split was
+  opened only after checkpoint selection.
+- **Optimization:** Batch loss decreased from 7.9839 to 3.3122 and remained finite.
+- **Reconstruction:** Train exact-graph reconstruction was 0.0% against the
+  registered 95% threshold; the trial status is `completed_with_gaps`.
+- **Generation:** 160/160 programs were valid and changed their source graph;
+  148 result graphs were unique and fixed-seed replay was exact.
+- **Coverage:** Generated non-terminal operations were limited to `CONNECT`,
+  `INVERT_RELATION` and `SUBSTITUTE`, matching the operations supervised by C0.
+- **Decision:** Preserve the checkpoint for audit, but do not promote it as an
+  accepted model or evidence for CHM-V-H001.
+- **Next action:** Register a separate corrective trial; do not alter T0 thresholds.
+
 ## 2026-07-15 — Venture Corpus C0
 
 - **Sources:** Ten public SEC Form 10-K filings spanning subscription, SaaS,

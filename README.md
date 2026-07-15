@@ -21,9 +21,10 @@ channels, value flows and outcomes. Natural language is excluded from the model
 core and introduced only after a candidate structure has been frozen.
 
 > [!IMPORTANT]
-> This repository contains an architecture and an engineering baseline. It does
-> not contain a trained public checkpoint and does not yet provide evidence that
-> non-linguistic generation is more novel or useful than a language baseline.
+> This repository contains an architecture and an engineering baseline. Venture
+> Trial T0 produced an unqualified structural-pretraining checkpoint; it does not
+> provide evidence that non-linguistic generation is more novel or useful than a
+> language baseline.
 
 ## Reserved Model Families
 
@@ -144,6 +145,21 @@ in sidecars that are never passed to the model.
 - [Dataset manifest](datasets/venture_corpus_c0/manifest.json)
 - [Data-quality profile](datasets/venture_corpus_c0/quality_report.json)
 
+## Venture Trial T0
+
+The first frozen end-to-end trial trained M0 for 300 steps on Corpus C0 and
+selected checkpoint step 175 by validation loss. Four engineering checks passed,
+but train exact-graph reconstruction was 0% against the preregistered 95%
+threshold. The result is `completed_with_gaps`, not an accepted model release.
+
+Validity-constrained sampling produced 160 valid changed candidates and 148
+unique resulting graphs. The observed operation set remained limited to the
+three edit families supervised by Corpus C0.
+
+- [Trial report](research/trials/CHM-V-T000/README.md)
+- [Machine-readable result](research/trials/CHM-V-T000/result.json)
+- [Checkpoint manifest](research/trials/CHM-V-T000/checkpoint_manifest.json)
+
 ## Research Ledger
 
 Every experiment receives an immutable family-specific ID:
@@ -172,7 +188,8 @@ reconstructed from memory.
 | Synthetic engineering validation | Passed: loss 7.1843 → 1.0263 in 20 fixed-batch steps |
 | Venture Corpus C0 | 10 graphs; 640 source-isolated denoising transitions |
 | Corpus C0 training smoke | Passed: loss 7.3673 -> 1.1501 in 5 fixed-batch steps |
-| Trained checkpoint | Not available |
+| Venture Trial T0 | Completed with gaps; exact reconstruction criterion failed |
+| Trained checkpoint | Step 175 engineering checkpoint; not qualified |
 | Creativity claim | Not evaluated |
 
 ## Setup
@@ -186,6 +203,9 @@ python -m venv .venv
 python -m pip install --upgrade pip
 python -m pip install -e ".[dev]"
 ```
+
+RTX 50-series setup is documented in [GPU setup](docs/GPU_SETUP.md). The T0
+environment used PyTorch 2.13.0 with CUDA 13.2 and verified `sm_120` execution.
 
 Inspect the registered model:
 
@@ -205,6 +225,7 @@ Rebuild and validate Corpus C0:
 chimera build-corpus
 chimera validate-corpus
 chimera corpus-smoke --steps 5 --batch-size 2
+chimera venture-trial
 ```
 
 ## Validation
@@ -229,6 +250,7 @@ on every pull request and protected model-family branch.
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)
 - [Reproducibility](docs/REPRODUCIBILITY.md)
+- [GPU setup](docs/GPU_SETUP.md)
 
 ## License
 

@@ -1,0 +1,103 @@
+{
+  "best_step": 175,
+  "best_validation_loss": 3.5133000910282135,
+  "checkpoint": {
+    "best_step": 175,
+    "bytes": 82666619,
+    "claim_boundary": "engineering structural pretraining; no creativity claim",
+    "file": "chimera-venture-m0-t0-step000175.pt",
+    "format_version": 1,
+    "model": "Chimera Venture M0",
+    "parameters": 20647992,
+    "release_tag": "venture-m0-t0",
+    "sha256": "cf06eb2d39e89af1e213463c0fe4e455e7631dc4bfeeeda83f8917e0c1d9c8ca"
+  },
+  "checks": {
+    "candidate_validity": true,
+    "finite_training": true,
+    "generation_reproducible": true,
+    "loss_reduced": true,
+    "memorization_exact_graph": false
+  },
+  "claim_boundary": "T0 qualifies engineering behavior only; it does not evaluate novelty, commercial utility or the CHM-V-H001 language hypothesis.",
+  "code_commit": "72fcec801d4c12249440b75bf61414c35aba3f6f",
+  "config_sha256": "fde9e1ace6bac9997e40d360fef1564c25e3a66dcd211707ed41eaf05a8816d5",
+  "corpus_manifest_sha256": "26809d4dcc1bd00607fc90dd84ef26d740a447cd5924708bb2a9efd0753b52cd",
+  "device": "cuda",
+  "duration_seconds": 19.305411,
+  "finished_at": "2026-07-15T14:14:14.855046+00:00",
+  "first_training_loss": 7.983855247497559,
+  "hypothesis_id": "CHM-V-H001",
+  "last_training_loss": 3.312176465988159,
+  "metrics": {
+    "generation": {
+      "archive_coverage": 0.4375,
+      "archive_entries": 7,
+      "candidates": 160,
+      "changed_candidate_rate": 1.0,
+      "invalid_candidate_rate": 0.0,
+      "operation_counts": {
+        "CONNECT": 116,
+        "INVERT_RELATION": 105,
+        "SUBSTITUTE": 94
+      },
+      "operation_coverage": 3,
+      "reproducible": true,
+      "source_cases": 10,
+      "unique_graph_rate": 0.925,
+      "unique_graphs": 148
+    },
+    "test": {
+      "edge_type_loss": 1.7110379487276077,
+      "exact_graph_rate": 0.0,
+      "exact_program_rate": 0.0,
+      "examples": 128.0,
+      "loss": 3.8310181200504303,
+      "node_type_loss": 1.0253772586584091,
+      "operation_accuracy": 0.3795811518324607,
+      "operation_entropy": 1.0992347747087479,
+      "operation_loss": 1.1879065185785294,
+      "score_loss": 0.3986674174666405,
+      "score_mae": 0.07617822848260403,
+      "source_loss": 1.6207458674907684,
+      "target_loss": 1.859442874789238,
+      "transition_loss": 0.030572122428566217
+    },
+    "train": {
+      "edge_type_loss": 1.6319382637739182,
+      "exact_graph_rate": 0.0,
+      "exact_program_rate": 0.0,
+      "examples": 384.0,
+      "loss": 3.3177251716454825,
+      "node_type_loss": 1.0116898467143376,
+      "operation_accuracy": 0.49214659685863876,
+      "operation_entropy": 1.0947879751523335,
+      "operation_loss": 1.0338913574814796,
+      "score_loss": 0.2936855045457681,
+      "score_mae": 0.025103949269072875,
+      "source_loss": 1.3140018706520398,
+      "target_loss": 1.5861259351174037,
+      "transition_loss": 0.036968020567049585
+    },
+    "validation": {
+      "edge_type_loss": 1.7569579035043716,
+      "exact_graph_rate": 0.0,
+      "exact_program_rate": 0.0,
+      "examples": 128.0,
+      "loss": 3.5472510159015656,
+      "node_type_loss": 1.0530843138694763,
+      "operation_accuracy": 0.3900523560209424,
+      "operation_entropy": 1.1101219803094864,
+      "operation_loss": 1.1924143582582474,
+      "score_loss": 0.37491070479154587,
+      "score_mae": 0.058080876246094704,
+      "source_loss": 1.339052215218544,
+      "target_loss": 1.5425641238689423,
+      "transition_loss": 0.035163781605660915
+    }
+  },
+  "schema_version": 1,
+  "started_at": "2026-07-15T14:13:55.549635+00:00",
+  "status": "completed_with_gaps",
+  "trial_id": "CHM-V-T000"
+}
