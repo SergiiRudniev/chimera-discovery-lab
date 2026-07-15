@@ -1,13 +1,14 @@
 from __future__ import annotations
 
 import numpy as np
+import pytest
 import torch
 
 from chimera.config import ModelConfig
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.generation.archive import ArchiveEntry, MapElitesArchive
 from chimera.generation.mutate import apply_edit_program, validate_edit_program
-from chimera.generation.sampler import sample_edit_program
+from chimera.generation.sampler import _sample_masked, sample_edit_program
 from chimera.models.venture import ChimeraVenture
 
 
@@ -26,6 +27,24 @@ def test_sampler_returns_bounded_program(small_model_config: ModelConfig) -> Non
     program.validate(batch_size=2, max_nodes=8)
     assert program.steps == 3
     assert validate_edit_program(batch.graph, program) == ((), ())
+
+
+def test_full_exploration_ignores_model_probabilities() -> None:
+    logits = torch.full((4,), torch.nan)
+    mask = torch.tensor([False, True, True, False])
+    generator = torch.Generator().manual_seed(31)
+    samples = {
+        _sample_masked(logits, mask, 0.75, 1.0, generator)
+        for _ in range(64)
+    }
+    assert samples == {1, 2}
+
+
+def test_sampler_rejects_invalid_exploration_rate(small_model_config: ModelConfig) -> None:
+    batch = make_synthetic_batch(small_model_config, batch_size=1, seed=37)
+    model = ChimeraVenture(small_model_config)
+    with pytest.raises(ValueError, match="exploration_rate"):
+        sample_edit_program(model, batch.graph, exploration_rate=1.01)
 
 
 def test_archive_replaces_only_with_higher_quality() -> None:

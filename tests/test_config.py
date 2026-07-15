@@ -4,7 +4,11 @@ from pathlib import Path
 
 import pytest
 
-from chimera.config import ExperimentConfig, ModelConfig, VentureTrialConfig
+from chimera.config import (
+    ExperimentConfig,
+    ModelConfig,
+    VentureTrialConfig,
+)
 
 
 def test_registered_config_loads() -> None:

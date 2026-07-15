@@ -189,7 +189,15 @@ def _program_signature(edits: EditBatch, index: int) -> str:
     return digest.hexdigest()
 
 
-def _canonical_cases(manifest_path: Path) -> list[tuple[str, GraphBatch]]:
+def canonical_cases(
+    manifest_path: Path,
+    split_names: Sequence[str] = SPLITS,
+) -> list[tuple[str, GraphBatch]]:
+    """Load one canonical target graph per case for the requested corpus splits."""
+
+    unknown_splits = sorted(set(split_names) - set(SPLITS))
+    if unknown_splits:
+        raise ValueError(f"unknown corpus splits: {', '.join(unknown_splits)}")
     records: dict[str, list[Mapping[str, Any]]] = {split: [] for split in SPLITS}
     for line in (manifest_path.parent / "records.jsonl").read_text(encoding="utf-8").splitlines():
         record = json.loads(line)
@@ -198,7 +206,7 @@ def _canonical_cases(manifest_path: Path) -> list[tuple[str, GraphBatch]]:
         records[str(record["split"])].append(record)
     cases: list[tuple[str, GraphBatch]] = []
     seen: set[str] = set()
-    for split in SPLITS:
+    for split in split_names:
         shard = CorpusSplit(manifest_path.parent / f"{split}.npz")
         for index, record in enumerate(records[split]):
             case_id = str(record["case_id"])
@@ -239,11 +247,17 @@ def generate_candidates(
     model: ChimeraVenture,
     cases: Sequence[tuple[str, GraphBatch]],
     config: VentureTrialConfig,
+    *,
+    exploration_rate: float = 0.0,
+    generation_seed: int | None = None,
+    candidate_prefix: str | None = None,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     model.eval()
     evaluation = config.evaluation
     device = next(model.parameters()).device
-    generator = torch.Generator(device=device.type).manual_seed(evaluation.generation_seed)
+    seed = evaluation.generation_seed if generation_seed is None else generation_seed
+    generator = torch.Generator(device=device.type).manual_seed(seed)
+    prefix = candidate_prefix or config.trial_id
     archive = MapElitesArchive(
         bins=evaluation.archive_bins,
         bounds=((0.0, 1.0), (0.0, 1.0)),
@@ -262,6 +276,7 @@ def generate_candidates(
             max_edits=evaluation.max_edits,
             min_edits=evaluation.min_edits,
             temperature=evaluation.generation_temperature,
+            exploration_rate=exploration_rate,
             generator=generator,
         )
         failures = validate_edit_program(canonical, programs)
@@ -273,7 +288,7 @@ def generate_candidates(
         source_signature = _graph_signature(canonical, 0)
 
         for index in range(evaluation.candidates_per_case):
-            candidate_id = f"{config.trial_id}-{len(candidates):04d}"
+            candidate_id = f"{prefix}-{len(candidates):04d}"
             signature = _graph_signature(generated, index)
             program_signature = _program_signature(programs, index)
             signatures.add(signature)
@@ -328,14 +343,15 @@ def generate_candidates(
     if total == 0:
         raise ValueError("candidate generation produced no records")
     replay_case = _repeat_graph(cases[0][1].to(device), evaluation.candidates_per_case)
-    first_generator = torch.Generator(device=device.type).manual_seed(evaluation.generation_seed)
-    second_generator = torch.Generator(device=device.type).manual_seed(evaluation.generation_seed)
+    first_generator = torch.Generator(device=device.type).manual_seed(seed)
+    second_generator = torch.Generator(device=device.type).manual_seed(seed)
     first = sample_edit_program(
         model,
         replay_case,
         max_edits=evaluation.max_edits,
         min_edits=evaluation.min_edits,
         temperature=evaluation.generation_temperature,
+        exploration_rate=exploration_rate,
         generator=first_generator,
     )
     second = sample_edit_program(
@@ -344,6 +360,7 @@ def generate_candidates(
         max_edits=evaluation.max_edits,
         min_edits=evaluation.min_edits,
         temperature=evaluation.generation_temperature,
+        exploration_rate=exploration_rate,
         generator=second_generator,
     )
     reproducible = all(
@@ -360,6 +377,9 @@ def generate_candidates(
     summary = {
         "candidates": total,
         "source_cases": len(cases),
+        "generation_seed": seed,
+        "temperature": evaluation.generation_temperature,
+        "exploration_rate": exploration_rate,
         "invalid_candidate_rate": invalid / total,
         "changed_candidate_rate": changed / total,
         "unique_graph_rate": len(signatures) / total,
@@ -507,7 +527,7 @@ def run_venture_trial(
     )
     test_metrics = evaluate_split(trainer, test, batch_size=config.evaluation.evaluation_batch_size)
     candidates, generation = generate_candidates(
-        trainer.model, _canonical_cases(manifest_path), config
+        trainer.model, canonical_cases(manifest_path), config
     )
     finished_at = datetime.now(timezone.utc)
 
