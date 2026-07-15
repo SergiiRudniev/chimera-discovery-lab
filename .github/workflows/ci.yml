@@ -39,5 +39,7 @@ jobs:
         run: pytest --cov=chimera --cov-report=term-missing
       - name: Research ledger
         run: chimera validate-research
+      - name: Venture corpus
+        run: chimera validate-corpus
       - name: Registered parameter count
         run: chimera inspect --config configs/venture/venture_m0_20m.yaml

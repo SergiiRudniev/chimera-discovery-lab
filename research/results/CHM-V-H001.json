@@ -3,5 +3,5 @@
   "status": "not_run",
   "metrics": null,
   "decision": "pending",
-  "notes": "No dataset, checkpoint or baseline has been selected."
+  "notes": "Corpus C0 is selected for structural pretraining only; no trained checkpoint, evidence-bearing evaluation corpus or matched text baseline exists."
 }

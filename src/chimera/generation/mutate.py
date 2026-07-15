@@ -5,6 +5,7 @@ from __future__ import annotations
 import torch
 
 from chimera.data.contracts import EditBatch, GraphBatch
+from chimera.data.semantics import with_value_proximity
 from chimera.schema import EditOperation, NodeType
 
 
@@ -76,4 +77,4 @@ def apply_edit_program(graph: GraphBatch, edits: EditBatch) -> GraphBatch:
                         result.edge_types[batch_index, :, source], incoming
                     )
                     _remove_node(result, batch_index, target)
-    return result
+    return with_value_proximity(result)
