@@ -1,5 +1,17 @@
 # Research Journal
 
+## 2026-07-15 — Meta-World H000 result
+
+- **Protocol:** `CHM-W-T000`, frozen at commit `42f016c` before CUDA execution.
+- **Architecture:** Full 61,854,120-parameter Meta-World W0; 16 fixed systems,
+  four mechanism families, four domain transforms and eight interventions.
+- **Failure:** The first BF16 forward pass stopped in domain-adapter selection:
+  indexed assignment attempted to write a BF16 adapter result into an FP32 buffer.
+- **Boundary:** No complete forward pass, optimizer step, target loss metric or
+  checkpoint was produced.
+- **Decision:** Reject H000. Correct dtype propagation under a new immutable
+  hypothesis and trial ID; do not rerun T000.
+
 ## 2026-07-15 — Chimera Meta-World W0 registration
 
 - **Decision:** Name the new causal world-model family `Chimera Meta-World` and

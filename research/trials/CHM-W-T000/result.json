@@ -13,7 +13,6 @@
   },
   "id": "CHM-W-H000",
   "metrics": null,
-  "notes": "The preregistered BF16 CUDA execution failed before the first complete forward pass and before any optimizer step. H000 is preserved as rejected; the dtype correction requires a new hypothesis and trial ID.",
   "status": "execution_failed",
   "trial_id": "CHM-W-T000"
 }

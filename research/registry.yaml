@@ -26,7 +26,7 @@ hypotheses:
     result: research/results/CHM-V-H003.json
   - id: CHM-W-H000
     title: Meta-World W0 numerical dynamics engineering qualification
-    status: registered
+    status: rejected
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H000.yaml
     result: research/results/CHM-W-H000.json

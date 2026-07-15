@@ -1,6 +1,6 @@
 id: CHM-W-H000
 registered_at: 2026-07-15
-status: registered
+status: rejected
 hypothesis: >-
   The full Chimera Meta-World W0 numerical dynamics architecture executes on
   CUDA with finite gradients, exact evaluation replay and at least 10% fixed-
@@ -19,7 +19,7 @@ data:
   observed_consequences: true
 protocol:
   trial_id: CHM-W-T000
-  status: not_run
+  status: execution_failed
   fixed_batch: true
   steps: 20
   precision: bfloat16
