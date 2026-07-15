@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 
 import torch
 from torch import Tensor
@@ -88,6 +88,40 @@ def materialize_sequence_sample(
         ),
         trajectory_indices=torch.tensor(indices, dtype=torch.long),
         state_features=pipeline.config.state_features,
+    )
+
+
+def concatenate_sequence_samples(
+    *samples: GeneratedSequenceSample,
+) -> GeneratedSequenceSample:
+    """Concatenate policy views while keeping evaluator metadata outside the batch."""
+
+    if not samples:
+        raise ValueError("at least one generated sequence sample is required")
+    reference = samples[0]
+    if any(sample.state_features != reference.state_features for sample in samples[1:]):
+        raise ValueError("sequence samples must share the state feature count")
+    batch_values = {
+        item.name: torch.cat(
+            [getattr(sample.batch, item.name) for sample in samples],
+            dim=0,
+        )
+        for item in fields(reference.batch)
+    }
+    combined_batch = GeneratedWorldBatch(**batch_values)
+    combined_batch.validate()
+    return GeneratedSequenceSample(
+        batch=combined_batch,
+        mechanism_ids=torch.cat([sample.mechanism_ids for sample in samples]),
+        mechanism_keys=torch.cat([sample.mechanism_keys for sample in samples]),
+        world_family_ids=torch.cat([sample.world_family_ids for sample in samples]),
+        renderer_profile_ids=torch.cat(
+            [sample.renderer_profile_ids for sample in samples]
+        ),
+        trajectory_indices=torch.cat(
+            [sample.trajectory_indices for sample in samples]
+        ),
+        state_features=reference.state_features,
     )
 
 

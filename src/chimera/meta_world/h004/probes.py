@@ -13,7 +13,17 @@ from chimera.meta_world.generators.contracts import GeneratedWorld, WorldAction
 class SeededRandomPolicy:
     """Explicit name for the generator's existing seeded legal-action policy."""
 
-    policy_id: str = "seeded_random"
+    draw_offset: int = 0
+
+    def __post_init__(self) -> None:
+        if self.draw_offset < 0:
+            raise ValueError("draw_offset must be non-negative")
+
+    @property
+    def policy_id(self) -> str:
+        if self.draw_offset == 0:
+            return "seeded_random"
+        return f"seeded_random_offset_{self.draw_offset}"
 
     def sample_action(
         self,
@@ -23,6 +33,8 @@ class SeededRandomPolicy:
     ) -> WorldAction:
         if step < 0:
             raise ValueError("probe step must be non-negative")
+        if self.draw_offset:
+            rng.random(self.draw_offset)
         return world.sample_action(rng)
 
 

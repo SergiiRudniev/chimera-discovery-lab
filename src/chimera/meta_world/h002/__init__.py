@@ -18,6 +18,7 @@ from chimera.meta_world.h002.preflight import run_h002_preflight
 from chimera.meta_world.h002.trainer import H002Trainer
 from chimera.meta_world.h002.windows import (
     GeneratedSequenceSample,
+    concatenate_sequence_samples,
     make_transition_window,
     materialize_sequence_sample,
 )
@@ -31,6 +32,7 @@ __all__ = [
     "H002Trainer",
     "RelationalSequenceWorldModel",
     "TemporalWorldBaseline",
+    "concatenate_sequence_samples",
     "evaluate_h002_model",
     "h002_loss",
     "make_transition_window",
