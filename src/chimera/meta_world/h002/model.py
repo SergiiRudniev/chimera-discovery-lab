@@ -18,7 +18,12 @@ class InvariantMechanismEncoder(nn.Module):
 
     def __init__(self, config: MetaWorldModelConfig) -> None:
         super().__init__()
-        signature_features = config.relation_features * 5 + config.observation_features * 3
+        relation_pairs = config.relation_features * (config.relation_features - 1) // 2
+        signature_features = (
+            config.relation_features * 5
+            + relation_pairs * 3
+            + config.observation_features * 3
+        )
         self.encoder = nn.Sequential(
             nn.LayerNorm(signature_features),
             nn.Linear(signature_features, config.hidden_dim),
@@ -55,6 +60,38 @@ class InvariantMechanismEncoder(nn.Module):
             ~pair_mask.unsqueeze(-1),
             0.0,
         ).amax(dim=(1, 2, 3))
+        flattened_relations = (relations * relation_weight).reshape(
+            relations.shape[0],
+            -1,
+            relations.shape[-1],
+        )
+        relation_gram = torch.einsum(
+            "bnr,bns->brs",
+            flattened_relations,
+            flattened_relations,
+        )
+        relation_norm = relation_gram.diagonal(dim1=-2, dim2=-1).clamp_min(1e-8).sqrt()
+        relation_cosine = relation_gram / (
+            relation_norm[:, :, None] * relation_norm[:, None, :]
+        ).clamp_min(1e-8)
+        norm_minimum = torch.minimum(
+            relation_norm[:, :, None],
+            relation_norm[:, None, :],
+        )
+        norm_maximum = torch.maximum(
+            relation_norm[:, :, None],
+            relation_norm[:, None, :],
+        ).clamp_min(1e-8)
+        relation_scale_ratio = norm_minimum / norm_maximum
+        pair_indices = torch.triu_indices(
+            relations.shape[-1],
+            relations.shape[-1],
+            offset=1,
+            device=relations.device,
+        )
+        pair_cosine = relation_cosine[:, pair_indices[0], pair_indices[1]]
+        pair_scale_ratio = relation_scale_ratio[:, pair_indices[0], pair_indices[1]]
+        pair_proportionality = pair_cosine.abs() * pair_scale_ratio
 
         observations = batch.observations.float()
         observation_weight = batch.observation_mask.to(observations.dtype)
@@ -95,6 +132,9 @@ class InvariantMechanismEncoder(nn.Module):
                 self._sorted(relation_std),
                 self._sorted(relation_density),
                 self._sorted(relation_maximum),
+                self._sorted(pair_cosine),
+                self._sorted(pair_scale_ratio),
+                self._sorted(pair_proportionality),
                 self._sorted(difference_absolute_mean),
                 self._sorted(lag_correlation),
                 self._sorted(action_response),
