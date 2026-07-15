@@ -1,0 +1,7 @@
+{
+  "id": "CHM-V-H002",
+  "status": "not_run",
+  "metrics": null,
+  "decision": "pending",
+  "notes": "Run only after CHM-V-H001 produces a frozen sampling policy."
+}

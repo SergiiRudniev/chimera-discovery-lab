@@ -1,0 +1,30 @@
+name: Hypothesis
+description: Register a model or evaluation hypothesis before execution.
+title: "[Hypothesis] "
+labels: [hypothesis, research]
+body:
+  - type: input
+    id: family
+    attributes:
+      label: Model family
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Hypothesis
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Frozen protocol
+      description: Data boundary, control, primary metric, guardrails and decision rule.
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Leakage and interpretation risks
+    validations:
+      required: true

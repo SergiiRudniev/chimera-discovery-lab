@@ -1,0 +1,15 @@
+id: CHM-V-H002
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  MAP-Elites selection increases within-batch structural diversity relative to
+  direct policy sampling while preserving median feasibility.
+scope: ablation
+parent: CHM-V-H001
+protocol:
+  status: not_run
+  control: frozen_policy_sampling
+  treatment: frozen_policy_sampling_plus_map_elites
+  primary_metric: structural_edit_distance
+  guardrail: median_feasibility_noninferiority
+result: research/results/CHM-V-H002.json

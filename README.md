@@ -1,0 +1,207 @@
+<div align="center">
+
+# Chimera Venture
+
+**Non-linguistic business ideation models inside Chimera Discovery Lab**
+
+[![Python](https://img.shields.io/badge/Python-3.10--3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.4%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
+[![CI](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml)
+[![Model](https://img.shields.io/badge/model-Venture%20V0.1-7B5CFA)](#venture-v01)
+[![Parameters](https://img.shields.io/badge/parameters-20.648M-2E8B57)](#venture-v01)
+[![Status](https://img.shields.io/badge/status-prospective%20R%26D-F0B429)](#current-status)
+[![License](https://img.shields.io/badge/license-Apache--2.0-4C566A)](LICENSE)
+
+</div>
+
+Chimera Venture is the first model family in Chimera Discovery Lab. It generates
+typed graph-edit programs over actors, needs, resources, actions, constraints,
+channels, value flows and outcomes. Natural language is excluded from the model
+core and introduced only after a candidate structure has been frozen.
+
+> [!IMPORTANT]
+> This repository contains an architecture and an engineering baseline. It does
+> not contain a trained public checkpoint and does not yet provide evidence that
+> non-linguistic generation is more novel or useful than a language baseline.
+
+## Reserved Model Families
+
+| Family | Specialization | Branch | Research IDs |
+| --- | --- | --- | --- |
+| **Chimera Venture** | Business models and commercial hypotheses | `chimera-venture` | `CHM-V-H###` |
+| **Chimera Catalyst** | Product and growth mechanisms | `chimera-catalyst` | `CHM-C-H###` |
+| **Chimera Oracle** | Scientific hypotheses | `chimera-oracle` | `CHM-O-H###` |
+| **Chimera Architect** | Systems and engineering concepts | `chimera-architect` | `CHM-A-H###` |
+| **Chimera Nexus** | Cross-domain transfer | `chimera-nexus` | `CHM-N-H###` |
+| **Chimera Frontier** | Open-ended experimental search | `chimera-frontier` | `CHM-F-H###` |
+
+Names, branch namespaces and experiment prefixes are reserved in the
+[model registry](docs/MODEL_REGISTRY.md).
+
+## Complete Architecture
+
+```mermaid
+flowchart TB
+    subgraph INPUT["1. Structured business state"]
+        NODES["Typed nodes: actor, need, resource, action, constraint, value"]
+        EDGES["Typed relations and numeric attributes"]
+        RULE["No text tokens in the model core"]
+    end
+
+    subgraph ENCODER["2. Graph representation"]
+        TYPE["Node-type and numeric encoders"]
+        ATTN["Edge-biased graph attention x5"]
+        STATE["Node states and global latent state"]
+    end
+
+    subgraph GENERATOR["3. Structural imagination"]
+        DEC["Autoregressive edit decoder x3"]
+        OPS["Connect, rewire, transfer, remove, invert, substitute, merge"]
+        WORLD["Action-conditioned latent world model x3"]
+    end
+
+    subgraph EVALUATION["4. Candidate evaluation"]
+        SCORE["Utility, feasibility and coherence heads"]
+        VALID["Deterministic graph constraints"]
+        QD["MAP-Elites quality-diversity archive"]
+    end
+
+    subgraph BOUNDARY["5. Language boundary"]
+        FREEZE["Frozen idea graph"]
+        INTERPRET["External interpreter"]
+    end
+
+    NODES --> TYPE
+    EDGES --> TYPE
+    RULE --> TYPE
+    TYPE --> ATTN --> STATE
+    STATE --> DEC --> OPS
+    STATE --> WORLD
+    OPS --> WORLD
+    OPS --> VALID
+    WORLD --> SCORE
+    SCORE --> QD
+    VALID --> QD
+    QD --> FREEZE --> INTERPRET
+```
+
+## Venture V0.1
+
+The registered V0.1 configuration contains **20,647,992 trainable parameters**
+and uses a 384-dimensional graph state, five
+relation-aware encoder blocks, three edit-decoder blocks and three latent
+transition blocks. It accepts up to 64 nodes and emits up to eight structural
+edits per candidate.
+
+| Component | V0.1 contract |
+| --- | --- |
+| Input | Typed graph plus eight numeric features per node |
+| Context | Maximum 64 nodes, 16 relation types |
+| Generator | Nine edit operations, maximum eight steps |
+| World model | EMA-target joint-embedding prediction |
+| Scores | Utility, feasibility and structural coherence |
+| Diversity | External MAP-Elites archive |
+| Language | Forbidden in the core; external interpretation only |
+
+The core returns a structure, not a sentence:
+
+```text
+operation: TRANSFER_ROLE
+source_node: 07
+target_node: 12
+node_type: RESOURCE
+edge_type: ENABLES
+predicted_delta: [utility, feasibility, coherence]
+```
+
+## Training Objective
+
+```text
+minimize  edit-program reconstruction
+        + source and target pointer loss
+        + next-state latent prediction
+        + utility / feasibility / coherence calibration
+        - bounded operation entropy
+```
+
+Novelty is not optimized as an unconstrained scalar. Candidates compete within
+behavioral niches, and feasibility remains a guardrail. The first real test is
+a preregistered comparison against a matched text baseline.
+
+## Research Ledger
+
+Every experiment receives an immutable family-specific ID:
+
+```text
+CHM-V-H000, CHM-V-H001, CHM-V-H002, ...
+```
+
+Each record links its frozen hypothesis, configuration, data boundary, result,
+decision and next action. Missing results remain `not_run`; no metrics are
+reconstructed from memory.
+
+- [Research journal](docs/RESEARCH_JOURNAL.md)
+- [Machine-readable registry](research/registry.yaml)
+- [Research protocol](docs/RESEARCH_PROTOCOL.md)
+
+## Current Status
+
+| Item | Status |
+| --- | --- |
+| Venture architecture | Implemented |
+| Structured tensor contracts | Implemented |
+| Autoregressive graph-edit generator | Implemented |
+| EMA latent-world objective | Implemented |
+| MAP-Elites archive | Implemented |
+| Synthetic engineering validation | Passed: loss 7.1843 → 1.0263 in 20 fixed-batch steps |
+| Real business dataset | Not selected |
+| Trained checkpoint | Not available |
+| Creativity claim | Not evaluated |
+
+## Setup
+
+```powershell
+git clone https://github.com/SergiiRudniev/chimera-discovery-lab.git
+cd chimera-discovery-lab
+
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[dev]"
+```
+
+Inspect the registered model:
+
+```powershell
+chimera inspect --config configs/venture/venture_v0_1_20m.yaml
+```
+
+Run the deterministic engineering smoke test:
+
+```powershell
+chimera smoke --config configs/venture/venture_smoke.yaml --steps 20
+```
+
+## Validation
+
+```powershell
+ruff check .
+mypy src
+pytest
+chimera validate-research
+```
+
+GitHub Actions runs lint, type checks, tests and the research-ledger validator
+on every pull request and protected model-family branch.
+
+## Documentation
+
+- [Architecture](docs/ARCHITECTURE.md)
+- [Data contract](docs/DATA_CONTRACT.md)
+- [Model registry](docs/MODEL_REGISTRY.md)
+- [Research protocol](docs/RESEARCH_PROTOCOL.md)
+- [Reproducibility](docs/REPRODUCIBILITY.md)
+
+## License
+
+Apache License 2.0. See [LICENSE](LICENSE).

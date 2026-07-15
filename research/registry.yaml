@@ -1,0 +1,26 @@
+schema_version: 1
+hypotheses:
+  - id: CHM-V-H000
+    title: Synthetic transition smoke validation
+    status: accepted
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-V-H000.yaml
+    result: research/results/CHM-V-H000.json
+  - id: CHM-V-H001
+    title: Non-linguistic generation versus matched text baseline
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-V-H001.yaml
+    result: research/results/CHM-V-H001.json
+  - id: CHM-V-H002
+    title: Quality-diversity archive contribution
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-V-H002.yaml
+    result: research/results/CHM-V-H002.json
+  - id: CHM-V-H003
+    title: Latent transition objective contribution
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-V-H003.yaml
+    result: research/results/CHM-V-H003.json

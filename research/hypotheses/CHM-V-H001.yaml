@@ -1,0 +1,20 @@
+id: CHM-V-H001
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  A structured graph-to-edit model produces higher blind-rated novelty than a
+  matched text-generation baseline without reducing median feasibility.
+scope: primary_research
+config: configs/venture/venture_v0_1_20m.yaml
+data:
+  source: not_selected
+  language_input: false
+protocol:
+  status: not_run
+  required_before_run:
+    - frozen_business_graph_schema
+    - time_split_case_corpus
+    - matched_text_baseline
+    - blinded_human_rating_protocol
+  primary_metric: novelty_at_matched_feasibility
+result: research/results/CHM-V-H001.json

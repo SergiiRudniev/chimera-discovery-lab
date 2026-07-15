@@ -1,0 +1,15 @@
+id: CHM-V-H003
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  The EMA latent-transition objective improves held-out post-edit state
+  prediction and structural coherence over edit reconstruction alone.
+scope: ablation
+parent: CHM-V-H001
+protocol:
+  status: not_run
+  control: transition_weight_zero
+  treatment: registered_transition_objective
+  primary_metric: heldout_latent_cosine_distance
+  secondary_metric: invalid_edit_rate
+result: research/results/CHM-V-H003.json

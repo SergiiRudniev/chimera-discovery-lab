@@ -1,0 +1,26 @@
+{
+  "id": "CHM-V-H000",
+  "status": "completed",
+  "started_at": "2026-07-15T12:42:00Z",
+  "completed_at": "2026-07-15T12:43:07Z",
+  "command": "chimera smoke --config configs/venture/venture_smoke.yaml --steps 20",
+  "config_sha256": "f3c72fed7cb69d7a126071c6a78f31f72dc2fe2232b1bd89242e50611e939313",
+  "environment": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.13",
+    "torch": "2.13.0+cpu",
+    "device": "cpu",
+    "torch_threads": 8,
+    "seed": 1701
+  },
+  "metrics": {
+    "steps": 20,
+    "initial_loss": 7.1843109130859375,
+    "final_loss": 1.0263432264328003,
+    "loss_reduction_fraction": 0.857137560990881,
+    "final_transition_loss": 0.012379005551338196,
+    "all_losses_finite": true
+  },
+  "decision": "accepted",
+  "notes": "Engineering wiring passed. This result is not evidence of real-world novelty or utility."
+}

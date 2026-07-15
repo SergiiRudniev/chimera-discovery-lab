@@ -1,0 +1,18 @@
+id: CHM-V-H000
+registered_at: 2026-07-15
+status: accepted
+hypothesis: >-
+  The complete training path produces finite gradients and decreases total loss
+  on one fixed synthetic graph-transition batch.
+scope: engineering_validation
+config: configs/venture/venture_smoke.yaml
+data:
+  source: deterministic_synthetic_fixture
+  seed: 1701
+  language_input: false
+protocol:
+  steps: 20
+  pass_if:
+    - all_losses_finite
+    - final_loss_below_initial_loss
+result: research/results/CHM-V-H000.json

@@ -1,0 +1,30 @@
+name: Experiment result
+description: Record the result of a preregistered hypothesis.
+title: "[Result] CHM-?-H???"
+labels: [experiment, research]
+body:
+  - type: input
+    id: hypothesis_id
+    attributes:
+      label: Hypothesis ID
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and hashes
+    validations:
+      required: true
+  - type: textarea
+    id: metrics
+    attributes:
+      label: Results
+    validations:
+      required: true
+  - type: dropdown
+    id: decision
+    attributes:
+      label: Decision
+      options: [accepted, rejected, inconclusive]
+    validations:
+      required: true

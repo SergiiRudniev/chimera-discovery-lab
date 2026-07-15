@@ -1,0 +1,7 @@
+{
+  "id": "CHM-V-H003",
+  "status": "not_run",
+  "metrics": null,
+  "decision": "pending",
+  "notes": "Run only with a time-isolated transition split."
+}
