@@ -5,7 +5,7 @@ hypothesis: >-
   A structured graph-to-edit model produces higher blind-rated novelty than a
   matched text-generation baseline without reducing median feasibility.
 scope: primary_research
-config: configs/venture/venture_v0_1_20m.yaml
+config: configs/venture/venture_m0_20m.yaml
 data:
   source: not_selected
   language_input: false

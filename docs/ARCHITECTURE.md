@@ -14,7 +14,7 @@ matched text-generation system.
 ## Representation
 
 Each business state is a bounded directed multirelation graph represented as a
-dense relation matrix. V0.1 uses 12 node types, 16 relation types and eight
+dense relation matrix. M0 uses 12 node types, 16 relation types and eight
 normalized numeric features per node. The numeric fields are domain contracts,
 not text embeddings.
 
@@ -66,7 +66,7 @@ parameters directly. The EMA target encoder is training-only state and is not
 included in the inference model count. Optimizer state, archive entries and an
 external language interpreter are also excluded.
 
-The registered Venture V0.1 inference model contains **20,647,992 trainable
+The registered Venture M0 inference model contains **20,647,992 trainable
 parameters**.
 
 ## Deferred Work

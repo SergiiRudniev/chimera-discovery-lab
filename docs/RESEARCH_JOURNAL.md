@@ -1,6 +1,6 @@
 # Research Journal
 
-## 2026-07-15 — Venture V0.1 foundation
+## 2026-07-15 — Venture M0 foundation
 
 ### CHM-V-H000
 
