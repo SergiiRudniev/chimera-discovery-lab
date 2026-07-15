@@ -31,3 +31,11 @@ def test_registered_trial_config_loads() -> None:
     assert config.trial_id == "CHM-V-T000"
     assert config.hypothesis_id == "CHM-V-H001"
     assert config.evaluation.archive_bins == (4, 4)
+
+
+def test_corrective_trial_config_loads() -> None:
+    config = VentureTrialConfig.from_yaml("configs/venture/venture_trial_t1.yaml")
+    assert config.trial_id == "CHM-V-T001"
+    assert config.training.argument_loss_mode == "operation_conditioned"
+    assert config.training.learning_rate_schedule == "cosine"
+    assert config.evaluation.checkpoint_selection == "validation_exact_graph"

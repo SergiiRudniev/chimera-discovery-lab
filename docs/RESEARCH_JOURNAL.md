@@ -1,5 +1,39 @@
 # Research Journal
 
+## 2026-07-15 — Venture Trial T1 result
+
+- **Protocol:** `CHM-V-T001`, frozen at commit `7b69794` before target metrics
+  were opened.
+- **Runtime:** Full 20,647,992-parameter Venture M0; 3,000 steps in 134.9 seconds
+  on an NVIDIA GeForce RTX 5070.
+- **Selection:** Step 2700 maximized validation exact-graph reconstruction at
+  30.47%; validation loss was only a tie-breaker.
+- **Optimization:** Batch loss decreased from 7.9580 to 0.1474 and remained finite.
+- **Reconstruction:** Exact-graph rates were 99.22% train, 30.47% validation and
+  14.84% test. The registered 95% train criterion passed.
+- **Generation:** 160/160 programs were valid; 144 changed their source graph and
+  53 result graphs were unique. Fixed-seed replay was exact.
+- **Trade-off:** Unique-graph rate decreased from 92.50% in T0 to 33.13% in T1;
+  final MAP-Elites coverage decreased from 43.75% to 18.75%.
+- **Decision:** Accept T1 as an engineering structural-reconstruction checkpoint,
+  not as creativity or CHM-V-H001 evidence.
+- **Next action:** Correct generation collapse before building the matched
+  language-baseline evaluation.
+
+## 2026-07-15 — Venture Trial T1 registration
+
+- **Protocol:** `CHM-V-T001`; corrective engineering qualification after T0.
+- **Target audit:** Target-graph reconstruction is fully identifiable in C0;
+  registered edit-program reconstruction has a 99.74% train majority upper
+  bound because one duplicated input has alternative valid programs.
+- **Loss audit:** 41.27% of raw train argument slots are irrelevant placeholders
+  for their selected operation.
+- **Correction:** Operation-conditioned argument loss, cosine learning-rate
+  schedule, 3,000 steps and exact-graph checkpoint selection.
+- **Preflight:** A 500-step probe on the first 16 training records reached 100%
+  exact graph and program reconstruction. Validation and test were not opened.
+- **Status:** Registered; target metrics not opened.
+
 ## 2026-07-15 — Venture Trial T0
 
 - **Protocol:** `CHM-V-T000`, frozen at commit `72fcec8` before metrics were opened.
@@ -51,8 +85,8 @@
 - **Question:** Does non-linguistic graph generation improve blind-rated novelty
   at matched feasibility versus a text baseline?
 - **Registration:** Complete.
-- **Result:** `not_run`; Corpus C0 is structural pretraining data, and no
-  evidence-bearing evaluation corpus or trained checkpoint exists.
+- **Result:** `not_run`; T0 produced an unqualified structural-pretraining
+  checkpoint, but no evidence-bearing evaluation corpus or matched baseline exists.
 - **Decision:** Pending.
 
 ### CHM-V-H002

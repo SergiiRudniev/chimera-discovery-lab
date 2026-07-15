@@ -79,6 +79,10 @@ class TrainingConfig:
     weight_decay: float = 1e-2
     max_grad_norm: float = 1.0
     target_ema_decay: float = 0.99
+    argument_loss_mode: str = "all_fields"
+    learning_rate_schedule: str = "constant"
+    warmup_steps: int = 0
+    minimum_learning_rate: float = 0.0
     device: str = "auto"
 
     def __post_init__(self) -> None:
@@ -90,6 +94,14 @@ class TrainingConfig:
             raise ValueError("max_grad_norm must be positive")
         if not 0.0 <= self.target_ema_decay < 1.0:
             raise ValueError("target_ema_decay must be in [0, 1)")
+        if self.argument_loss_mode not in {"all_fields", "operation_conditioned"}:
+            raise ValueError("argument_loss_mode must be all_fields or operation_conditioned")
+        if self.learning_rate_schedule not in {"constant", "cosine"}:
+            raise ValueError("learning_rate_schedule must be constant or cosine")
+        if self.warmup_steps < 0 or self.warmup_steps >= self.steps:
+            raise ValueError("warmup_steps must be non-negative and less than steps")
+        if not 0.0 <= self.minimum_learning_rate <= self.learning_rate:
+            raise ValueError("minimum_learning_rate must be between zero and learning_rate")
         if self.device not in {"auto", "cpu", "cuda", "mps"}:
             raise ValueError("device must be auto, cpu, cuda or mps")
 
@@ -153,6 +165,7 @@ class TrialEvaluationConfig:
     min_edits: int = 1
     max_edits: int = 3
     archive_bins: tuple[int, int] = (4, 4)
+    checkpoint_selection: str = "validation_loss"
     memorization_exact_graph_min: float = 0.95
     invalid_candidate_rate_max: float = 0.01
 
@@ -172,6 +185,13 @@ class TrialEvaluationConfig:
             raise ValueError("min_edits must be between zero and max_edits")
         if len(self.archive_bins) != 2 or any(value <= 0 for value in self.archive_bins):
             raise ValueError("archive_bins must contain two positive dimensions")
+        if self.checkpoint_selection not in {
+            "validation_loss",
+            "validation_exact_graph",
+        }:
+            raise ValueError(
+                "checkpoint_selection must be validation_loss or validation_exact_graph"
+            )
         for name, value in (
             ("memorization_exact_graph_min", self.memorization_exact_graph_min),
             ("invalid_candidate_rate_max", self.invalid_candidate_rate_max),

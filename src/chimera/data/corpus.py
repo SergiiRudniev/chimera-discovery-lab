@@ -45,6 +45,20 @@ _ARRAY_NAMES = (
     "scores",
 )
 
+_INPUT_ARRAY_NAMES = (
+    "graph_node_types",
+    "graph_node_features",
+    "graph_edge_types",
+    "graph_node_mask",
+)
+
+_TARGET_GRAPH_ARRAY_NAMES = (
+    "next_node_types",
+    "next_node_features",
+    "next_edge_types",
+    "next_node_mask",
+)
+
 
 class CorpusSplit:
     """A safe numeric-only shard; provenance is stored in JSONL sidecars."""
@@ -99,10 +113,19 @@ class CorpusSplit:
         return self.batch(np.arange(len(self), dtype=np.int64))
 
     def numeric_signatures(self) -> tuple[str, ...]:
+        return self._signatures(_ARRAY_NAMES)
+
+    def input_signatures(self) -> tuple[str, ...]:
+        return self._signatures(_INPUT_ARRAY_NAMES)
+
+    def target_graph_signatures(self) -> tuple[str, ...]:
+        return self._signatures(_TARGET_GRAPH_ARRAY_NAMES)
+
+    def _signatures(self, names: Sequence[str]) -> tuple[str, ...]:
         signatures: list[str] = []
         for index in range(len(self)):
             digest = hashlib.sha256()
-            for name in _ARRAY_NAMES:
+            for name in names:
                 digest.update(name.encode("ascii"))
                 digest.update(np.ascontiguousarray(self._arrays[name][index]).tobytes())
             signatures.append(digest.hexdigest())
@@ -152,9 +175,7 @@ def build_corpus(
     destination.mkdir(parents=True, exist_ok=True)
     document = _load_source_document(source)
     cases = document["cases"]
-    split_records: dict[str, list[dict[str, NDArray[Any] | str]]] = {
-        split: [] for split in SPLITS
-    }
+    split_records: dict[str, list[dict[str, NDArray[Any] | str]]] = {split: [] for split in SPLITS}
     canonical_records: list[dict[str, Any]] = []
     split_case_ids: dict[str, list[str]] = {split: [] for split in SPLITS}
 
@@ -293,6 +314,8 @@ def validate_corpus(manifest_path: str | Path) -> dict[str, int]:
     seen_cases: set[str] = set()
     seen_records: set[str] = set()
     seen_numeric_signatures: set[str] = set()
+    seen_input_signatures: set[str] = set()
+    input_targets: dict[str, str] = {}
     total = 0
     for split in SPLITS:
         registered_cases = {str(value) for value in split_case_ids[split]}
@@ -300,14 +323,10 @@ def validate_corpus(manifest_path: str | Path) -> dict[str, int]:
             raise ValueError("case IDs cross corpus split boundaries")
         seen_cases |= registered_cases
         shard = CorpusSplit(base / f"{split}.npz")
-        sidecar_cases = {
-            _required_string(record, "case_id") for record in records_by_split[split]
-        }
+        sidecar_cases = {_required_string(record, "case_id") for record in records_by_split[split]}
         if sidecar_cases != registered_cases:
             raise ValueError(f"shard case IDs do not match manifest: {split}")
-        record_ids = [
-            _required_string(record, "record_id") for record in records_by_split[split]
-        ]
+        record_ids = [_required_string(record, "record_id") for record in records_by_split[split]]
         if len(record_ids) != len(shard) or seen_records & set(record_ids):
             raise ValueError(f"invalid or duplicate record IDs in {split} shard")
         seen_records |= set(record_ids)
@@ -315,6 +334,18 @@ def validate_corpus(manifest_path: str | Path) -> dict[str, int]:
         if len(signatures) != len(shard) or seen_numeric_signatures & signatures:
             raise ValueError(f"duplicate numeric records in {split} shard")
         seen_numeric_signatures |= signatures
+        input_signatures = shard.input_signatures()
+        target_signatures = shard.target_graph_signatures()
+        current_inputs = set(input_signatures)
+        if seen_input_signatures & current_inputs:
+            raise ValueError("input graph signatures cross corpus split boundaries")
+        seen_input_signatures |= current_inputs
+        for input_signature, target_signature in zip(
+            input_signatures, target_signatures, strict=True
+        ):
+            registered_target = input_targets.setdefault(input_signature, target_signature)
+            if registered_target != target_signature:
+                raise ValueError("identical input graphs map to conflicting target graphs")
         batch = shard.all()
         batch.validate(feature_dim=len(FEATURE_NAMES), score_dimensions=3)
         if not torch.isfinite(batch.graph.node_features).all():
@@ -479,9 +510,7 @@ def _corrupt_graph(
                     source, target_node = candidates[int(rng.integers(0, len(candidates)))]
                     relation = int(graph.edge_types[0, source, target_node])
                     graph.edge_types[0, source, target_node] = 0
-                    inverses.append(
-                        (int(EditOperation.CONNECT), source, target_node, 0, relation)
-                    )
+                    inverses.append((int(EditOperation.CONNECT), source, target_node, 0, relation))
                     applied = True
             elif kind == "substitute_node":
                 candidates = [
@@ -497,9 +526,7 @@ def _corrupt_graph(
                         replacement = 1 + replacement % (len(NodeType) - 1)
                     graph.node_types[0, node] = replacement
                     used_nodes.add(node)
-                    inverses.append(
-                        (int(EditOperation.SUBSTITUTE), node, node, original, 0)
-                    )
+                    inverses.append((int(EditOperation.SUBSTITUTE), node, node, original, 0))
                     applied = True
             else:
                 candidates = [
@@ -538,23 +565,25 @@ def _corrupt_graph(
     node_types = torch.zeros_like(operations)
     edge_types = torch.zeros_like(operations)
     step_mask = torch.zeros((1, config.max_edits), dtype=torch.bool)
-    for index, (operation, source, target_node, node_type, edge_type) in enumerate(
-        inverse_program
-    ):
+    for index, (operation, source, target_node, node_type, edge_type) in enumerate(inverse_program):
         operations[0, index] = operation
         sources[0, index] = source
         targets[0, index] = target_node
         node_types[0, index] = node_type
         edge_types[0, index] = edge_type
         step_mask[0, index] = True
-    return graph, EditBatch(
-        operations=operations,
-        source_nodes=sources,
-        target_nodes=targets,
-        node_types=node_types,
-        edge_types=edge_types,
-        step_mask=step_mask,
-    ), tuple(names)
+    return (
+        graph,
+        EditBatch(
+            operations=operations,
+            source_nodes=sources,
+            target_nodes=targets,
+            node_types=node_types,
+            edge_types=edge_types,
+            step_mask=step_mask,
+        ),
+        tuple(names),
+    )
 
 
 def _record_arrays(
