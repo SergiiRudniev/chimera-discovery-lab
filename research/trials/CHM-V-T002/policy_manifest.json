@@ -1,0 +1,13 @@
+{
+  "bytes": 833,
+  "checkpoint_sha256": "678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47",
+  "claim_boundary": "engineering proposal policy; no creativity or utility claim",
+  "file": "policy_bundle.json",
+  "format_version": 1,
+  "model": "Chimera Venture M0",
+  "parameters": 20647992,
+  "release_tag": "venture-m0-t2-policy",
+  "sha256": "df5e8a32ecb50a2ab4386e72c336df6b8ac4355cb13a089d7a7e11080353f987",
+  "trial_id": "CHM-V-T002",
+  "weights_modified": false
+}

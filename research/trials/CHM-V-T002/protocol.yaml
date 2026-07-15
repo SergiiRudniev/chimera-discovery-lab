@@ -25,7 +25,7 @@ diagnostic:
   validation_opened: false
   test_opened: false
   artifact: research/trials/CHM-V-T002/diagnostic.json
-  artifact_sha256: b9f7c18804f431c4f0c1cc8272c6bccebfe1706fe3da480ee6d1c0f0224cc001
+  artifact_git_blob_sha256: 83a7bff613a43427881e4c5ecff01bf469dce4fd2f09db05fa167b28f026761e
   finding: >-
     Legal-uniform exploration at rate 0.50 restored mean train unique-graph
     rate to 0.86545, changed-candidate rate to 0.99219 and operation coverage

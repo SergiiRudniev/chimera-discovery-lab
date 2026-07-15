@@ -16,5 +16,7 @@ from its corrupted graph and edit program before accepting the corpus.
 The public repository does not commit checkpoints, source filing text or run directories.
 Trials T0 and T1 publish inference checkpoints as release assets and commit
 SHA-256 manifests containing the source code commit, configuration hash, dataset
-hash, environment, parameter count and evaluation outputs. A checkpoint can be
-published for audit without qualifying creativity or commercial use.
+hash, environment, parameter count and evaluation outputs. T2 does not create a
+new checkpoint: it publishes a policy bundle bound to the immutable T1 checkpoint
+SHA-256. A checkpoint or policy can be published for audit without qualifying
+creativity or commercial use.

@@ -21,9 +21,10 @@ channels, value flows and outcomes. Natural language is excluded from the model
 core and introduced only after a candidate structure has been frozen.
 
 > [!IMPORTANT]
-> This repository contains an architecture and an engineering baseline. Venture
-> Trial T1 qualified structural reconstruction, but it does not provide evidence
-> that non-linguistic generation is more novel or useful than a language baseline.
+> This repository contains an architecture and engineering qualifications.
+> Venture Trial T2 restored structured proposal diversity, but it does not
+> provide evidence that non-linguistic generation is more novel or useful than
+> a language baseline.
 
 ## Reserved Model Families
 
@@ -174,6 +175,21 @@ learning only; generation diversity still requires correction.
 - [Machine-readable result](research/trials/CHM-V-T001/result.json)
 - [Checkpoint manifest](research/trials/CHM-V-T001/checkpoint_manifest.json)
 
+## Venture Trial T2
+
+T2 separated exploratory proposal sampling from reconstruction without changing
+the T1 checkpoint. Validation selected `explore-50`; on test it produced 94.01%
+mean unique graphs versus 27.08% for `model-only`, with 100% changed candidates,
+0% invalid programs and all eight non-terminal operations. Train exact-graph
+reconstruction remained 99.22%.
+
+T2 publishes a small policy bundle bound to the T1 checkpoint SHA-256, not a new
+set of model weights.
+
+- [Trial report](research/trials/CHM-V-T002/README.md)
+- [Machine-readable result](research/trials/CHM-V-T002/result.json)
+- [Policy manifest](research/trials/CHM-V-T002/policy_manifest.json)
+
 ## Research Ledger
 
 Every experiment receives an immutable family-specific ID:
@@ -204,7 +220,9 @@ reconstructed from memory.
 | Corpus C0 training smoke | Passed: loss 7.3673 -> 1.1501 in 5 fixed-batch steps |
 | Venture Trial T0 | Completed with gaps; exact reconstruction criterion failed |
 | Venture Trial T1 | Passed structural reconstruction qualification |
+| Venture Trial T2 | Passed exploratory proposal-policy qualification |
 | Trained checkpoint | T1 step 2700 engineering prerelease |
+| Proposal policy | T2 `explore-50`; T1 weights unchanged |
 | Creativity claim | Not evaluated |
 
 ## Setup
@@ -244,6 +262,8 @@ chimera venture-trial
 chimera venture-trial --config configs/venture/venture_trial_t1.yaml `
   --output research/trials/CHM-V-T001 `
   --checkpoint-dir checkpoints/venture_m0_t1
+chimera proposal-diagnostic
+chimera proposal-trial
 ```
 
 ## Validation
