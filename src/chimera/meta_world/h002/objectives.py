@@ -42,12 +42,27 @@ def _mechanism_alignment(
     positives = same_mechanism & ~diagonal
     negatives = ~same_mechanism
     zero = similarity.sum() * 0.0
-    positive_loss = (1.0 - similarity[positives]).mean() if bool(positives.any()) else zero
-    negative_loss = (
-        torch.relu(similarity[negatives] - margin).mean()
-        if bool(negatives.any())
-        else zero
-    )
+    if bool(positives.any()):
+        positive_count = positives.sum(dim=1).clamp_min(1)
+        positive_similarity = (similarity * positives).sum(dim=1) / positive_count
+        positive_loss = (1.0 - positive_similarity).mean()
+    else:
+        positive_similarity = torch.ones(
+            similarity.shape[0],
+            device=similarity.device,
+            dtype=similarity.dtype,
+        )
+        positive_loss = zero
+    if bool(negatives.any()):
+        hardest_negative = similarity.masked_fill(
+            ~negatives,
+            torch.finfo(similarity.dtype).min,
+        ).amax(dim=1)
+        negative_loss = torch.relu(
+            margin + hardest_negative - positive_similarity
+        ).mean()
+    else:
+        negative_loss = zero
     embedding_scale = 1.0 / math.sqrt(normalized.shape[-1])
     standard_deviation = normalized.std(dim=0, unbiased=False)
     anti_collapse = torch.relu(embedding_scale - standard_deviation).mean()
