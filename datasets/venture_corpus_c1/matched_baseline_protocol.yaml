@@ -1,0 +1,39 @@
+schema_version: 1
+protocol_id: CHM-V-C1-TEXT-BASELINE
+status: frozen_before_generation
+model:
+  repository: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  license: Apache-2.0
+  parameter_count: 494032768
+  role: matched_open_weight_language_baseline
+  rationale: >-
+    The baseline is local, reproducible and approximately 24 times larger than
+    Chimera Venture M0, making the capacity comparison conservative.
+input:
+  file: matched_briefs.jsonl
+  source_equivalence: same typed nodes, relations, objectives and constraints as graphs.npz
+  prohibited_context:
+    - SEC evidence notes
+    - organization name
+    - candidate outputs from the other arm
+generation:
+  candidates_per_case: 8
+  seeds: [31001, 31002, 31003, 31004, 31005, 31006, 31007, 31008]
+  do_sample: true
+  temperature: 0.75
+  top_p: 0.95
+  max_new_tokens: 160
+  max_mechanism_changes: 3
+  max_words: 120
+  candidates_generated_independently: true
+validity:
+  one_mechanism_per_candidate: true
+  must_address_all_objective_nodes: true
+  must_address_all_constraint_nodes: true
+  invalid_candidates_are_retained_and_flagged: true
+freeze:
+  model_revision_must_match: true
+  environment_capture_required: true
+  prompt_hash_required: true
+  no_prompt_changes_after_calibration_partition: true

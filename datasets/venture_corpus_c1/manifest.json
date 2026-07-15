@@ -1,0 +1,86 @@
+{
+  "claim_boundary": "source-grounded evaluation inputs; no creativity labels and no H001 outcomes",
+  "corpus_id": "CHM-VENTURE-C1",
+  "counts": {
+    "calibration": 2,
+    "cases": 10,
+    "evaluation": 8
+  },
+  "feature_names": [
+    "salience",
+    "evidence",
+    "control",
+    "immediacy",
+    "recurrence",
+    "scalability",
+    "value_proximity",
+    "risk"
+  ],
+  "feature_schema": "venture-shared-axes-c0",
+  "files": {
+    "cases.jsonl": {
+      "bytes": 60720,
+      "sha256": "af4d2dc5d31eb8e9c357a1de0f7133e3d34fe05acb6be7faca906cee7b7033bd"
+    },
+    "graphs.npz": {
+      "bytes": 2522,
+      "sha256": "d322045ef3a234cd93558351fa468809e00d13f583a06a05133f7d9571c498cb"
+    },
+    "matched_baseline_protocol.yaml": {
+      "bytes": 1298,
+      "sha256": "5ebe8576fcb3331c91d0d74bc8a323b3c4a210d6cf23500ff7f56fb4736a1740"
+    },
+    "matched_briefs.jsonl": {
+      "bytes": 23844,
+      "sha256": "9353ae787e4bfe511937de2c33801f62853da50ddd1801f407c9f7541cb55462"
+    },
+    "rating_protocol.yaml": {
+      "bytes": 3189,
+      "sha256": "36362eaf520e07f78a5362a8f03926f671a2ead4fd87a73a0e159bfc5680c616"
+    }
+  },
+  "language_isolation": {
+    "audit_sidecar": "cases.jsonl",
+    "matched_baseline_input": "matched_briefs.jsonl",
+    "model_input": "graphs.npz numeric tensors only"
+  },
+  "max_nodes": 64,
+  "model_family": "Chimera Venture",
+  "partition_case_ids": {
+    "calibration": [
+      "sec-walmart-2025",
+      "sec-salesforce-2025"
+    ],
+    "evaluation": [
+      "sec-microsoft-2025",
+      "sec-nvidia-2025",
+      "sec-home-depot-2025",
+      "sec-intuit-2025",
+      "sec-fedex-2025",
+      "sec-nike-2025",
+      "sec-oracle-2025",
+      "sec-pg-2025"
+    ]
+  },
+  "pretraining_corpus": {
+    "corpus_id": "CHM-VENTURE-C0",
+    "manifest_path": "datasets/venture_corpus_c0/manifest.json",
+    "manifest_sha256": "26809d4dcc1bd00607fc90dd84ef26d740a447cd5924708bb2a9efd0753b52cd"
+  },
+  "release_status": "provisional_pending_independent_annotation_review",
+  "role": "preregistered_evaluation_only",
+  "schema_version": 1,
+  "source_accessed_at": "2026-07-15",
+  "source_document": {
+    "path": "source_cases.yaml",
+    "sha256": "cae8ac57e9c03e8af6f6324a98c624e4466946ec5a52add840c6dd0f2511933c"
+  },
+  "temporal_boundary": {
+    "accession_overlap_count": 0,
+    "cik_overlap_count": 0,
+    "evaluation_min_period_end": "2025-01-26",
+    "organization_overlap_count": 0,
+    "pretraining_max_period_end": "2024-12-31",
+    "rule": "evaluation period_end > maximum C0 period_end"
+  }
+}

@@ -11,6 +11,7 @@ import torch
 
 from chimera.config import ExperimentConfig
 from chimera.data.corpus import CorpusSplit, build_corpus, validate_corpus
+from chimera.data.evaluation import build_evaluation_corpus, validate_evaluation_corpus
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.models.venture import ChimeraVenture
 from chimera.research import load_research_registry
@@ -87,6 +88,23 @@ def _build_corpus(arguments: argparse.Namespace) -> int:
 
 def _validate_corpus(arguments: argparse.Namespace) -> int:
     print(json.dumps(validate_corpus(arguments.manifest), sort_keys=True))
+    return 0
+
+
+def _build_evaluation_corpus(arguments: argparse.Namespace) -> int:
+    config = ExperimentConfig.from_yaml(arguments.config)
+    manifest = build_evaluation_corpus(
+        arguments.source,
+        arguments.output,
+        pretraining_manifest_path=arguments.pretraining_manifest,
+        model_config=config.model,
+    )
+    print(json.dumps({"corpus_id": manifest["corpus_id"], **manifest["counts"]}, sort_keys=True))
+    return 0
+
+
+def _validate_evaluation_corpus(arguments: argparse.Namespace) -> int:
+    print(json.dumps(validate_evaluation_corpus(arguments.manifest), sort_keys=True))
     return 0
 
 
@@ -202,6 +220,25 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("datasets/venture_corpus_c0/manifest.json"),
     )
+    evaluation_parser = subparsers.add_parser("build-evaluation-corpus")
+    evaluation_parser.add_argument(
+        "--source", type=Path, default=Path("datasets/venture_corpus_c1/source_cases.yaml")
+    )
+    evaluation_parser.add_argument(
+        "--output", type=Path, default=Path("datasets/venture_corpus_c1")
+    )
+    evaluation_parser.add_argument(
+        "--pretraining-manifest",
+        type=Path,
+        default=Path("datasets/venture_corpus_c0/manifest.json"),
+    )
+    evaluation_parser.add_argument(
+        "--config", type=Path, default=Path("configs/venture/venture_m0_20m.yaml")
+    )
+    evaluation_validation_parser = subparsers.add_parser("validate-evaluation-corpus")
+    evaluation_validation_parser.add_argument(
+        "--manifest", type=Path, default=Path("datasets/venture_corpus_c1/manifest.json")
+    )
     corpus_smoke_parser = subparsers.add_parser("corpus-smoke")
     corpus_smoke_parser.add_argument(
         "--manifest",
@@ -274,6 +311,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _build_corpus(arguments)
     if arguments.command == "validate-corpus":
         return _validate_corpus(arguments)
+    if arguments.command == "build-evaluation-corpus":
+        return _build_evaluation_corpus(arguments)
+    if arguments.command == "validate-evaluation-corpus":
+        return _validate_evaluation_corpus(arguments)
     if arguments.command == "venture-trial":
         return _venture_trial(arguments)
     if arguments.command == "proposal-diagnostic":
