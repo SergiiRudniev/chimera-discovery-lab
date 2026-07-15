@@ -1,0 +1,165 @@
+{
+  "corpus_id": "CHM-VENTURE-C0",
+  "distribution": {
+    "score_mean_range_across_splits": {
+      "coherence_proxy": 0.027083158493041992,
+      "feasibility_proxy": 0.13663184642791748,
+      "utility_proxy": 0.0809025764465332
+    }
+  },
+  "fitness": {
+    "creativity_claim": "not_usable",
+    "engineering_pretraining": "usable",
+    "generalization_claim": "not_usable"
+  },
+  "grain": "one corrupted graph, one inverse edit program, one registered target",
+  "integrity": {
+    "duplicate_numeric_records": 0,
+    "hash_manifest_validation": "covered by chimera validate-corpus",
+    "split_case_overlap": {
+      "train_test": [],
+      "train_validation": [],
+      "validation_test": []
+    },
+    "total_records": 640
+  },
+  "limitations": [
+    {
+      "finding": "Only ten independent source graphs are present.",
+      "impact": "Augmented transition count must not be treated as independent business-case count.",
+      "severity": "high"
+    },
+    {
+      "finding": "Targets are deterministic structural proxies, not observed business outcomes.",
+      "impact": "Score heads cannot support utility or feasibility claims.",
+      "severity": "high"
+    },
+    {
+      "finding": "Annotations were produced by one schema author.",
+      "impact": "Inter-rater reliability and ontology bias are unknown.",
+      "severity": "medium"
+    },
+    {
+      "finding": "Proxy-score distributions differ across source-isolated splits.",
+      "impact": "The small number of source companies can dominate validation and test metrics.",
+      "severity": "medium"
+    }
+  ],
+  "profiled_at": "2026-07-15",
+  "splits": {
+    "test": {
+      "active_edges": {
+        "max": 17.0,
+        "mean": 14.859375,
+        "median": 14.0,
+        "min": 12.0
+      },
+      "active_nodes": {
+        "max": 14.0,
+        "mean": 13.0,
+        "median": 13.0,
+        "min": 12.0
+      },
+      "all_arrays_numeric": true,
+      "cases": 2,
+      "corruptions": {
+        "drop_edge": 82,
+        "invert_edge": 89,
+        "substitute_node": 83
+      },
+      "duplicate_numeric_records": 0,
+      "edit_steps": {
+        "max": 3.0,
+        "mean": 1.984375,
+        "median": 2.0,
+        "min": 1.0
+      },
+      "feature_max": 1.0,
+      "feature_min": 0.0,
+      "feature_zero_rate": 0.009615384615384616,
+      "nonfinite_values": 0,
+      "records": 128,
+      "score_mean": {
+        "coherence_proxy": 0.972916841506958,
+        "feasibility_proxy": 0.5468750596046448,
+        "utility_proxy": 0.9026040434837341
+      }
+    },
+    "train": {
+      "active_edges": {
+        "max": 21.0,
+        "mean": 16.307291666666668,
+        "median": 16.0,
+        "min": 11.0
+      },
+      "active_nodes": {
+        "max": 15.0,
+        "mean": 13.5,
+        "median": 13.5,
+        "min": 12.0
+      },
+      "all_arrays_numeric": true,
+      "cases": 6,
+      "corruptions": {
+        "drop_edge": 266,
+        "invert_edge": 233,
+        "substitute_node": 263
+      },
+      "duplicate_numeric_records": 0,
+      "edit_steps": {
+        "max": 3.0,
+        "mean": 1.984375,
+        "median": 2.0,
+        "min": 1.0
+      },
+      "feature_max": 1.0,
+      "feature_min": 0.0,
+      "feature_zero_rate": 0.0030864197530864196,
+      "nonfinite_values": 0,
+      "records": 384,
+      "score_mean": {
+        "coherence_proxy": 0.9913461208343506,
+        "feasibility_proxy": 0.6835069060325623,
+        "utility_proxy": 0.9470486044883728
+      }
+    },
+    "validation": {
+      "active_edges": {
+        "max": 15.0,
+        "mean": 13.3125,
+        "median": 13.0,
+        "min": 11.0
+      },
+      "active_nodes": {
+        "max": 12.0,
+        "mean": 11.5,
+        "median": 11.5,
+        "min": 11.0
+      },
+      "all_arrays_numeric": true,
+      "cases": 2,
+      "corruptions": {
+        "drop_edge": 88,
+        "invert_edge": 80,
+        "substitute_node": 86
+      },
+      "duplicate_numeric_records": 0,
+      "edit_steps": {
+        "max": 3.0,
+        "mean": 1.984375,
+        "median": 2.0,
+        "min": 1.0
+      },
+      "feature_max": 1.0,
+      "feature_min": 0.25,
+      "feature_zero_rate": 0.0,
+      "nonfinite_values": 0,
+      "records": 128,
+      "score_mean": {
+        "coherence_proxy": 1.0,
+        "feasibility_proxy": 0.6166667938232422,
+        "utility_proxy": 0.8661460280418396
+      }
+    }
+  }
+}

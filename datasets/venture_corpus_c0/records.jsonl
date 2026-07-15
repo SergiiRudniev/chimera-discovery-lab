@@ -1,0 +1,640 @@
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-000", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-00-001", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-00-002", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-003", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-00-004", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-00-005", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-006", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-00-007", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-008", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-00-009", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-00-010", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-00-011", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-00-012", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-00-013", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-00-014", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-00-015", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-00-016", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-00-017", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-018", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-00-019", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-020", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-021", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-00-022", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-00-023", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-024", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-025", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-00-026", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-027", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-00-028", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-00-029", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-00-030", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-00-031", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-00-032", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-033", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-034", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-00-035", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-036", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-00-037", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-038", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-00-039", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-00-040", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-00-041", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-042", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-00-043", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-044", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-045", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-00-046", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-00-047", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-048", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-00-049", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-050", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-051", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-052", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-00-053", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-054", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-00-055", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-00-056", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-00-057", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-00-058", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["substitute_node", "substitute_node", "invert_edge"], "record_id": "CVC0-TR-00-059", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-00-060", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-00-061", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-00-062", "split": "train"}
+{"case_id": "sec-adobe-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-00-063", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-000", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-01-001", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-01-002", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-003", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-004", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-01-005", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-006", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-007", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-01-008", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-009", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-01-010", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-01-011", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-01-012", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-01-013", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-01-014", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-015", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-016", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-017", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-01-018", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-019", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-01-020", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-021", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-01-022", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-023", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-024", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-025", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-01-026", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-027", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-01-028", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-01-029", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-030", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-01-031", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-01-032", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-033", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-01-034", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-01-035", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-01-036", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-01-037", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-01-038", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-039", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-01-040", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-041", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-042", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-01-043", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-01-044", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-045", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-01-046", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-047", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-048", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-049", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-050", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-051", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-01-052", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-053", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-054", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-055", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-01-056", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-057", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-058", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-01-059", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-01-060", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-01-061", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-01-062", "split": "train"}
+{"case_id": "sec-airbnb-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-01-063", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-000", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-02-001", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-002", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-003", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-02-004", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-02-005", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-006", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-02-007", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-02-008", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-009", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-010", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-02-011", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-02-012", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-02-013", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-014", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-015", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-02-016", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-02-017", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-018", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-02-019", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-02-020", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-021", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-02-022", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-023", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-02-024", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-025", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-026", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-027", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-02-028", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-029", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-02-030", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-02-031", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-032", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-033", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-02-034", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TR-02-035", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-036", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-037", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-038", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-039", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-02-040", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-041", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-042", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-043", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-02-044", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-02-045", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-046", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-02-047", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-048", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-02-049", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-02-050", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-02-051", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-052", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-02-053", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-054", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-02-055", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-02-056", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-057", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-02-058", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-02-059", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-060", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-02-061", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-02-062", "split": "train"}
+{"case_id": "sec-costco-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-02-063", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-000", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-03-001", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-03-002", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-003", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-03-004", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-03-005", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-006", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-03-007", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-03-008", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-009", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-03-010", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-03-011", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-012", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-03-013", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-03-014", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-015", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-03-016", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-03-017", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-018", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-03-019", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-03-020", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-021", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-03-022", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-03-023", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-024", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-03-025", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-03-026", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-027", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-03-028", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-03-029", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-030", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-03-031", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-03-032", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-033", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-03-034", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-03-035", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-036", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-03-037", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-03-038", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-039", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-03-040", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-03-041", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-042", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-03-043", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-03-044", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-045", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-03-046", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-03-047", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-048", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-03-049", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TR-03-050", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-03-051", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-03-052", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-03-053", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-054", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-03-055", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-03-056", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-057", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-03-058", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["substitute_node", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-03-059", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-03-060", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-03-061", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-03-062", "split": "train"}
+{"case_id": "sec-visa-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-03-063", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-04-000", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-04-001", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-002", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-003", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-04-004", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-04-005", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-006", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-007", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node", "invert_edge"], "record_id": "CVC0-TR-04-008", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-009", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-04-010", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-011", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-012", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-04-013", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-014", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-015", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-016", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-04-017", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-018", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-019", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-04-020", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-021", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-022", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-04-023", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-04-024", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-04-025", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-04-026", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-027", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-04-028", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-04-029", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-030", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-04-031", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TR-04-032", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-033", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-04-034", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-04-035", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-036", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-04-037", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-04-038", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-039", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-04-040", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-04-041", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-042", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-04-043", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-04-044", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-04-045", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-046", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-04-047", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-048", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-04-049", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-04-050", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-051", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-04-052", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-04-053", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-054", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-04-055", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-04-056", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-04-057", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-04-058", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-04-059", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-060", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-04-061", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TR-04-062", "split": "train"}
+{"case_id": "sec-amazon-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-04-063", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-05-000", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-05-001", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-05-002", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-003", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-05-004", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-05-005", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-006", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-05-007", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-05-008", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-009", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-05-010", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-05-011", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-012", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-05-013", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-014", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-015", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-05-016", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-05-017", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-018", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TR-05-019", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-05-020", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-021", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TR-05-022", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-05-023", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-05-024", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-025", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-05-026", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-027", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TR-05-028", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-05-029", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-030", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-05-031", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-05-032", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-033", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-034", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-05-035", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-036", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-05-037", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TR-05-038", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-039", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TR-05-040", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-05-041", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-042", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-043", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TR-05-044", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-045", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TR-05-046", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-TR-05-047", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TR-05-048", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TR-05-049", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TR-05-050", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-05-051", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-052", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TR-05-053", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-054", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TR-05-055", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TR-05-056", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-057", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-058", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TR-05-059", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TR-05-060", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TR-05-061", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TR-05-062", "split": "train"}
+{"case_id": "sec-marriott-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TR-05-063", "split": "train"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-000", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-001", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-VA-06-002", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-06-003", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-004", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-VA-06-005", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-006", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-VA-06-007", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-VA-06-008", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-009", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-VA-06-010", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-011", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-06-012", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-06-013", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-VA-06-014", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-015", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-06-016", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-VA-06-017", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-06-018", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-06-019", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-VA-06-020", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-06-021", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-VA-06-022", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-VA-06-023", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-06-024", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-025", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-026", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-027", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-VA-06-028", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-029", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-06-030", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-VA-06-031", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-032", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-06-033", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-034", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "substitute_node", "drop_edge"], "record_id": "CVC0-VA-06-035", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-036", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-06-037", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-038", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-06-039", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-VA-06-040", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-041", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-042", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-043", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-VA-06-044", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-045", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-046", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-047", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-048", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-VA-06-049", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-VA-06-050", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-06-051", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-052", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-06-053", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-054", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-VA-06-055", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-VA-06-056", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-06-057", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-VA-06-058", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node", "substitute_node", "invert_edge"], "record_id": "CVC0-VA-06-059", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-060", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-VA-06-061", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-VA-06-062", "split": "validation"}
+{"case_id": "sec-netflix-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-06-063", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-07-000", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-001", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-07-002", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-003", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-VA-07-004", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-VA-07-005", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-07-006", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-VA-07-007", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-008", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-009", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-010", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-011", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-012", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-VA-07-013", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-VA-07-014", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-07-015", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-016", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-VA-07-017", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-018", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-VA-07-019", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-020", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-07-021", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-022", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-VA-07-023", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-024", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-025", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-026", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-07-027", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-028", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-VA-07-029", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-030", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-031", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-032", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-033", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-034", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-07-035", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-036", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-037", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-VA-07-038", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-039", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-040", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-VA-07-041", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-042", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-VA-07-043", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-044", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-045", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-VA-07-046", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-047", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-VA-07-048", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-049", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-VA-07-050", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-051", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-VA-07-052", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-VA-07-053", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-VA-07-054", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-VA-07-055", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-VA-07-056", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-057", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-VA-07-058", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-059", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-060", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-VA-07-061", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-VA-07-062", "split": "validation"}
+{"case_id": "sec-tesla-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-VA-07-063", "split": "validation"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-000", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TE-08-001", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-08-002", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-003", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TE-08-004", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TE-08-005", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-006", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TE-08-007", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TE-08-008", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-009", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TE-08-010", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-08-011", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-012", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TE-08-013", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-08-014", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-015", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-016", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-08-017", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-018", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-019", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TE-08-020", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-021", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TE-08-022", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TE-08-023", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-024", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TE-08-025", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-026", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-027", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-028", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-029", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-030", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-031", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-08-032", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-033", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TE-08-034", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-TE-08-035", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-036", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-037", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TE-08-038", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-08-039", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-040", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TE-08-041", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-042", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TE-08-043", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TE-08-044", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-045", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-046", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TE-08-047", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-048", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-049", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TE-08-050", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-051", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TE-08-052", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TE-08-053", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-054", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["drop_edge", "drop_edge"], "record_id": "CVC0-TE-08-055", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-056", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-057", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-058", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-08-059", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-08-060", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TE-08-061", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge", "drop_edge", "substitute_node"], "record_id": "CVC0-TE-08-062", "split": "test"}
+{"case_id": "sec-uber-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-08-063", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-09-000", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TE-09-001", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TE-09-002", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-09-003", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-004", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TE-09-005", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-09-006", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-007", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "substitute_node", "drop_edge"], "record_id": "CVC0-TE-09-008", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-09-009", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TE-09-010", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-09-011", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-09-012", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TE-09-013", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TE-09-014", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-015", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "invert_edge"], "record_id": "CVC0-TE-09-016", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-017", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-018", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TE-09-019", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-020", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-021", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TE-09-022", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TE-09-023", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-09-024", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "substitute_node"], "record_id": "CVC0-TE-09-025", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge", "drop_edge"], "record_id": "CVC0-TE-09-026", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-09-027", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "drop_edge"], "record_id": "CVC0-TE-09-028", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TE-09-029", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-030", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TE-09-031", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-032", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-09-033", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "substitute_node"], "record_id": "CVC0-TE-09-034", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "substitute_node", "substitute_node"], "record_id": "CVC0-TE-09-035", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-036", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "substitute_node"], "record_id": "CVC0-TE-09-037", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "invert_edge", "drop_edge"], "record_id": "CVC0-TE-09-038", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-039", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TE-09-040", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "invert_edge", "invert_edge"], "record_id": "CVC0-TE-09-041", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-042", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TE-09-043", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge", "invert_edge"], "record_id": "CVC0-TE-09-044", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge"], "record_id": "CVC0-TE-09-045", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TE-09-046", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "drop_edge", "drop_edge"], "record_id": "CVC0-TE-09-047", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-09-048", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge"], "record_id": "CVC0-TE-09-049", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge", "substitute_node"], "record_id": "CVC0-TE-09-050", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-051", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-052", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge", "drop_edge"], "record_id": "CVC0-TE-09-053", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-054", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-055", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "drop_edge", "substitute_node"], "record_id": "CVC0-TE-09-056", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node"], "record_id": "CVC0-TE-09-057", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "invert_edge"], "record_id": "CVC0-TE-09-058", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["drop_edge", "substitute_node", "invert_edge"], "record_id": "CVC0-TE-09-059", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-060", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["substitute_node", "invert_edge"], "record_id": "CVC0-TE-09-061", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge", "invert_edge", "substitute_node"], "record_id": "CVC0-TE-09-062", "split": "test"}
+{"case_id": "sec-deere-2024", "corruptions": ["invert_edge"], "record_id": "CVC0-TE-09-063", "split": "test"}

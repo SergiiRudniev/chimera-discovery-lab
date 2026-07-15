@@ -20,6 +20,14 @@ def test_research_cli_validates_registry(capsys: object) -> None:
     assert json.loads(captured.out) == {"validated_hypotheses": 4}
 
 
+def test_corpus_cli_validates_dataset(capsys: object) -> None:
+    assert main(
+        ["validate-corpus", "--manifest", "datasets/venture_corpus_c0/manifest.json"]
+    ) == 0
+    captured = capsys.readouterr()  # type: ignore[attr-defined]
+    assert json.loads(captured.out) == {"canonical_graphs": 10, "transitions": 640}
+
+
 def test_smoke_cli_runs_one_step(capsys: object) -> None:
     assert main(
         ["smoke", "--config", "configs/venture/venture_smoke.yaml", "--steps", "1"]
