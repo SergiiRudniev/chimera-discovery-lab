@@ -1,0 +1,9 @@
+{
+  "code_commit": "df49c791b5e1912d8bf5a17929d9486f25ca6618",
+  "cuda_available": true,
+  "device": "cuda:0",
+  "numpy": "2.2.6",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.13",
+  "torch": "2.13.0+cu132"
+}

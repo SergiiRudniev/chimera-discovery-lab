@@ -15,14 +15,26 @@ def _sample_masked(
     logits: Tensor,
     mask: Tensor,
     temperature: float,
+    exploration_rate: float,
     generator: torch.Generator | None,
 ) -> int:
     if not bool(mask.any()):
         raise ValueError("cannot sample from an empty categorical mask")
     masked = logits.masked_fill(~mask, torch.finfo(logits.dtype).min)
-    if temperature <= 0:
+    legal_uniform = mask.to(dtype=logits.dtype) / mask.sum()
+    if exploration_rate == 1.0:
+        return int(torch.multinomial(legal_uniform, 1, generator=generator))
+    if temperature <= 0 and exploration_rate == 0:
         return int(masked.argmax())
-    probabilities = torch.softmax(masked / temperature, dim=-1)
+    if temperature <= 0:
+        probabilities = torch.zeros_like(masked)
+        probabilities[masked.argmax()] = 1.0
+    else:
+        probabilities = torch.softmax(masked / temperature, dim=-1)
+    if exploration_rate:
+        probabilities = (
+            (1.0 - exploration_rate) * probabilities + exploration_rate * legal_uniform
+        )
     return int(torch.multinomial(probabilities, 1, generator=generator))
 
 
@@ -31,10 +43,17 @@ def _sample_pair(
     right_logits: Tensor,
     pair_mask: Tensor,
     temperature: float,
+    exploration_rate: float,
     generator: torch.Generator | None,
 ) -> tuple[int, int]:
     scores = left_logits[:, None] + right_logits[None, :]
-    flat_index = _sample_masked(scores.flatten(), pair_mask.flatten(), temperature, generator)
+    flat_index = _sample_masked(
+        scores.flatten(),
+        pair_mask.flatten(),
+        temperature,
+        exploration_rate,
+        generator,
+    )
     return divmod(flat_index, scores.shape[1])
 
 
@@ -69,6 +88,7 @@ def sample_edit_program(
     max_edits: int | None = None,
     min_edits: int = 0,
     temperature: float = 0.9,
+    exploration_rate: float = 0.0,
     generator: torch.Generator | None = None,
 ) -> EditBatch:
     """Sample a program while masking operations and arguments that violate graph rules."""
@@ -81,6 +101,8 @@ def sample_edit_program(
         raise ValueError("min_edits must be between zero and max_edits")
     if temperature < 0:
         raise ValueError("temperature must be non-negative")
+    if not 0.0 <= exploration_rate <= 1.0:
+        raise ValueError("exploration_rate must be in [0, 1]")
     graph.validate(feature_dim=model.config.node_numeric_features)
     batch = graph.batch_size
     device = graph.node_types.device
@@ -112,6 +134,7 @@ def sample_edit_program(
                     output.operation_logits[batch_index, -1],
                     allowed,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
             )
@@ -130,18 +153,21 @@ def sample_edit_program(
                     output.source_logits[batch_index, -1],
                     active_nodes,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 node_types[batch_index, step] = _sample_masked(
                     output.node_type_logits[batch_index, -1],
                     non_pad_types,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 edge_types[batch_index, step] = _sample_masked(
                     output.edge_type_logits[batch_index, -1],
                     relation_types,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
             elif operation in {EditOperation.CONNECT, EditOperation.REWIRE}:
@@ -154,6 +180,7 @@ def sample_edit_program(
                     output.target_logits[batch_index, -1],
                     pair_mask,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 sources[batch_index, step] = source
@@ -162,6 +189,7 @@ def sample_edit_program(
                     output.edge_type_logits[batch_index, -1],
                     relation_types,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
             elif operation is EditOperation.TRANSFER_ROLE:
@@ -176,6 +204,7 @@ def sample_edit_program(
                     output.node_type_logits[batch_index, -1],
                     pair_mask,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 targets[batch_index, step] = target
@@ -188,6 +217,7 @@ def sample_edit_program(
                     output.source_logits[batch_index, -1],
                     constraint_nodes,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
             elif operation is EditOperation.INVERT_RELATION:
@@ -201,6 +231,7 @@ def sample_edit_program(
                     output.target_logits[batch_index, -1],
                     pair_mask,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 sources[batch_index, step] = source
@@ -217,6 +248,7 @@ def sample_edit_program(
                     output.node_type_logits[batch_index, -1],
                     pair_mask,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 sources[batch_index, step] = source
@@ -229,6 +261,7 @@ def sample_edit_program(
                     output.target_logits[batch_index, -1],
                     pair_mask,
                     temperature,
+                    exploration_rate,
                     generator,
                 )
                 sources[batch_index, step] = source

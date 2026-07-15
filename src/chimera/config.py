@@ -267,3 +267,137 @@ class VentureTrialConfig:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class ProposalPolicyConfig:
+    """One validity-constrained proposal sampling policy."""
+
+    policy_id: str
+    temperature: float
+    exploration_rate: float
+
+    def __post_init__(self) -> None:
+        if re.fullmatch(r"[a-z][a-z0-9-]{1,31}", self.policy_id) is None:
+            raise ValueError("policy_id must be a lowercase slug")
+        if self.temperature < 0:
+            raise ValueError("temperature must be non-negative")
+        if not 0.0 <= self.exploration_rate <= 1.0:
+            raise ValueError("exploration_rate must be in [0, 1]")
+
+    @classmethod
+    def from_mapping(cls, values: Mapping[str, Any]) -> ProposalPolicyConfig:
+        _validate_fields(
+            "ProposalPolicyConfig",
+            {item.name for item in fields(ProposalPolicyConfig)},
+            values,
+        )
+        return cls(**values)
+
+
+@dataclass(frozen=True)
+class ProposalTrialConfig:
+    """Frozen policy-selection protocol for a trained Venture checkpoint."""
+
+    trial_id: str
+    hypothesis_id: str
+    checkpoint_path: str
+    checkpoint_sha256: str
+    reconstruction_config: str
+    reconstruction_result: str
+    corpus_manifest: str
+    policies: tuple[ProposalPolicyConfig, ...]
+    baseline_policy_id: str
+    device: str = "auto"
+    seeds: tuple[int, ...] = (1702, 1703, 1704)
+    candidates_per_case: int = 64
+    min_edits: int = 1
+    max_edits: int = 3
+    archive_bins: tuple[int, int] = (4, 4)
+    unique_graph_rate_min: float = 0.80
+    changed_candidate_rate_min: float = 0.95
+    invalid_candidate_rate_max: float = 0.01
+    feasibility_drop_max: float = 0.05
+    reconstruction_exact_graph_min: float = 0.95
+
+    def __post_init__(self) -> None:
+        if re.fullmatch(r"CHM-V-T\d{3}", self.trial_id) is None:
+            raise ValueError("Venture trial IDs must use CHM-V-T###")
+        if re.fullmatch(r"CHM-V-H\d{3}", self.hypothesis_id) is None:
+            raise ValueError("Venture hypothesis IDs must use CHM-V-H###")
+        if re.fullmatch(r"[0-9a-f]{64}", self.checkpoint_sha256) is None:
+            raise ValueError("checkpoint_sha256 must be a lowercase SHA-256 digest")
+        for name in (
+            "checkpoint_path",
+            "reconstruction_config",
+            "reconstruction_result",
+            "corpus_manifest",
+        ):
+            if not getattr(self, name):
+                raise ValueError(f"{name} is required")
+        if self.device not in {"auto", "cpu", "cuda", "mps"}:
+            raise ValueError("device must be auto, cpu, cuda or mps")
+        if not self.seeds or len(set(self.seeds)) != len(self.seeds):
+            raise ValueError("seeds must contain unique values")
+        if any(seed < 0 for seed in self.seeds):
+            raise ValueError("seeds must be non-negative")
+        if self.candidates_per_case <= 0:
+            raise ValueError("candidates_per_case must be positive")
+        if self.min_edits < 0 or self.min_edits > self.max_edits:
+            raise ValueError("min_edits must be between zero and max_edits")
+        if len(self.archive_bins) != 2 or any(value <= 0 for value in self.archive_bins):
+            raise ValueError("archive_bins must contain two positive dimensions")
+        if len(self.policies) < 2:
+            raise ValueError("at least two proposal policies are required")
+        policy_ids = [policy.policy_id for policy in self.policies]
+        if len(set(policy_ids)) != len(policy_ids):
+            raise ValueError("proposal policy IDs must be unique")
+        if self.baseline_policy_id not in policy_ids:
+            raise ValueError("baseline_policy_id must identify a configured policy")
+        baseline = self.policies[policy_ids.index(self.baseline_policy_id)]
+        if baseline.exploration_rate != 0.0:
+            raise ValueError("the baseline policy must have zero exploration")
+        for name in (
+            "unique_graph_rate_min",
+            "changed_candidate_rate_min",
+            "invalid_candidate_rate_max",
+            "feasibility_drop_max",
+            "reconstruction_exact_graph_min",
+        ):
+            if not 0.0 <= getattr(self, name) <= 1.0:
+                raise ValueError(f"{name} must be in [0, 1]")
+
+    @classmethod
+    def from_mapping(cls, values: Mapping[str, Any]) -> ProposalTrialConfig:
+        _validate_fields(
+            "ProposalTrialConfig",
+            {item.name for item in fields(ProposalTrialConfig)},
+            values,
+        )
+        normalized = dict(values)
+        raw_policies = normalized.get("policies")
+        if not isinstance(raw_policies, list):
+            raise TypeError("policies must be a list of mappings")
+        if not all(isinstance(policy, Mapping) for policy in raw_policies):
+            raise TypeError("policies must be a list of mappings")
+        normalized["policies"] = tuple(
+            ProposalPolicyConfig.from_mapping(policy) for policy in raw_policies
+        )
+        if "seeds" in normalized:
+            normalized["seeds"] = tuple(int(seed) for seed in normalized["seeds"])
+        if "archive_bins" in normalized:
+            normalized["archive_bins"] = tuple(
+                int(value) for value in normalized["archive_bins"]
+            )
+        return cls(**normalized)
+
+    @classmethod
+    def from_yaml(cls, path: str | Path) -> ProposalTrialConfig:
+        with Path(path).open("r", encoding="utf-8") as handle:
+            values = yaml.safe_load(handle)
+        if not isinstance(values, Mapping):
+            raise TypeError("proposal trial config must contain a mapping")
+        return cls.from_mapping(values)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)

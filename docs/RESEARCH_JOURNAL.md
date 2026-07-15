@@ -1,5 +1,41 @@
 # Research Journal
 
+## 2026-07-15 — Venture Trial T2 result
+
+- **Protocol:** `CHM-V-T002`, frozen at commit `df49c79` before validation and
+  test policy metrics were opened.
+- **Runtime:** 36.5 seconds on the NVIDIA GeForce RTX 5070; T1 weights remained
+  unchanged and matched the registered SHA-256 before and after execution.
+- **Selection:** Validation selected `explore-50` at 88.02% mean unique graphs;
+  all three exploratory policies satisfied the registered eligibility rules.
+- **Test:** `explore-50` reached 94.01% mean unique graphs versus 27.08% for
+  `model-only`; the per-seed minimum was 92.19%.
+- **Guardrails:** 100% changed, 0% invalid, deterministic replay and median
+  feasibility 0.5875 versus 0.5719 baseline.
+- **Coverage:** All eight non-terminal operations were observed and mean
+  MAP-Elites coverage reached 52.08% versus 31.25% baseline.
+- **Reconstruction:** Exact-graph reconstruction remained 99.22% on train.
+- **Decision:** Accept `explore-50` as the frozen T2 proposal policy; keep the T1
+  checkpoint as the only model-weight artifact.
+- **Claim boundary:** This is an engineering policy qualification, not evidence
+  for semantic novelty, commercial utility or CHM-V-H001.
+
+## 2026-07-15 — Venture Trial T2 registration
+
+- **Protocol:** `CHM-V-T002`; frozen proposal-policy qualification using the
+  unchanged T1 step-2700 checkpoint.
+- **Diagnosis:** T1 unique-graph rate fell by 59.38 percentage points versus T0;
+  `CONNECT>STOP` accounted for 45.63% of its candidate programs.
+- **Train-only probe:** Legal-uniform exploration at rate 0.50 produced 86.55%
+  mean unique graphs, 99.22% changed candidates, all eight non-terminal
+  operations and zero invalid programs across three seeds.
+- **Separation:** Reconstruction remains bound to the immutable T1 checkpoint;
+  T2 selects only an inference-time proposal policy.
+- **Data boundary:** Train was used for diagnosis; validation will select the
+  policy and test is reserved for one final report.
+- **Status:** Registered; validation and test policy metrics remain unopened.
+- **Claim boundary:** Engineering proposal-policy evidence only.
+
 ## 2026-07-15 — Venture Trial T1 result
 
 - **Protocol:** `CHM-V-T001`, frozen at commit `7b69794` before target metrics
