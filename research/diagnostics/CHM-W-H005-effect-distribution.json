@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "diagnostic_id": "CHM-W-H005-EFFECT-DISTRIBUTION-001",
+  "scope": "train-only post-validation diagnosis",
+  "dataset_id": "CHM-W-WG1",
+  "split": "train",
+  "trajectories_per_policy": 256,
+  "test_metrics_opened": false,
+  "probe": {
+    "effect_mean": -0.016080524772405624,
+    "effect_std": 0.04123847559094429,
+    "effect_abs_mean": 0.022234873846173286,
+    "exact_zero_rate": 0.39401042461395264,
+    "magnitude_mean": 0.46333226561546326,
+    "magnitude_std": 0.37303560972213745,
+    "unique_magnitudes": 3,
+    "effect_action_correlation": -0.32874929904937744
+  },
+  "seeded_random": {
+    "effect_mean": -0.017467539757490158,
+    "effect_std": 0.041078925132751465,
+    "effect_abs_mean": 0.024333545938134193,
+    "exact_zero_rate": 0.16171875596046448,
+    "magnitude_mean": 0.5270171761512756,
+    "magnitude_std": 0.2731669545173645,
+    "unique_magnitudes": 3840,
+    "effect_action_correlation": -0.2610247731208801
+  },
+  "interpretation": "Probe trajectories cover informative state responses but provide a discrete and zero-heavy action distribution. H006 will test whether routing probe examples away from the effect NLL preserves their dynamics signal without biasing continuous intervention-effect prediction.",
+  "claim_boundary": "Descriptive train-split diagnosis only; it is not evidence that loss routing improves validation, test transfer, real-world causality or business utility."
+}

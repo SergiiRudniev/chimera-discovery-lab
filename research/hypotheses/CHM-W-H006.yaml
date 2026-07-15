@@ -1,0 +1,116 @@
+id: CHM-W-H006
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  A paired 50:50 probe/random curriculum with policy-selective objective
+  routing, where every trajectory trains state dynamics but only continuous
+  seeded-random trajectories train the intervention-effect likelihood, reduces
+  intervention-effect prediction error by at least 10% without increasing
+  four-step rollout error in unseen world-family mappings compared with matched
+  random-only closed-loop training.
+scope: policy_selective_effect_supervision
+parent: CHM-W-H005
+rationale:
+  diagnostic: research/diagnostics/CHM-W-H005-effect-distribution.json
+  observation: >-
+    The train-only probe distribution has three unique magnitudes and a 39.4%
+    exact-zero effect rate, while matched seeded-random trajectories have 3,840
+    observed magnitudes and a 16.2% exact-zero rate. H005 improved rollout but
+    failed seed-stable effect transfer.
+data:
+  dataset_id: CHM-W-WG1
+  generator_config: configs/meta_world/world_generators_h004.yaml
+  training_policies:
+    deterministic_system_identification_probe_v1: 0.50
+    seeded_random: 0.50
+  evaluation_policy: probe_prefix_4_then_seeded_random_v1
+  paired_worlds_across_training_policies: true
+  language_input: false
+  hidden_metadata_excluded_from_model_forward:
+    - objective_route
+    - action_policy_id
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  model: relational_sequence_world_model
+  rollout_horizon: 4
+  rollout_mode: autoregressive_closed_loop
+  mechanism_discrimination_weight: 0.0
+  routed_mixed_objective:
+    state_nll:
+      probe: true
+      seeded_random: true
+    intervention_effect_nll:
+      probe: false
+      seeded_random: true
+    transition_variance_regularizer:
+      probe: true
+      seeded_random: true
+  route_source: trainer_side_sampler_position
+  route_passed_to_model: false
+  controlled_variable: effect_supervision_route
+  evaluator_policy_identical_across_arms: true
+protocol:
+  trial_id: CHM-W-T006
+  status: not_run
+  development_seed: 260914
+  frozen_validation_seeds:
+    - 260915
+    - 260916
+    - 260917
+  comparison_arms:
+    - routed_mixed_closed_loop_without_discrimination
+    - shared_loss_mixed_closed_loop_without_discrimination
+    - matched_random_only_closed_loop_without_discrimination
+    - one_step_relational_without_discrimination
+    - temporal_predictor_without_relational_state
+    - legal_random_intervention
+  development_gate:
+    intervention_effect_nrmse_ratio_vs_random_maximum: 0.90
+    four_step_rollout_nrmse_ratio_vs_random_maximum: 1.00
+    intervention_effect_90_coverage_minimum: 0.85
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  validation_preflight:
+    hyperparameters_and_checkpoint_step_frozen_before_validation_seeds: true
+    freeze_trial_only_if:
+      median_intervention_effect_nrmse_ratio_vs_random_maximum: 0.90
+      median_four_step_rollout_nrmse_ratio_vs_random_maximum: 1.00
+      each_seed_four_step_rollout_nrmse_ratio_vs_random_maximum: 1.05
+      intervention_effect_90_coverage_minimum: 0.85
+      deterministic_replay_rate: 1.00
+      split_leakage_findings: 0
+      all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    intervention_effect_nrmse_ratio_vs_random_maximum: 0.90
+    intervention_effect_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_random_maximum: 1.00
+    four_step_rollout_paired_bootstrap_90_percent_ratio_upper_bound_maximum: 1.05
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - shared_loss_mixed_intervention_effect_nrmse
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports objective routing in generated simulators only.
+    It is not evidence of real-world causal discovery, safe real-world
+    experimentation, profitable business ideas, language-independent thought
+    or production readiness.
+result: research/results/CHM-W-H006.json

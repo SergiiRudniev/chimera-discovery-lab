@@ -414,7 +414,7 @@
 - **Registration:** Complete.
 - **Result:** `not_run`.
 - **Decision:** Deferred until real transition data is split and frozen.
-# 2026-07-15 — Meta-World H005 development gate
+## 2026-07-15 — Meta-World H005 development gate
 
 - **Hypothesis:** `CHM-W-H005`; a paired 50:50 probe/random curriculum without
   mechanism-discrimination loss versus a matched paired random-only curriculum.
@@ -430,7 +430,7 @@
   checkpoint step 300 and seeds 260911–260913 before opening validation.
 - **Boundary:** Development evidence only. Frozen validation and every test split
   remained unopened; no checkpoint was promoted.
-# 2026-07-15 — Meta-World H005 frozen validation
+## 2026-07-15 — Meta-World H005 frozen validation
 
 - **Protocol:** `CHM-W-H005`, frozen at commit `5b6fa44`; checkpoint step 300
   and seeds 260911–260913 were fixed before metrics were opened.
@@ -447,3 +447,23 @@
   without a seed-stable intervention-effect advantage.
 - **Boundary:** Frozen-validation evidence only; no test, real-world or
   production claim.
+
+## 2026-07-15 — CHM-W-H006 registration
+
+- **Question:** Can probes improve latent dynamics while continuous random
+  interventions alone supervise the intervention-effect likelihood?
+- **Diagnosis:** In a 256-trajectory train-only audit, probe actions had three
+  magnitudes and 39.4% exact-zero effects; random actions had 3,840 magnitudes
+  and 16.2% exact-zero effects. H005's shared loss improved rollout but failed
+  its effect-transfer validation gate.
+- **Change:** Retain paired 50:50 trajectories. Apply state and variance losses
+  to both halves, but apply effect NLL only to the random half. The binary route
+  stays in the trainer and never enters model forward.
+- **Controls:** Routed mixed, shared-loss mixed and matched random-only arms use
+  the same model, worlds, trajectory count, optimizer and evaluator.
+- **Development gate:** Seed `260914`; require effect ratio at most `0.90` and
+  rollout ratio at most `1.00` versus random-only before freezing validation.
+- **Validation discipline:** Seeds `260915..260917` and test remain sealed.
+- **Status:** `not_run`; no H006 metric or checkpoint exists.
+- **Boundary:** Simulator objective-routing evidence only; no real-world,
+  business-utility or production claim.

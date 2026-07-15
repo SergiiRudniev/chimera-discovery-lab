@@ -60,3 +60,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H005.yaml
     result: research/results/CHM-W-H005.json
+  - id: CHM-W-H006
+    title: Policy-selective intervention-effect supervision
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H006.yaml
+    result: research/results/CHM-W-H006.json
