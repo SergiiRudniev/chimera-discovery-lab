@@ -1,0 +1,106 @@
+{
+  "corpus_id": "CHM-VENTURE-C0",
+  "fitness": {
+    "all_fields_argument_loss": "not_recommended",
+    "exact_registered_program_reconstruction": "not_fully_identifiable",
+    "exact_target_graph_reconstruction": "identifiable"
+  },
+  "grain": "one corrupted input graph mapped to one registered inverse program",
+  "integrity": {
+    "cross_split_input_overlap": {
+      "train_test": 0,
+      "train_validation": 0,
+      "validation_test": 0
+    }
+  },
+  "intended_use": "exact structural reconstruction pretraining",
+  "limitations": [
+    {
+      "finding": "Identical training inputs have conflicting edit-program targets.",
+      "impact": "Exact registered-program reconstruction is not fully identifiable from the model input.",
+      "severity": "high"
+    },
+    {
+      "finding": "41.4% of raw argument targets are irrelevant to their edit operation.",
+      "impact": "An all-fields loss spends capacity predicting placeholder zeros and dilutes operation-specific supervision.",
+      "severity": "high"
+    }
+  ],
+  "recommended_automated_tests": [
+    "identical input graphs must map to one target graph within each split",
+    "cross-split input graph overlap must remain zero",
+    "argument loss masks must follow the edit-operation schema"
+  ],
+  "splits": {
+    "test": {
+      "conflicting_program_examples": [
+        [
+          "CVC0-TE-08-016",
+          "CVC0-TE-08-046"
+        ]
+      ],
+      "conflicting_target_graph_examples": [],
+      "first_operation_majority_upper_bound": 1.0,
+      "irrelevant_argument_target_rate": 0.4192913385826772,
+      "operation_counts": {
+        "CONNECT": 82,
+        "INVERT_RELATION": 89,
+        "SUBSTITUTE": 83
+      },
+      "records": 128,
+      "records_in_repeated_input_groups": 2,
+      "registered_program_majority_upper_bound": 0.9921875,
+      "repeated_input_groups": 1,
+      "target_graph_majority_upper_bound": 1.0,
+      "unique_input_graphs": 127
+    },
+    "train": {
+      "conflicting_program_examples": [
+        [
+          "CVC0-TR-04-009",
+          "CVC0-TR-04-013"
+        ]
+      ],
+      "conflicting_target_graph_examples": [],
+      "first_operation_majority_upper_bound": 1.0,
+      "irrelevant_argument_target_rate": 0.4127296587926509,
+      "operation_counts": {
+        "CONNECT": 266,
+        "INVERT_RELATION": 233,
+        "SUBSTITUTE": 263
+      },
+      "records": 384,
+      "records_in_repeated_input_groups": 2,
+      "registered_program_majority_upper_bound": 0.9973958333333334,
+      "repeated_input_groups": 1,
+      "target_graph_majority_upper_bound": 1.0,
+      "unique_input_graphs": 383
+    },
+    "validation": {
+      "conflicting_program_examples": [
+        [
+          "CVC0-VA-06-019",
+          "CVC0-VA-06-020"
+        ],
+        [
+          "CVC0-VA-06-051",
+          "CVC0-VA-06-056"
+        ]
+      ],
+      "conflicting_target_graph_examples": [],
+      "first_operation_majority_upper_bound": 1.0,
+      "irrelevant_argument_target_rate": 0.4133858267716536,
+      "operation_counts": {
+        "CONNECT": 88,
+        "INVERT_RELATION": 80,
+        "SUBSTITUTE": 86
+      },
+      "records": 128,
+      "records_in_repeated_input_groups": 4,
+      "registered_program_majority_upper_bound": 0.984375,
+      "repeated_input_groups": 2,
+      "target_graph_majority_upper_bound": 1.0,
+      "unique_input_graphs": 126
+    }
+  }
+}

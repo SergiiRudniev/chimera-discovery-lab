@@ -1,0 +1,44 @@
+schema_version: 1
+trial_id: CHM-V-T001
+name: Venture Trial T1
+model: Chimera Venture M0
+corpus: Chimera Venture Corpus C0
+hypothesis_context: CHM-V-H001
+status: registered
+scope: corrective_engineering_qualification
+registered_at: 2026-07-15
+config: configs/venture/venture_trial_t1.yaml
+motivation:
+  t0_status: completed_with_gaps
+  t0_train_exact_graph_rate: 0.0
+  data_quality_findings:
+    target_graph_majority_upper_bound: 1.0
+    registered_program_majority_upper_bound: 0.9973958333333334
+    irrelevant_argument_target_rate: 0.4127296587926509
+changes_from_t0:
+  - supervise edit arguments only when the selected operation consumes them
+  - add 100-step warmup and cosine decay to 0.00003
+  - increase batch size from 8 to 16
+  - increase optimization steps from 300 to 3000
+  - select checkpoints by validation exact-graph rate, breaking ties by loss
+preflight:
+  scope: first 16 training records only
+  validation_opened: false
+  test_opened: false
+  steps: 500
+  exact_graph_rate: 1.0
+  exact_program_rate: 1.0
+acceptance:
+  finite_training: true
+  training_loss_reduced: true
+  train_exact_graph_rate_min: 0.95
+  invalid_candidate_rate_max: 0.01
+  deterministic_replay: true
+test_usage:
+  checkpoint_selection: forbidden
+  threshold_selection: forbidden
+  final_reporting_only: true
+claim_boundary: >-
+  T1 qualifies structural reconstruction and constrained generation only. It
+  cannot decide novelty, commercial utility or the CHM-V-H001 language
+  hypothesis.

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import copy
+import math
 import random
 from dataclasses import asdict
 from pathlib import Path
@@ -70,6 +71,9 @@ class ChimeraTrainer:
         )
         batch = batch.to(self.device)
         self.model.train()
+        learning_rate = self._learning_rate_for_step(self.step + 1)
+        for parameter_group in self.optimizer.param_groups:
+            parameter_group["lr"] = learning_rate
         self.optimizer.zero_grad(set_to_none=True)
         output = self.model(batch.graph, batch.edits)
         with torch.no_grad():
@@ -80,6 +84,7 @@ class ChimeraTrainer:
             batch.scores,
             target_state,
             weights=self.loss_weights,
+            argument_loss_mode=self.config.argument_loss_mode,
         )
         losses["loss"].backward()  # type: ignore[no-untyped-call]
         gradient_norm = nn.utils.clip_grad_norm_(self.model.parameters(), self.config.max_grad_norm)
@@ -88,6 +93,7 @@ class ChimeraTrainer:
         self.step += 1
         metrics = {name: float(value.detach().cpu()) for name, value in losses.items()}
         metrics["gradient_norm"] = float(gradient_norm.detach().cpu())
+        metrics["learning_rate"] = learning_rate
         return metrics
 
     @torch.no_grad()
@@ -107,8 +113,21 @@ class ChimeraTrainer:
             batch.scores,
             target_state,
             weights=self.loss_weights,
+            argument_loss_mode=self.config.argument_loss_mode,
         )
         return {name: float(value.detach().cpu()) for name, value in losses.items()}
+
+    def _learning_rate_for_step(self, step: int) -> float:
+        if self.config.learning_rate_schedule == "constant":
+            return self.config.learning_rate
+        if self.config.warmup_steps and step <= self.config.warmup_steps:
+            return self.config.learning_rate * step / self.config.warmup_steps
+        decay_steps = self.config.steps - self.config.warmup_steps
+        progress = (step - self.config.warmup_steps) / max(decay_steps, 1)
+        progress = min(max(progress, 0.0), 1.0)
+        cosine = 0.5 * (1.0 + math.cos(math.pi * progress))
+        floor = self.config.minimum_learning_rate
+        return floor + (self.config.learning_rate - floor) * cosine
 
     @torch.no_grad()
     def _update_target_encoder(self) -> None:

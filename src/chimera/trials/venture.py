@@ -27,7 +27,7 @@ from chimera.generation.mutate import apply_edit_program, validate_edit_program
 from chimera.generation.sampler import sample_edit_program
 from chimera.models.venture import ChimeraVenture
 from chimera.schema import SCORE_NAMES, EdgeType, EditOperation, NodeType
-from chimera.training.objectives import chimera_loss
+from chimera.training.objectives import chimera_loss, edit_argument_masks
 from chimera.training.trainer import ChimeraTrainer
 
 
@@ -97,6 +97,7 @@ def evaluate_split(
             batch.scores,
             target_state,
             weights=trainer.loss_weights,
+            argument_loss_mode=trainer.config.argument_loss_mode,
         )
         count = batch.graph.batch_size
         examples += count
@@ -114,13 +115,25 @@ def evaluate_split(
         mask = batch.edits.step_mask
         active_tokens += int(mask.sum())
         operation_correct += int(((predicted.operations == batch.edits.operations) & mask).sum())
-        fields_equal = (
-            (predicted.operations == batch.edits.operations)
-            & (predicted.source_nodes == batch.edits.source_nodes)
-            & (predicted.target_nodes == batch.edits.target_nodes)
-            & (predicted.node_types == batch.edits.node_types)
-            & (predicted.edge_types == batch.edits.edge_types)
-        )
+        fields_equal = predicted.operations == batch.edits.operations
+        predicted_fields = {
+            "source": predicted.source_nodes,
+            "target": predicted.target_nodes,
+            "node_type": predicted.node_types,
+            "edge_type": predicted.edge_types,
+        }
+        target_fields = {
+            "source": batch.edits.source_nodes,
+            "target": batch.edits.target_nodes,
+            "node_type": batch.edits.node_types,
+            "edge_type": batch.edits.edge_types,
+        }
+        if trainer.config.argument_loss_mode == "operation_conditioned":
+            relevance = edit_argument_masks(batch.edits)
+        else:
+            relevance = dict.fromkeys(predicted_fields, mask)
+        for name in predicted_fields:
+            fields_equal &= (predicted_fields[name] == target_fields[name]) | ~relevance[name]
         exact_programs += int((fields_equal | ~mask).all(dim=1).sum())
         executed = apply_edit_program(batch.graph, predicted)
         exact_graphs += int(_same_graph_per_row(executed, batch.next_graph).sum())
@@ -425,6 +438,7 @@ def run_venture_trial(
     history: list[dict[str, Any]] = []
     first_loss: float | None = None
     best_validation_loss = math.inf
+    best_validation_exact_graph = -1.0
     best_step = 0
     best_state: dict[str, Tensor] | None = None
     last_training_loss = math.inf
@@ -448,25 +462,39 @@ def run_venture_trial(
                 batch_size=config.evaluation.evaluation_batch_size,
             )
             history.append({"kind": "validation", "step": step, **validation_metrics})
-            if validation_metrics["loss"] < best_validation_loss:
+            if config.evaluation.checkpoint_selection == "validation_loss":
+                better = validation_metrics["loss"] < best_validation_loss
+            else:
+                exact_graph = validation_metrics["exact_graph_rate"]
+                better = exact_graph > best_validation_exact_graph or (
+                    exact_graph == best_validation_exact_graph
+                    and validation_metrics["loss"] < best_validation_loss
+                )
+            if better:
                 best_validation_loss = validation_metrics["loss"]
+                best_validation_exact_graph = validation_metrics["exact_graph_rate"]
                 best_step = step
                 best_state = {
                     name: value.detach().cpu().clone()
                     for name, value in trainer.model.state_dict().items()
                 }
-        print(
-            json.dumps(
-                {
-                    "trial_id": config.trial_id,
-                    "step": step,
-                    "steps": config.training.steps,
-                    "loss": train_metrics["loss"],
-                },
-                sort_keys=True,
-            ),
-            flush=True,
-        )
+        if (
+            step == 1
+            or step % config.evaluation.eval_interval == 0
+            or step == config.training.steps
+        ):
+            print(
+                json.dumps(
+                    {
+                        "trial_id": config.trial_id,
+                        "step": step,
+                        "steps": config.training.steps,
+                        "loss": train_metrics["loss"],
+                    },
+                    sort_keys=True,
+                ),
+                flush=True,
+            )
 
     if best_state is None or first_loss is None:
         raise RuntimeError("training completed without a validation checkpoint")
@@ -483,7 +511,9 @@ def run_venture_trial(
     )
     finished_at = datetime.now(timezone.utc)
 
-    checkpoint_name = f"chimera-venture-m0-t0-step{best_step:06d}.pt"
+    trial_number = int(config.trial_id.rsplit("T", maxsplit=1)[1])
+    trial_slug = f"t{trial_number}"
+    checkpoint_name = f"chimera-venture-m0-{trial_slug}-step{best_step:06d}.pt"
     checkpoint_path = checkpoints / checkpoint_name
     _save_inference_checkpoint(
         trainer,
@@ -501,7 +531,7 @@ def run_venture_trial(
         "model": "Chimera Venture M0",
         "parameters": trainer.model.trainable_parameter_count(),
         "best_step": best_step,
-        "release_tag": "venture-m0-t0",
+        "release_tag": f"venture-m0-{trial_slug}",
         "claim_boundary": "engineering structural pretraining; no creativity claim",
     }
     checks = {
@@ -531,6 +561,8 @@ def run_venture_trial(
         "first_training_loss": first_loss,
         "last_training_loss": last_training_loss,
         "best_validation_loss": best_validation_loss,
+        "best_validation_exact_graph_rate": best_validation_exact_graph,
+        "checkpoint_selection": config.evaluation.checkpoint_selection,
         "metrics": {
             "train": train_metrics,
             "validation": validation_metrics,
@@ -540,7 +572,8 @@ def run_venture_trial(
         "checks": checks,
         "checkpoint": checkpoint_manifest,
         "claim_boundary": (
-            "T0 qualifies engineering behavior only; it does not evaluate novelty, "
+            f"{config.trial_id} qualifies engineering behavior only; it does not "
+            "evaluate novelty, "
             "commercial utility or the CHM-V-H001 language hypothesis."
         ),
     }

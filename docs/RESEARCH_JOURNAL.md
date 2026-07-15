@@ -1,5 +1,19 @@
 # Research Journal
 
+## 2026-07-15 — Venture Trial T1 registration
+
+- **Protocol:** `CHM-V-T001`; corrective engineering qualification after T0.
+- **Target audit:** Target-graph reconstruction is fully identifiable in C0;
+  registered edit-program reconstruction has a 99.74% train majority upper
+  bound because one duplicated input has alternative valid programs.
+- **Loss audit:** 41.27% of raw train argument slots are irrelevant placeholders
+  for their selected operation.
+- **Correction:** Operation-conditioned argument loss, cosine learning-rate
+  schedule, 3,000 steps and exact-graph checkpoint selection.
+- **Preflight:** A 500-step probe on the first 16 training records reached 100%
+  exact graph and program reconstruction. Validation and test were not opened.
+- **Status:** Registered; target metrics not opened.
+
 ## 2026-07-15 — Venture Trial T0
 
 - **Protocol:** `CHM-V-T000`, frozen at commit `72fcec8` before metrics were opened.
@@ -51,8 +65,8 @@
 - **Question:** Does non-linguistic graph generation improve blind-rated novelty
   at matched feasibility versus a text baseline?
 - **Registration:** Complete.
-- **Result:** `not_run`; Corpus C0 is structural pretraining data, and no
-  evidence-bearing evaluation corpus or trained checkpoint exists.
+- **Result:** `not_run`; T0 produced an unqualified structural-pretraining
+  checkpoint, but no evidence-bearing evaluation corpus or matched baseline exists.
 - **Decision:** Pending.
 
 ### CHM-V-H002
