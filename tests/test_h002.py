@@ -23,6 +23,7 @@ from chimera.meta_world.h002 import (
     materialize_sequence_sample,
     run_h002_preflight,
 )
+from chimera.meta_world.h002.objectives import _mechanism_alignment
 
 
 def _model_config() -> MetaWorldModelConfig:
@@ -216,6 +217,19 @@ def test_h002_mechanism_embedding_reads_only_past_actions() -> None:
         original_output.proposal_embedding,
         changed_output.proposal_embedding,
     )
+
+
+def test_h002_alignment_penalizes_collapsed_embeddings() -> None:
+    mechanism_ids = torch.tensor([0, 0, 1, 1])
+    collapsed = torch.ones(4, 2)
+    separated = torch.tensor(
+        [[1.0, 0.0], [1.0, 0.0], [-1.0, 0.0], [-1.0, 0.0]]
+    )
+
+    collapsed_loss = _mechanism_alignment(collapsed, mechanism_ids, margin=0.2)
+    separated_loss = _mechanism_alignment(separated, mechanism_ids, margin=0.2)
+
+    assert separated_loss < collapsed_loss
 
 
 def test_sequence_sampler_rejects_partial_alignment_groups() -> None:

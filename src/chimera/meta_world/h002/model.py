@@ -34,21 +34,12 @@ class RelationalSequenceWorldModel(nn.Module):
             [SpatialBlock(config) for _ in range(config.spatial_layers)]
         )
         self.spatial_norm = nn.LayerNorm(hidden)
-        self.time_embedding = nn.Parameter(torch.empty(1, config.context_steps, hidden))
-        temporal_layer = nn.TransformerEncoderLayer(
-            d_model=hidden,
-            nhead=config.num_heads,
-            dim_feedforward=hidden * config.feedforward_multiplier,
-            dropout=config.dropout,
-            activation="gelu",
+        self.slot_temporal_encoder = nn.GRU(
+            input_size=hidden,
+            hidden_size=hidden,
+            num_layers=max(config.temporal_layers, 1),
+            dropout=config.dropout if config.temporal_layers > 1 else 0.0,
             batch_first=True,
-            norm_first=True,
-        )
-        self.slot_temporal_encoder = nn.TransformerEncoder(
-            temporal_layer,
-            num_layers=config.temporal_layers,
-            norm=nn.LayerNorm(hidden),
-            enable_nested_tensor=False,
         )
         self.intervention_type_embedding = nn.Embedding(
             config.intervention_types,
@@ -80,6 +71,7 @@ class RelationalSequenceWorldModel(nn.Module):
         )
         self.global_condition = nn.Linear(hidden, hidden)
         self.intervention_spatial = SpatialBlock(config)
+        self.intervention_spatial_scale = nn.Parameter(torch.zeros(()))
         self.slot_output_norm = nn.LayerNorm(hidden)
         self.state_head = nn.Sequential(
             nn.Linear(hidden, hidden),
@@ -92,10 +84,6 @@ class RelationalSequenceWorldModel(nn.Module):
             nn.Linear(hidden, config.effect_dimensions * 2),
         )
         self.mechanism_projection = nn.Linear(hidden, hidden)
-        self.reset_parameters()
-
-    def reset_parameters(self) -> None:
-        nn.init.normal_(self.time_embedding, mean=0.0, std=0.02)
 
     @staticmethod
     def _gather_time(values: Tensor, steps: Tensor) -> Tensor:
@@ -176,31 +164,21 @@ class RelationalSequenceWorldModel(nn.Module):
         )
         active = batch.slot_mask.unsqueeze(-1).to(spatial_states.dtype)
         spatial_states = spatial_states * active
-        temporal_input = spatial_states + self.time_embedding[:, :, None, :] * active
-        temporal_input = temporal_input.permute(0, 2, 1, 3).reshape(
+        temporal_input = spatial_states.permute(0, 2, 1, 3).reshape(
             batch_size * config.max_slots,
             config.context_steps,
             config.hidden_dim,
         )
-        causal_mask = torch.triu(
-            torch.ones(
-                config.context_steps,
-                config.context_steps,
-                dtype=torch.bool,
-                device=temporal_input.device,
-            ),
-            diagonal=1,
-        )
-        temporal_states = self.slot_temporal_encoder(
-            temporal_input,
-            mask=causal_mask,
-        ).reshape(
+        temporal_delta, _ = self.slot_temporal_encoder(temporal_input)
+        temporal_delta = temporal_delta.reshape(
             batch_size,
             config.max_slots,
             config.context_steps,
             config.hidden_dim,
         )
-        temporal_states = temporal_states.permute(0, 2, 1, 3) * active
+        temporal_states = (
+            temporal_delta.permute(0, 2, 1, 3) + spatial_states
+        ) * active
         final_steps = batch.time_mask.sum(dim=1) - 1
         final_slots = self._gather_time(temporal_states, final_steps)
         final_slot_mask = self._gather_time(batch.slot_mask, final_steps)
@@ -246,11 +224,14 @@ class RelationalSequenceWorldModel(nn.Module):
             + self.role_encoder(roles)
             + self.global_condition(transition).unsqueeze(1)
         )
-        conditioned_slots = self.intervention_spatial(
+        propagated_slots = self.intervention_spatial(
             conditioned_slots,
             final_relations,
             final_slot_mask,
         )
+        conditioned_slots = conditioned_slots + torch.tanh(
+            self.intervention_spatial_scale
+        ) * (propagated_slots - conditioned_slots)
         conditioned_slots = self.slot_output_norm(conditioned_slots)
         decoded = self.state_head(conditioned_slots)
         delta_mean, raw_state_log_variance = decoded.chunk(2, dim=-1)

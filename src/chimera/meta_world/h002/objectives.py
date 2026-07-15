@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import math
+
 import torch
 import torch.nn.functional as F
 from torch import Tensor
@@ -46,7 +48,11 @@ def _mechanism_alignment(
         if bool(negatives.any())
         else zero
     )
-    return positive_loss + negative_loss
+    embedding_scale = 1.0 / math.sqrt(normalized.shape[-1])
+    standard_deviation = normalized.std(dim=0, unbiased=False)
+    anti_collapse = torch.relu(embedding_scale - standard_deviation).mean()
+    anti_collapse = anti_collapse / embedding_scale
+    return positive_loss + negative_loss + anti_collapse
 
 
 def _variance_floor(embeddings: Tensor) -> Tensor:
@@ -92,4 +98,3 @@ def h002_loss(
         "alignment_loss": alignment,
         "variance_loss": variance,
     }
-
