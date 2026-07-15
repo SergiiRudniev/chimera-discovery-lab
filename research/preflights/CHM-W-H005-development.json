@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "preflight_id": "CHM-W-H005-DEVELOPMENT-001",
+  "hypothesis_id": "CHM-W-H005",
+  "status": "completed_development_preflight",
+  "scientific_result": false,
+  "registered_trial_executed": false,
+  "seed": 260910,
+  "git_commit": "7b831c2eba3cf674ccdc57bfbee1ee2b1c3dd03b",
+  "dataset_config_sha256": "0b3e06e1c3b0969471e05751d8825101f711bc1c419d272c5ff9c6e555e05b45",
+  "arms": {
+    "mixed_probe_random_closed_loop_without_discrimination": {
+      "run_id": "H005-DEVELOPMENT-MIXED-A",
+      "config": "configs/meta_world/world_h005_development_mixed.yaml",
+      "config_sha256": "a1ec137c2710567cb4cf44f3046379dedbdc4471c46a4e3bb586e55c884dce87",
+      "selected_step": 300,
+      "metrics": {
+        "intervention_effect_nrmse": 0.8274502348998074,
+        "four_step_rollout_nrmse": 0.47870004177093506,
+        "one_step_prediction_rmse": 0.08321539470930465,
+        "intervention_effect_90_coverage": 0.98125,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "checkpoint": {
+        "sha256": "4dd5f210650ec1c0bd4b9b9244e8fe715ef3cf59be56c72dd10978e03aeeafd3",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 84.2866159999976,
+      "peak_memory_bytes": 2165645312
+    },
+    "random_only_closed_loop_without_discrimination": {
+      "run_id": "H005-DEVELOPMENT-RANDOM-A",
+      "config": "configs/meta_world/world_h005_development_random.yaml",
+      "config_sha256": "8a8ac09dd79501e9537d5b1fb645202ac5f0e5f9065f43a07b07a635c8fe564a",
+      "selected_step": 300,
+      "metrics": {
+        "intervention_effect_nrmse": 0.927400196238881,
+        "four_step_rollout_nrmse": 0.5058869123458862,
+        "one_step_prediction_rmse": 0.08582014182137515,
+        "intervention_effect_90_coverage": 0.98125,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "checkpoint": {
+        "sha256": "1d0f6201dd6ee07cd9b1e513dac9e62bf6a37272882ed874e2f18feb44458115",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 83.14008580002701,
+      "peak_memory_bytes": 2165645312
+    },
+    "probe_only_closed_loop_without_discrimination": {
+      "run_id": "H005-DEVELOPMENT-PROBE-A",
+      "config": "configs/meta_world/world_h005_development_probe.yaml",
+      "config_sha256": "188ac9a868fa6d19562ffbfe44836a148d60bd90d2a7f22743a3d406eeff8614",
+      "selected_step": 300,
+      "metrics": {
+        "intervention_effect_nrmse": 1.2908178105082413,
+        "four_step_rollout_nrmse": 0.4714757800102234,
+        "one_step_prediction_rmse": 0.08255454767074746,
+        "intervention_effect_90_coverage": 0.98125,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "checkpoint": {
+        "sha256": "41ccaf40f035692bf2415827fe2634277c345accaf0826c457dd9bf5354a3aca",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 74.86654519999865,
+      "peak_memory_bytes": 2165645312
+    }
+  },
+  "comparison": {
+    "mixed_vs_matched_random": {
+      "intervention_effect_nrmse_ratio": 0.8922256413742138,
+      "four_step_rollout_nrmse_ratio": 0.9462589960098376,
+      "one_step_prediction_rmse_ratio": 0.9696487670983814
+    }
+  },
+  "development_gate": {
+    "intervention_effect_nrmse_ratio_maximum": 0.9,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "deterministic_dataset_replay_rate": 1.0,
+    "split_leakage_findings": 0,
+    "all_metrics_finite": true,
+    "passed": true
+  },
+  "decision": "freeze_H005_hyperparameters_and_open_registered_validation_seeds",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "frozen_validation_seeds_opened": false,
+  "test_metrics_opened": false,
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "claim_boundary": "Development-only evidence used to freeze H005 validation runs; no frozen-validation, test-transfer, causal-discovery, real-world, business-utility or production-checkpoint claim."
+}

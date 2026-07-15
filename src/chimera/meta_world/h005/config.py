@@ -64,10 +64,22 @@ class H005RunConfig:
     curriculum: H005CurriculumConfig
     closed_loop: H003ClosedLoopConfig
     evaluation: H002EvaluationConfig
+    frozen_checkpoint_step: int | None = None
 
     def __post_init__(self) -> None:
-        if not self.run_id or self.mode not in {"preflight", "trial"}:
+        if not self.run_id or self.mode not in {
+            "preflight",
+            "frozen_validation",
+            "trial",
+        }:
             raise ValueError("run_id and mode must be registered")
+        if self.mode == "preflight" and self.frozen_checkpoint_step is not None:
+            raise ValueError("development preflight cannot declare a frozen checkpoint")
+        if self.mode == "frozen_validation":
+            if self.training.seed not in {260911, 260912, 260913}:
+                raise ValueError("H005 frozen validation seed is not preregistered")
+            if self.frozen_checkpoint_step != self.training.steps:
+                raise ValueError("H005 frozen validation must evaluate its final step")
         worlds = self.dataset.worlds
         if self.model.observation_features != worlds.observation_features:
             raise ValueError("model observation features differ from WG1")
@@ -84,8 +96,10 @@ class H005RunConfig:
         views = worlds.views_per_mechanism
         if self.training.batch_size % views:
             raise ValueError("training batch must contain complete mechanism views")
-        if self.arm is H005Arm.MIXED and self.training.batch_size % (2 * views):
-            raise ValueError("mixed batch halves must each contain complete view groups")
+        if self.arm in {H005Arm.MIXED, H005Arm.RANDOM_ONLY} and (
+            self.training.batch_size % (2 * views)
+        ):
+            raise ValueError("paired batch halves must contain complete view groups")
         if self.evaluation.validation_trajectories % views:
             raise ValueError("validation must contain complete mechanism views")
         if self.closed_loop.rollout_horizon != self.evaluation.rollout_horizon:
@@ -110,6 +124,7 @@ class H005RunConfig:
             "curriculum",
             "closed_loop",
             "evaluation",
+            "frozen_checkpoint_step",
         }
         unknown = set(values) - allowed
         if unknown:
@@ -134,6 +149,11 @@ class H005RunConfig:
             evaluation=H002EvaluationConfig.from_mapping(
                 _mapping(values["evaluation"], "evaluation")
             ),
+            frozen_checkpoint_step=(
+                int(values["frozen_checkpoint_step"])
+                if values.get("frozen_checkpoint_step") is not None
+                else None
+            ),
         )
 
     @classmethod
@@ -153,4 +173,5 @@ class H005RunConfig:
             "curriculum": asdict(self.curriculum),
             "closed_loop": asdict(self.closed_loop),
             "evaluation": asdict(self.evaluation),
+            "frozen_checkpoint_step": self.frozen_checkpoint_step,
         }

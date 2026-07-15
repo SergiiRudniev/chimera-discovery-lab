@@ -12,7 +12,7 @@ from chimera.meta_world.h002 import (
     materialize_sequence_sample,
 )
 from chimera.meta_world.h004 import H004DatasetConfig, SeededRandomPolicy
-from chimera.meta_world.h005 import run_h005_preflight
+from chimera.meta_world.h005 import run_h005_preflight, run_h005_validation
 
 
 def _model_config() -> MetaWorldModelConfig:
@@ -153,3 +153,36 @@ def test_h005_development_preflight_keeps_frozen_seeds_and_test_closed(
     assert result["frozen_validation_seeds_opened"] is False
     assert result["test_metrics_opened"] is False
     assert result["opened_splits"] == ["train", "validation"]
+
+
+def test_h005_frozen_validation_uses_registered_final_step(tmp_path: Path) -> None:
+    payload = {
+        "run_id": "H005-VALIDATION-MIXED-S260911",
+        "mode": "frozen_validation",
+        "arm": "mixed_probe_random_closed_loop_without_discrimination",
+        "dataset_config": "configs/meta_world/world_generators_h004.yaml",
+        "model": _model_config().__dict__,
+        "training": {**_training_config().__dict__, "seed": 260911},
+        "curriculum": {"probe_fraction": 0.5},
+        "closed_loop": {
+            "rollout_horizon": 4,
+            "queue_minimum_entries": 4,
+            "queue_maximum_entries": 8,
+        },
+        "evaluation": {
+            "evaluation_interval": 1,
+            "validation_trajectories": 4,
+            "rollout_horizon": 4,
+        },
+        "frozen_checkpoint_step": 2,
+    }
+    config_path = tmp_path / "h005-validation.yaml"
+    config_path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+
+    result = run_h005_validation(config_path, tmp_path / "validation")
+
+    assert result["status"] == "completed_frozen_validation"
+    assert result["seed"] == 260911
+    assert result["best_step"] == 2
+    assert result["frozen_validation_seeds_opened"] is True
+    assert result["test_metrics_opened"] is False

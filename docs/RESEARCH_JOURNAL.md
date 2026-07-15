@@ -414,3 +414,19 @@
 - **Registration:** Complete.
 - **Result:** `not_run`.
 - **Decision:** Deferred until real transition data is split and frozen.
+# 2026-07-15 — Meta-World H005 development gate
+
+- **Hypothesis:** `CHM-W-H005`; a paired 50:50 probe/random curriculum without
+  mechanism-discrimination loss versus a matched paired random-only curriculum.
+- **Fairness correction:** Both primary arms saw the same mechanisms and number
+  of unique worlds; each world contributed two action-policy trajectories.
+- **Runtime:** Three 300-step, 65,213,950-parameter BF16 runs on the NVIDIA
+  GeForce RTX 5070; peak allocated memory was 2,165,645,312 bytes.
+- **Primary development comparison:** Mixed/random intervention-effect NRMSE
+  ratio was 0.89223 and four-step rollout NRMSE ratio was 0.94626.
+- **Diagnostic:** Probe-only improved rollout but worsened intervention-effect
+  error, supporting a mixture rather than deterministic probes alone.
+- **Decision:** Development gate passed. Freeze architecture, optimizer,
+  checkpoint step 300 and seeds 260911–260913 before opening validation.
+- **Boundary:** Development evidence only. Frozen validation and every test split
+  remained unopened; no checkpoint was promoted.

@@ -143,14 +143,17 @@ def _policy_label(arm: H005Arm) -> str:
     return "seeded_random"
 
 
-def _execute_h005_preflight(
+def _execute_h005_run(
     config_path: str | Path,
     output_dir: str | Path,
+    *,
+    expected_mode: str,
 ) -> dict[str, Any]:
     config_file = Path(config_path)
     config = H005RunConfig.from_yaml(config_file)
-    if config.mode != "preflight":
-        raise ValueError("run_h005_preflight only accepts mode=preflight")
+    if config.mode != expected_mode:
+        raise ValueError(f"H005 runner expected mode={expected_mode}")
+    frozen_validation = config.mode == "frozen_validation"
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError("preflight output directory must be empty")
@@ -202,7 +205,8 @@ def _execute_h005_preflight(
             checkpoint_path,
         )
 
-    save_checkpoint(best_step)
+    if not frozen_validation:
+        save_checkpoint(best_step)
     metric_rows: list[dict[str, Any]] = [
         {
             "phase": "validation",
@@ -266,11 +270,16 @@ def _execute_h005_preflight(
                     **evaluation,
                 }
             )
-            if score < best_score:
+            select_checkpoint = (
+                frozen_validation and step == config.frozen_checkpoint_step
+            ) or (not frozen_validation and score < best_score)
+            if select_checkpoint:
                 best_score = score
                 best_step = step
                 best_metrics = evaluation
                 save_checkpoint(best_step)
+    if frozen_validation and best_step != config.frozen_checkpoint_step:
+        raise RuntimeError("frozen H005 checkpoint step was not evaluated")
     metrics_path = output / "metrics.jsonl"
     metrics_path.write_text(
         "".join(json.dumps(row, sort_keys=True) + "\n" for row in metric_rows),
@@ -291,23 +300,32 @@ def _execute_h005_preflight(
         ),
         "selection_score": best_score,
         "promoted": False,
-        "scope": "development-only H005 preflight",
+        "scope": (
+            "frozen-validation-only H005 run"
+            if frozen_validation
+            else "development-only H005 preflight"
+        ),
         "opened_splits": [SplitName.TRAIN.value, SplitName.VALIDATION.value],
     }
     _write_json(output / "checkpoint_manifest.json", checkpoint_manifest)
     result: dict[str, Any] = {
         "run_id": config.run_id,
         "hypothesis_id": "CHM-W-H005",
-        "status": "completed_development_preflight",
-        "decision": "engineering_only",
+        "status": (
+            "completed_frozen_validation"
+            if frozen_validation
+            else "completed_development_preflight"
+        ),
+        "decision": "validation_only" if frozen_validation else "engineering_only",
         "arm": config.arm.value,
+        "seed": config.training.seed,
         "train_action_policy": _policy_label(config.arm),
         "evaluation_action_policy": evaluation_policy.policy_id,
         "model_class": model_class,
         "weights_kind": trainer.evaluation_weights_kind,
         "parameters": _parameter_count(model),
         "opened_splits": [SplitName.TRAIN.value, SplitName.VALIDATION.value],
-        "frozen_validation_seeds_opened": False,
+        "frozen_validation_seeds_opened": frozen_validation,
         "test_metrics_opened": False,
         "initial_validation": initial_evaluation,
         "best_validation": best_metrics,
@@ -336,22 +354,32 @@ def _execute_h005_preflight(
             "checkpoint_manifest": "checkpoint_manifest.json",
         },
         "claim_boundary": (
-            "Development validation only; no frozen validation, test transfer, causal "
-            "discovery, real-world probe safety, business utility or production claim."
+            "Frozen validation only; no test transfer, causal discovery, real-world "
+            "probe safety, business utility or production claim."
+            if frozen_validation
+            else "Development validation only; no frozen validation, test transfer, "
+            "causal discovery, real-world probe safety, business utility or "
+            "production claim."
         ),
     }
     _write_json(output / "result.json", result)
     return result
 
 
-def run_h005_preflight(
+def _run_h005(
     config_path: str | Path,
     output_dir: str | Path,
+    *,
+    expected_mode: str,
 ) -> dict[str, Any]:
-    """Run H005 development preflight and persist failures before re-raising."""
+    """Run one H005 stage and persist failures before re-raising."""
 
     try:
-        return _execute_h005_preflight(config_path, output_dir)
+        return _execute_h005_run(
+            config_path,
+            output_dir,
+            expected_mode=expected_mode,
+        )
     except Exception as error:
         output = Path(output_dir)
         output.mkdir(parents=True, exist_ok=True)
@@ -369,7 +397,9 @@ def run_h005_preflight(
                     "hypothesis_id": "CHM-W-H005",
                     "status": "execution_failed",
                     "decision": "engineering_failure",
-                    "frozen_validation_seeds_opened": False,
+                    "frozen_validation_seeds_opened": (
+                        expected_mode == "frozen_validation"
+                    ),
                     "test_metrics_opened": False,
                     "exception": {
                         "type": type(error).__name__,
@@ -382,3 +412,21 @@ def run_h005_preflight(
                 },
             )
         raise
+
+
+def run_h005_preflight(
+    config_path: str | Path,
+    output_dir: str | Path,
+) -> dict[str, Any]:
+    """Run an H005 development preflight."""
+
+    return _run_h005(config_path, output_dir, expected_mode="preflight")
+
+
+def run_h005_validation(
+    config_path: str | Path,
+    output_dir: str | Path,
+) -> dict[str, Any]:
+    """Run an H005 frozen-validation seed without opening test splits."""
+
+    return _run_h005(config_path, output_dir, expected_mode="frozen_validation")
