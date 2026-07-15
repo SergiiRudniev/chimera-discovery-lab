@@ -1,5 +1,22 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H002 generator implementation
+
+- **Architecture:** Implemented independent `MechanismGenerator`,
+  `WorldGenerator` and `ObservationRenderer` layers with `FlowWorld`,
+  `CompetitionWorld` and `FunnelWorld`.
+- **Modes:** CPU online generation and fixed object-free NPZ evaluation shards
+  use the same seed-addressable trajectory pipeline.
+- **Smoke artifact:** Five splits with 12 trajectories each; manifest SHA-256 is
+  `eda799f1f499078491269724e0ac58839e0b14f23676dafe80d522a52c75d657`.
+- **Integrity:** 15/15 gates passed, including exact replay, source and shard
+  hashes, tensor shapes, finite values, concrete mechanism/world/seed/config
+  isolation and held mechanism/family/renderer policies.
+- **Software validation:** Ruff and strict mypy passed; 62 tests passed with
+  82.40% branch coverage.
+- **Decision:** Engineering pipeline ready for an evidence-bearing trial.
+  `CHM-W-H002` remains `not_run`; no target metrics or checkpoint were created.
+
 ## 2026-07-15 — CHM-W-H002 registration
 
 - **Question:** Does cross-world pretraining with mechanism alignment improve

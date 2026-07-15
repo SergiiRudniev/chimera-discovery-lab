@@ -39,6 +39,11 @@ jobs:
         run: pytest --cov=chimera --cov-report=term-missing
       - name: Research ledger
         run: chimera validate-research
+      - name: Generated-world smoke
+        run: |
+          chimera world-generator-smoke --batch-size 8
+          chimera build-world-generator-dataset --output artifacts/world-generator-smoke --trajectories-per-split 8
+          chimera validate-world-generator-dataset --manifest artifacts/world-generator-smoke/manifest.json
       - name: Venture corpus
         run: chimera validate-corpus
       - name: Registered parameter count
