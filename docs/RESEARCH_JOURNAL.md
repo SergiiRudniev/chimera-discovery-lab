@@ -505,3 +505,23 @@
 - **Status:** `not_run`; no H007 metric or checkpoint exists.
 - **Boundary:** Simulator optimizer evidence only; no real-world, business or
   production claim.
+
+## 2026-07-15 — CHM-W-H007 development preflight
+
+- **Protocol:** Seed `260918`, 300 steps, paired WG1 trajectories and identical
+  hybrid evaluator; frozen validation and test remained sealed.
+- **PCGrad behavior:** Conflict projection activated on 54.33% of steps. Mean
+  cosine was `0.02828`, with range `[-0.84141, 0.87488]`.
+- **Failure:** The selected checkpoint stayed at untrained step 0. By step 300,
+  rollout reached `0.49750`, but effect NRMSE diverged to `12.60578` and 90%
+  coverage collapsed to `0.0`.
+- **Controls:** Standard mixed trained normally to effect `0.81995`, rollout
+  `0.47587`; matched random reached `0.84268`, `0.48917`.
+- **Decision:** Reject symmetric PCGrad, do not open seeds `260919..260921`, do
+  not open test and do not promote any checkpoint.
+- **Diagnosis:** Conflict is real, but global symmetric projection overcorrects
+  the heteroscedastic effect task. The standard mixed model remains seed
+  sensitive; stability should be addressed at prediction aggregation rather
+  than by altering shared training gradients.
+- **Boundary:** Development optimizer evidence only; no transfer or production
+  claim.

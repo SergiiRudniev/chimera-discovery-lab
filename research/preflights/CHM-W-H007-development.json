@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "preflight_id": "CHM-W-H007-DEVELOPMENT-001",
+  "hypothesis_id": "CHM-W-H007",
+  "status": "completed_development_preflight",
+  "scientific_result": false,
+  "registered_trial_executed": false,
+  "seed": 260918,
+  "git_commit": "6b20c68747d987456b3426df660364120ed79f4c",
+  "arms": {
+    "pcgrad_mixed_closed_loop_without_discrimination": {
+      "run_id": "H007-DEVELOPMENT-PCGRAD-A",
+      "config": "configs/meta_world/world_h007_development_pcgrad.yaml",
+      "config_sha256": "ae8a4dac851a9e28f50e2b6a9dc8067a97ef0fb14d19ee42e440d1e2a9156325",
+      "selected_step": 0,
+      "selected_metrics": {
+        "intervention_effect_nrmse": 3.307097689814844,
+        "four_step_rollout_nrmse": 1.050469160079956,
+        "one_step_prediction_rmse": 0.14843237426433145,
+        "intervention_effect_90_coverage": 1.0
+      },
+      "final_step_metrics": {
+        "step": 300,
+        "intervention_effect_nrmse": 12.605779544721246,
+        "four_step_rollout_nrmse": 0.49750396609306335,
+        "one_step_prediction_rmse": 0.08474836642165895,
+        "intervention_effect_90_coverage": 0.0
+      },
+      "training_diagnostics": {
+        "gradient_conflict_fraction": 0.5433333333333333,
+        "gradient_cosine_mean": 0.028276619738075884,
+        "gradient_cosine_minimum": -0.8414065226575836,
+        "gradient_cosine_maximum": 0.8748771336268073
+      },
+      "checkpoint": {
+        "sha256": "0f9d7259319f6e3fd382ac96dc33dbb649019f6383614e8cf4057400439ecaa3",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 143.13172669999767,
+      "peak_memory_bytes": 2956403200
+    },
+    "standard_mixed_closed_loop_without_discrimination": {
+      "run_id": "H007-DEVELOPMENT-STANDARD-A",
+      "config": "configs/meta_world/world_h007_development_standard.yaml",
+      "config_sha256": "ff7525645d0f0e3496e970cd413b8e0b14e5830fdcd1c8c66174e1ce6373cb67",
+      "selected_step": 300,
+      "metrics": {
+        "intervention_effect_nrmse": 0.8199545944185702,
+        "four_step_rollout_nrmse": 0.47586527466773987,
+        "one_step_prediction_rmse": 0.08298171630878794,
+        "intervention_effect_90_coverage": 0.9885416666666667
+      },
+      "checkpoint": {
+        "sha256": "79c3db6799e903dba115f3693297628c71d63acd2b2859d3e4a01b0343ef0b3a",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 82.8849682,
+      "peak_memory_bytes": 2165645312
+    },
+    "matched_random_only_closed_loop_without_discrimination": {
+      "run_id": "H007-DEVELOPMENT-RANDOM-A",
+      "config": "configs/meta_world/world_h007_development_random.yaml",
+      "config_sha256": "3a4140b33102ca8cbd0be6465dce55a94dd8be9da2ee7030d401e7c7bbccf80a",
+      "selected_step": 300,
+      "metrics": {
+        "intervention_effect_nrmse": 0.8426766636262669,
+        "four_step_rollout_nrmse": 0.4891658127307892,
+        "one_step_prediction_rmse": 0.08400800490468101,
+        "intervention_effect_90_coverage": 0.9885416666666667
+      },
+      "checkpoint": {
+        "sha256": "69eb6f9c11b19879fea4a3efbffb8719a15d725719f99ae700fc42cbf7b1aec9",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 83.03876490000403,
+      "peak_memory_bytes": 2165645312
+    }
+  },
+  "comparisons": {
+    "pcgrad_selected_vs_random": {
+      "intervention_effect_nrmse_ratio": 3.924515573486399,
+      "four_step_rollout_nrmse_ratio": 2.147470515602198,
+      "one_step_prediction_rmse_ratio": 1.7668836967709092
+    },
+    "standard_mixed_vs_random_diagnostic": {
+      "intervention_effect_nrmse_ratio": 0.9730358390252348,
+      "four_step_rollout_nrmse_ratio": 0.9728097554716703,
+      "one_step_prediction_rmse_ratio": 0.9877834428152705
+    }
+  },
+  "development_gate": {
+    "intervention_effect_nrmse_ratio_maximum": 0.9,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "observed_conflict_fraction_minimum": 0.1,
+    "all_metrics_finite": true,
+    "passed": false
+  },
+  "decision": "do_not_open_H007_frozen_validation",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "frozen_validation_seeds_opened": false,
+  "test_metrics_opened": false,
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only optimizer evidence. Symmetric PCGrad destabilized intervention-effect learning; frozen validation and every test split remained sealed, and no real-world or production claim is supported."
+}
