@@ -33,9 +33,9 @@ archive, audit sidecar and generated quality report. It does not contact externa
 services and does not create experiment outcomes."""
         ),
         new_code_cell(
-            """from pathlib import Path
-import hashlib
-import json
+            """import json
+from pathlib import Path
+
 import numpy as np
 
 ROOT = Path.cwd()
