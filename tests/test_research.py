@@ -15,6 +15,7 @@ def test_research_registry_is_valid() -> None:
         "CHM-V-H002",
         "CHM-V-H003",
         "CHM-W-H000",
+        "CHM-W-H001",
     ]
 
 

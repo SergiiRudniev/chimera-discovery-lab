@@ -203,14 +203,15 @@ class ChimeraMetaWorld(nn.Module):
 
     @staticmethod
     def _apply_domain_modules(
-        modules: nn.ModuleList, values: Tensor, domain_ids: Tensor, output_dim: int
+        modules: nn.ModuleList, values: Tensor, domain_ids: Tensor
     ) -> Tensor:
-        output = values.new_zeros(*values.shape[:-1], output_dim)
-        for domain_index, module in enumerate(modules):
-            selected = domain_ids == domain_index
-            if bool(selected.any()):
-                output[selected] = module(values[selected])
-        return output
+        output = modules[0](values)
+        selection_shape = (domain_ids.shape[0],) + (1,) * (values.ndim - 1)
+        for domain_index, module in enumerate(modules[1:], start=1):
+            candidate = module(values)
+            selected = (domain_ids == domain_index).view(selection_shape)
+            output = torch.where(selected, candidate, output)
+        return cast(Tensor, output)
 
     def forward(self, batch: MetaWorldBatch) -> MetaWorldOutput:
         batch.validate()
@@ -232,7 +233,7 @@ class ChimeraMetaWorld(nn.Module):
             [batch.observations, batch.observation_mask.to(batch.observations.dtype)], dim=-1
         )
         encoded = self._apply_domain_modules(
-            self.domain_adapters, adapter_input, batch.domain_ids, config.hidden_dim
+            self.domain_adapters, adapter_input, batch.domain_ids
         )
         encoded = encoded * batch.slot_mask.unsqueeze(-1).to(encoded.dtype)
 
@@ -306,7 +307,6 @@ class ChimeraMetaWorld(nn.Module):
             self.domain_decoders,
             conditioned_slots,
             batch.domain_ids,
-            config.observation_features * 2,
         )
         delta_mean, raw_state_log_variance = decoded.chunk(2, dim=-1)
         next_state_mean = final_observations + delta_mean

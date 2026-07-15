@@ -80,6 +80,22 @@ def test_meta_world_output_shapes(
     assert torch.isfinite(output.next_state_mean).all()
 
 
+def test_meta_world_forward_supports_bfloat16_autocast(
+    small_meta_world_model_config: MetaWorldModelConfig,
+) -> None:
+    batch = make_mechanistic_batch(
+        small_meta_world_model_config,
+        batch_size=4,
+        active_slots=4,
+        seed=27,
+    )
+    model = ChimeraMetaWorld(small_meta_world_model_config).eval()
+    with torch.no_grad(), torch.autocast(device_type="cpu", dtype=torch.bfloat16):
+        output = model(batch)
+    assert torch.isfinite(output.next_state_mean).all()
+    assert torch.isfinite(output.effect_mean).all()
+
+
 def test_meta_world_is_slot_permutation_equivariant(
     small_meta_world_model_config: MetaWorldModelConfig,
 ) -> None:

@@ -1,0 +1,7 @@
+{
+  "id": "CHM-W-H001",
+  "status": "not_run",
+  "metrics": null,
+  "decision": "pending",
+  "notes": "The BF16 dtype correction and unchanged H000 qualification gates are preregistered. No T001 target metrics have been opened."
+}
