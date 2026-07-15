@@ -1,5 +1,28 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H004 development preflight
+
+- **Scope:** Development seed `260906`, 300 steps, `train` and `validation`
+  only. Frozen validation seeds and every test split remained unopened.
+- **Matched probe arm:** Effect NRMSE `0.883479`, rollout NRMSE `0.501839`,
+  coverage `0.991667`, retrieval `0.0`.
+- **Matched random arm:** Effect NRMSE `1.000466`, rollout NRMSE `0.474423`,
+  coverage `0.983333`, retrieval `0.0`.
+- **Controlled policy effect:** Probe/random ratios were `0.883068` for
+  intervention effect and `1.057790` for rollout. Probes improved effect by
+  `11.69%` but worsened rollout by `5.78%`.
+- **No-discrimination diagnostic:** Probe closed-loop training without the
+  mechanism loss reached effect `0.857156` and rollout `0.477443`. This suggests
+  that probes are useful while instance discrimination conflicts with dynamics.
+- **Decision:** Do not run seeds `260907..260909`, do not freeze `CHM-W-T004`,
+  do not open test and do not promote checkpoints. The full arm failed rollout
+  and retrieval gates despite its effect improvement.
+- **Next action:** Register a mixed probe/random curriculum without instance
+  discrimination, preserving active-identification effect gains while enforcing
+  rollout non-inferiority against a matched random-only arm.
+- **Claim boundary:** Development validation engineering evidence only. H004
+  remains `not_run`; no test-world transfer or production claim exists.
+
 ## 2026-07-15 — CHM-W-H004 WG1 implementation
 
 - **Dataset:** Implemented `CHM-W-WG1` with 16-step trajectories, deterministic

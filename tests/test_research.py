@@ -116,3 +116,20 @@ def test_h004_is_registered_before_dataset_or_metrics_exist() -> None:
     assert result["status"] == "not_run"
     assert result["decision"] == "not_run"
     assert result["metrics"] is None
+
+
+def test_h004_development_preflight_does_not_open_frozen_validation_or_test() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H004-development.json").read_text(encoding="utf-8")
+    )
+    result = json.loads(Path("research/results/CHM-W-H004.json").read_text(encoding="utf-8"))
+
+    assert preflight["scientific_result"] is False
+    assert preflight["registered_trial_executed"] is False
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["opened_splits"] == ["train", "validation"]
+    assert preflight["decision"] == "do_not_freeze_T004"
+    assert all(not arm["checkpoint"]["promoted"] for arm in preflight["arms"].values())
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
