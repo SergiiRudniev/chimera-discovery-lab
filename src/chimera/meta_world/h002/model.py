@@ -83,6 +83,11 @@ class RelationalSequenceWorldModel(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden, hidden),
         )
+        self.slot_relation_encoder = nn.Sequential(
+            nn.Linear(config.relation_features * 6, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
         self.global_condition = nn.Linear(hidden, hidden)
         self.intervention_spatial = SpatialBlock(config)
         self.intervention_spatial_scale = nn.Parameter(torch.zeros(()))
@@ -120,6 +125,34 @@ class RelationalSequenceWorldModel(nn.Module):
         forward = relations[batch_indices, source_slots, target_slots]
         reverse = relations[batch_indices, target_slots, source_slots]
         return torch.cat([forward, reverse], dim=-1)
+
+    @staticmethod
+    def _slot_relation_summaries(
+        relations: Tensor,
+        slot_mask: Tensor,
+        source_slots: Tensor,
+        target_slots: Tensor,
+    ) -> Tensor:
+        weight = slot_mask.to(relations.dtype)
+        count = weight.sum(dim=1, keepdim=True).clamp_min(1).unsqueeze(-1)
+        outgoing = (relations * weight[:, None, :, None]).sum(dim=2) / count
+        incoming = (relations * weight[:, :, None, None]).sum(dim=1) / count
+        batch_indices = torch.arange(relations.shape[0], device=relations.device)
+        source_outgoing = relations[batch_indices, source_slots]
+        target_outgoing = relations[batch_indices, target_slots]
+        slot_to_source = relations[batch_indices, :, source_slots]
+        slot_to_target = relations[batch_indices, :, target_slots]
+        return torch.cat(
+            [
+                outgoing,
+                incoming,
+                source_outgoing,
+                target_outgoing,
+                slot_to_source,
+                slot_to_target,
+            ],
+            dim=-1,
+        )
 
     def _validate_contract(self, batch: MetaWorldBatch) -> None:
         config = self.config
@@ -272,9 +305,16 @@ class RelationalSequenceWorldModel(nn.Module):
             ],
             dim=-1,
         ).to(final_slots.dtype)
+        slot_relation_summaries = self._slot_relation_summaries(
+            final_relations,
+            final_slot_mask,
+            batch.source_slots,
+            batch.target_slots,
+        )
         conditioned_slots = (
             final_slots
             + self.role_encoder(roles)
+            + self.slot_relation_encoder(slot_relation_summaries)
             + self.global_condition(transition).unsqueeze(1)
         )
         propagated_slots = self.intervention_spatial(
