@@ -7,7 +7,7 @@ import json
 import platform
 import subprocess
 import time
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any, Literal
 
@@ -154,6 +154,7 @@ def execute_policy_curriculum_run(
     reported_arm: str,
     effect_supervision: Literal["all", "random_half"],
     result_metadata: Mapping[str, object] | None = None,
+    trainer_factory: Callable[[nn.Module, H005RunConfig], H002Trainer] | None = None,
 ) -> dict[str, Any]:
     if config.mode != expected_mode:
         raise ValueError(f"policy curriculum runner expected mode={expected_mode}")
@@ -183,7 +184,11 @@ def execute_policy_curriculum_run(
     )
     model = _model(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
-    trainer = _trainer(model, config)
+    trainer = (
+        trainer_factory(model, config)
+        if trainer_factory is not None
+        else _trainer(model, config)
+    )
     started = time.perf_counter()
     initial_evaluation = evaluate_h002_model(
         trainer,
@@ -223,6 +228,8 @@ def execute_policy_curriculum_run(
     ]
     first_training: dict[str, float] | None = None
     final_training: dict[str, float] | None = None
+    gradient_conflicts: list[float] = []
+    gradient_cosines: list[float] = []
     one_step_prediction_count = worlds.trajectory_steps - 1
     first_rollout_step = config.model.context_steps - 1
     rollout_start_count = (
@@ -266,6 +273,10 @@ def execute_policy_curriculum_run(
         if first_training is None:
             first_training = training_metrics
         final_training = training_metrics
+        if "gradient_conflict_applied" in training_metrics:
+            gradient_conflicts.append(training_metrics["gradient_conflict_applied"])
+        if "gradient_cosine" in training_metrics:
+            gradient_cosines.append(training_metrics["gradient_cosine"])
         metric_rows.append({"phase": "train", "step": step, **training_metrics})
         if (
             step % config.evaluation.evaluation_interval == 0
@@ -378,6 +389,14 @@ def execute_policy_curriculum_run(
             "production claim."
         ),
     }
+    if gradient_conflicts and gradient_cosines:
+        result["training_diagnostics"] = {
+            "gradient_conflict_fraction": sum(gradient_conflicts)
+            / len(gradient_conflicts),
+            "gradient_cosine_mean": sum(gradient_cosines) / len(gradient_cosines),
+            "gradient_cosine_minimum": min(gradient_cosines),
+            "gradient_cosine_maximum": max(gradient_cosines),
+        }
     if result_metadata is not None:
         result.update(result_metadata)
     _write_json(output / "result.json", result)
