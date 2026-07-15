@@ -7,7 +7,8 @@ hypothesis: >-
 scope: primary_research
 config: configs/venture/venture_m0_20m.yaml
 data:
-  source: not_selected
+  source: datasets/venture_corpus_c0/manifest.json
+  source_role: structural_pretraining_only
   language_input: false
 protocol:
   status: not_run

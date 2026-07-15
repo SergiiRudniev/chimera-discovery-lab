@@ -9,6 +9,7 @@
 [![CI](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml)
 [![Model](https://img.shields.io/badge/model-Venture%20M0-7B5CFA)](#venture-m0)
 [![Parameters](https://img.shields.io/badge/parameters-20.648M-2E8B57)](#venture-m0)
+[![Corpus](https://img.shields.io/badge/corpus-C0%20%7C%20640%20transitions-2E8B57)](#venture-corpus-c0)
 [![Status](https://img.shields.io/badge/status-prospective%20R%26D-F0B429)](#current-status)
 [![License](https://img.shields.io/badge/license-Apache--2.0-4C566A)](LICENSE)
 
@@ -128,6 +129,21 @@ Novelty is not optimized as an unconstrained scalar. Candidates compete within
 behavioral niches, and feasibility remains a guardrail. The first real test is
 a preregistered comparison against a matched text baseline.
 
+## Venture Corpus C0
+
+Corpus C0 contains **10 source-grounded business graphs** and **640 deterministic
+denoising transitions** built from public SEC filings. Company-level isolation
+produces 384 training, 128 validation and 128 test transitions.
+
+The model-ready NPZ shards contain categorical IDs, masks and normalized numeric
+features only. Company names, node labels, evidence notes and source URLs remain
+in sidecars that are never passed to the model.
+
+- [Numeric and graph semantics](docs/BUSINESS_GRAPH_SEMANTICS.md)
+- [Dataset card](datasets/venture_corpus_c0/README.md)
+- [Dataset manifest](datasets/venture_corpus_c0/manifest.json)
+- [Data-quality profile](datasets/venture_corpus_c0/quality_report.json)
+
 ## Research Ledger
 
 Every experiment receives an immutable family-specific ID:
@@ -154,7 +170,8 @@ reconstructed from memory.
 | EMA latent-world objective | Implemented |
 | MAP-Elites archive | Implemented |
 | Synthetic engineering validation | Passed: loss 7.1843 → 1.0263 in 20 fixed-batch steps |
-| Real business dataset | Not selected |
+| Venture Corpus C0 | 10 graphs; 640 source-isolated denoising transitions |
+| Corpus C0 training smoke | Passed: loss 7.3673 -> 1.1501 in 5 fixed-batch steps |
 | Trained checkpoint | Not available |
 | Creativity claim | Not evaluated |
 
@@ -182,12 +199,21 @@ Run the deterministic engineering smoke test:
 chimera smoke --config configs/venture/venture_smoke.yaml --steps 20
 ```
 
+Rebuild and validate Corpus C0:
+
+```powershell
+chimera build-corpus
+chimera validate-corpus
+chimera corpus-smoke --steps 5 --batch-size 2
+```
+
 ## Validation
 
 ```powershell
 ruff check .
 mypy src
 pytest
+chimera validate-corpus
 chimera validate-research
 ```
 
@@ -198,6 +224,7 @@ on every pull request and protected model-family branch.
 
 - [Architecture](docs/ARCHITECTURE.md)
 - [Data contract](docs/DATA_CONTRACT.md)
+- [Business graph semantics](docs/BUSINESS_GRAPH_SEMANTICS.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)

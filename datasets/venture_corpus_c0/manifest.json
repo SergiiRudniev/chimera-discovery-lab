@@ -1,0 +1,78 @@
+{
+  "claim_boundary": "source-grounded structural denoising; no outcome or creativity labels",
+  "corpus_id": "CHM-VENTURE-C0",
+  "counts": {
+    "canonical_graphs": 10,
+    "test": 128,
+    "total_transitions": 640,
+    "train": 384,
+    "validation": 128
+  },
+  "examples_per_case": 64,
+  "feature_names": [
+    "salience",
+    "evidence",
+    "control",
+    "immediacy",
+    "recurrence",
+    "scalability",
+    "value_proximity",
+    "risk"
+  ],
+  "feature_schema": "venture-shared-axes-c0",
+  "files": {
+    "canonical_graphs.jsonl": {
+      "bytes": 55784,
+      "sha256": "dff76eb74edd2989544de7195635896e0185b4f47c20ba67a4d39aa6a3f1dd3c"
+    },
+    "records.jsonl": {
+      "bytes": 82242,
+      "sha256": "9fd8fea337f54c4bbcc7bb430898165d813ff8ebbc020e4753de19cd73634f12"
+    },
+    "test.npz": {
+      "bytes": 14366,
+      "sha256": "90a2ddf10e94c275a0e99133cf2721ec5bb4a9ca44b3b9639a4aa2604dee4734"
+    },
+    "train.npz": {
+      "bytes": 35729,
+      "sha256": "732836a25703a3a2b92dc17af6cace20bca42ca984d84f40f31ca637b4c72e73"
+    },
+    "validation.npz": {
+      "bytes": 14096,
+      "sha256": "2c8dbf9ccce0cba018a709e4fc7af840057887bac7ccb734de2e65950588e8a7"
+    }
+  },
+  "max_edits": 8,
+  "max_nodes": 64,
+  "model_family": "Chimera Venture",
+  "schema_version": 1,
+  "score_names": [
+    "utility_proxy",
+    "feasibility_proxy",
+    "coherence_proxy"
+  ],
+  "seed": 1701,
+  "source_accessed_at": "2026-07-15",
+  "source_document": {
+    "path": "source_graphs.yaml",
+    "sha256": "094f9bdfc980a13c04c06aa191639fff7e08b7bd911bbb172d8903b697d2b526"
+  },
+  "split_case_ids": {
+    "test": [
+      "sec-uber-2024",
+      "sec-deere-2024"
+    ],
+    "train": [
+      "sec-adobe-2024",
+      "sec-airbnb-2024",
+      "sec-costco-2024",
+      "sec-visa-2024",
+      "sec-amazon-2024",
+      "sec-marriott-2024"
+    ],
+    "validation": [
+      "sec-netflix-2024",
+      "sec-tesla-2024"
+    ]
+  }
+}

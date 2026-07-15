@@ -1,0 +1,447 @@
+schema_version: 1
+corpus_id: CHM-VENTURE-C0
+feature_schema: venture-shared-axes-c0
+accessed_at: "2026-07-15"
+
+# ratings order: salience, evidence, control, immediacy, recurrence, scalability, risk
+cases:
+  - case_id: sec-adobe-2024
+    split: train
+    source:
+      organization: Adobe Inc.
+      form: 10-K
+      accession: "0000796343-25-000004"
+      period_end: "2024-11-29"
+      url: https://www.sec.gov/Archives/edgar/data/796343/000079634325000004/adbe-20241129.htm
+    evidence:
+      - Subscription offerings dominate revenue and are distributed through direct and partner channels.
+      - Creative Cloud combines software tools and cloud services for content workflows.
+      - Hosting, data-center and support activities are material subscription delivery costs.
+    nodes:
+      - {id: customer, type: ACTOR, label: Creative and document customer, ratings: [1, 0.75, 0.25, 0.75, 1, 0.75, 0.25]}
+      - {id: creation_need, type: NEED, label: Create and manage digital content, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.25]}
+      - {id: creative_cloud, type: RESOURCE, label: Creative Cloud software and services, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: content_workflow, type: ACTION, label: Design and publish content, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: direct_channel, type: CHANNEL, label: Adobe direct sales and website, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: partner_channel, type: CHANNEL, label: App stores and channel partners, ratings: [0.75, 0.75, 0.5, 0.75, 1, 0.75, 0.25]}
+      - {id: productivity_value, type: VALUE, label: Faster creative workflow, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.25]}
+      - {id: subscription_revenue, type: REVENUE, label: Subscription fees, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: cloud_cost, type: COST, label: Hosting and service delivery cost, ratings: [0.75, 0.75, 0.75, 1, 1, 0.75, 0.5]}
+      - {id: competition, type: CONSTRAINT, label: Product competition and attrition, ratings: [0.75, 0.75, 0.25, 0.75, 0.75, 0.25, 0.75]}
+      - {id: retention, type: OUTCOME, label: Subscription retention, ratings: [1, 0.75, 0.75, 0.75, 1, 1, 0.25]}
+      - {id: usage_feedback, type: FEEDBACK, label: Product usage feedback, ratings: [0.75, 0.5, 0.75, 0.75, 1, 1, 0.25]}
+    edges:
+      - [customer, HAS_NEED, creation_need]
+      - [creation_need, DEPENDS_ON, productivity_value]
+      - [direct_channel, REACHES, customer]
+      - [partner_channel, REACHES, customer]
+      - [creative_cloud, ENABLES, content_workflow]
+      - [content_workflow, DELIVERS, productivity_value]
+      - [productivity_value, PRODUCES, retention]
+      - [customer, PAYS, subscription_revenue]
+      - [subscription_revenue, ENABLES, creative_cloud]
+      - [content_workflow, COSTS, cloud_cost]
+      - [cloud_cost, REDUCES, retention]
+      - [competition, BLOCKS, retention]
+      - [retention, FEEDS_BACK, usage_feedback]
+      - [usage_feedback, AMPLIFIES, creative_cloud]
+
+  - case_id: sec-airbnb-2024
+    split: train
+    source:
+      organization: Airbnb, Inc.
+      form: 10-K
+      accession: "0001559720-25-000010"
+      period_end: "2024-12-31"
+      url: https://www.sec.gov/Archives/edgar/data/1559720/000155972025000010/abnb-20241231.htm
+    evidence:
+      - The technology platform operates a two-sided marketplace for hosts and guests.
+      - Trust, safety, support and unique inventory influence marketplace participation.
+      - Service fees are earned when marketplace bookings are completed.
+    nodes:
+      - {id: guest, type: ACTOR, label: Guest, ratings: [1, 0.75, 0.25, 1, 0.75, 1, 0.5]}
+      - {id: host, type: ACTOR, label: Host, ratings: [1, 0.75, 0.25, 0.75, 0.75, 1, 0.5]}
+      - {id: stay_need, type: NEED, label: Flexible place to stay, ratings: [1, 0.75, 0.25, 1, 0.5, 0.75, 0.5]}
+      - {id: host_inventory, type: RESOURCE, label: Host-provided listings, ratings: [1, 0.75, 0.25, 0.75, 0.75, 1, 0.5]}
+      - {id: matching, type: ACTION, label: Search matching and booking, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: platform, type: CHANNEL, label: Airbnb platform, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: guest_value, type: VALUE, label: Relevant accommodation choice, ratings: [1, 0.75, 0.75, 1, 0.75, 1, 0.25]}
+      - {id: host_value, type: VALUE, label: Access to booking demand, ratings: [1, 0.75, 0.75, 0.75, 0.75, 1, 0.25]}
+      - {id: service_fees, type: REVENUE, label: Marketplace service fees, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: support_cost, type: COST, label: Support and trust operations, ratings: [0.75, 0.75, 0.75, 1, 1, 0.75, 0.5]}
+      - {id: trust_constraint, type: CONSTRAINT, label: Trust safety and regulation, ratings: [1, 0.75, 0.5, 1, 1, 0.25, 1]}
+      - {id: booked_stays, type: OUTCOME, label: Completed bookings, ratings: [1, 1, 0.75, 1, 1, 1, 0.25]}
+      - {id: reviews, type: FEEDBACK, label: Reviews and marketplace signals, ratings: [0.75, 0.75, 0.75, 0.75, 1, 1, 0.25]}
+    edges:
+      - [guest, HAS_NEED, stay_need]
+      - [stay_need, DEPENDS_ON, guest_value]
+      - [platform, REACHES, guest]
+      - [platform, REACHES, host]
+      - [host_inventory, ENABLES, matching]
+      - [matching, DELIVERS, guest_value]
+      - [matching, DELIVERS, host_value]
+      - [guest_value, PRODUCES, booked_stays]
+      - [host_value, PRODUCES, booked_stays]
+      - [guest, PAYS, service_fees]
+      - [service_fees, ENABLES, platform]
+      - [matching, COSTS, support_cost]
+      - [support_cost, REDUCES, booked_stays]
+      - [trust_constraint, BLOCKS, booked_stays]
+      - [booked_stays, FEEDS_BACK, reviews]
+      - [reviews, AMPLIFIES, host_inventory]
+
+  - case_id: sec-costco-2024
+    split: train
+    source:
+      organization: Costco Wholesale Corporation
+      form: 10-K
+      accession: "0000909832-24-000049"
+      period_end: "2024-09-01"
+      url: https://www.sec.gov/Archives/edgar/data/909832/000090983224000049/cost-20240901.htm
+    evidence:
+      - Membership warehouses combine low prices with a limited product selection and high inventory turnover.
+      - Volume purchasing, cross-docking and reduced handling support low operating costs.
+      - Membership fees and merchandise sales are distinct recurring revenue mechanisms.
+    nodes:
+      - {id: member, type: ACTOR, label: Warehouse member, ratings: [1, 0.75, 0.25, 1, 0.75, 0.75, 0.25]}
+      - {id: supplier, type: ACTOR, label: Merchandise supplier, ratings: [0.75, 0.75, 0.25, 0.75, 0.75, 0.5, 0.5]}
+      - {id: low_price_need, type: NEED, label: Quality goods at low prices, ratings: [1, 0.75, 0.25, 1, 0.75, 0.5, 0.25]}
+      - {id: buying_power, type: RESOURCE, label: Volume purchasing power, ratings: [1, 0.75, 0.75, 0.75, 1, 0.75, 0.25]}
+      - {id: warehouses, type: RESOURCE, label: Warehouse and depot network, ratings: [1, 1, 1, 0.75, 1, 0.5, 0.5]}
+      - {id: efficient_distribution, type: ACTION, label: Cross-dock and limited-assortment distribution, ratings: [1, 0.75, 1, 0.75, 1, 0.75, 0.25]}
+      - {id: membership_channel, type: CHANNEL, label: Membership warehouses and ecommerce, ratings: [1, 0.75, 1, 1, 1, 0.5, 0.25]}
+      - {id: low_price_value, type: VALUE, label: Low-price merchandise access, ratings: [1, 0.75, 0.75, 1, 0.75, 0.5, 0.25]}
+      - {id: membership_fees, type: REVENUE, label: Membership fees, ratings: [1, 1, 1, 0.75, 0.75, 0.75, 0.25]}
+      - {id: merchandise_sales, type: REVENUE, label: Merchandise sales, ratings: [1, 1, 1, 1, 1, 0.5, 0.25]}
+      - {id: logistics_cost, type: COST, label: Inventory and logistics cost, ratings: [1, 0.75, 0.75, 1, 1, 0.25, 0.75]}
+      - {id: thin_margin, type: CONSTRAINT, label: Deliberately low merchandise margin, ratings: [1, 0.75, 0.75, 1, 1, 0.25, 0.75]}
+      - {id: turnover, type: OUTCOME, label: High inventory turnover and member renewal, ratings: [1, 0.75, 0.75, 0.75, 1, 0.75, 0.25]}
+      - {id: renewal_signal, type: FEEDBACK, label: Renewal and sales signal, ratings: [0.75, 0.5, 0.75, 0.75, 0.75, 0.75, 0.25]}
+    edges:
+      - [member, HAS_NEED, low_price_need]
+      - [low_price_need, DEPENDS_ON, low_price_value]
+      - [membership_channel, REACHES, member]
+      - [supplier, TRANSFERS_TO, warehouses]
+      - [buying_power, ENABLES, efficient_distribution]
+      - [warehouses, ENABLES, efficient_distribution]
+      - [efficient_distribution, DELIVERS, low_price_value]
+      - [low_price_value, PRODUCES, turnover]
+      - [member, PAYS, membership_fees]
+      - [member, PAYS, merchandise_sales]
+      - [membership_fees, ENABLES, warehouses]
+      - [efficient_distribution, COSTS, logistics_cost]
+      - [logistics_cost, REDUCES, turnover]
+      - [thin_margin, BLOCKS, turnover]
+      - [turnover, FEEDS_BACK, renewal_signal]
+      - [renewal_signal, AMPLIFIES, buying_power]
+
+  - case_id: sec-visa-2024
+    split: train
+    source:
+      organization: Visa Inc.
+      form: 10-K
+      accession: "0001403161-24-000058"
+      period_end: "2024-09-30"
+      url: https://www.sec.gov/Archives/edgar/data/1403161/000140316124000058/v-20240930.htm
+    evidence:
+      - VisaNet provides authorization clearing and settlement for ecosystem participants.
+      - Visa connects issuers, acquirers, merchants and account holders without extending consumer credit.
+      - Service, data-processing and international transaction fees monetize network activity.
+    nodes:
+      - {id: consumer, type: ACTOR, label: Account holder, ratings: [0.75, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: issuer, type: ACTOR, label: Issuing financial institution, ratings: [1, 0.75, 0.5, 1, 1, 1, 0.5]}
+      - {id: acquirer, type: ACTOR, label: Acquiring financial institution, ratings: [1, 0.75, 0.5, 1, 1, 1, 0.5]}
+      - {id: merchant, type: ACTOR, label: Merchant, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: payment_need, type: NEED, label: Secure reliable money movement, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: visanet, type: RESOURCE, label: VisaNet processing network, ratings: [1, 1, 1, 1, 1, 1, 0.5]}
+      - {id: process_payment, type: ACTION, label: Authorize clear and settle transactions, ratings: [1, 1, 1, 1, 1, 1, 0.5]}
+      - {id: acceptance, type: CHANNEL, label: Global acceptance network, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: movement_value, type: VALUE, label: Reliable electronic payment, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: network_fees, type: REVENUE, label: Network and processing fees, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: network_cost, type: COST, label: Network operations and incentives, ratings: [0.75, 0.75, 0.75, 1, 1, 0.75, 0.5]}
+      - {id: fraud_regulation, type: CONSTRAINT, label: Fraud security and regulation, ratings: [1, 0.75, 0.5, 1, 1, 0.25, 1]}
+      - {id: transaction_volume, type: OUTCOME, label: Processed transaction volume, ratings: [1, 1, 0.75, 1, 1, 1, 0.25]}
+      - {id: network_effect, type: FEEDBACK, label: Acceptance and volume network effect, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+    edges:
+      - [consumer, HAS_NEED, payment_need]
+      - [merchant, HAS_NEED, payment_need]
+      - [payment_need, DEPENDS_ON, movement_value]
+      - [acceptance, REACHES, consumer]
+      - [acceptance, REACHES, merchant]
+      - [issuer, TRANSFERS_TO, visanet]
+      - [acquirer, TRANSFERS_TO, visanet]
+      - [visanet, ENABLES, process_payment]
+      - [process_payment, DELIVERS, movement_value]
+      - [movement_value, PRODUCES, transaction_volume]
+      - [issuer, PAYS, network_fees]
+      - [acquirer, PAYS, network_fees]
+      - [network_fees, ENABLES, visanet]
+      - [process_payment, COSTS, network_cost]
+      - [network_cost, REDUCES, transaction_volume]
+      - [fraud_regulation, BLOCKS, transaction_volume]
+      - [transaction_volume, FEEDS_BACK, network_effect]
+      - [network_effect, AMPLIFIES, acceptance]
+
+  - case_id: sec-amazon-2024
+    split: train
+    source:
+      organization: Amazon.com, Inc.
+      form: 10-K
+      accession: "0001018724-25-000004"
+      period_end: "2024-12-31"
+      url: https://www.sec.gov/Archives/edgar/data/1018724/000101872425000004/amzn-20241231.htm
+    evidence:
+      - Revenue mechanisms include online stores third-party seller services subscriptions and AWS.
+      - Fulfillment technology and cloud infrastructure serve distinct customer groups at scale.
+      - The company operates retail marketplace logistics cloud and advertising mechanisms.
+    nodes:
+      - {id: shopper, type: ACTOR, label: Shopper, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: seller, type: ACTOR, label: Third-party seller, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: cloud_customer, type: ACTOR, label: Cloud customer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: convenience_need, type: NEED, label: Convenient selection and computing capacity, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: fulfillment, type: RESOURCE, label: Fulfillment and logistics network, ratings: [1, 1, 1, 0.75, 1, 0.75, 0.75]}
+      - {id: aws, type: RESOURCE, label: AWS infrastructure, ratings: [1, 1, 1, 1, 1, 1, 0.5]}
+      - {id: orchestrate, type: ACTION, label: Match transact fulfill and provision, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: digital_channel, type: CHANNEL, label: Amazon stores and cloud interfaces, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: convenience_value, type: VALUE, label: Selection convenience and elastic capacity, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: commerce_revenue, type: REVENUE, label: Store seller and subscription revenue, ratings: [1, 1, 1, 1, 1, 0.75, 0.25]}
+      - {id: cloud_revenue, type: REVENUE, label: AWS revenue, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: operating_cost, type: COST, label: Fulfillment technology and content cost, ratings: [1, 0.75, 0.75, 1, 1, 0.5, 0.75]}
+      - {id: complexity, type: CONSTRAINT, label: Operational complexity and competition, ratings: [1, 0.75, 0.5, 1, 1, 0.25, 0.75]}
+      - {id: activity, type: OUTCOME, label: Transactions and cloud consumption, ratings: [1, 1, 0.75, 1, 1, 1, 0.25]}
+      - {id: activity_data, type: FEEDBACK, label: Demand and usage signals, ratings: [1, 0.5, 1, 1, 1, 1, 0.25]}
+    edges:
+      - [shopper, HAS_NEED, convenience_need]
+      - [cloud_customer, HAS_NEED, convenience_need]
+      - [convenience_need, DEPENDS_ON, convenience_value]
+      - [digital_channel, REACHES, shopper]
+      - [digital_channel, REACHES, seller]
+      - [digital_channel, REACHES, cloud_customer]
+      - [seller, TRANSFERS_TO, fulfillment]
+      - [fulfillment, ENABLES, orchestrate]
+      - [aws, ENABLES, orchestrate]
+      - [orchestrate, DELIVERS, convenience_value]
+      - [convenience_value, PRODUCES, activity]
+      - [shopper, PAYS, commerce_revenue]
+      - [seller, PAYS, commerce_revenue]
+      - [cloud_customer, PAYS, cloud_revenue]
+      - [commerce_revenue, ENABLES, fulfillment]
+      - [cloud_revenue, ENABLES, aws]
+      - [orchestrate, COSTS, operating_cost]
+      - [operating_cost, REDUCES, activity]
+      - [complexity, BLOCKS, activity]
+      - [activity, FEEDS_BACK, activity_data]
+      - [activity_data, AMPLIFIES, orchestrate]
+
+  - case_id: sec-marriott-2024
+    split: train
+    source:
+      organization: Marriott International, Inc.
+      form: 10-K
+      accession: "0001628280-25-004818"
+      period_end: "2024-12-31"
+      url: https://www.sec.gov/Archives/edgar/data/1048286/000162828025004818/mar-20241231.htm
+    evidence:
+      - Marriott primarily manages franchises and licenses properties while owning or leasing very few hotels.
+      - Hotel owners use Marriott brands systems reservations marketing and loyalty programs.
+      - Franchise and management fees monetize third-party property activity.
+    nodes:
+      - {id: guest, type: ACTOR, label: Hotel guest, ratings: [1, 0.75, 0.25, 1, 0.5, 0.75, 0.25]}
+      - {id: owner, type: ACTOR, label: Property owner, ratings: [1, 0.75, 0.25, 0.5, 0.75, 0.75, 0.5]}
+      - {id: lodging_need, type: NEED, label: Trusted lodging availability, ratings: [1, 0.75, 0.25, 1, 0.5, 0.75, 0.25]}
+      - {id: brand_system, type: RESOURCE, label: Brands reservation and loyalty systems, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: operate_franchise, type: ACTION, label: Franchise license and manage properties, ratings: [1, 0.75, 0.75, 0.75, 1, 1, 0.5]}
+      - {id: reservation_channel, type: CHANNEL, label: Reservation and loyalty channels, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: consistent_stay, type: VALUE, label: Consistent branded lodging experience, ratings: [1, 0.75, 0.5, 1, 0.5, 0.75, 0.25]}
+      - {id: franchise_fees, type: REVENUE, label: Franchise and license fees, ratings: [1, 1, 1, 0.75, 1, 1, 0.25]}
+      - {id: management_fees, type: REVENUE, label: Base and incentive management fees, ratings: [1, 1, 1, 0.75, 1, 1, 0.25]}
+      - {id: program_cost, type: COST, label: Centralized program and service cost, ratings: [0.75, 0.75, 0.75, 0.75, 1, 0.75, 0.5]}
+      - {id: owner_execution, type: CONSTRAINT, label: Third-party owner execution and travel cycles, ratings: [1, 0.75, 0.25, 0.5, 0.75, 0.25, 0.75]}
+      - {id: system_growth, type: OUTCOME, label: Rooms bookings and system growth, ratings: [1, 1, 0.75, 0.75, 0.75, 1, 0.25]}
+      - {id: loyalty_signal, type: FEEDBACK, label: Loyalty and booking behavior, ratings: [0.75, 0.5, 1, 0.75, 0.75, 1, 0.25]}
+    edges:
+      - [guest, HAS_NEED, lodging_need]
+      - [lodging_need, DEPENDS_ON, consistent_stay]
+      - [reservation_channel, REACHES, guest]
+      - [reservation_channel, REACHES, owner]
+      - [brand_system, ENABLES, operate_franchise]
+      - [owner, TRANSFERS_TO, operate_franchise]
+      - [operate_franchise, DELIVERS, consistent_stay]
+      - [consistent_stay, PRODUCES, system_growth]
+      - [owner, PAYS, franchise_fees]
+      - [owner, PAYS, management_fees]
+      - [franchise_fees, ENABLES, brand_system]
+      - [management_fees, ENABLES, brand_system]
+      - [operate_franchise, COSTS, program_cost]
+      - [program_cost, REDUCES, system_growth]
+      - [owner_execution, BLOCKS, system_growth]
+      - [system_growth, FEEDS_BACK, loyalty_signal]
+      - [loyalty_signal, AMPLIFIES, reservation_channel]
+
+  - case_id: sec-netflix-2024
+    split: validation
+    source:
+      organization: Netflix, Inc.
+      form: 10-K
+      accession: "0001065280-25-000044"
+      period_end: "2024-12-31"
+      url: https://www.sec.gov/Archives/edgar/data/1065280/000106528025000044/nflx-20241231.htm
+    evidence:
+      - Paid memberships provide access to the streaming service.
+      - Content acquisition and production are central resources and costs.
+      - Product interfaces and recommendations support content discovery and engagement.
+    nodes:
+      - {id: member, type: ACTOR, label: Streaming member, ratings: [1, 0.75, 0.25, 1, 0.75, 1, 0.25]}
+      - {id: entertainment_need, type: NEED, label: On-demand entertainment, ratings: [1, 0.75, 0.25, 1, 0.75, 1, 0.25]}
+      - {id: catalog, type: RESOURCE, label: Licensed and produced content catalog, ratings: [1, 0.75, 1, 0.75, 1, 0.75, 0.75]}
+      - {id: recommend_stream, type: ACTION, label: Recommend and stream content, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: streaming_channel, type: CHANNEL, label: Netflix applications and devices, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: viewing_value, type: VALUE, label: Personalized viewing access, ratings: [1, 0.75, 0.75, 1, 0.75, 1, 0.25]}
+      - {id: subscription_revenue, type: REVENUE, label: Membership revenue, ratings: [1, 1, 1, 0.75, 0.75, 1, 0.25]}
+      - {id: content_cost, type: COST, label: Content and delivery cost, ratings: [1, 1, 0.75, 0.75, 1, 0.5, 0.75]}
+      - {id: competition, type: CONSTRAINT, label: Attention and content competition, ratings: [1, 0.75, 0.25, 1, 1, 0.25, 0.75]}
+      - {id: engagement, type: OUTCOME, label: Viewing engagement and retention, ratings: [1, 0.75, 0.75, 1, 0.75, 1, 0.25]}
+      - {id: viewing_signal, type: FEEDBACK, label: Viewing and selection signal, ratings: [1, 0.5, 1, 1, 1, 1, 0.25]}
+    edges:
+      - [member, HAS_NEED, entertainment_need]
+      - [entertainment_need, DEPENDS_ON, viewing_value]
+      - [streaming_channel, REACHES, member]
+      - [catalog, ENABLES, recommend_stream]
+      - [recommend_stream, DELIVERS, viewing_value]
+      - [viewing_value, PRODUCES, engagement]
+      - [member, PAYS, subscription_revenue]
+      - [subscription_revenue, ENABLES, catalog]
+      - [recommend_stream, COSTS, content_cost]
+      - [content_cost, REDUCES, engagement]
+      - [competition, BLOCKS, engagement]
+      - [engagement, FEEDS_BACK, viewing_signal]
+      - [viewing_signal, AMPLIFIES, recommend_stream]
+
+  - case_id: sec-tesla-2024
+    split: validation
+    source:
+      organization: Tesla, Inc.
+      form: 10-K
+      accession: "0001628280-25-003063"
+      period_end: "2024-12-31"
+      url: https://www.sec.gov/Archives/edgar/data/1318605/000162828025003063/tsla-20241231.htm
+    evidence:
+      - Tesla designs manufactures leases and sells electric vehicles and energy products.
+      - Automotive and energy generation and storage are separate reportable segments.
+      - Direct infrastructure manufacturing scale and supply availability shape the model.
+    nodes:
+      - {id: customer, type: ACTOR, label: Vehicle and energy customer, ratings: [1, 0.75, 0.25, 0.5, 0.25, 0.75, 0.5]}
+      - {id: mobility_need, type: NEED, label: Electric mobility and energy resilience, ratings: [1, 0.75, 0.25, 0.5, 0.5, 0.75, 0.5]}
+      - {id: technology, type: RESOURCE, label: Vehicle battery and energy technology, ratings: [1, 0.75, 1, 0.5, 1, 0.75, 0.75]}
+      - {id: manufacturing, type: ACTION, label: Manufacture vehicles and storage systems, ratings: [1, 1, 1, 0.5, 1, 0.5, 0.75]}
+      - {id: direct_channel, type: CHANNEL, label: Direct sales and service network, ratings: [1, 0.75, 1, 0.75, 0.75, 0.5, 0.5]}
+      - {id: electric_value, type: VALUE, label: Electric transport and stored energy, ratings: [1, 0.75, 0.75, 0.75, 0.5, 0.75, 0.5]}
+      - {id: automotive_revenue, type: REVENUE, label: Automotive revenue, ratings: [1, 1, 1, 0.75, 0.5, 0.5, 0.5]}
+      - {id: energy_revenue, type: REVENUE, label: Energy generation and storage revenue, ratings: [0.75, 1, 1, 0.5, 0.5, 0.75, 0.5]}
+      - {id: production_cost, type: COST, label: Manufacturing and raw material cost, ratings: [1, 0.75, 0.75, 0.75, 1, 0.25, 1]}
+      - {id: supply_constraint, type: CONSTRAINT, label: Supply production and regulatory constraints, ratings: [1, 0.75, 0.5, 0.75, 0.75, 0.25, 1]}
+      - {id: deliveries, type: OUTCOME, label: Product deliveries and deployments, ratings: [1, 1, 0.75, 0.75, 0.5, 0.75, 0.5]}
+      - {id: fleet_signal, type: FEEDBACK, label: Fleet and product performance signal, ratings: [0.75, 0.5, 1, 0.5, 1, 0.75, 0.25]}
+    edges:
+      - [customer, HAS_NEED, mobility_need]
+      - [mobility_need, DEPENDS_ON, electric_value]
+      - [direct_channel, REACHES, customer]
+      - [technology, ENABLES, manufacturing]
+      - [manufacturing, DELIVERS, electric_value]
+      - [electric_value, PRODUCES, deliveries]
+      - [customer, PAYS, automotive_revenue]
+      - [customer, PAYS, energy_revenue]
+      - [automotive_revenue, ENABLES, technology]
+      - [energy_revenue, ENABLES, technology]
+      - [manufacturing, COSTS, production_cost]
+      - [production_cost, REDUCES, deliveries]
+      - [supply_constraint, BLOCKS, deliveries]
+      - [deliveries, FEEDS_BACK, fleet_signal]
+      - [fleet_signal, AMPLIFIES, technology]
+
+  - case_id: sec-uber-2024
+    split: test
+    source:
+      organization: Uber Technologies, Inc.
+      form: 10-K
+      accession: "0001543151-25-000008"
+      period_end: "2024-12-31"
+      url: https://www.sec.gov/Archives/edgar/data/1543151/000154315125000008/uber-20241231.htm
+    evidence:
+      - Mobility and delivery offerings connect consumers with independent providers and merchants.
+      - Matching dispatch pricing payments and marketplace data are central platform capabilities.
+      - Service fees are recognized around completed mobility and delivery transactions.
+    nodes:
+      - {id: rider, type: ACTOR, label: Rider or delivery consumer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: provider, type: ACTOR, label: Driver courier or merchant, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.75]}
+      - {id: movement_need, type: NEED, label: On-demand movement and delivery, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: provider_supply, type: RESOURCE, label: Independent provider network, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.75]}
+      - {id: match_dispatch, type: ACTION, label: Predict match dispatch and price, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: mobile_platform, type: CHANNEL, label: Uber applications, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: movement_value, type: VALUE, label: Reliable on-demand movement, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: service_fees, type: REVENUE, label: Mobility and delivery service fees, ratings: [1, 1, 1, 1, 1, 1, 0.5]}
+      - {id: operating_cost, type: COST, label: Provider incentives insurance and network cost, ratings: [1, 1, 0.75, 1, 1, 0.5, 1]}
+      - {id: regulation, type: CONSTRAINT, label: Worker transport and local regulation, ratings: [1, 0.75, 0.25, 1, 1, 0.25, 1]}
+      - {id: trips, type: OUTCOME, label: Completed trips and deliveries, ratings: [1, 1, 0.75, 1, 1, 1, 0.5]}
+      - {id: marketplace_data, type: FEEDBACK, label: Marketplace liquidity and trip data, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+    edges:
+      - [rider, HAS_NEED, movement_need]
+      - [movement_need, DEPENDS_ON, movement_value]
+      - [mobile_platform, REACHES, rider]
+      - [mobile_platform, REACHES, provider]
+      - [provider_supply, ENABLES, match_dispatch]
+      - [match_dispatch, DELIVERS, movement_value]
+      - [movement_value, PRODUCES, trips]
+      - [rider, PAYS, service_fees]
+      - [service_fees, ENABLES, mobile_platform]
+      - [match_dispatch, COSTS, operating_cost]
+      - [operating_cost, REDUCES, trips]
+      - [regulation, BLOCKS, trips]
+      - [trips, FEEDS_BACK, marketplace_data]
+      - [marketplace_data, AMPLIFIES, provider_supply]
+
+  - case_id: sec-deere-2024
+    split: test
+    source:
+      organization: Deere & Company
+      form: 10-K
+      accession: "0001558370-24-016169"
+      period_end: "2024-10-27"
+      url: https://www.sec.gov/Archives/edgar/data/315189/000155837024016169/de-20241027x10k.htm
+    evidence:
+      - Equipment operations manufacture and sell equipment parts and technology through dealer channels.
+      - Financial services finance and lease equipment sold through the operating ecosystem.
+      - Agricultural cycles manufacturing execution and credit exposure constrain the model.
+    nodes:
+      - {id: farmer, type: ACTOR, label: Agricultural or construction customer, ratings: [1, 0.75, 0.25, 0.5, 0.5, 0.5, 0.75]}
+      - {id: dealer, type: ACTOR, label: John Deere dealer, ratings: [1, 0.75, 0.5, 0.75, 0.75, 0.5, 0.5]}
+      - {id: productivity_need, type: NEED, label: Productive reliable field operations, ratings: [1, 0.75, 0.25, 0.75, 0.75, 0.5, 0.75]}
+      - {id: equipment_tech, type: RESOURCE, label: Equipment parts and precision technology, ratings: [1, 0.75, 1, 0.5, 1, 0.5, 0.75]}
+      - {id: manufacture_support, type: ACTION, label: Manufacture distribute and support equipment, ratings: [1, 1, 1, 0.5, 1, 0.5, 0.75]}
+      - {id: dealer_channel, type: CHANNEL, label: Dealer sales and service channel, ratings: [1, 0.75, 0.5, 0.75, 0.75, 0.5, 0.5]}
+      - {id: finance_resource, type: RESOURCE, label: John Deere Financial, ratings: [0.75, 1, 1, 0.75, 0.75, 0.75, 0.75]}
+      - {id: productivity_value, type: VALUE, label: Equipment productivity and uptime, ratings: [1, 0.75, 0.75, 0.75, 0.75, 0.5, 0.5]}
+      - {id: equipment_revenue, type: REVENUE, label: Equipment parts and technology sales, ratings: [1, 1, 1, 0.75, 0.5, 0.5, 0.5]}
+      - {id: finance_income, type: REVENUE, label: Finance and lease income, ratings: [0.75, 1, 1, 0.75, 0.75, 0.75, 0.75]}
+      - {id: operating_cost, type: COST, label: Manufacturing funding and credit cost, ratings: [1, 0.75, 0.75, 0.75, 1, 0.25, 1]}
+      - {id: cycle_constraint, type: CONSTRAINT, label: Agricultural cycle and credit risk, ratings: [1, 0.75, 0.25, 0.5, 0.75, 0.25, 1]}
+      - {id: adoption, type: OUTCOME, label: Equipment adoption and financed sales, ratings: [1, 1, 0.75, 0.5, 0.5, 0.5, 0.5]}
+      - {id: field_signal, type: FEEDBACK, label: Field performance and finance signal, ratings: [0.75, 0.5, 0.75, 0.5, 0.75, 0.75, 0.5]}
+    edges:
+      - [farmer, HAS_NEED, productivity_need]
+      - [productivity_need, DEPENDS_ON, productivity_value]
+      - [dealer_channel, REACHES, farmer]
+      - [dealer_channel, REACHES, dealer]
+      - [equipment_tech, ENABLES, manufacture_support]
+      - [finance_resource, ENABLES, manufacture_support]
+      - [manufacture_support, DELIVERS, productivity_value]
+      - [productivity_value, PRODUCES, adoption]
+      - [farmer, PAYS, equipment_revenue]
+      - [farmer, PAYS, finance_income]
+      - [equipment_revenue, ENABLES, equipment_tech]
+      - [finance_income, ENABLES, finance_resource]
+      - [manufacture_support, COSTS, operating_cost]
+      - [operating_cost, REDUCES, adoption]
+      - [cycle_constraint, BLOCKS, adoption]
+      - [adoption, FEEDS_BACK, field_signal]
+      - [field_signal, AMPLIFIES, equipment_tech]

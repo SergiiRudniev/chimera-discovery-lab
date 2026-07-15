@@ -122,14 +122,15 @@ class ChimeraVenture(nn.Module):
         target_logits = self._pointer_logits(self.target_query(decoded), encoded, graph.node_mask)
         step_weights = edits.step_mask.unsqueeze(-1)
         action_state = (decoded * step_weights).sum(dim=1) / step_weights.sum(dim=1).clamp_min(1)
+        predicted_next_state = self.world_model(encoded.graph_state, action_state)
         return ChimeraOutput(
             operation_logits=self.operation_head(decoded),
             source_logits=source_logits,
             target_logits=target_logits,
             node_type_logits=self.node_type_head(decoded),
             edge_type_logits=self.edge_type_head(decoded),
-            score_logits=self.score_head(encoded.graph_state),
-            predicted_next_state=self.world_model(encoded.graph_state, action_state),
+            score_logits=self.score_head(predicted_next_state),
+            predicted_next_state=predicted_next_state,
             graph_state=encoded.graph_state,
             decoder_states=decoded,
         )
