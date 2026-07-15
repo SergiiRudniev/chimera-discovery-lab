@@ -1,0 +1,7 @@
+{
+  "id": "CHM-W-H000",
+  "status": "not_run",
+  "metrics": null,
+  "decision": "pending",
+  "notes": "The executable W0 architecture and fixed CUDA qualification are preregistered. No target training metrics have been opened."
+}

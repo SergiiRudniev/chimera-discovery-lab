@@ -1,0 +1,37 @@
+id: CHM-W-H000
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  The full Chimera Meta-World W0 numerical dynamics architecture executes on
+  CUDA with finite gradients, exact evaluation replay and at least 10% fixed-
+  batch loss reduction while remaining inside the registered 50M to 80M
+  parameter envelope.
+scope: engineering_validation
+config: configs/meta_world/meta_world_w0.yaml
+data:
+  source: deterministic_mechanistic_fixture
+  seed: 260715
+  batch_size: 16
+  domain_views: 4
+  mechanism_families: 4
+  intervention_types: 8
+  language_input: false
+  observed_consequences: true
+protocol:
+  trial_id: CHM-W-T000
+  status: not_run
+  fixed_batch: true
+  steps: 20
+  precision: bfloat16
+  required_device: cuda
+  pass_if:
+    parameter_count:
+      minimum: 50000000
+      maximum: 80000000
+    minimum_loss_reduction_fraction: 0.10
+    maximum_replay_delta: 0.0
+    all_metrics_finite: true
+  claim_boundary: >-
+    Engineering wiring only; no causal-discovery, cross-domain-transfer,
+    grounding-quality, idea-quality or production-readiness claim.
+result: research/results/CHM-W-H000.json
