@@ -7,7 +7,7 @@ from chimera.cli import main
 
 def test_inspect_cli_reports_registered_model(capsys: object) -> None:
     assert main(
-        ["inspect", "--config", "configs/venture/venture_v0_1_20m.yaml"]
+        ["inspect", "--config", "configs/venture/venture_m0_20m.yaml"]
     ) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
     payload = json.loads(captured.out)

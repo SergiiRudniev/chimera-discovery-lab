@@ -14,5 +14,6 @@ Names and namespaces are reserved before experiments begin.
 Reserved names are not reassigned to a different domain. A family begins at
 `H000`; IDs are append-only and never reused after a failed or cancelled run.
 
-Release names use `{Family} V{major}.{minor}`. Checkpoint files use lowercase
-repository-safe names such as `chimera-venture-v0.1-step020000.pt`.
+Model generations use `{Family} M{generation}`, where `M` denotes a Morph.
+Checkpoint files use lowercase repository-safe names such as
+`chimera-venture-m0-step020000.pt`.

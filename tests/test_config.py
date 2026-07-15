@@ -8,7 +8,7 @@ from chimera.config import ExperimentConfig, ModelConfig
 
 
 def test_registered_config_loads() -> None:
-    config = ExperimentConfig.from_yaml("configs/venture/venture_v0_1_20m.yaml")
+    config = ExperimentConfig.from_yaml("configs/venture/venture_m0_20m.yaml")
     assert config.experiment_id == "CHM-V-H001"
     assert config.model.hidden_dim == 384
     assert config.model.max_nodes == 64
