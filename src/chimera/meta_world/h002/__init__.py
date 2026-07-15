@@ -9,7 +9,10 @@ from chimera.meta_world.h002.evaluation import (
     H002EvaluationMetrics,
     evaluate_h002_model,
 )
-from chimera.meta_world.h002.model import TemporalWorldBaseline
+from chimera.meta_world.h002.model import (
+    RelationalSequenceWorldModel,
+    TemporalWorldBaseline,
+)
 from chimera.meta_world.h002.objectives import h002_loss
 from chimera.meta_world.h002.preflight import run_h002_preflight
 from chimera.meta_world.h002.trainer import H002Trainer
@@ -26,6 +29,7 @@ __all__ = [
     "H002EvaluationMetrics",
     "H002RunConfig",
     "H002Trainer",
+    "RelationalSequenceWorldModel",
     "TemporalWorldBaseline",
     "evaluate_h002_model",
     "h002_loss",

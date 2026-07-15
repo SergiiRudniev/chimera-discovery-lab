@@ -16,13 +16,13 @@ from chimera.meta_world.generators import (
 )
 from chimera.meta_world.h002 import (
     H002Trainer,
+    RelationalSequenceWorldModel,
     TemporalWorldBaseline,
     evaluate_h002_model,
     make_transition_window,
     materialize_sequence_sample,
     run_h002_preflight,
 )
-from chimera.meta_world.model import ChimeraMetaWorld
 
 
 def _model_config() -> MetaWorldModelConfig:
@@ -106,7 +106,7 @@ def test_temporal_baseline_does_not_read_relations() -> None:
 
 def test_h002_relational_train_step_and_evaluation_are_finite() -> None:
     _, sample = _sample()
-    model = ChimeraMetaWorld(_model_config())
+    model = RelationalSequenceWorldModel(_model_config())
     trainer = H002Trainer(model, _training_config())
     window = make_transition_window(sample, prediction_step=2, context_steps=4)  # type: ignore[arg-type]
 
@@ -125,6 +125,67 @@ def test_h002_relational_train_step_and_evaluation_are_finite() -> None:
     assert 0.0 <= evaluation.four_step_rollout_nrmse < 100.0
     assert 0.0 <= evaluation.intervention_effect_90_coverage <= 1.0
     assert 0.0 <= evaluation.mechanism_retrieval_accuracy <= 1.0
+
+
+def test_h002_relational_model_is_slot_permutation_equivariant() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)  # type: ignore[arg-type]
+    permutation = torch.tensor([2, 0, 3, 1, 4, 5, 6, 7, 8, 9])
+    inverse = torch.argsort(permutation)
+    permuted = replace(
+        window,
+        observations=window.observations[:, :, permutation],
+        observation_mask=window.observation_mask[:, :, permutation],
+        slot_mask=window.slot_mask[:, :, permutation],
+        relations=window.relations[:, :, permutation][:, :, :, permutation],
+        source_slots=inverse[window.source_slots],
+        target_slots=inverse[window.target_slots],
+        next_observations=window.next_observations[:, permutation],
+        next_observation_mask=window.next_observation_mask[:, permutation],
+    )
+    model = RelationalSequenceWorldModel(_model_config()).eval()
+
+    with torch.no_grad():
+        original_output = model(window)
+        permuted_output = model(permuted)
+
+    torch.testing.assert_close(
+        permuted_output.next_state_mean,
+        original_output.next_state_mean[:, permutation],
+        rtol=1e-5,
+        atol=1e-6,
+    )
+    torch.testing.assert_close(
+        permuted_output.effect_mean,
+        original_output.effect_mean,
+        rtol=1e-5,
+        atol=1e-6,
+    )
+
+
+def test_h002_mechanism_embedding_is_action_independent() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)  # type: ignore[arg-type]
+    changed = replace(
+        window,
+        source_slots=window.target_slots,
+        target_slots=window.source_slots,
+        intervention_parameters=torch.randn_like(window.intervention_parameters),
+    )
+    model = RelationalSequenceWorldModel(_model_config()).eval()
+
+    with torch.no_grad():
+        original_output = model(window)
+        changed_output = model(changed)
+
+    torch.testing.assert_close(
+        original_output.proposal_embedding,
+        changed_output.proposal_embedding,
+    )
+    assert not torch.equal(
+        original_output.next_state_mean,
+        changed_output.next_state_mean,
+    )
 
 
 def test_sequence_sampler_rejects_partial_alignment_groups() -> None:

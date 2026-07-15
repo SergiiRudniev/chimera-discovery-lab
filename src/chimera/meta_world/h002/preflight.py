@@ -20,13 +20,15 @@ from chimera.meta_world.generators import (
 )
 from chimera.meta_world.h002.config import H002Arm, H002RunConfig
 from chimera.meta_world.h002.evaluation import evaluate_h002_model
-from chimera.meta_world.h002.model import TemporalWorldBaseline
+from chimera.meta_world.h002.model import (
+    RelationalSequenceWorldModel,
+    TemporalWorldBaseline,
+)
 from chimera.meta_world.h002.trainer import H002Trainer
 from chimera.meta_world.h002.windows import (
     make_transition_window,
     materialize_sequence_sample,
 )
-from chimera.meta_world.model import ChimeraMetaWorld
 
 
 def _sha256(path: Path) -> str:
@@ -55,7 +57,7 @@ def _model(config: H002RunConfig) -> nn.Module:
         H002Arm.NO_ALIGNMENT,
         H002Arm.TARGET_FAMILY_ONLY,
     }:
-        return ChimeraMetaWorld(config.model)
+        return RelationalSequenceWorldModel(config.model)
     raise ValueError("legal random intervention has no trainable model")
 
 
@@ -95,6 +97,7 @@ def _execute_h002_preflight(
         batch_size=config.evaluation.validation_trajectories,
     )
     model = _model(config)
+    model_class = f"{type(model).__module__}.{type(model).__qualname__}"
     trainer = H002Trainer(model, config.training)
     started = time.perf_counter()
     initial_evaluation = evaluate_h002_model(
@@ -111,6 +114,7 @@ def _execute_h002_preflight(
         {
             "run_id": config.run_id,
             "arm": config.arm.value,
+            "model_class": model_class,
             "step": best_step,
             "model": model.state_dict(),
             "model_config": config.to_dict()["model"],
@@ -172,6 +176,7 @@ def _execute_h002_preflight(
                     {
                         "run_id": config.run_id,
                         "arm": config.arm.value,
+                        "model_class": model_class,
                         "step": best_step,
                         "model": model.state_dict(),
                         "model_config": config.to_dict()["model"],
@@ -186,6 +191,7 @@ def _execute_h002_preflight(
     checkpoint_manifest = {
         "run_id": config.run_id,
         "arm": config.arm.value,
+        "model_class": model_class,
         "checkpoint": checkpoint_path.name,
         "checkpoint_sha256": _sha256(checkpoint_path),
         "selected_step": best_step,
@@ -206,6 +212,7 @@ def _execute_h002_preflight(
         "status": "completed_preflight",
         "decision": "engineering_only",
         "arm": config.arm.value,
+        "model_class": model_class,
         "parameters": _parameter_count(model),
         "opened_splits": [SplitName.TRAIN.value, SplitName.VALIDATION.value],
         "test_metrics_opened": False,
