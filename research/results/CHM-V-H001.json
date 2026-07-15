@@ -3,5 +3,5 @@
   "status": "not_run",
   "metrics": null,
   "decision": "pending",
-  "notes": "Venture Trial T2 passed proposal-policy qualification with the frozen T1 checkpoint, but no evidence-bearing evaluation corpus or matched text baseline exists."
+  "notes": "Venture Corpus C1, the immutable matched baseline and the blind-rating analysis are preregistered. No candidates were generated and no ratings were collected. Independent source annotation review remains required before the run."
 }

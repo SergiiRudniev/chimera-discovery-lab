@@ -7,15 +7,29 @@ hypothesis: >-
 scope: primary_research
 config: configs/venture/venture_m0_20m.yaml
 data:
-  source: datasets/venture_corpus_c0/manifest.json
-  source_role: structural_pretraining_only
+  pretraining_source: datasets/venture_corpus_c0/manifest.json
+  evaluation_source: datasets/venture_corpus_c1/manifest.json
+  evaluation_partition: evaluation
+  calibration_partition: calibration
+  source_role: preregistered_evaluation_only
   language_input: false
 protocol:
   status: not_run
+  graph_arm:
+    model: Chimera Venture M0
+    parameters: 20647992
+    checkpoint_sha256: 678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47
+    proposal_policy: research/trials/CHM-V-T002/policy_bundle.json
+    candidates_per_case: 8
+    candidate_seeds: [31001, 31002, 31003, 31004, 31005, 31006, 31007, 31008]
+  text_arm: datasets/venture_corpus_c1/matched_baseline_protocol.yaml
+  human_rating: datasets/venture_corpus_c1/rating_protocol.yaml
   required_before_run:
     - frozen_business_graph_schema
     - time_split_case_corpus
     - matched_text_baseline
     - blinded_human_rating_protocol
+    - independent_source_annotation_review
   primary_metric: novelty_at_matched_feasibility
+  claim_boundary: no H001 result exists until generation, blind rating and locked analysis complete
 result: research/results/CHM-V-H001.json

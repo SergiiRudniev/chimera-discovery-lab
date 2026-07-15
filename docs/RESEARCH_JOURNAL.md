@@ -1,5 +1,26 @@
 # Research Journal
 
+## 2026-07-15 — Venture Corpus C1 preregistration
+
+- **Corpus:** `CHM-VENTURE-C1`; 2 calibration and 8 evaluation cases from
+  source-registered FY2025 SEC filings.
+- **Isolation:** Zero C0 overlap by organization, CIK and accession; the C1
+  period boundary begins after the maximum C0 period end.
+- **Model input:** Numeric typed graphs plus objective and constraint masks;
+  no strings or object arrays in `graphs.npz`.
+- **Baseline:** `Qwen/Qwen2.5-0.5B-Instruct` frozen at revision
+  `7ae557604adf67be50417f59c2c2f167def9a775`; 8 candidates per case.
+- **Rating plan:** 128 evaluation candidates, 3 blind raters and 384 planned
+  ratings. Novelty uses a paired exact sign-flip test with a feasibility
+  non-inferiority guardrail.
+- **Quality:** File integrity, range, alignment, topology, time boundary and
+  leakage checks passed. All ten graphs remain pending independent annotation
+  review.
+- **Decision:** Freeze C1 and the H001 protocol. Do not generate candidates
+  until the independent review is complete.
+- **Claim boundary:** No H001 candidate, human rating or creativity result has
+  been produced.
+
 ## 2026-07-15 — Venture Trial T2 result
 
 - **Protocol:** `CHM-V-T002`, frozen at commit `df49c79` before validation and

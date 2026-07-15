@@ -1,0 +1,87 @@
+schema_version: 1
+protocol_id: CHM-V-H001-BLIND-RATING
+status: frozen_before_generation
+scope:
+  calibration_cases: 2
+  evaluation_cases: 8
+  candidates_per_case_per_arm: 8
+  evaluation_candidates: 128
+  independent_raters: 3
+  planned_ratings: 384
+blinding:
+  arms: [chimera_graph, qwen_text]
+  hide_arm_model_seed_and_generation_index: true
+  normalize_format_before_randomization: true
+  randomization_unit: candidate
+  randomization_commitment: publish_sha256_before_ratings
+  reveal_mapping_after_rating_lock: true
+calibration:
+  cases_excluded_from_primary_analysis: true
+  allowed_changes:
+    - interpretation template
+    - rater instructions
+    - formatting normalization
+  forbidden_changes:
+    - model weights
+    - proposal policy
+    - baseline model revision
+    - evaluation cases
+    - primary analysis rule
+ratings:
+  scale: [1, 2, 3, 4, 5]
+  dimensions:
+    novelty:
+      1: direct restatement or commonplace tactic
+      3: non-obvious recombination with a recognizable precedent
+      5: structurally distinct mechanism with a clear causal path
+    feasibility:
+      1: contradicts the graph or lacks a workable mechanism
+      3: plausible with material assumptions or execution risk
+      5: actionable with available actors, resources and constraints
+    utility:
+      1: weak connection to the registered objective
+      3: credible but limited objective impact
+      5: strong and explicit objective impact
+    evidence_consistency:
+      1: conflicts with registered case structure
+      3: partly supported with unresolved assumptions
+      5: fully traceable to the registered structure
+invalidity:
+  assessed_before_dimension_scores: true
+  reasons:
+    - empty_or_unparseable
+    - more_than_three_mechanism_changes
+    - does_not_address_registered_objective
+    - ignores_registered_constraint
+    - duplicate_within_same_case_and_arm
+  duplicate_rule: semantic equivalence of actor action value and revenue mechanism
+  adjudication: two-rater agreement; third rater breaks ties
+analysis:
+  unit: independent evaluation case
+  rater_aggregation: median per candidate and dimension
+  feasibility_threshold: 3.0
+  evaluable_case_minimum_per_arm: 4
+  matched_count_rule: >-
+    Within each case retain candidates with median feasibility at least 3.0;
+    use the smaller arm count and take candidates by frozen generation index.
+  primary_effect: mean paired case difference in novelty, chimera_graph minus qwen_text
+  primary_test:
+    method: exact paired sign-flip permutation
+    alternative: chimera_graph_greater
+    alpha: 0.05
+  feasibility_guardrail:
+    estimand: clustered difference in candidate-level median feasibility
+    noninferiority_margin: -0.5
+    interval: one-sided 90 percent case-cluster bootstrap
+    bootstrap_resamples: 100000
+    seed: 271828
+  failure_rules:
+    - more_than_one_nonevaluable_evaluation_case_means_inconclusive
+    - fewer_than_three_completed_raters_means_inconclusive
+decision:
+  accepted_if:
+    - primary_effect_is_positive
+    - primary_test_p_value_below_0.05
+    - feasibility_lower_bound_at_least_minus_0.5
+  rejected_if: evaluable study and any accepted_if condition fails
+  otherwise: inconclusive
