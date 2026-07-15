@@ -1,0 +1,98 @@
+id: CHM-W-H004
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  Pretraining Chimera Meta-World with deterministic numerical
+  system-identification probes before random interventions reduces both
+  intervention-effect prediction error and four-step rollout error, and
+  improves mechanism retrieval, in previously unseen world-family mappings
+  compared with the same architecture trained on random actions alone.
+scope: active_system_identification_world_transfer
+parent: CHM-W-H003
+data:
+  dataset_id: CHM-W-WG1
+  generator_config: configs/meta_world/world_generators_h004.yaml
+  source: programmatic_dynamic_world_generators
+  trajectory_steps: 16
+  language_input: false
+  training_action_policy: deterministic_system_identification_probe
+  evaluation_action_policy: four_probe_prefix_then_seeded_random
+  probe_program:
+    - zero_baseline
+    - low_impulse
+    - high_positive_control
+    - reversed_high_negative_control
+    - zero_recovery
+    - alternate_edge_impulse
+  hidden_metadata_excluded_from_model_forward:
+    - action_policy_id
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+  split_isolation:
+    - concrete_mechanism_id
+    - world_instance_id
+    - generation_seed
+    - exact_world_configuration
+    - exact_renderer_configuration
+method:
+  model: relational_sequence_world_model
+  rollout_horizon: 4
+  rollout_mode: autoregressive_closed_loop
+  mechanism_objective: cross_batch_hard_negative_ranking
+  mechanism_queue_entries: 2048
+  controlled_variable: training_action_policy
+  evaluator_policy_identical_across_arms: true
+protocol:
+  trial_id: CHM-W-T004
+  status: not_run
+  development_seed: 260906
+  frozen_validation_seeds:
+    - 260907
+    - 260908
+    - 260909
+  comparison_arms:
+    - probe_curriculum_closed_loop_with_mechanism_discrimination
+    - random_curriculum_closed_loop_with_mechanism_discrimination
+    - probe_curriculum_closed_loop_without_mechanism_discrimination
+    - h003_one_step_relational_without_alignment
+    - temporal_predictor_without_relational_state
+    - legal_random_intervention
+  validation_preflight:
+    hyperparameters_frozen_before_validation_seeds: true
+    freeze_trial_only_if:
+      each_primary_error_ratio_vs_strongest_learned_baseline_maximum: 0.95
+      median_mechanism_retrieval_accuracy_minimum: 0.10
+      intervention_effect_90_coverage_minimum: 0.85
+      deterministic_replay_rate: 1.00
+      split_leakage_findings: 0
+      all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    each_primary_error_ratio_vs_strongest_baseline_maximum: 0.90
+    each_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - mechanism_retrieval_accuracy
+    - probe_response_separation
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports active identification and transfer within the
+    frozen generator distribution only. It is not evidence of real-world causal
+    discovery, safe real-world experimentation, profitable business ideas,
+    language-independent thought or production readiness.
+result: research/results/CHM-W-H004.json

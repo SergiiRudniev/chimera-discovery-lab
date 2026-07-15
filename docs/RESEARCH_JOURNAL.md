@@ -1,5 +1,28 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H004 registration
+
+- **Question:** Do controlled numeric system-identification probes improve
+  mechanism retrieval and unseen-world prediction over random-action training?
+- **Diagnosis inherited from H003:** Hard-negative pressure made embeddings
+  more similar across views but could not rank a true pair above the closest
+  distinct mechanism. The short passive trajectory was not sufficiently
+  identifying.
+- **Change:** Expand trajectories to 16 steps. Train on deterministic zero,
+  impulse, magnitude, control-polarity, reversal and recovery probes. Evaluate
+  every arm on the same four-probe prefix followed by seeded random actions.
+- **Controlled comparison:** The full and random-curriculum arms share model,
+  optimizer, loss, mechanism queue, splits and evaluator; only the train action
+  policy differs.
+- **Isolation:** Probe type and all generator provenance remain evaluator-only.
+  Model inputs contain only observations, masks, relations, time and actions.
+- **Validation discipline:** Seed `260906` is development-only. Hyperparameters
+  must freeze before seeds `260907..260909`; test remains sealed until the
+  registered validation gate passes.
+- **Status:** `not_run`; WG1, model metrics and checkpoints do not exist yet.
+- **Claim boundary:** Simulator-only active identification; no real-world
+  causality, experiment safety, business utility or production claim.
+
 ## 2026-07-15 — CHM-W-H003 exploratory validation preflight
 
 - **Scope:** Single-seed (`260903`), 300-step exploratory comparison on
