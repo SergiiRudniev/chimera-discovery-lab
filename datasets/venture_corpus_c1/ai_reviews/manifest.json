@@ -1,0 +1,62 @@
+{
+  "manifest_version": "1.0",
+  "skill": "investment-banking:cim-teardown",
+  "artifact_mode": "support_only",
+  "output_dir": "datasets/venture_corpus_c1/ai_reviews",
+  "first_read": {
+    "path": "multi_lens_ai_review.json",
+    "role": "AI-assisted review support artifact",
+    "why": "Open this first for the case findings and correction proposals."
+  },
+  "primary_human_deliverable": null,
+  "human_deliverables": [],
+  "companion_deliverables": [],
+  "support_artifacts": [
+    {
+      "path": "multi_lens_ai_review.json",
+      "role": "support_artifact",
+      "artifact_type": "json",
+      "description": "Multi-lens AI-assisted C1 material-findings review",
+      "user_visible_default": true,
+      "contains_new_analysis": true,
+      "support_reason": "Falsification pass before dataset correction and human review",
+      "user_requested_machine_readable": false
+    },
+    {
+      "path": "README.md",
+      "role": "support_artifact",
+      "artifact_type": "markdown",
+      "description": "Review scope and independence boundary",
+      "user_visible_default": false,
+      "contains_new_analysis": false,
+      "support_reason": "Explains why the artifact cannot satisfy the human gate",
+      "user_requested_machine_readable": false
+    }
+  ],
+  "agent_artifacts": [
+    {
+      "path": "../../../research/reviewers/CHM-V-AI-MULTI-LENS.md",
+      "role": "agent_artifact",
+      "artifact_type": "markdown",
+      "description": "Reusable AI reviewer role and safety boundary",
+      "user_visible_default": false,
+      "contains_new_analysis": false,
+      "support_reason": "Makes the reviewer procedure repeatable",
+      "user_requested_machine_readable": false
+    }
+  ],
+  "support_artifacts_user_visible_default": false,
+  "blocked_or_partial_status": {
+    "status": "partial",
+    "reason": "Material findings are recorded, but the independent human review is still required.",
+    "missing_inputs": [
+      "complete item-level decision ledger",
+      "independent human review"
+    ]
+  },
+  "final_response_guidance": {
+    "lead_with": "multi_lens_ai_review.json",
+    "mention_support_artifacts": "only_briefly_unless_requested"
+  },
+  "discipline_note": "This package is an AI audit support layer and cannot enable H001 generation."
+}

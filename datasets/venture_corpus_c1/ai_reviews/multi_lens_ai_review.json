@@ -1,0 +1,263 @@
+{
+  "schema_version": 1,
+  "review_id": "CHM-V-C1-AI-MULTI-LENS-001",
+  "review_type": "ai_assisted_internal_review",
+  "reviewer": {
+    "type": "codex_subagent",
+    "human_independent": false,
+    "satisfies_human_gate": false,
+    "lenses": [
+      "investment_banking_source_diligence",
+      "sales_commercial_logic",
+      "product_design_problem_alignment",
+      "creative_production_semantic_overreach"
+    ]
+  },
+  "corpus_id": "CHM-VENTURE-C1",
+  "overall_verdict": "needs_change",
+  "generation_allowed": false,
+  "c1_q001_status": "open",
+  "claim_boundary": "AI-assisted material-findings audit; not an independent human review",
+  "coverage": {
+    "official_sec_filings_checked": 10,
+    "registered_cases": 10,
+    "evidence_notes_screened": 30,
+    "nodes_screened": 132,
+    "edges_screened": 170,
+    "objective_references_screened": 20,
+    "constraint_references_screened": 10,
+    "rating_vectors_screened": 132,
+    "item_level_decision_ledger_complete": false,
+    "artifact_scope": "material findings and correction proposals"
+  },
+  "cases": [
+    {
+      "case_id": "sec-walmart-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "service_revenue merges membership, marketplace and advertising mechanisms with different payers",
+        "customer and marketplace_seller payment edges do not align with every bundled revenue mechanism",
+        "price_trust merges an operating promise with a trust-loss risk",
+        "delivery_cost REDUCES customer_frequency is not directly supported",
+        "customer_frequency conflates frequency and retention"
+      ],
+      "recommended_corrections": [
+        "Split membership, marketplace-fee and advertising revenue nodes and payer flows",
+        "Split price discipline from trust-loss risk",
+        "Remove the direct cost-to-frequency edge or add a supported profitability outcome"
+      ]
+    },
+    {
+      "case_id": "sec-salesforce-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852425000006/crm-20250131.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "agent_revenue is not a separately disclosed Agentforce revenue line",
+        "workflow_adoption and usage_signal feedback are not filing-level measurements",
+        "compute_cost REDUCES workflow_adoption is not directly supported",
+        "agent_revenue ENABLES agentforce is an unsupported causal edge"
+      ],
+      "recommended_corrections": [
+        "Use platform_subscription_revenue or label Agentforce revenue as a hypothesis",
+        "Replace adoption with a disclosed outcome or mark it cannot_verify",
+        "Remove unsupported funding and feedback edges"
+      ]
+    },
+    {
+      "case_id": "sec-microsoft-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "datacenter, energy and GPU capacity constraints are supported",
+        "datacenters scalability=1 conflicts with physical capacity limits",
+        "energy_supplier TRANSFERS_TO energy_contract violates the relation contract",
+        "ai_adoption feedback and infrastructure_cost REDUCES ai_adoption are not directly supported"
+      ],
+      "recommended_corrections": [
+        "Cap datacenter scalability at 0.75",
+        "Model energy capacity as an enabling resource and supplier exposure as a dependency",
+        "Remove or weaken unsupported adoption and feedback edges"
+      ]
+    },
+    {
+      "case_id": "sec-nvidia-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "platform, CUDA, foundry and packaging dependencies are supported",
+        "developer conflates developer, operator and payer roles",
+        "optimize COSTS supply_cost assigns manufacturing cost to deployment workload",
+        "foundry_partner TRANSFERS_TO compute_platform violates relation semantics",
+        "physical compute_platform scalability=1 is overstated"
+      ],
+      "recommended_corrections": [
+        "Split developer from platform customer or operator",
+        "Add a manufacture_platform action and attach supply cost to it",
+        "Replace partner transfer with a dependency or enabling structure",
+        "Cap physical platform scalability at 0.75"
+      ]
+    },
+    {
+      "case_id": "sec-home-depot-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/354950/000035495025000085/hd-20250202.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "Pro, delivery, trade credit and housing-demand risk are supported",
+        "pro_revenue is not a separately disclosed revenue line",
+        "pro_retention and fulfillment_cost REDUCES pro_retention are not directly supported",
+        "building_supplier TRANSFERS_TO store_inventory violates relation semantics",
+        "inventory and services feedback edges are not directly supported"
+      ],
+      "recommended_corrections": [
+        "Use pro_sales as a structural rather than audited revenue category",
+        "Replace retention with a supported Pro activity outcome or cannot_verify",
+        "Model supplier exposure through a supply resource or dependency"
+      ]
+    },
+    {
+      "case_id": "sec-intuit-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/896878/000089687825000035/intu-20250731.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "AI agents, connected platform and privacy, security and regulatory constraints are supported",
+        "cross_platform_use has no registered measurable filing support",
+        "financial_data DEPENDS_ON data_constraint reverses the constraint semantics",
+        "financial_partner TRANSFERS_TO financial_data violates relation semantics",
+        "product_channel REACHES financial_partner and the feedback loop are not directly supported"
+      ],
+      "recommended_corrections": [
+        "Represent data_constraint with BLOCKS rather than DEPENDS_ON",
+        "Model partner-provided data as a separate resource",
+        "Remove the unsupported channel-to-partner edge",
+        "Mark adoption outcomes cannot_verify unless separately evidenced"
+      ]
+    },
+    {
+      "case_id": "sec-fedex-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1048911/000104891125000011/fdx-20250531.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "Network 2.0, DRIVE, network efficiency and reliability are supported",
+        "network_utilization conflates internal utilization with customer-facing reliability",
+        "reliability_value PRODUCES network_utilization has reversed or unsupported causality",
+        "network_cost REDUCES network_utilization is not supported without a profitability outcome",
+        "carrier_partner TRANSFERS_TO transport_network violates relation semantics"
+      ],
+      "recommended_corrections": [
+        "Split network utilization from service reliability",
+        "Produce utilization through consolidation or network actions",
+        "Model carrier partners as dependencies or enablers"
+      ]
+    },
+    {
+      "case_id": "sec-nike-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/320187/000032018725000047/nke-20250531.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "direct and wholesale channels, innovation, traffic and markdown pressure are supported",
+        "product_revenue as full-price revenue is not a separately disclosed category",
+        "consumer is not always the direct payer in the wholesale model",
+        "creation_cost REDUCES full_price_demand is not directly supported",
+        "inventory_constraint conflates inventory, markdown and traffic",
+        "create_launch immediacy=1 and physical scalability=1 are overstated",
+        "wholesale_partner TRANSFERS_TO channel_inventory has the wrong direction and relation"
+      ],
+      "recommended_corrections": [
+        "Split direct-consumer and wholesale-customer payment flows",
+        "Split inventory availability, markdown pressure and channel traffic",
+        "Set product-development immediacy to 0.25-0.5 and physical scalability to at most 0.75"
+      ]
+    },
+    {
+      "case_id": "sec-oracle-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "OCI, capacity investment and long-term commitments are supported",
+        "commitment_constraint conflates capacity commitments and cloud competition",
+        "commitments do not necessarily BLOCK cloud_capacity and can instead create financial downside",
+        "capacity_cost REDUCES workload_growth is not directly supported",
+        "cloud_channel AMPLIFIES database_stack and the partner transfer edge violate relation semantics",
+        "physical cloud capacity scalability=1 is overstated"
+      ],
+      "recommended_corrections": [
+        "Split excess-capacity commitment risk, capacity shortage and competition",
+        "Map shortage to capacity, excess commitments to profitability and competition to adoption",
+        "Cap physical capacity scalability at 0.75"
+      ]
+    },
+    {
+      "case_id": "sec-pg-2025",
+      "source_url": "https://www.sec.gov/Archives/edgar/data/80424/000008042425000076/pg-20250630.htm",
+      "verdict": "needs_change",
+      "material_findings": [
+        "retail, ecommerce, DTC, consumer insights and retail concentration are supported",
+        "recurring_revenue incorrectly implies contractual recurrence rather than product sales",
+        "household normally pays the retailer rather than P&G outside DTC",
+        "retail_channel and retail_customer partially duplicate a commercial role",
+        "retail concentration does not directly prove BLOCKS direct_channel",
+        "channel_constraint conflates concentration and channel conflict",
+        "repeat purchase and household retention conflate different outcomes",
+        "permissioned direct consumer channel is an unsupported qualifier",
+        "manufacturing scalability and immediacy are overstated"
+      ],
+      "recommended_corrections": [
+        "Rename recurring_revenue to product_sales_revenue",
+        "Use retail_customer as the main payer and household only for DTC",
+        "Split concentration pressure from the DTC mechanism",
+        "Remove the permissioned qualifier and separate repeat purchase from retention"
+      ]
+    }
+  ],
+  "systemic_findings": [
+    {
+      "severity": "high",
+      "affected_cases": 10,
+      "finding": "NEED DEPENDS_ON VALUE violates the registered DEPENDS_ON semantics",
+      "recommended_correction": "Remove these edges; ACTOR HAS_NEED NEED already represents the need relation"
+    },
+    {
+      "severity": "high",
+      "affected_cases": 10,
+      "finding": "COST REDUCES OUTCOME frequently substitutes profitability impact with unsupported adoption, retention or demand causality",
+      "recommended_correction": "Add a margin or profitability outcome when supported, otherwise remove the edge"
+    },
+    {
+      "severity": "high",
+      "affected_cases": 7,
+      "finding": "ACTOR TRANSFERS_TO RESOURCE is used with an invalid target or direction",
+      "recommended_correction": "Represent supply through a resource, dependency or enabling relation"
+    },
+    {
+      "severity": "high",
+      "affected_cases": 3,
+      "finding": "Payer and revenue mechanisms are mismatched in Walmart, NIKE and P&G",
+      "recommended_correction": "Split payer-specific channels and revenue nodes"
+    },
+    {
+      "severity": "medium",
+      "affected_cases": 10,
+      "finding": "Value-to-outcome, feedback and amplification loops are plausible but often not directly supported by filings",
+      "recommended_correction": "Use cannot_verify or add separate primary evidence"
+    },
+    {
+      "severity": "medium",
+      "affected_cases": 10,
+      "finding": "Rating vectors lack per-axis rationale and source locators",
+      "recommended_correction": "Add a rationale and evidence locator for every non-default numeric feature"
+    },
+    {
+      "severity": "medium",
+      "affected_cases": 10,
+      "finding": "Physical mechanisms and long-duration actions repeatedly receive unrestricted scalability or immediacy",
+      "recommended_correction": "Reapply the registered anchor definitions and cap physical scalability and long-duration immediacy"
+    }
+  ],
+  "decision": {
+    "dataset_patch_required": true,
+    "repeat_ai_review_after_patch": true,
+    "independent_human_review_still_required": true,
+    "h001_generation_must_remain_blocked": true
+  }
+}

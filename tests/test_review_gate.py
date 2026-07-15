@@ -59,6 +59,18 @@ def test_committed_review_gate_is_explicitly_blocked() -> None:
         assert_review_gate_passed(result)
 
 
+def test_ai_review_cannot_satisfy_human_gate() -> None:
+    review = json.loads(
+        (DATA / "ai_reviews" / "multi_lens_ai_review.json").read_text(encoding="utf-8")
+    )
+    assert review["review_type"] == "ai_assisted_internal_review"
+    assert review["reviewer"]["human_independent"] is False
+    assert review["reviewer"]["satisfies_human_gate"] is False
+    assert review["generation_allowed"] is False
+    assert len(review["cases"]) == 10
+    assert {case["verdict"] for case in review["cases"]} == {"needs_change"}
+
+
 def test_review_packet_build_is_deterministic(tmp_path: Path) -> None:
     packet_path = tmp_path / "packet.json"
     template_path = tmp_path / "template.json"

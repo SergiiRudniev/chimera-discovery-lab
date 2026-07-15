@@ -1,5 +1,20 @@
 # Research Journal
 
+## 2026-07-15 — C1 multi-lens AI review
+
+- **Reviewer:** Codex subagent with source-diligence, commercial-logic,
+  problem-alignment and semantic-overreach lenses.
+- **Coverage:** 10/10 SEC filings and all registered graph elements were
+  screened; the committed support artifact records material findings, not a
+  complete item-level decision ledger.
+- **Decision:** `needs_change`. Repeated issues include invalid
+  `NEED→DEPENDS_ON→VALUE`, unsupported `COST→REDUCES→OUTCOME`, invalid actor to
+  resource transfers, payer mismatches and overstated numeric anchors.
+- **Verification:** The three systemic relation counts reproduce directly from
+  `source_cases.yaml`: 10, 10 and 7 affected cases respectively.
+- **Independence:** This is an AI-assisted internal audit, not an independent
+  human review. `C1-Q001` remains open and H001 generation remains blocked.
+
 ## 2026-07-15 — Venture Corpus C1 review gate
 
 - **Internal audit:** Filing identity and primary-source support verified for
