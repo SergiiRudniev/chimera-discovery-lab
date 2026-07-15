@@ -1,5 +1,20 @@
 # Research Journal
 
+## 2026-07-15 — Chimera Meta-World W0 registration
+
+- **Decision:** Name the new causal world-model family `Chimera Meta-World` and
+  its first generation `Chimera Meta-World W0`.
+- **Namespace:** Reserve `chimera-meta-world`, `CHM-W-H###`, `CHM-W-T###` and
+  `CHM-W-C###` for the family, experiments and corpora.
+- **Scope:** W0 will learn numerical cross-domain state dynamics and propose a
+  frozen intervention before language grounding.
+- **Hardware envelope:** Target approximately 64M trainable parameters for local
+  mixed-precision training on the registered RTX 5070 with 12,227 MiB VRAM.
+- **Status:** Design registered; no W0 implementation, dataset, checkpoint or
+  empirical result exists yet.
+- **Claim boundary:** Registration does not establish language independence,
+  causal discovery, cross-domain transfer or idea quality.
+
 ## 2026-07-15 — Venture Corpus C1 preregistration
 
 - **Corpus:** `CHM-VENTURE-C1`; 2 calibration and 8 evaluation cases from

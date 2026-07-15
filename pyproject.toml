@@ -5,17 +5,19 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "chimera-discovery"
 version = "0.1.0"
-description = "Non-linguistic graph models for structured idea generation."
+description = "Non-linguistic models for structured ideation and causal world representations."
 readme = "README.md"
 requires-python = ">=3.10,<3.14"
 license = { file = "LICENSE" }
 authors = [{ name = "Sergii Rudniev" }]
 keywords = [
   "artificial-intelligence",
+  "causal-representation-learning",
   "graph-neural-networks",
   "idea-generation",
   "latent-world-models",
   "quality-diversity",
+  "world-models",
 ]
 classifiers = [
   "Development Status :: 2 - Pre-Alpha",
