@@ -1,5 +1,68 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H004 development preflight
+
+- **Scope:** Development seed `260906`, 300 steps, `train` and `validation`
+  only. Frozen validation seeds and every test split remained unopened.
+- **Matched probe arm:** Effect NRMSE `0.883479`, rollout NRMSE `0.501839`,
+  coverage `0.991667`, retrieval `0.0`.
+- **Matched random arm:** Effect NRMSE `1.000466`, rollout NRMSE `0.474423`,
+  coverage `0.983333`, retrieval `0.0`.
+- **Controlled policy effect:** Probe/random ratios were `0.883068` for
+  intervention effect and `1.057790` for rollout. Probes improved effect by
+  `11.69%` but worsened rollout by `5.78%`.
+- **No-discrimination diagnostic:** Probe closed-loop training without the
+  mechanism loss reached effect `0.857156` and rollout `0.477443`. This suggests
+  that probes are useful while instance discrimination conflicts with dynamics.
+- **Decision:** Do not run seeds `260907..260909`, do not freeze `CHM-W-T004`,
+  do not open test and do not promote checkpoints. The full arm failed rollout
+  and retrieval gates despite its effect improvement.
+- **Next action:** Register a mixed probe/random curriculum without instance
+  discrimination, preserving active-identification effect gains while enforcing
+  rollout non-inferiority against a matched random-only arm.
+- **Claim boundary:** Development validation engineering evidence only. H004
+  remains `not_run`; no test-world transfer or production claim exists.
+
+## 2026-07-15 — CHM-W-H004 WG1 implementation
+
+- **Dataset:** Implemented `CHM-W-WG1` with 16-step trajectories, deterministic
+  system-identification train probes and a shared four-probe-plus-random
+  evaluator policy.
+- **Boundary:** Policy IDs remain manifest metadata. Model batches contain only
+  numeric observations, masks, relations, actions, time and outcomes.
+- **Fixed smoke:** 16 trajectories per split, 80 total; manifest SHA-256
+  `cc0305bd99f05cf5d528f045dd494652d377be2c5836d5922d589eb6d3b96461`.
+- **Integrity:** 20/20 gates passed, including exact replay, source/shard hashes,
+  tensor shape and finite checks, all split-isolation policies and registered
+  probe-prefix coverage.
+- **Excitation diagnostic:** Between/within paired response separation was
+  `1.235036`. This confirms non-zero numeric response diversity only.
+- **Status:** Data pipeline ready for a validation-only model preflight. H004
+  remains `not_run`; no model metric or checkpoint was produced.
+
+## 2026-07-15 — CHM-W-H004 registration
+
+- **Question:** Do controlled numeric system-identification probes improve
+  mechanism retrieval and unseen-world prediction over random-action training?
+- **Diagnosis inherited from H003:** Hard-negative pressure made embeddings
+  more similar across views but could not rank a true pair above the closest
+  distinct mechanism. The short passive trajectory was not sufficiently
+  identifying.
+- **Change:** Expand trajectories to 16 steps. Train on deterministic zero,
+  impulse, magnitude, control-polarity, reversal and recovery probes. Evaluate
+  every arm on the same four-probe prefix followed by seeded random actions.
+- **Controlled comparison:** The full and random-curriculum arms share model,
+  optimizer, loss, mechanism queue, splits and evaluator; only the train action
+  policy differs.
+- **Isolation:** Probe type and all generator provenance remain evaluator-only.
+  Model inputs contain only observations, masks, relations, time and actions.
+- **Validation discipline:** Seed `260906` is development-only. Hyperparameters
+  must freeze before seeds `260907..260909`; test remains sealed until the
+  registered validation gate passes.
+- **Status:** `not_run`; WG1, model metrics and checkpoints do not exist yet.
+- **Claim boundary:** Simulator-only active identification; no real-world
+  causality, experiment safety, business utility or production claim.
+
 ## 2026-07-15 — CHM-W-H003 exploratory validation preflight
 
 - **Scope:** Single-seed (`260903`), 300-step exploratory comparison on

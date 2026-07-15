@@ -23,6 +23,11 @@ from chimera.meta_world.generators import (
 )
 from chimera.meta_world.h002 import run_h002_preflight
 from chimera.meta_world.h003 import run_h003_preflight
+from chimera.meta_world.h004 import (
+    build_h004_probe_dataset,
+    run_h004_preflight,
+    validate_h004_probe_dataset,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -124,6 +129,47 @@ def _validate_generated_world_dataset(arguments: argparse.Namespace) -> int:
     return 0 if report["status"] == "passed" else 1
 
 
+def _build_h004_probe_dataset(arguments: argparse.Namespace) -> int:
+    manifest = build_h004_probe_dataset(
+        arguments.output,
+        arguments.config,
+        trajectories_per_split=arguments.trajectories_per_split,
+    )
+    counts = manifest["counts"]
+    if not isinstance(counts, dict):
+        raise TypeError("WG1 manifest counts must be a mapping")
+    print(
+        json.dumps(
+            {
+                "dataset_id": manifest["dataset_id"],
+                "manifest": str(arguments.output / "manifest.json"),
+                **counts,
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _validate_h004_probe_dataset(arguments: argparse.Namespace) -> int:
+    report = validate_h004_probe_dataset(arguments.manifest)
+    counts = report["counts"]
+    if not isinstance(counts, dict):
+        raise TypeError("WG1 validation counts must be a mapping")
+    print(
+        json.dumps(
+            {
+                "dataset_id": report["dataset_id"],
+                "status": report["status"],
+                "probe_response_separation": report["probe_response_separation"],
+                **counts,
+            },
+            sort_keys=True,
+        )
+    )
+    return 0 if report["status"] == "passed" else 1
+
+
 def _world_generator_smoke(arguments: argparse.Namespace) -> int:
     config = GeneratedWorldDatasetConfig.from_yaml(arguments.config)
     batch = WorldGenerationPipeline(config).online_batch(
@@ -177,6 +223,26 @@ def _h003_preflight(arguments: argparse.Namespace) -> int:
                 "run_id": result["run_id"],
                 "status": result["status"],
                 "arm": result["arm"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h004_preflight(arguments: argparse.Namespace) -> int:
+    result = run_h004_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "train_action_policy": result["train_action_policy"],
                 "parameters": result["parameters"],
                 "best_step": result["best_step"],
                 "output": str(arguments.output),
@@ -511,6 +577,28 @@ def build_parser() -> argparse.ArgumentParser:
     )
     world_generator_smoke_parser.add_argument("--batch-size", type=int, default=4)
     world_generator_smoke_parser.add_argument("--start-index", type=int, default=0)
+    h004_dataset_parser = subparsers.add_parser("build-world-probe-dataset")
+    h004_dataset_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_generators_h004.yaml"),
+    )
+    h004_dataset_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("artifacts/meta_world_probe_smoke"),
+    )
+    h004_dataset_parser.add_argument(
+        "--trajectories-per-split",
+        type=int,
+        default=16,
+    )
+    h004_validation_parser = subparsers.add_parser("validate-world-probe-dataset")
+    h004_validation_parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path("artifacts/meta_world_probe_smoke/manifest.json"),
+    )
     h002_preflight_parser = subparsers.add_parser("meta-world-h002-preflight")
     h002_preflight_parser.add_argument(
         "--config",
@@ -532,6 +620,17 @@ def build_parser() -> argparse.ArgumentParser:
         "--output",
         type=Path,
         default=Path("runs/h003_preflight_closed_loop"),
+    )
+    h004_preflight_parser = subparsers.add_parser("meta-world-h004-preflight")
+    h004_preflight_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h004_preflight_probe.yaml"),
+    )
+    h004_preflight_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h004_preflight_probe"),
     )
     return parser
 
@@ -566,10 +665,16 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _validate_generated_world_dataset(arguments)
     if arguments.command == "world-generator-smoke":
         return _world_generator_smoke(arguments)
+    if arguments.command == "build-world-probe-dataset":
+        return _build_h004_probe_dataset(arguments)
+    if arguments.command == "validate-world-probe-dataset":
+        return _validate_h004_probe_dataset(arguments)
     if arguments.command == "meta-world-h002-preflight":
         return _h002_preflight(arguments)
     if arguments.command == "meta-world-h003-preflight":
         return _h003_preflight(arguments)
+    if arguments.command == "meta-world-h004-preflight":
+        return _h004_preflight(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

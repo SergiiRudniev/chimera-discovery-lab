@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import io
 import json
+import re
 import zipfile
 from collections.abc import Mapping, Sequence
 from dataclasses import asdict, dataclass
@@ -21,6 +22,7 @@ from chimera.meta_world.generators.contracts import (
     GeneratedWorldBatch,
     SplitName,
     TrajectoryMetadata,
+    WorldActionPolicy,
     WorldDatasetManifest,
     WorldFamily,
     WorldTrajectory,
@@ -89,8 +91,12 @@ class GeneratedWorldDatasetConfig:
     held_family_by_template: dict[int, int]
 
     def __post_init__(self) -> None:
-        if self.hypothesis_id != "CHM-W-H002" or self.schema_version != 1:
-            raise ValueError("unexpected H002 generator identity or schema")
+        if (
+            re.fullmatch(r"CHM-W-H\d{3}", self.hypothesis_id) is None
+            or re.fullmatch(r"CHM-W-WG\d+", self.dataset_id) is None
+            or self.schema_version != 1
+        ):
+            raise ValueError("unexpected generated-world identity or schema")
         if self.base_seed < 0 or self.trajectory_steps <= 1:
             raise ValueError("base_seed and trajectory_steps are invalid")
         if self.min_objects <= 1 or self.max_objects < self.min_objects:
@@ -208,8 +214,13 @@ class GeneratedWorldDatasetConfig:
 class WorldGenerationPipeline:
     """Seed-addressable trajectory materialization for online and fixed modes."""
 
-    def __init__(self, config: GeneratedWorldDatasetConfig) -> None:
+    def __init__(
+        self,
+        config: GeneratedWorldDatasetConfig,
+        action_policy: WorldActionPolicy | None = None,
+    ) -> None:
         self.config = config
+        self.action_policy = action_policy
         self.mechanisms = MechanismGenerator()
         self.worlds = WorldGenerator(
             min_objects=config.min_objects,
@@ -243,8 +254,12 @@ class WorldGenerationPipeline:
         initial = world.reset(generation_seed)
         action_rng = np.random.default_rng(generation_seed + 1)
         transitions = tuple(
-            world.step(world.sample_action(action_rng))
-            for _ in range(self.config.trajectory_steps)
+            world.step(
+                world.sample_action(action_rng)
+                if self.action_policy is None
+                else self.action_policy.sample_action(world, action_rng, step)
+            )
+            for step in range(self.config.trajectory_steps)
         )
         metadata = TrajectoryMetadata(
             split=split,
@@ -462,6 +477,10 @@ def build_generated_world_dataset(
     config_path: str | Path,
     *,
     trajectories_per_split: int | None = None,
+    action_policies: Mapping[SplitName, WorldActionPolicy] | None = None,
+    action_policy_ids: Mapping[SplitName, str] | None = None,
+    additional_source_hashes: Mapping[str, str] | None = None,
+    claim_boundary: str | None = None,
 ) -> dict[str, object]:
     """Build a small fixed H002 dataset; online training uses the same pipeline."""
 
@@ -478,10 +497,13 @@ def build_generated_world_dataset(
         raise ValueError(
             "trajectories_per_split must cover every template and complete view group"
         )
-    pipeline = WorldGenerationPipeline(config)
     shards: dict[str, dict[str, object]] = {}
     counts: dict[str, int] = {"total": 0}
     for split in SplitName:
+        pipeline = WorldGenerationPipeline(
+            config,
+            None if action_policies is None else action_policies.get(split),
+        )
         trajectories = [pipeline.materialize(split, index) for index in range(count)]
         batch = collate_trajectories(trajectories, max_objects=config.max_objects)
         arrays = {**_batch_arrays(batch), **_metadata_arrays(trajectories)}
@@ -502,13 +524,51 @@ def build_generated_world_dataset(
         }
         counts[split.value] = count
         counts["total"] += count
+    configuration = config.to_dict()
+    if action_policy_ids is not None:
+        configuration["action_policies"] = {
+            split.value: action_policy_ids[split] for split in SplitName
+        }
+    source_hashes = _source_hashes()
+    if additional_source_hashes is not None:
+        source_hashes.update(additional_source_hashes)
+    split_policy: dict[str, object] = {
+        "known_mechanism_templates": list(
+            config.split(SplitName.TRAIN).mechanism_template_ids
+        ),
+        "unseen_mechanism_templates": list(
+            config.split(SplitName.TEST_MECHANISM).mechanism_template_ids
+        ),
+        "held_family_by_template": {
+            str(key): value
+            for key, value in sorted(config.held_family_by_template.items())
+        },
+        "known_renderer_profiles": list(
+            config.split(SplitName.TRAIN).renderer_profiles
+        ),
+        "unseen_renderer_profiles": list(
+            config.split(SplitName.TEST_RENDERER).renderer_profiles
+        ),
+        "exact_isolation": [
+            "mechanism_id",
+            "world_instance_id",
+            "seed",
+            "world_config_sha256",
+            "renderer_config_sha256",
+        ],
+        "config_sha256": _sha256(config_file),
+    }
+    if action_policy_ids is not None:
+        split_policy["action_policies"] = {
+            split.value: action_policy_ids[split] for split in SplitName
+        }
     manifest = WorldDatasetManifest(
         dataset_id=config.dataset_id,
         schema_version=config.schema_version,
         hypothesis_id=config.hypothesis_id,
         base_seed=config.base_seed,
         trajectory_steps=config.trajectory_steps,
-        configuration=config.to_dict(),
+        configuration=configuration,
         counts=counts,
         shards=shards,
         tensor_contract={
@@ -522,34 +582,10 @@ def build_generated_world_dataset(
             "outcomes": ["batch", "time", "outcome_features"],
             "sequence_mask": ["batch", "time"],
         },
-        split_policy={
-            "known_mechanism_templates": list(
-                config.split(SplitName.TRAIN).mechanism_template_ids
-            ),
-            "unseen_mechanism_templates": list(
-                config.split(SplitName.TEST_MECHANISM).mechanism_template_ids
-            ),
-            "held_family_by_template": {
-                str(key): value
-                for key, value in sorted(config.held_family_by_template.items())
-            },
-            "known_renderer_profiles": list(
-                config.split(SplitName.TRAIN).renderer_profiles
-            ),
-            "unseen_renderer_profiles": list(
-                config.split(SplitName.TEST_RENDERER).renderer_profiles
-            ),
-            "exact_isolation": [
-                "mechanism_id",
-                "world_instance_id",
-                "seed",
-                "world_config_sha256",
-                "renderer_config_sha256",
-            ],
-            "config_sha256": _sha256(config_file),
-        },
-        source_hashes=_source_hashes(),
-        claim_boundary=(
+        split_policy=split_policy,
+        source_hashes=source_hashes,
+        claim_boundary=claim_boundary
+        or (
             "Generated numerical simulator data for H002 transfer evaluation; "
             "not evidence of real-world causality, business utility or profitable ideas."
         ),
@@ -568,7 +604,11 @@ def _pairwise_disjoint(values: Mapping[str, set[object]]) -> bool:
     )
 
 
-def validate_generated_world_dataset(manifest_path: str | Path) -> dict[str, object]:
+def validate_generated_world_dataset(
+    manifest_path: str | Path,
+    *,
+    action_policies: Mapping[SplitName, WorldActionPolicy] | None = None,
+) -> dict[str, object]:
     """Validate files, tensor shapes, replay and all registered split boundaries."""
 
     manifest_file = Path(manifest_path)
@@ -579,7 +619,6 @@ def validate_generated_world_dataset(manifest_path: str | Path) -> dict[str, obj
         _as_mapping(manifest.get("configuration"), "manifest configuration")
     )
     root = manifest_file.parent
-    pipeline = WorldGenerationPipeline(config)
     file_integrity = True
     source_root = Path(__file__).parent
     source_integrity = all(
@@ -597,6 +636,10 @@ def validate_generated_world_dataset(manifest_path: str | Path) -> dict[str, obj
     family_pairs: dict[str, set[tuple[int, int]]] = {}
     renderer_profiles: dict[str, set[int]] = {}
     for split in SplitName:
+        pipeline = WorldGenerationPipeline(
+            config,
+            None if action_policies is None else action_policies.get(split),
+        )
         shard = manifest["shards"][split.value]
         path = root / shard["file"]
         file_integrity = file_integrity and path.is_file() and _sha256(path) == shard["sha256"]
