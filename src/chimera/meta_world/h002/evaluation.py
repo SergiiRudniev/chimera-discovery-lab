@@ -118,18 +118,23 @@ def evaluate_h002_model(
         output = trainer.predict(window)
         prediction = output.next_state_mean.detach().cpu()
         next_mask = generated.object_mask[:, prediction_step + 1].unsqueeze(-1)
+        rolled_state = torch.zeros_like(prediction)
+        rolled_state[:, :, : sample.state_features] = prediction[
+            :, :, : sample.state_features
+        ]
         working_observations[:, prediction_step + 1] = torch.where(
             next_mask,
-            prediction,
+            rolled_state,
             working_observations[:, prediction_step + 1],
         )
         final_prediction = prediction
     if final_prediction is None or retrieval_embedding is None:
         raise RuntimeError("evaluation did not produce registered predictions")
     final_target = generated.observations[:, rollout_final]
-    final_mask = generated.object_mask[:, rollout_final].unsqueeze(-1).expand_as(
-        final_target
-    )
+    final_mask = torch.zeros_like(final_target, dtype=torch.bool)
+    final_mask[:, :, : sample.state_features] = generated.object_mask[
+        :, rollout_final
+    ].unsqueeze(-1)
     rollout_nrmse = _global_nrmse(final_prediction, final_target, final_mask)
     retrieval = _retrieval_accuracy(
         retrieval_embedding,

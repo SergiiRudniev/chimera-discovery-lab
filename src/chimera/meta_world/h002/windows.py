@@ -25,6 +25,7 @@ class GeneratedSequenceSample:
     world_family_ids: Tensor
     renderer_profile_ids: Tensor
     trajectory_indices: Tensor
+    state_features: int
 
     def __post_init__(self) -> None:
         expected = (self.batch.batch_size,)
@@ -36,6 +37,8 @@ class GeneratedSequenceSample:
         ):
             if tuple(getattr(self, name).shape) != expected:
                 raise ValueError(f"{name} must have shape {expected}")
+        if not 0 < self.state_features <= self.batch.observations.shape[-1]:
+            raise ValueError("state_features must fit the observation tensor")
 
 
 def materialize_sequence_sample(
@@ -77,6 +80,7 @@ def materialize_sequence_sample(
             dtype=torch.long,
         ),
         trajectory_indices=torch.tensor(indices, dtype=torch.long),
+        state_features=pipeline.config.state_features,
     )
 
 
@@ -161,7 +165,8 @@ def make_transition_window(
     )
     next_observations = generated.observations[:, prediction_step + 1]
     next_slot_mask = generated.object_mask[:, prediction_step + 1]
-    next_observation_mask = next_slot_mask.unsqueeze(-1).expand_as(next_observations)
+    next_observation_mask = torch.zeros_like(next_observations, dtype=torch.bool)
+    next_observation_mask[:, :, : sample.state_features] = next_slot_mask.unsqueeze(-1)
     window = MetaWorldBatch(
         observations=observations,
         observation_mask=observation_mask,

@@ -88,11 +88,18 @@ def test_generated_sequence_window_hides_service_metadata() -> None:
     assert window.observations.shape == (4, 4, 10, 8)
     assert window.intervention_parameters.shape == (4, 3)
     assert window.effect_targets.shape == (4, 4)
+    assert sample.state_features == 4  # type: ignore[attr-defined]
     assert window.action_history is not None
     assert window.action_target_history is not None
     assert window.action_history.shape == (4, 4, 3)
     assert window.action_target_history.shape == (4, 4, 10)
     assert torch.count_nonzero(window.action_history[:, 0]) == 0
+    assert torch.equal(
+        window.next_observation_mask[:, :, :4],
+        window.next_observation_mask[:, :, :1].expand(-1, -1, 4),
+    )
+    assert torch.any(window.next_observation_mask[:, :, :4])
+    assert not torch.any(window.next_observation_mask[:, :, 4:])
     assert torch.equal(window.domain_ids, torch.zeros(4, dtype=torch.long))
     assert not hasattr(window, "world_family_ids")
     assert torch.all(window.source_slots != window.target_slots)
