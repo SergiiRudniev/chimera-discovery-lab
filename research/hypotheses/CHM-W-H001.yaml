@@ -1,6 +1,6 @@
 id: CHM-W-H001
 registered_at: 2026-07-15
-status: registered
+status: accepted
 hypothesis: >-
   Replacing the FP32 indexed-assignment buffer with dtype-preserving domain
   output selection allows the full Chimera Meta-World W0 architecture to pass
@@ -28,7 +28,7 @@ data:
   language_input: false
 protocol:
   trial_id: CHM-W-T001
-  status: not_run
+  status: completed
   fixed_batch: true
   steps: 20
   precision: bfloat16

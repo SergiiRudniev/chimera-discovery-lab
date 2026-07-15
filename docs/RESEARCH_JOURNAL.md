@@ -1,5 +1,24 @@
 # Research Journal
 
+## 2026-07-15 — Meta-World H001 result
+
+- **Protocol:** `CHM-W-T001`, frozen at commit `a437d3e`; architecture,
+  fixed batch, seed, optimizer and gates were unchanged from rejected T000.
+- **Correction:** Replaced FP32 indexed assignment with dtype-preserving
+  selection across domain-adapter outputs and added a BF16 autocast regression test.
+- **Runtime:** 61,854,120 parameters; 20 BF16 CUDA steps in 1.37 seconds on the
+  RTX 5070; peak allocated VRAM was 1,902,361,600 bytes.
+- **Optimization:** Fixed-batch loss moved from 0.110891 to -1.892130; all
+  recorded metrics and gradients were finite.
+- **Determinism:** Maximum evaluation replay delta was exactly 0 before and
+  after training.
+- **Decision:** Accept H001 as W0 core engineering qualification. Do not publish
+  a checkpoint from this overfit smoke trial.
+- **Next action:** Build time-isolated mechanistic trajectories and evaluate
+  held-out next-state accuracy, uncertainty calibration and cross-domain transfer.
+- **Claim boundary:** No real-world causality, semantic grounding, idea quality
+  or production-readiness evidence exists.
+
 ## 2026-07-15 — Meta-World H000 result
 
 - **Protocol:** `CHM-W-T000`, frozen at commit `42f016c` before CUDA execution.
