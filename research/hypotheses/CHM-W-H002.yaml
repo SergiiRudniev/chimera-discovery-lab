@@ -1,0 +1,75 @@
+id: CHM-W-H002
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  Cross-world pretraining with mechanism alignment on procedurally generated
+  numerical dynamic worlds reduces both intervention-effect prediction error
+  and four-step rollout error in previously unseen world-family mappings,
+  compared with every preregistered baseline under paired evaluation episodes.
+scope: cross_world_mechanism_transfer
+parent: CHM-W-H001
+config: configs/meta_world/world_generators_h002.yaml
+data:
+  source: programmatic_dynamic_world_generators
+  world_families:
+    - flow
+    - competition
+    - funnel
+  generation_modes:
+    - online_cpu_training
+    - fixed_sha256_evaluation
+  language_input: false
+  hidden_metadata_excluded_from_model_input:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+  split_isolation:
+    - concrete_mechanism_id
+    - world_instance_id
+    - generation_seed
+    - exact_world_configuration
+    - exact_renderer_configuration
+protocol:
+  trial_id: CHM-W-T002
+  status: not_run
+  training_seeds:
+    - 260902
+    - 260903
+    - 260904
+  comparison_arms:
+    - cross_world_pretraining_with_mechanism_alignment
+    - cross_world_pretraining_without_mechanism_alignment
+    - target_family_only_training
+    - temporal_predictor_without_relational_state
+    - legal_random_intervention
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_rmse
+    - four_step_rollout_nrmse
+  checkpoint_selection: >-
+    Minimize the unweighted mean of validation intervention-effect NRMSE and
+    four-step rollout NRMSE. Test splits remain closed until selection is frozen.
+  pass_if:
+    each_primary_error_ratio_vs_best_baseline_maximum: 0.90
+    each_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_prediction_error
+    - zero_shot_world_transfer_error
+    - uncertainty_calibration
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - mechanism_retrieval_accuracy
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports transfer within the registered simulator
+    distribution only. It is not evidence of real-world causal discovery,
+    profitable business ideas or production readiness.
+result: research/results/CHM-W-H002.json
+

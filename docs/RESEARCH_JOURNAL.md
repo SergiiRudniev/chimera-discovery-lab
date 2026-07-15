@@ -1,5 +1,27 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H002 registration
+
+- **Question:** Does cross-world pretraining with mechanism alignment improve
+  intervention-effect prediction and four-step rollout prediction in held-out
+  world-family mappings?
+- **Worlds:** Programmatic numerical `FlowWorld`, `CompetitionWorld` and
+  `FunnelWorld`; no language is accepted by the model input contract.
+- **Representation:** Hidden mechanisms are rendered through independently
+  sampled object, feature, unit, time, noise and visibility transforms.
+- **Isolation:** Concrete mechanisms, world instances, seeds, world configs and
+  renderer configs cannot cross dataset splits. Mechanism templates may repeat
+  where the registered transfer question requires a known law in a new world
+  family or rendering.
+- **Primary gate:** On `test_world_transfer`, both intervention-effect RMSE and
+  four-step rollout NRMSE must be at most 0.90 times the strongest baseline,
+  and each paired 90% bootstrap ratio upper bound must be below 1.00.
+- **Comparators:** No-alignment, target-family-only, temporal-without-relations
+  and legal-random-intervention baselines.
+- **Status:** `not_run`; no target metrics or checkpoints have been opened.
+- **Claim boundary:** Simulator-distribution mechanism transfer only; no claim
+  of real-world causal discovery, profitable ideas or production readiness.
+
 ## 2026-07-15 — Meta-World failure artifact policy
 
 - **Finding:** T000 failed before the trial runner created its normal result
