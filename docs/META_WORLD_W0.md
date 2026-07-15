@@ -126,6 +126,7 @@ configs/meta_world/meta_world_w0.yaml
 research/hypotheses/CHM-W-H000.yaml
 research/results/CHM-W-H000.json
 research/trials/CHM-W-T000/
+datasets/meta_world_corpus_c0/
 chimera-meta-world-w0-step######.pt
 ```
 
@@ -133,3 +134,7 @@ The executable corrective configuration is
 `configs/meta_world/meta_world_w0_t1.yaml`. H001 qualifies CUDA execution and
 fixed-batch optimization only. No W0 checkpoint is promoted until held-out
 dynamics, calibration and transfer protocols pass.
+
+`CHM-W-C000` contains 163,840 deterministic procedural trajectories. Its
+automated quality gate has passed; independent AI review remains required before
+the corpus may be used by H002.

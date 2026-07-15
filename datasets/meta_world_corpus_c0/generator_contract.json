@@ -1,0 +1,122 @@
+{
+  "active_slots": 8,
+  "base_seed": 260800,
+  "context_steps": 8,
+  "corpus_id": "CHM-W-C000",
+  "effect_dimensions": 4,
+  "grain": "one intervention-conditioned numeric trajectory",
+  "index_fields": [
+    "record_ids",
+    "record_seeds",
+    "domain_ids",
+    "mechanism_ids",
+    "intervention_types",
+    "eras"
+  ],
+  "language_input": false,
+  "numeric_semantics": {
+    "context_observation_probability": 0.9,
+    "domain_ids": {
+      "0": "fixed observation transform 0",
+      "1": "fixed observation transform 1",
+      "2": "fixed observation transform 2",
+      "3": "fixed observation transform 3"
+    },
+    "domain_observation": "tanh(state @ (QR(seed + 10000 * (domain + 1)) * linspace(0.8, 1.2)) + bias)",
+    "effect_target": [
+      "signed_mean(delta)",
+      "mean(abs(delta))",
+      "sqrt(mean(delta^2))",
+      "max(abs(delta))"
+    ],
+    "era_multiplier": "1 + 0.015 * era",
+    "intervention_parameters": {
+      "0": "amplitude = 0.05 + 0.20 * sigmoid(p0)",
+      "1": "primary_feature = floor(observation_features * sigmoid(p1))",
+      "2": "secondary_feature = floor(observation_features * sigmoid(p2))",
+      "3": "scope = 0.25 + 0.75 * sigmoid(p3)",
+      "4": "edge_gain = 0.50 + sigmoid(p4)",
+      "5": "mixing = 0.05 + 0.45 * sigmoid(p5)",
+      "6": "delay_strength = 0.10 + 0.60 * sigmoid(p6)",
+      "7": "polarity_gain = 0.50 + sigmoid(p7)"
+    },
+    "interventions": {
+      "0": "inject primary at source and scoped secondary at target",
+      "1": "dampen primary at source and scoped secondary at target",
+      "2": "transfer primary and secondary mass from source to target",
+      "3": "reinforce edge magnitude, signed influence and capacity",
+      "4": "weaken every feature of one existing edge",
+      "5": "equalize primary and secondary features across active slots",
+      "6": "mix the intervened transition with the pre-transition state",
+      "7": "invert and scale one edge's signed polarity"
+    },
+    "mechanism_deltas": {
+      "0": "0.12 * (signed.T @ state - state)",
+      "1": "0.08 * tanh(signed.T @ state) + 0.04 * state - 0.025 * state^3",
+      "2": "0.06 * state * (1 - adjacency.T @ abs(state)) + 0.02 * tanh(signed.T @ state)",
+      "3": "0.10 * (signed.T @ state) - 0.08 * signed_capacity_overflow"
+    },
+    "relation_features": {
+      "0": "row-normalized non-negative adjacency magnitude",
+      "1": "signed adjacency influence",
+      "2": "capacity coefficient in [0.5, 1.5] times adjacency",
+      "3": "observed nuisance coefficient in [0, 1] times adjacency"
+    },
+    "target_observation_probability": 0.95
+  },
+  "observation_features": 12,
+  "relation_features": 4,
+  "runtime": {
+    "numpy": "2.2.6",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "schema_version": 1,
+  "source_hashes": {
+    "corpus.py": "89320e7c4092f7880404bddaaebc737e0b7383db25010bf0d64039d9bb5b16e2",
+    "synthetic.py": "3d08df1309a38e9dd242b89900241966475ff7e833f022865658754a70f4558b"
+  },
+  "source_revision": "b5801311a56559d9f090beb629d9979d187c69bd",
+  "split_eras": {
+    "test": [
+      11
+    ],
+    "train": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "transfer": [
+      12
+    ],
+    "validation": [
+      10
+    ]
+  },
+  "transfer_pairs": [
+    [
+      0,
+      0
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      2,
+      2
+    ],
+    [
+      3,
+      1
+    ]
+  ],
+  "transform_seed": 260800
+}
