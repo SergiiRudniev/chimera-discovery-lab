@@ -1,0 +1,175 @@
+{
+  "corpus_id": "CHM-VENTURE-C1",
+  "dimensions": {
+    "completeness": {
+      "cases_with_challenge": 10,
+      "cases_with_evidence": 10,
+      "cases_with_source": 10,
+      "review_statuses": {
+        "pending_independent_review": 10
+      }
+    },
+    "consistency": {
+      "case_aligned_briefs": true,
+      "constraint_nodes_per_case": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "matched_brief_count": 10,
+      "objective_nodes_per_case": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    "integrity": {
+      "manifest_hash_validation": "passed",
+      "partition_counts": {
+        "calibration": 2,
+        "cases": 10,
+        "evaluation": 8
+      },
+      "safe_npz_allow_pickle_false": "passed"
+    },
+    "leakage": {
+      "accession_overlap_count": 0,
+      "calibration_excluded_from_primary_analysis": true,
+      "cik_overlap_count": 0,
+      "organization_overlap_count": 0,
+      "outcome_labels_present": false
+    },
+    "timeliness": {
+      "evaluation_min_period_end": "2025-01-26",
+      "pretraining_max_period_end": "2024-12-31",
+      "strict_time_boundary": "passed"
+    },
+    "uniqueness": {
+      "unique_accessions": 10,
+      "unique_case_ids": 10,
+      "unique_ciks": 10,
+      "unique_numeric_graphs": 10,
+      "unique_organizations": 10,
+      "unique_topologies": 10
+    },
+    "validity": {
+      "feature_max": 1.0,
+      "feature_min": 0.0,
+      "feature_names": [
+        "salience",
+        "evidence",
+        "control",
+        "immediacy",
+        "recurrence",
+        "scalability",
+        "value_proximity",
+        "risk"
+      ],
+      "finite_features": true,
+      "numeric_archive_has_text_or_objects": false
+    },
+    "volume_and_shape": {
+      "edge_count_max": 19,
+      "edge_count_median": 17.0,
+      "edge_count_min": 15,
+      "edge_type_counts": {
+        "1": 10,
+        "3": 34,
+        "4": 15,
+        "5": 15,
+        "6": 10,
+        "7": 12,
+        "8": 10,
+        "9": 10,
+        "10": 10,
+        "11": 11,
+        "13": 7,
+        "14": 16,
+        "15": 10
+      },
+      "node_count_max": 14,
+      "node_count_median": 13.0,
+      "node_count_min": 12,
+      "node_type_counts": {
+        "1": 19,
+        "2": 10,
+        "3": 22,
+        "4": 10,
+        "5": 10,
+        "6": 11,
+        "7": 10,
+        "8": 10,
+        "9": 10,
+        "10": 10,
+        "11": 10
+      }
+    }
+  },
+  "findings": [
+    {
+      "confidence": "high",
+      "finding": "All ten source-to-graph annotations await independent review.",
+      "id": "C1-Q001",
+      "impact": "Source interpretation errors could affect both experiment arms.",
+      "remediation": "A second reviewer must verify every evidence note, node, edge and challenge mask before generation.",
+      "severity": "high",
+      "status": "open"
+    },
+    {
+      "confidence": "high",
+      "finding": "C1 contains public-company SEC filings only.",
+      "id": "C1-Q002",
+      "impact": "Results cannot be generalized to startups, private firms or non-business ideation.",
+      "remediation": "Create later Venture Corpus lines with source-compatible private and early-stage cases.",
+      "severity": "high",
+      "status": "accepted_limitation"
+    },
+    {
+      "confidence": "high",
+      "finding": "The corpus contains no creativity, feasibility or commercial outcome labels.",
+      "id": "C1-Q003",
+      "impact": "C1 alone cannot support any creativity claim.",
+      "remediation": "Collect preregistered blind human ratings; keep them outside model input and calibration.",
+      "severity": "high",
+      "status": "expected_by_design"
+    },
+    {
+      "confidence": "high",
+      "finding": "The primary analysis has eight independent evaluation cases.",
+      "id": "C1-Q004",
+      "impact": "Case-level uncertainty will be wide even with many candidate ratings.",
+      "remediation": "Treat H001 as an initial falsification test and preregister C2 before expanding claims.",
+      "severity": "medium",
+      "status": "accepted_limitation"
+    }
+  ],
+  "fitness_for_use": {
+    "candidate_generation": "blocked_pending_C1-Q001",
+    "corpus_build_and_protocol_preregistration": "fit",
+    "creativity_claim": "not_fit_until_blind_ratings_and_locked_analysis"
+  },
+  "generated_at": "2026-07-15",
+  "intended_grain": "one organization filing, one challenge and one typed numeric graph",
+  "intended_use": "preregistered CHM-V-H001 generation and blind evaluation",
+  "release_status": "provisional_pending_independent_annotation_review",
+  "report_id": "CHM-VENTURE-C1-QUALITY",
+  "validation": {
+    "calibration": 2,
+    "cases": 10,
+    "evaluation": 8
+  }
+}

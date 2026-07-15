@@ -1,0 +1,519 @@
+schema_version: 1
+corpus_id: CHM-VENTURE-C1
+feature_schema: venture-shared-axes-c0
+accessed_at: "2026-07-15"
+
+# Partitions are preregistered: calibration cases never enter the primary H001 estimate.
+# Ratings order: salience, evidence, control, immediacy, recurrence, scalability, risk.
+cases:
+  - case_id: sec-walmart-2025
+    partition: calibration
+    annotation_review_status: pending_independent_review
+    source:
+      organization: Walmart Inc.
+      cik: "0000104169"
+      form: 10-K
+      accession: "0000104169-25-000021"
+      filing_date: "2025-03-14"
+      period_end: "2025-01-31"
+      url: https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131.htm
+    evidence:
+      - Walmart combines stores, ecommerce and fulfillment assets around an everyday-low-price proposition.
+      - Advertising, marketplace and membership mechanisms complement merchandise revenue.
+      - Price leadership depends on supply-chain productivity, inventory availability and customer trust.
+    challenge:
+      objective_nodes: [service_revenue, customer_frequency]
+      constraint_nodes: [price_trust]
+    nodes:
+      - {id: customer, type: ACTOR, label: Omnichannel customer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: value_need, type: NEED, label: Low-price convenient shopping, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.25]}
+      - {id: store_network, type: RESOURCE, label: Store and fulfillment network, ratings: [1, 1, 1, 1, 1, 0.75, 0.5]}
+      - {id: inventory_data, type: RESOURCE, label: Inventory and customer signals, ratings: [0.75, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: orchestrate, type: ACTION, label: Source fulfill and personalize, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: omnichannel, type: CHANNEL, label: Stores app and delivery, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: customer_value, type: VALUE, label: Low-price convenient access, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: service_revenue, type: REVENUE, label: Membership marketplace and advertising revenue, ratings: [0.75, 0.75, 1, 0.75, 1, 1, 0.25]}
+      - {id: delivery_cost, type: COST, label: Fulfillment and last-mile cost, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.75]}
+      - {id: price_trust, type: CONSTRAINT, label: Low-price promise and customer trust, ratings: [1, 0.75, 0.5, 1, 1, 0.25, 1]}
+      - {id: customer_frequency, type: OUTCOME, label: Customer frequency and retention, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: demand_signal, type: FEEDBACK, label: Demand and membership signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.25]}
+      - {id: marketplace_seller, type: ACTOR, label: Marketplace seller, ratings: [0.75, 0.75, 0.25, 1, 1, 1, 0.5]}
+    edges:
+      - [customer, HAS_NEED, value_need]
+      - [value_need, DEPENDS_ON, customer_value]
+      - [store_network, ENABLES, orchestrate]
+      - [inventory_data, ENABLES, orchestrate]
+      - [omnichannel, REACHES, customer]
+      - [orchestrate, DELIVERS, customer_value]
+      - [customer_value, PRODUCES, customer_frequency]
+      - [customer, PAYS, service_revenue]
+      - [service_revenue, ENABLES, inventory_data]
+      - [orchestrate, COSTS, delivery_cost]
+      - [delivery_cost, REDUCES, customer_frequency]
+      - [price_trust, BLOCKS, service_revenue]
+      - [customer_frequency, FEEDS_BACK, demand_signal]
+      - [demand_signal, AMPLIFIES, inventory_data]
+      - [demand_signal, AMPLIFIES, omnichannel]
+      - [omnichannel, REACHES, marketplace_seller]
+      - [marketplace_seller, PAYS, service_revenue]
+
+  - case_id: sec-salesforce-2025
+    partition: calibration
+    annotation_review_status: pending_independent_review
+    source:
+      organization: Salesforce, Inc.
+      cik: "0001108524"
+      form: 10-K
+      accession: "0001108524-25-000006"
+      filing_date: "2025-03-05"
+      period_end: "2025-01-31"
+      url: https://www.sec.gov/Archives/edgar/data/1108524/000110852425000006/crm-20250131.htm
+    evidence:
+      - Salesforce operates an integrated customer platform with subscription and support revenue.
+      - Data Cloud and Agentforce connect enterprise data, workflows and autonomous agents.
+      - Adoption depends on security, privacy, reliability and customer trust.
+    challenge:
+      objective_nodes: [agent_revenue, workflow_adoption]
+      constraint_nodes: [trust_constraint]
+    nodes:
+      - {id: enterprise, type: ACTOR, label: Enterprise customer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: automation_need, type: NEED, label: Trusted customer workflow automation, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: customer_data, type: RESOURCE, label: Unified customer data, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.75]}
+      - {id: agentforce, type: RESOURCE, label: Agentforce platform, ratings: [1, 1, 1, 1, 1, 1, 0.75]}
+      - {id: automate, type: ACTION, label: Configure and execute agent workflows, ratings: [1, 0.75, 1, 1, 1, 1, 0.75]}
+      - {id: cloud_channel, type: CHANNEL, label: Salesforce cloud applications, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: productivity, type: VALUE, label: Automated customer operations, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: agent_revenue, type: REVENUE, label: Agent and platform subscription revenue, ratings: [1, 0.75, 1, 1, 1, 1, 0.25]}
+      - {id: compute_cost, type: COST, label: Model inference and service delivery cost, ratings: [0.75, 0.5, 0.75, 1, 1, 0.75, 0.75]}
+      - {id: trust_constraint, type: CONSTRAINT, label: Data governance reliability and trust, ratings: [1, 0.75, 0.75, 1, 1, 0.25, 1]}
+      - {id: workflow_adoption, type: OUTCOME, label: Production agent workflow adoption, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: usage_signal, type: FEEDBACK, label: Workflow quality and usage signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.5]}
+    edges:
+      - [enterprise, HAS_NEED, automation_need]
+      - [automation_need, DEPENDS_ON, productivity]
+      - [customer_data, ENABLES, automate]
+      - [agentforce, ENABLES, automate]
+      - [cloud_channel, REACHES, enterprise]
+      - [automate, DELIVERS, productivity]
+      - [productivity, PRODUCES, workflow_adoption]
+      - [enterprise, PAYS, agent_revenue]
+      - [agent_revenue, ENABLES, agentforce]
+      - [automate, COSTS, compute_cost]
+      - [compute_cost, REDUCES, workflow_adoption]
+      - [trust_constraint, BLOCKS, workflow_adoption]
+      - [workflow_adoption, FEEDS_BACK, usage_signal]
+      - [usage_signal, AMPLIFIES, customer_data]
+      - [trust_constraint, BLOCKS, automate]
+
+  - case_id: sec-microsoft-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: Microsoft Corporation
+      cik: "0000789019"
+      form: 10-K
+      accession: "0000950170-25-100235"
+      filing_date: "2025-07-30"
+      period_end: "2025-06-30"
+      url: https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm
+    evidence:
+      - Microsoft delivers cloud and AI services through a global datacenter infrastructure.
+      - Demand for AI services requires substantial investment in compute capacity and energy.
+      - Cloud value and recurring revenue depend on availability, security and capacity execution.
+    challenge:
+      objective_nodes: [cloud_revenue, ai_adoption]
+      constraint_nodes: [capacity_constraint]
+    nodes:
+      - {id: enterprise, type: ACTOR, label: Cloud and AI customer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: compute_need, type: NEED, label: Reliable scalable AI capability, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: datacenters, type: RESOURCE, label: Datacenter and accelerator capacity, ratings: [1, 1, 1, 1, 1, 1, 0.75]}
+      - {id: developer_stack, type: RESOURCE, label: Cloud developer and model stack, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: provision, type: ACTION, label: Provision and optimize AI workloads, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: azure, type: CHANNEL, label: Azure and partner ecosystem, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: scalable_value, type: VALUE, label: Scalable governed AI execution, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: cloud_revenue, type: REVENUE, label: Cloud consumption and subscriptions, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: infrastructure_cost, type: COST, label: Datacenter energy and accelerator cost, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.75]}
+      - {id: capacity_constraint, type: CONSTRAINT, label: Capacity energy and supply bottlenecks, ratings: [1, 0.75, 0.5, 1, 1, 0.25, 1]}
+      - {id: ai_adoption, type: OUTCOME, label: Production AI workload adoption, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: workload_signal, type: FEEDBACK, label: Workload demand and efficiency signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.5]}
+      - {id: energy_supplier, type: ACTOR, label: Datacenter energy supplier, ratings: [0.75, 0.75, 0.25, 1, 1, 0.5, 0.75]}
+      - {id: energy_contract, type: RESOURCE, label: Contracted energy capacity, ratings: [0.75, 0.75, 0.75, 0.75, 1, 0.5, 0.75]}
+    edges:
+      - [enterprise, HAS_NEED, compute_need]
+      - [compute_need, DEPENDS_ON, scalable_value]
+      - [datacenters, ENABLES, provision]
+      - [developer_stack, ENABLES, provision]
+      - [azure, REACHES, enterprise]
+      - [provision, DELIVERS, scalable_value]
+      - [scalable_value, PRODUCES, ai_adoption]
+      - [enterprise, PAYS, cloud_revenue]
+      - [cloud_revenue, ENABLES, datacenters]
+      - [provision, COSTS, infrastructure_cost]
+      - [infrastructure_cost, REDUCES, ai_adoption]
+      - [capacity_constraint, BLOCKS, ai_adoption]
+      - [ai_adoption, FEEDS_BACK, workload_signal]
+      - [workload_signal, AMPLIFIES, developer_stack]
+      - [cloud_revenue, ENABLES, developer_stack]
+      - [energy_supplier, TRANSFERS_TO, energy_contract]
+      - [energy_contract, ENABLES, datacenters]
+      - [capacity_constraint, BLOCKS, datacenters]
+
+  - case_id: sec-nvidia-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: NVIDIA Corporation
+      cik: "0001045810"
+      form: 10-K
+      accession: "0001045810-25-000023"
+      filing_date: "2025-02-26"
+      period_end: "2025-01-26"
+      url: https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm
+    evidence:
+      - NVIDIA provides accelerated computing platforms spanning processors, systems, networking and software.
+      - Manufacturing and advanced packaging depend on external foundries and supply partners.
+      - Platform adoption grows through developers and an installed software ecosystem.
+    challenge:
+      objective_nodes: [platform_revenue, platform_adoption]
+      constraint_nodes: [supply_constraint]
+    nodes:
+      - {id: developer, type: ACTOR, label: AI developer and operator, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: acceleration_need, type: NEED, label: Efficient accelerated computing, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: compute_platform, type: RESOURCE, label: Accelerators systems and networking, ratings: [1, 1, 1, 1, 1, 1, 0.75]}
+      - {id: software_stack, type: RESOURCE, label: CUDA and platform software, ratings: [1, 1, 1, 1, 1, 1, 0.5]}
+      - {id: optimize, type: ACTION, label: Optimize and deploy accelerated workloads, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: partner_channel, type: CHANNEL, label: Cloud OEM and developer ecosystem, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: performance_value, type: VALUE, label: Higher compute performance per workload, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: platform_revenue, type: REVENUE, label: Platform product and software revenue, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: supply_cost, type: COST, label: Foundry packaging and inventory commitments, ratings: [1, 0.75, 0.5, 1, 1, 0.75, 0.75]}
+      - {id: supply_constraint, type: CONSTRAINT, label: Foundry packaging and geographic concentration, ratings: [1, 0.75, 0.25, 1, 1, 0.25, 1]}
+      - {id: platform_adoption, type: OUTCOME, label: Production accelerated workload adoption, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: developer_signal, type: FEEDBACK, label: Developer and workload signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.5]}
+      - {id: foundry_partner, type: ACTOR, label: Foundry and packaging partner, ratings: [1, 0.75, 0.25, 1, 1, 0.5, 1]}
+    edges:
+      - [developer, HAS_NEED, acceleration_need]
+      - [acceleration_need, DEPENDS_ON, performance_value]
+      - [compute_platform, ENABLES, optimize]
+      - [software_stack, ENABLES, optimize]
+      - [partner_channel, REACHES, developer]
+      - [optimize, DELIVERS, performance_value]
+      - [performance_value, PRODUCES, platform_adoption]
+      - [developer, PAYS, platform_revenue]
+      - [platform_revenue, ENABLES, software_stack]
+      - [optimize, COSTS, supply_cost]
+      - [supply_cost, REDUCES, platform_adoption]
+      - [supply_constraint, BLOCKS, platform_adoption]
+      - [platform_adoption, FEEDS_BACK, developer_signal]
+      - [developer_signal, AMPLIFIES, software_stack]
+      - [software_stack, AMPLIFIES, compute_platform]
+      - [foundry_partner, TRANSFERS_TO, compute_platform]
+      - [supply_constraint, BLOCKS, compute_platform]
+
+  - case_id: sec-home-depot-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: The Home Depot, Inc.
+      cik: "0000354950"
+      form: 10-K
+      accession: "0000354950-25-000085"
+      filing_date: "2025-03-25"
+      period_end: "2025-02-02"
+      url: https://www.sec.gov/Archives/edgar/data/354950/000035495025000085/hd-20250202.htm
+    evidence:
+      - Home Depot serves do-it-yourself and professional customers through stores and interconnected retail.
+      - Professional customers value product availability, delivery, credit and job-site services.
+      - Housing and project demand are cyclical while fulfillment complexity affects service economics.
+    challenge:
+      objective_nodes: [pro_revenue, pro_retention]
+      constraint_nodes: [cyclical_constraint]
+    nodes:
+      - {id: pro_customer, type: ACTOR, label: Professional contractor, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: project_need, type: NEED, label: Reliable project completion supply, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: store_inventory, type: RESOURCE, label: Store and distribution inventory, ratings: [1, 1, 1, 1, 1, 0.75, 0.5]}
+      - {id: pro_services, type: RESOURCE, label: Delivery credit and account services, ratings: [0.75, 0.75, 1, 1, 1, 0.75, 0.5]}
+      - {id: fulfill_project, type: ACTION, label: Assemble and fulfill project orders, ratings: [1, 0.75, 1, 1, 1, 0.75, 0.5]}
+      - {id: retail_channel, type: CHANNEL, label: Stores digital and job-site delivery, ratings: [1, 1, 1, 1, 1, 0.75, 0.25]}
+      - {id: project_value, type: VALUE, label: Available materials and reliable fulfillment, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.25]}
+      - {id: pro_revenue, type: REVENUE, label: Professional project and service revenue, ratings: [1, 0.75, 1, 1, 1, 0.75, 0.25]}
+      - {id: fulfillment_cost, type: COST, label: Complex order and last-mile cost, ratings: [0.75, 0.75, 0.75, 1, 1, 0.5, 0.75]}
+      - {id: cyclical_constraint, type: CONSTRAINT, label: Housing cycle and project demand volatility, ratings: [1, 0.75, 0.25, 1, 0.75, 0.25, 1]}
+      - {id: pro_retention, type: OUTCOME, label: Professional customer retention, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.5]}
+      - {id: project_signal, type: FEEDBACK, label: Project pipeline and fulfillment signals, ratings: [0.75, 0.5, 1, 1, 0.75, 0.75, 0.5]}
+      - {id: building_supplier, type: ACTOR, label: Building product supplier, ratings: [0.75, 0.75, 0.25, 0.75, 1, 0.5, 0.5]}
+    edges:
+      - [pro_customer, HAS_NEED, project_need]
+      - [project_need, DEPENDS_ON, project_value]
+      - [store_inventory, ENABLES, fulfill_project]
+      - [pro_services, ENABLES, fulfill_project]
+      - [retail_channel, REACHES, pro_customer]
+      - [fulfill_project, DELIVERS, project_value]
+      - [project_value, PRODUCES, pro_retention]
+      - [pro_customer, PAYS, pro_revenue]
+      - [pro_revenue, ENABLES, pro_services]
+      - [fulfill_project, COSTS, fulfillment_cost]
+      - [fulfillment_cost, REDUCES, pro_retention]
+      - [cyclical_constraint, BLOCKS, pro_retention]
+      - [pro_retention, FEEDS_BACK, project_signal]
+      - [project_signal, AMPLIFIES, store_inventory]
+      - [project_signal, AMPLIFIES, pro_services]
+      - [building_supplier, TRANSFERS_TO, store_inventory]
+
+  - case_id: sec-intuit-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: Intuit Inc.
+      cik: "0000896878"
+      form: 10-K
+      accession: "0000896878-25-000035"
+      filing_date: "2025-09-03"
+      period_end: "2025-07-31"
+      url: https://www.sec.gov/Archives/edgar/data/896878/000089687825000035/intu-20250731.htm
+    evidence:
+      - Intuit operates a connected platform across consumer and small-business financial workflows.
+      - Data and AI can connect tax, accounting, payments, credit and marketing decisions.
+      - Use of sensitive financial data is constrained by consent, security and regulation.
+    challenge:
+      objective_nodes: [platform_revenue, cross_platform_use]
+      constraint_nodes: [data_constraint]
+    nodes:
+      - {id: small_business, type: ACTOR, label: Small business customer, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: decision_need, type: NEED, label: Timely financial and growth decisions, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: financial_data, type: RESOURCE, label: Permissioned financial and customer data, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.75]}
+      - {id: ai_platform, type: RESOURCE, label: Connected AI platform, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: recommend, type: ACTION, label: Predict and recommend next financial action, ratings: [1, 0.75, 1, 1, 1, 1, 0.75]}
+      - {id: product_channel, type: CHANNEL, label: QuickBooks and connected products, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: decision_value, type: VALUE, label: Better coordinated financial decisions, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: platform_revenue, type: REVENUE, label: Subscription and transaction revenue, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: service_cost, type: COST, label: Data AI and expert service cost, ratings: [0.75, 0.5, 0.75, 1, 1, 0.75, 0.75]}
+      - {id: data_constraint, type: CONSTRAINT, label: Consent privacy security and regulation, ratings: [1, 0.75, 0.75, 1, 1, 0.25, 1]}
+      - {id: cross_platform_use, type: OUTCOME, label: Cross-platform customer adoption, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: outcome_signal, type: FEEDBACK, label: Financial outcome and usage signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.5]}
+      - {id: financial_partner, type: ACTOR, label: Financial data and transaction partner, ratings: [0.75, 0.75, 0.25, 1, 1, 0.75, 0.75]}
+    edges:
+      - [small_business, HAS_NEED, decision_need]
+      - [decision_need, DEPENDS_ON, decision_value]
+      - [financial_data, ENABLES, recommend]
+      - [ai_platform, ENABLES, recommend]
+      - [product_channel, REACHES, small_business]
+      - [recommend, DELIVERS, decision_value]
+      - [decision_value, PRODUCES, cross_platform_use]
+      - [small_business, PAYS, platform_revenue]
+      - [platform_revenue, ENABLES, ai_platform]
+      - [recommend, COSTS, service_cost]
+      - [service_cost, REDUCES, cross_platform_use]
+      - [data_constraint, BLOCKS, cross_platform_use]
+      - [cross_platform_use, FEEDS_BACK, outcome_signal]
+      - [outcome_signal, AMPLIFIES, financial_data]
+      - [financial_data, DEPENDS_ON, data_constraint]
+      - [financial_partner, TRANSFERS_TO, financial_data]
+      - [product_channel, REACHES, financial_partner]
+
+  - case_id: sec-fedex-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: FedEx Corporation
+      cik: "0001048911"
+      form: 10-K
+      accession: "0001048911-25-000011"
+      filing_date: "2025-07-21"
+      period_end: "2025-05-31"
+      url: https://www.sec.gov/Archives/edgar/data/1048911/000104891125000011/fdx-20250531.htm
+    evidence:
+      - FedEx operates integrated air and ground transportation networks.
+      - Network 2.0 and DRIVE target structural cost and operating efficiency improvements.
+      - Shipment volume and mix vary while service reliability remains central to customer value.
+    challenge:
+      objective_nodes: [transport_revenue, network_utilization]
+      constraint_nodes: [volume_constraint]
+    nodes:
+      - {id: shipper, type: ACTOR, label: Business shipper, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: delivery_need, type: NEED, label: Reliable time-definite delivery, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: transport_network, type: RESOURCE, label: Integrated air and ground network, ratings: [1, 1, 1, 1, 1, 0.75, 0.75]}
+      - {id: shipment_data, type: RESOURCE, label: Shipment routing and demand signals, ratings: [0.75, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: consolidate, type: ACTION, label: Consolidate route and move shipments, ratings: [1, 0.75, 1, 1, 1, 0.75, 0.5]}
+      - {id: logistics_channel, type: CHANNEL, label: Pickup hubs and delivery routes, ratings: [1, 1, 1, 1, 1, 0.75, 0.5]}
+      - {id: reliability_value, type: VALUE, label: Predictable delivery performance, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.25]}
+      - {id: transport_revenue, type: REVENUE, label: Package and freight revenue, ratings: [1, 1, 1, 1, 1, 0.75, 0.25]}
+      - {id: network_cost, type: COST, label: Aircraft vehicle labor and fuel cost, ratings: [1, 0.75, 0.5, 1, 1, 0.5, 1]}
+      - {id: volume_constraint, type: CONSTRAINT, label: Volume and mix volatility, ratings: [1, 0.75, 0.25, 1, 0.75, 0.25, 1]}
+      - {id: network_utilization, type: OUTCOME, label: Network utilization with service reliability, ratings: [1, 0.75, 0.75, 1, 1, 0.75, 0.5]}
+      - {id: route_signal, type: FEEDBACK, label: Route density and service signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.5]}
+      - {id: carrier_partner, type: ACTOR, label: Contracted transport provider, ratings: [0.75, 0.75, 0.25, 1, 1, 0.5, 0.75]}
+    edges:
+      - [shipper, HAS_NEED, delivery_need]
+      - [delivery_need, DEPENDS_ON, reliability_value]
+      - [transport_network, ENABLES, consolidate]
+      - [shipment_data, ENABLES, consolidate]
+      - [logistics_channel, REACHES, shipper]
+      - [consolidate, DELIVERS, reliability_value]
+      - [reliability_value, PRODUCES, network_utilization]
+      - [shipper, PAYS, transport_revenue]
+      - [transport_revenue, ENABLES, transport_network]
+      - [consolidate, COSTS, network_cost]
+      - [network_cost, REDUCES, network_utilization]
+      - [volume_constraint, BLOCKS, network_utilization]
+      - [network_utilization, FEEDS_BACK, route_signal]
+      - [route_signal, AMPLIFIES, shipment_data]
+      - [shipment_data, ENABLES, logistics_channel]
+      - [carrier_partner, TRANSFERS_TO, transport_network]
+
+  - case_id: sec-nike-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: NIKE, Inc.
+      cik: "0000320187"
+      form: 10-K
+      accession: "0000320187-25-000047"
+      filing_date: "2025-07-24"
+      period_end: "2025-05-31"
+      url: https://www.sec.gov/Archives/edgar/data/320187/000032018725000047/nke-20250531.htm
+    evidence:
+      - NIKE develops and markets athletic footwear, apparel and equipment through direct and wholesale channels.
+      - Demand creation, product innovation and marketplace presentation shape brand demand.
+      - Inventory, markdowns and channel traffic can pressure revenue and margins.
+    challenge:
+      objective_nodes: [product_revenue, full_price_demand]
+      constraint_nodes: [inventory_constraint]
+    nodes:
+      - {id: athlete_consumer, type: ACTOR, label: Athlete and lifestyle consumer, ratings: [1, 0.75, 0.25, 1, 0.75, 1, 0.5]}
+      - {id: product_need, type: NEED, label: Distinctive performance and style, ratings: [1, 0.75, 0.25, 1, 0.75, 1, 0.5]}
+      - {id: design_capability, type: RESOURCE, label: Product design and athlete insight, ratings: [1, 0.75, 1, 0.75, 1, 1, 0.5]}
+      - {id: brand_demand, type: RESOURCE, label: Brand and demand creation capability, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: create_launch, type: ACTION, label: Create test and launch product, ratings: [1, 0.75, 1, 1, 0.75, 1, 0.5]}
+      - {id: marketplace, type: CHANNEL, label: Direct and wholesale marketplace, ratings: [1, 1, 0.75, 1, 1, 1, 0.5]}
+      - {id: product_value, type: VALUE, label: Relevant performance and cultural value, ratings: [1, 0.75, 0.75, 1, 0.75, 1, 0.25]}
+      - {id: product_revenue, type: REVENUE, label: Full-price product revenue, ratings: [1, 1, 1, 1, 0.75, 1, 0.25]}
+      - {id: creation_cost, type: COST, label: Product creation and demand cost, ratings: [0.75, 0.75, 0.75, 1, 0.75, 0.75, 0.75]}
+      - {id: inventory_constraint, type: CONSTRAINT, label: Inventory markdown and channel traffic risk, ratings: [1, 0.75, 0.5, 1, 0.75, 0.25, 1]}
+      - {id: full_price_demand, type: OUTCOME, label: Full-price demand and product pull, ratings: [1, 0.75, 0.75, 1, 0.75, 1, 0.5]}
+      - {id: demand_feedback, type: FEEDBACK, label: Sell-through athlete and consumer signals, ratings: [0.75, 0.5, 1, 1, 0.75, 1, 0.5]}
+      - {id: wholesale_partner, type: ACTOR, label: Wholesale marketplace partner, ratings: [0.75, 0.75, 0.25, 1, 0.75, 0.75, 0.5]}
+      - {id: channel_inventory, type: RESOURCE, label: Channel inventory allocation, ratings: [0.75, 0.75, 0.75, 1, 0.75, 0.75, 0.75]}
+    edges:
+      - [athlete_consumer, HAS_NEED, product_need]
+      - [product_need, DEPENDS_ON, product_value]
+      - [design_capability, ENABLES, create_launch]
+      - [brand_demand, ENABLES, create_launch]
+      - [marketplace, REACHES, athlete_consumer]
+      - [create_launch, DELIVERS, product_value]
+      - [product_value, PRODUCES, full_price_demand]
+      - [athlete_consumer, PAYS, product_revenue]
+      - [product_revenue, ENABLES, design_capability]
+      - [create_launch, COSTS, creation_cost]
+      - [creation_cost, REDUCES, full_price_demand]
+      - [inventory_constraint, BLOCKS, full_price_demand]
+      - [full_price_demand, FEEDS_BACK, demand_feedback]
+      - [demand_feedback, AMPLIFIES, design_capability]
+      - [marketplace, AMPLIFIES, brand_demand]
+      - [marketplace, REACHES, wholesale_partner]
+      - [wholesale_partner, TRANSFERS_TO, channel_inventory]
+      - [channel_inventory, ENABLES, marketplace]
+
+  - case_id: sec-oracle-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: Oracle Corporation
+      cik: "0001341439"
+      form: 10-K
+      accession: "0000950170-25-087926"
+      filing_date: "2025-06-24"
+      period_end: "2025-05-31"
+      url: https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm
+    evidence:
+      - Oracle provides cloud infrastructure, applications, database software and support.
+      - Cloud expansion requires substantial datacenter capacity and long-term infrastructure commitments.
+      - Customers value integrated data, applications and compute while competition affects adoption.
+    challenge:
+      objective_nodes: [cloud_revenue, workload_growth]
+      constraint_nodes: [commitment_constraint]
+    nodes:
+      - {id: enterprise, type: ACTOR, label: Enterprise technology customer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: integration_need, type: NEED, label: Integrated data applications and compute, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.5]}
+      - {id: cloud_capacity, type: RESOURCE, label: Cloud regions and compute capacity, ratings: [1, 1, 1, 1, 1, 1, 0.75]}
+      - {id: database_stack, type: RESOURCE, label: Database and application stack, ratings: [1, 1, 1, 1, 1, 1, 0.5]}
+      - {id: deploy_workload, type: ACTION, label: Migrate integrate and operate workloads, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: cloud_channel, type: CHANNEL, label: Oracle cloud and partner channel, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: integration_value, type: VALUE, label: Integrated governed workload operation, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: cloud_revenue, type: REVENUE, label: Cloud services and license support revenue, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: capacity_cost, type: COST, label: Datacenter and equipment commitments, ratings: [1, 0.75, 0.5, 1, 1, 0.75, 1]}
+      - {id: commitment_constraint, type: CONSTRAINT, label: Capacity commitments and cloud competition, ratings: [1, 0.75, 0.5, 1, 1, 0.25, 1]}
+      - {id: workload_growth, type: OUTCOME, label: Cloud workload consumption growth, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.5]}
+      - {id: usage_signal, type: FEEDBACK, label: Consumption and performance signals, ratings: [0.75, 0.5, 1, 1, 1, 1, 0.5]}
+      - {id: capacity_partner, type: ACTOR, label: Datacenter capacity partner, ratings: [0.75, 0.75, 0.25, 1, 1, 0.5, 1]}
+    edges:
+      - [enterprise, HAS_NEED, integration_need]
+      - [integration_need, DEPENDS_ON, integration_value]
+      - [cloud_capacity, ENABLES, deploy_workload]
+      - [database_stack, ENABLES, deploy_workload]
+      - [cloud_channel, REACHES, enterprise]
+      - [deploy_workload, DELIVERS, integration_value]
+      - [integration_value, PRODUCES, workload_growth]
+      - [enterprise, PAYS, cloud_revenue]
+      - [cloud_revenue, ENABLES, cloud_capacity]
+      - [deploy_workload, COSTS, capacity_cost]
+      - [capacity_cost, REDUCES, workload_growth]
+      - [commitment_constraint, BLOCKS, workload_growth]
+      - [workload_growth, FEEDS_BACK, usage_signal]
+      - [usage_signal, AMPLIFIES, database_stack]
+      - [cloud_channel, AMPLIFIES, database_stack]
+      - [capacity_partner, TRANSFERS_TO, cloud_capacity]
+      - [commitment_constraint, BLOCKS, cloud_capacity]
+
+  - case_id: sec-pg-2025
+    partition: evaluation
+    annotation_review_status: pending_independent_review
+    source:
+      organization: The Procter & Gamble Company
+      cik: "0000080424"
+      form: 10-K
+      accession: "0000080424-25-000076"
+      filing_date: "2025-08-05"
+      period_end: "2025-06-30"
+      url: https://www.sec.gov/Archives/edgar/data/80424/000008042425000076/pg-20250630.htm
+    evidence:
+      - P&G sells branded consumer products through retail and ecommerce channels.
+      - Consumer understanding, product innovation and brand building support demand and pricing.
+      - Retail concentration and channel relationships constrain direct consumer mechanisms.
+    challenge:
+      objective_nodes: [recurring_revenue, repeat_purchase]
+      constraint_nodes: [channel_constraint]
+    nodes:
+      - {id: household, type: ACTOR, label: Household consumer, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: routine_need, type: NEED, label: Reliable everyday product performance, ratings: [1, 0.75, 0.25, 1, 1, 1, 0.25]}
+      - {id: consumer_insight, type: RESOURCE, label: Consumer and category insight, ratings: [1, 0.75, 1, 0.75, 1, 1, 0.5]}
+      - {id: brand_portfolio, type: RESOURCE, label: Product and brand portfolio, ratings: [1, 1, 1, 1, 1, 1, 0.25]}
+      - {id: innovate_supply, type: ACTION, label: Innovate manufacture and replenish, ratings: [1, 0.75, 1, 1, 1, 1, 0.5]}
+      - {id: retail_channel, type: CHANNEL, label: Retail ecommerce and distributor channel, ratings: [1, 1, 0.5, 1, 1, 1, 0.5]}
+      - {id: routine_value, type: VALUE, label: Trusted repeatable product outcome, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: recurring_revenue, type: REVENUE, label: Recurring household product revenue, ratings: [1, 1, 0.75, 1, 1, 1, 0.25]}
+      - {id: brand_cost, type: COST, label: Innovation manufacturing and brand cost, ratings: [0.75, 0.75, 0.75, 1, 1, 0.75, 0.75]}
+      - {id: channel_constraint, type: CONSTRAINT, label: Retail concentration and channel conflict, ratings: [1, 0.75, 0.25, 1, 1, 0.25, 1]}
+      - {id: repeat_purchase, type: OUTCOME, label: Repeat purchase and household retention, ratings: [1, 0.75, 0.75, 1, 1, 1, 0.25]}
+      - {id: usage_feedback, type: FEEDBACK, label: Usage replenishment and product signals, ratings: [0.75, 0.5, 0.75, 1, 1, 1, 0.5]}
+      - {id: retail_customer, type: ACTOR, label: Retail and ecommerce customer, ratings: [1, 0.75, 0.25, 1, 1, 0.75, 0.5]}
+      - {id: direct_channel, type: CHANNEL, label: Permissioned direct consumer channel, ratings: [0.5, 0.5, 0.75, 0.75, 0.75, 0.75, 0.75]}
+    edges:
+      - [household, HAS_NEED, routine_need]
+      - [routine_need, DEPENDS_ON, routine_value]
+      - [consumer_insight, ENABLES, innovate_supply]
+      - [brand_portfolio, ENABLES, innovate_supply]
+      - [retail_channel, REACHES, household]
+      - [innovate_supply, DELIVERS, routine_value]
+      - [routine_value, PRODUCES, repeat_purchase]
+      - [household, PAYS, recurring_revenue]
+      - [recurring_revenue, ENABLES, consumer_insight]
+      - [innovate_supply, COSTS, brand_cost]
+      - [brand_cost, REDUCES, repeat_purchase]
+      - [channel_constraint, BLOCKS, repeat_purchase]
+      - [repeat_purchase, FEEDS_BACK, usage_feedback]
+      - [usage_feedback, AMPLIFIES, consumer_insight]
+      - [consumer_insight, AMPLIFIES, brand_portfolio]
+      - [retail_channel, REACHES, retail_customer]
+      - [retail_customer, PAYS, recurring_revenue]
+      - [direct_channel, REACHES, household]
+      - [channel_constraint, BLOCKS, direct_channel]
