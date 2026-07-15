@@ -486,3 +486,22 @@
   issue is seed instability of shared multi-objective optimization, not simply
   a zero-heavy probe label distribution.
 - **Boundary:** Development evidence only; no transfer or production claim.
+
+## 2026-07-15 — CHM-W-H007 registration
+
+- **Question:** Can conflict-projected state/effect gradients stabilize the
+  shared mixed curriculum without discarding probe effect supervision?
+- **Gradient audit:** Across 32 train-only batches, cosine was negative in
+  62.5%, with median `-0.04242` and effect/state norm ratio `0.96544`.
+- **Change:** When the two weighted task gradients conflict, symmetrically
+  remove each component opposing the other. Add auxiliary gradients afterward,
+  then apply the existing global norm clip.
+- **Controls:** PCGrad mixed, standard mixed and matched random-only use the same
+  model, data, actions, optimizer settings, seed and evaluator.
+- **Development gate:** Seed `260918`; require effect ratio at most `0.90`,
+  rollout ratio at most `1.00` and observed conflict fraction at least `0.10`.
+- **Validation discipline:** Seeds `260919..260921` and every test split remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H007 metric or checkpoint exists.
+- **Boundary:** Simulator optimizer evidence only; no real-world, business or
+  production claim.

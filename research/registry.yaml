@@ -66,3 +66,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H006.yaml
     result: research/results/CHM-W-H006.json
+  - id: CHM-W-H007
+    title: Symmetric state-effect gradient conflict projection
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H007.yaml
+    result: research/results/CHM-W-H007.json
