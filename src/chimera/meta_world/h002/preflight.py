@@ -70,7 +70,7 @@ def _selection_score(metrics: dict[str, float]) -> float:
     )
 
 
-def run_h002_preflight(
+def _execute_h002_preflight(
     config_path: str | Path,
     output_dir: str | Path,
 ) -> dict[str, Any]:
@@ -243,3 +243,41 @@ def run_h002_preflight(
     _write_json(output / "result.json", result)
     return result
 
+
+def run_h002_preflight(
+    config_path: str | Path,
+    output_dir: str | Path,
+) -> dict[str, Any]:
+    """Run the preflight and persist unexpected execution failures before re-raising."""
+
+    try:
+        return _execute_h002_preflight(config_path, output_dir)
+    except Exception as error:
+        output = Path(output_dir)
+        output.mkdir(parents=True, exist_ok=True)
+        result_path = output / "result.json"
+        if not result_path.exists():
+            run_id: str | None = None
+            try:
+                run_id = H002RunConfig.from_yaml(config_path).run_id
+            except Exception:
+                run_id = None
+            _write_json(
+                result_path,
+                {
+                    "run_id": run_id,
+                    "hypothesis_id": "CHM-W-H002",
+                    "status": "execution_failed",
+                    "decision": "engineering_failure",
+                    "test_metrics_opened": False,
+                    "exception": {
+                        "type": type(error).__name__,
+                        "message": str(error),
+                    },
+                    "environment": {"git_commit": _git_commit()},
+                    "claim_boundary": (
+                        "Execution failure only; no transfer or model-quality evidence."
+                    ),
+                },
+            )
+        raise

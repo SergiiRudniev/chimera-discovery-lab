@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import json
 from dataclasses import replace
 from pathlib import Path
 
+import pytest
 import torch
 import yaml
 
@@ -169,3 +171,39 @@ def test_validation_only_preflight_persists_unpromoted_checkpoint(tmp_path: Path
     assert (output / "checkpoint.pt").is_file()
     assert (output / "checkpoint_manifest.json").is_file()
     assert (output / "metrics.jsonl").is_file()
+
+
+def test_preflight_persists_uncaught_execution_failure(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    model = _model_config()
+    training = _training_config()
+    payload = {
+        "run_id": "H002-PREFLIGHT-FAILURE-TEST",
+        "mode": "preflight",
+        "arm": "cross_world_pretraining_with_mechanism_alignment",
+        "generator_config": "configs/meta_world/world_generators_h002.yaml",
+        "model": model.__dict__,
+        "training": {**training.__dict__, "steps": 1},
+        "evaluation": {
+            "evaluation_interval": 1,
+            "validation_trajectories": 4,
+            "rollout_horizon": 4,
+        },
+    }
+    config_path = tmp_path / "failure.yaml"
+    config_path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+    output = tmp_path / "failed-output"
+
+    def fail_train_step(self: H002Trainer, batch: object) -> dict[str, float]:
+        raise RuntimeError("injected H002 failure")
+
+    monkeypatch.setattr(H002Trainer, "train_step", fail_train_step)
+    with pytest.raises(RuntimeError, match="injected H002 failure"):
+        run_h002_preflight(config_path, output)
+
+    result = json.loads((output / "result.json").read_text(encoding="utf-8"))
+    assert result["status"] == "execution_failed"
+    assert result["exception"]["type"] == "RuntimeError"
+    assert result["test_metrics_opened"] is False
