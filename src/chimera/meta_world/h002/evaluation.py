@@ -31,20 +31,14 @@ class H002EvaluationMetrics:
         return asdict(self)
 
 
-def _feature_nrmse(prediction: Tensor, target: Tensor, mask: Tensor) -> Tensor:
-    values: list[Tensor] = []
-    for feature in range(target.shape[-1]):
-        selection = mask[..., feature]
-        predicted = prediction[..., feature][selection].float()
-        expected = target[..., feature][selection].float()
-        if expected.numel() <= 1:
-            continue
-        rmse = (predicted - expected).square().mean().sqrt()
-        scale = expected.std(unbiased=False).clamp_min(1e-6)
-        values.append(rmse / scale)
-    if not values:
+def _global_nrmse(prediction: Tensor, target: Tensor, mask: Tensor) -> Tensor:
+    predicted = prediction[mask].float()
+    expected = target[mask].float()
+    if expected.numel() <= 1:
         raise ValueError("rollout metric requires observed target features")
-    return torch.stack(values).mean()
+    rmse = (predicted - expected).square().mean().sqrt()
+    scale = expected.std(unbiased=False).clamp_min(1e-6)
+    return rmse / scale
 
 
 def _retrieval_accuracy(embeddings: Tensor, mechanism_ids: Tensor) -> Tensor:
@@ -136,7 +130,7 @@ def evaluate_h002_model(
     final_mask = generated.object_mask[:, rollout_final].unsqueeze(-1).expand_as(
         final_target
     )
-    rollout_nrmse = _feature_nrmse(final_prediction, final_target, final_mask)
+    rollout_nrmse = _global_nrmse(final_prediction, final_target, final_mask)
     retrieval = _retrieval_accuracy(
         retrieval_embedding,
         sample.mechanism_ids.to(retrieval_embedding.device),

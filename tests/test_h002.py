@@ -120,7 +120,7 @@ def test_h002_relational_train_step_and_evaluation_are_finite() -> None:
     assert evaluation.one_step_prediction_rmse >= 0.0
     assert evaluation.intervention_effect_rmse >= 0.0
     assert evaluation.intervention_effect_nrmse >= 0.0
-    assert evaluation.four_step_rollout_nrmse >= 0.0
+    assert 0.0 <= evaluation.four_step_rollout_nrmse < 100.0
     assert 0.0 <= evaluation.intervention_effect_90_coverage <= 1.0
     assert 0.0 <= evaluation.mechanism_retrieval_accuracy <= 1.0
 
