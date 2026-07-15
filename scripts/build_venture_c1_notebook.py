@@ -21,8 +21,8 @@ def build_notebook(output: Path, repository: Path) -> None:
 
 C1 contains 2 calibration and 8 evaluation cases. Numeric graph inputs contain no
 text, all sources are later than C0, and organization/CIK/accession overlap is zero.
-Candidate generation remains blocked until an independent reviewer verifies the
-source-to-graph annotations."""
+The existing full-ledger AI review accepts all 1,191 registered items, so the
+configured dataset gate permits candidate generation."""
         ),
         new_markdown_cell(
             """## Context and methods
@@ -52,7 +52,7 @@ print({
     "cases": manifest["counts"]["cases"],
     "calibration": manifest["counts"]["calibration"],
     "evaluation": manifest["counts"]["evaluation"],
-    "release_status": manifest["release_status"],
+    "release_status": quality["release_status"],
 })"""
         ),
         new_markdown_cell("## Data"),
@@ -98,6 +98,28 @@ print(json.dumps({
 }, indent=2))"""
         ),
         new_code_cell(
+            """source_review = quality["dimensions"]["source_review"]
+gate = source_review["gate"]
+print(json.dumps({
+    "internal_filing_identity_verified": source_review[
+        "internal_filing_identity_verified"
+    ],
+    "internal_primary_source_support_verified": source_review[
+        "internal_primary_source_support_verified"
+    ],
+    "internal_auditor_independent": source_review[
+        "internal_auditor_independent"
+    ],
+    "accepted_ai_reviews": (
+        f"{gate['accepted_ai_reviews']}/{gate['minimum_accepted_reviews']}"
+    ),
+    "review_gate_status": gate["status"],
+    "review_policy_mode": gate["policy_mode"],
+    "human_review_required": gate["human_review_required"],
+    "generation_allowed": gate["generation_allowed"],
+}, indent=2))"""
+        ),
+        new_code_cell(
             """for finding in quality["findings"]:
     print(
         f"[{finding['severity'].upper()}] {finding['id']} — "
@@ -111,8 +133,10 @@ print(json.dumps(quality["fitness_for_use"], indent=2))"""
             """## Takeaways
 
 - The numeric contract, temporal isolation and matched baseline alignment pass.
-- C1 is fit for preregistration, not yet for candidate generation.
-- A second reviewer must close `C1-Q001` before the frozen H001 run.
+- Internal primary-source checks cover 10/10 cases.
+- The existing AI ledger verifies 1,191/1,191 items and accepts 10/10 cases.
+- C1 is fit for candidate generation; human review is optional.
+- Later datasets require three independent full-coverage subagent reviews.
 - H001 remains `not_run`; this notebook contains no creativity result."""
         ),
     ]

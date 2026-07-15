@@ -1,0 +1,5997 @@
+{
+  "attestation": {
+    "no_candidate_outputs_seen": null,
+    "no_model_arm_outputs_seen": null,
+    "registered_source_documents_opened": null
+  },
+  "cases": [
+    {
+      "case_id": "sec-walmart-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "price_execution_risk"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "value_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "store_network",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "inventory_data",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "orchestrate",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "omnichannel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "customer_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "membership_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "advertising_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "delivery_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "price_execution_risk",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "customer_frequency",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "advertiser",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "membership_revenue"
+        },
+        {
+          "decision": null,
+          "id": "customer_frequency"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-salesforce-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "trust_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "enterprise",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "automation_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "customer_data",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "agentforce",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "automate",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cloud_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "productivity",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "platform_subscription_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "compute_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "trust_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "workflow_adoption",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "platform_subscription_revenue"
+        },
+        {
+          "decision": null,
+          "id": "workflow_adoption"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-microsoft-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "capacity_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "enterprise",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "compute_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "datacenters",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "developer_stack",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "provision",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "azure",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "scalable_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cloud_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "infrastructure_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "capacity_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "ai_adoption",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "energy_supplier",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "energy_capacity",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "cloud_revenue"
+        },
+        {
+          "decision": null,
+          "id": "ai_adoption"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-nvidia-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "supply_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "developer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "platform_customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "acceleration_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "compute_platform",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "software_stack",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "optimize",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "manufacture_platform",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "partner_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "performance_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "platform_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "supply_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "supply_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "platform_adoption",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "foundry_partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "platform_revenue"
+        },
+        {
+          "decision": null,
+          "id": "platform_adoption"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-home-depot-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "cyclical_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "pro_customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "project_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "store_inventory",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "pro_services",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "fulfill_project",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "retail_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "project_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "pro_sales",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "fulfillment_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cyclical_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "project_fulfillment",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "building_supplier",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "pro_sales"
+        },
+        {
+          "decision": null,
+          "id": "project_fulfillment"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-intuit-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "data_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "small_business",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "decision_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "financial_data",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "ai_platform",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "recommend",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "product_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "decision_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "platform_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "service_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "data_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cross_platform_use",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "financial_partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "platform_revenue"
+        },
+        {
+          "decision": null,
+          "id": "cross_platform_use"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-fedex-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "volume_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "shipper",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "delivery_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "transport_network",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "shipment_data",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "consolidate",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "logistics_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "reliability_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "transport_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "network_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "volume_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "network_utilization",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "carrier_partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "transport_revenue"
+        },
+        {
+          "decision": null,
+          "id": "network_utilization"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-nike-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "inventory_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "athlete_consumer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "product_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "design_capability",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "brand_demand",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "create_launch",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "marketplace",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "product_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "direct_product_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "wholesale_product_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "creation_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "inventory_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "full_price_demand",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "wholesale_partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "channel_inventory",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "direct_product_revenue"
+        },
+        {
+          "decision": null,
+          "id": "full_price_demand"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-oracle-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "capacity_shortage"
+        },
+        {
+          "decision": null,
+          "id": "competition_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "enterprise",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "integration_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cloud_capacity",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "database_stack",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "deploy_workload",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cloud_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "integration_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "cloud_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "capacity_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "capacity_shortage",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "competition_constraint",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "workload_growth",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "capacity_partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 1.0
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "cloud_revenue"
+        },
+        {
+          "decision": null,
+          "id": "workload_growth"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-pg-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "retail_concentration"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "household",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "routine_need",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "consumer_insight",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "brand_portfolio",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "innovate_supply",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "retail_channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "routine_value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "product_sales_revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "brand_cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "retail_concentration",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.75
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "repeat_purchase",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.25
+            }
+          ]
+        },
+        {
+          "decision": null,
+          "id": "retail_customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "decision": null,
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "decision": null,
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "decision": null,
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "decision": null,
+              "value": 0.5
+            }
+          ]
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "product_sales_revenue"
+        },
+        {
+          "decision": null,
+          "id": "repeat_purchase"
+        }
+      ],
+      "overall": null
+    }
+  ],
+  "corpus_id": "CHM-VENTURE-C1",
+  "manifest_sha256": "df47d36c082f159c785b304e7b624d1908e70c8c8d6e07429ddb49be15fdd1f3",
+  "packet_sha256": "240d9f32e47515a7eed077206a6bf1964dbf19de224e32e175ab04ac955d5992",
+  "review_id": "",
+  "reviewer": {
+    "conflicts_disclosed": "",
+    "id": "",
+    "independent_of_annotation_author": null
+  },
+  "schema_version": 2
+}

@@ -1,0 +1,69 @@
+schema_version: 1
+audit_id: CHM-V-C1-INTERNAL-SOURCE-AUDIT
+corpus_id: CHM-VENTURE-C1
+audited_at: "2026-07-15"
+auditor_id: chimera-corpus-author-001
+independent: false
+method: second-pass verification against the registered SEC Form 10-K HTML filing
+claim_boundary: validates filing identity and primary-source support, not reviewer independence
+cases:
+  - case_id: sec-walmart-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Revenue Recognition
+    search_terms: [Omni-channel, marketplace offerings, advertising services, cost of sales]
+  - case_id: sec-salesforce-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Service Offerings
+    search_terms: [Agentforce, Data Cloud, trusted AI, Trust Layer]
+  - case_id: sec-microsoft-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Operations; Risk Factors
+    search_terms: [datacenter locations, server capacity, demand for AI services, energy]
+  - case_id: sec-nvidia-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Risk Factors
+    search_terms: [accelerated computing, CUDA, foundries, geographic concentration]
+  - case_id: sec-home-depot-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Professional Customers
+    search_terms: [Pros, delivery network, Pro Xtra, credit offerings]
+  - case_id: sec-intuit-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Global Business Solutions
+    search_terms: [connected all-in-one platform, AI agents, data privacy, responsible AI]
+  - case_id: sec-fedex-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; DRIVE Transformation
+    search_terms: [Network 2.0, DRIVE, efficiency, asset utilization]
+  - case_id: sec-nike-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Fiscal 2025 Financial Highlights
+    search_terms: [product innovation, channel mix, inventory, increased markdowns]
+  - case_id: sec-oracle-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Risk Factors
+    search_terms: [OCI, data center capacity, long-term lease commitments, customer demand]
+  - case_id: sec-pg-2025
+    filing_identity: verified
+    primary_source_support: verified
+    semantic_mapping: pending_independent_review
+    section: Item 1 Business; Business Model
+    search_terms: [consumer insights, product innovation, distribution channels, retail execution]

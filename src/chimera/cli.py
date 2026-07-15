@@ -10,8 +10,10 @@ from pathlib import Path
 import torch
 
 from chimera.config import ExperimentConfig
+from chimera.data.ai_review import evaluate_ai_review_gate
 from chimera.data.corpus import CorpusSplit, build_corpus, validate_corpus
 from chimera.data.evaluation import build_evaluation_corpus, validate_evaluation_corpus
+from chimera.data.review import build_review_packet, build_review_template
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.models.venture import ChimeraVenture
 from chimera.research import load_research_registry
@@ -106,6 +108,31 @@ def _build_evaluation_corpus(arguments: argparse.Namespace) -> int:
 def _validate_evaluation_corpus(arguments: argparse.Namespace) -> int:
     print(json.dumps(validate_evaluation_corpus(arguments.manifest), sort_keys=True))
     return 0
+
+
+def _build_review_packet(arguments: argparse.Namespace) -> int:
+    packet = build_review_packet(
+        arguments.manifest,
+        arguments.source,
+        arguments.audit,
+        arguments.protocol,
+        arguments.output,
+    )
+    build_review_template(arguments.output, arguments.template)
+    print(json.dumps({"packet_id": packet["packet_id"], "cases": packet["case_count"]}))
+    return 0
+
+
+def _validate_review_gate(arguments: argparse.Namespace) -> int:
+    result = evaluate_ai_review_gate(
+        arguments.manifest,
+        arguments.packet,
+        arguments.protocol,
+        source_path=arguments.source,
+        status_path=arguments.status_output,
+    )
+    print(json.dumps(result, sort_keys=True))
+    return 0 if result["generation_allowed"] else 2
 
 
 def _corpus_smoke(
@@ -239,6 +266,55 @@ def build_parser() -> argparse.ArgumentParser:
     evaluation_validation_parser.add_argument(
         "--manifest", type=Path, default=Path("datasets/venture_corpus_c1/manifest.json")
     )
+    review_packet_parser = subparsers.add_parser("build-review-packet")
+    review_packet_parser.add_argument(
+        "--manifest", type=Path, default=Path("datasets/venture_corpus_c1/manifest.json")
+    )
+    review_packet_parser.add_argument(
+        "--source", type=Path, default=Path("datasets/venture_corpus_c1/source_cases.yaml")
+    )
+    review_packet_parser.add_argument(
+        "--audit",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/internal_source_audit.yaml"),
+    )
+    review_packet_parser.add_argument(
+        "--protocol",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/review_protocol.yaml"),
+    )
+    review_packet_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/reviewer_packet.json"),
+    )
+    review_packet_parser.add_argument(
+        "--template",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/review_template.json"),
+    )
+    review_gate_parser = subparsers.add_parser("validate-review-gate")
+    review_gate_parser.add_argument(
+        "--manifest", type=Path, default=Path("datasets/venture_corpus_c1/manifest.json")
+    )
+    review_gate_parser.add_argument(
+        "--packet",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/reviewer_packet.json"),
+    )
+    review_gate_parser.add_argument(
+        "--protocol",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/ai_review_protocol.yaml"),
+    )
+    review_gate_parser.add_argument(
+        "--source", type=Path, default=Path("datasets/venture_corpus_c1/source_cases.yaml")
+    )
+    review_gate_parser.add_argument(
+        "--status-output",
+        type=Path,
+        default=Path("datasets/venture_corpus_c1/review_status.json"),
+    )
     corpus_smoke_parser = subparsers.add_parser("corpus-smoke")
     corpus_smoke_parser.add_argument(
         "--manifest",
@@ -315,6 +391,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _build_evaluation_corpus(arguments)
     if arguments.command == "validate-evaluation-corpus":
         return _validate_evaluation_corpus(arguments)
+    if arguments.command == "build-review-packet":
+        return _build_review_packet(arguments)
+    if arguments.command == "validate-review-gate":
+        return _validate_review_gate(arguments)
     if arguments.command == "venture-trial":
         return _venture_trial(arguments)
     if arguments.command == "proposal-diagnostic":

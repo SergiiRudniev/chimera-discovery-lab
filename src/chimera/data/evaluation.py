@@ -31,6 +31,22 @@ _ARRAY_NAMES = (
     "constraint_mask",
     "case_indices",
 )
+_FIXED_EDGE_SIGNATURES = {
+    "HAS_NEED": frozenset({("ACTOR", "NEED")}),
+    "REACHES": frozenset({("CHANNEL", "ACTOR")}),
+    "DELIVERS": frozenset({("ACTION", "VALUE")}),
+    "PAYS": frozenset({("ACTOR", "REVENUE")}),
+    "COSTS": frozenset({("ACTION", "COST")}),
+    "PRODUCES": frozenset({("VALUE", "OUTCOME"), ("ACTION", "OUTCOME")}),
+    "FEEDS_BACK": frozenset({("OUTCOME", "FEEDBACK")}),
+}
+_FORBIDDEN_EDGE_SIGNATURES = frozenset(
+    {
+        ("NEED", "DEPENDS_ON", "VALUE"),
+        ("COST", "REDUCES", "OUTCOME"),
+        ("ACTOR", "TRANSFERS_TO", "RESOURCE"),
+    }
+)
 
 
 class EvaluationCorpus:
@@ -147,6 +163,7 @@ def build_evaluation_corpus(
         parser_case = dict(case)
         parser_case["split"] = partition
         graph, canonical = graph_from_annotated_case(parser_case, config)
+        _validate_edge_semantics(canonical)
         challenge = _mapping(case.get("challenge"), f"challenge for {case_id}")
         objective_nodes = _string_list(challenge.get("objective_nodes"), "objective_nodes")
         constraint_nodes = _string_list(challenge.get("constraint_nodes"), "constraint_nodes")
@@ -189,7 +206,12 @@ def build_evaluation_corpus(
     stacked_arrays = {name: np.stack(values) for name, values in arrays.items()}
     np.savez_compressed(graphs_path, **stacked_arrays)  # type: ignore[arg-type]
     protocol_paths: list[Path] = []
-    for protocol_name in ("matched_baseline_protocol.yaml", "rating_protocol.yaml"):
+    for protocol_name in (
+        "matched_baseline_protocol.yaml",
+        "rating_protocol.yaml",
+        "review_protocol.yaml",
+        "internal_source_audit.yaml",
+    ):
         registered_protocol = source.parent / protocol_name
         if not registered_protocol.is_file():
             raise FileNotFoundError(f"missing preregistered protocol: {registered_protocol}")
@@ -212,6 +234,7 @@ def build_evaluation_corpus(
         "feature_names": list(FEATURE_NAMES),
         "max_nodes": config.max_nodes,
         "source_accessed_at": _required_string(document, "accessed_at"),
+        "annotation_author_id": _required_string(document, "annotation_author_id"),
         "source_document": {"path": source.name, "sha256": _sha256(source)},
         "pretraining_corpus": {
             "corpus_id": _required_string(pretraining, "corpus_id"),
@@ -232,9 +255,8 @@ def build_evaluation_corpus(
         ),
     }
     manifest_path = destination / "manifest.json"
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    with manifest_path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     validate_evaluation_corpus(manifest_path)
     return manifest
 
@@ -266,6 +288,7 @@ def validate_evaluation_corpus(manifest_path: str | Path) -> dict[str, int]:
         raise ValueError("matched baseline briefs are not case-aligned")
     observed_partitions = dict.fromkeys(PARTITIONS, 0)
     for index, record in enumerate(corpus.cases):
+        _validate_edge_semantics(record)
         partition = _required_string(record, "partition")
         if partition not in observed_partitions:
             raise ValueError(f"unknown evaluation partition {partition}")
@@ -295,6 +318,38 @@ def validate_evaluation_corpus(manifest_path: str | Path) -> dict[str, int]:
     if int(boundary.get("cik_overlap_count", -1)) != 0:
         raise ValueError("evaluation CIKs overlap pretraining corpus")
     return {"cases": len(corpus), **observed_partitions}
+
+
+def _validate_edge_semantics(case: Mapping[str, Any]) -> None:
+    case_id = _required_string(case, "case_id")
+    nodes = _mapping_list(case.get("nodes"), f"nodes for {case_id}")
+    edges = _mapping_list(case.get("edges"), f"edges for {case_id}")
+    node_types = {
+        _required_string(node, "id"): _required_string(node, "type") for node in nodes
+    }
+    for edge in edges:
+        source = _required_string(edge, "source")
+        relation = _required_string(edge, "relation")
+        target = _required_string(edge, "target")
+        signature = (node_types[source], node_types[target])
+        allowed = _FIXED_EDGE_SIGNATURES.get(relation)
+        if allowed is not None and signature not in allowed:
+            raise ValueError(
+                f"edge role signature violates semantics: {case_id}/{source}/{relation}/{target}"
+            )
+        if (signature[0], relation, signature[1]) in _FORBIDDEN_EDGE_SIGNATURES:
+            raise ValueError(
+                f"known causal edge anti-pattern: {case_id}/{source}/{relation}/{target}"
+            )
+        if relation == "ENABLES" and signature[1] not in {"ACTION", "RESOURCE"}:
+            raise ValueError(
+                f"ENABLES target must be an action or resource: "
+                f"{case_id}/{source}/{target}"
+            )
+        if relation == "BLOCKS" and signature[0] != "CONSTRAINT":
+            raise ValueError(
+                f"BLOCKS source must be a constraint: {case_id}/{source}/{target}"
+            )
 
 
 def _validate_source_isolation(
@@ -414,6 +469,12 @@ def _mapping(value: object, name: str) -> Mapping[str, Any]:
     if not isinstance(value, Mapping):
         raise TypeError(f"{name} must be a mapping")
     return value
+
+
+def _mapping_list(value: object, name: str) -> list[Mapping[str, Any]]:
+    if not isinstance(value, list) or not all(isinstance(item, Mapping) for item in value):
+        raise TypeError(f"{name} must be a list of mappings")
+    return list(value)
 
 
 def _required_string(values: Mapping[str, Any], name: str) -> str:

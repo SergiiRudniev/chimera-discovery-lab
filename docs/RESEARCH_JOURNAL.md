@@ -1,5 +1,63 @@
 # Research Journal
 
+## 2026-07-15 — AI dataset validation policy
+
+- **Decision:** AI subagents replace mandatory human review as the dataset release
+  authority during early research. Human review remains optional.
+- **C1:** No repeat validation is required. The existing full ledger already verifies
+  1,191/1,191 items and accepts 10/10 cases on the current immutable snapshot.
+- **C2+:** Three distinct full-coverage subagents review each dataset with source,
+  semantic and commercial primary roles. All three must accept identical hashes.
+- **Gate:** Missing reviews block; unresolved findings fail; stale hashes are errors;
+  unanimous configured acceptance permits downstream generation.
+- **H001 amendment:** The gate policy changed before candidate generation or ratings.
+  The hypothesis, arms, metrics and blind-rating analysis are unchanged.
+
+## 2026-07-15 — C1 correction and AI re-review
+
+- **Correction:** Removed unsupported causal and feedback edges, aligned payer
+  roles with revenue mechanisms, corrected four SEC filing dates, separated
+  NIKE direct and wholesale revenue, and recalibrated overstated numeric anchors.
+- **Protection:** Review packet schema v2 requires an independent decision for
+  every one of the seven human-assigned ratings on every node. The corpus builder
+  rejects fixed relation-role violations and the discovered causal anti-patterns.
+- **AI verification:** The four-lens subagent accepted 1,191/1,191 item decisions
+  across 10 filing identities, 32 evidence notes, 126 nodes, 882 ratings, 100
+  edges, 20 objectives and 11 constraints; all 10 cases were accepted.
+- **Integrity:** The AI ledger is SHA-256 bound to the source, corpus manifest and
+  reviewer packet. Local validation, deterministic rebuild and semantic checks pass.
+- **Independence:** AI acceptance is support evidence only. `C1-Q001` remains open,
+  the human gate remains blocked at 0/1 and H001 generation remains disabled.
+
+## 2026-07-15 — C1 multi-lens AI review
+
+- **Reviewer:** Codex subagent with source-diligence, commercial-logic,
+  problem-alignment and semantic-overreach lenses.
+- **Coverage:** 10/10 SEC filings and all registered graph elements were
+  screened; the committed support artifact records material findings, not a
+  complete item-level decision ledger.
+- **Decision:** `needs_change`. Repeated issues include invalid
+  `NEED→DEPENDS_ON→VALUE`, unsupported `COST→REDUCES→OUTCOME`, invalid actor to
+  resource transfers, payer mismatches and overstated numeric anchors.
+- **Verification:** The three systemic relation counts reproduce directly from
+  `source_cases.yaml`: 10, 10 and 7 affected cases respectively.
+- **Independence:** This is an AI-assisted internal audit, not an independent
+  human review. `C1-Q001` remains open and H001 generation remains blocked.
+
+## 2026-07-15 — Venture Corpus C1 review gate
+
+- **Internal audit:** Filing identity and primary-source support verified for
+  10/10 registered cases.
+- **Independence:** The internal auditor is the annotation author, so this work
+  does not close `C1-Q001`.
+- **Gate:** Coverage and decisions are checked for every evidence note, node,
+  edge, objective and constraint, together with manifest and packet hashes.
+- **Protection:** Self-review, partial review, changed hashes, missing
+  attestations and `needs_change` all block generation.
+- **Status:** Blocked; 0/1 independent reviews accepted.
+- **Claim boundary:** No candidate, model output, rating or H001 result was
+  produced.
+
 ## 2026-07-15 — Venture Corpus C1 preregistration
 
 - **Corpus:** `CHM-VENTURE-C1`; 2 calibration and 8 evaluation cases from

@@ -1,0 +1,43 @@
+schema_version: 1
+protocol_id: CHM-V-C1-INDEPENDENT-REVIEW
+status: frozen_before_external_review
+corpus_id: CHM-VENTURE-C1
+annotation_author_id: chimera-corpus-author-001
+minimum_independent_reviewers: 1
+scope:
+  cases: 10
+  required_checks:
+    - filing_identity
+    - evidence_notes
+    - nodes
+    - node_ratings
+    - edges
+    - objective_nodes
+    - constraint_nodes
+decisions:
+  allowed: [verified, needs_change, cannot_verify]
+  accepted: verified
+node_ratings:
+  semantics: docs/BUSINESS_GRAPH_SEMANTICS.md#numeric-features
+  reviewed_axes: [salience, evidence, control, immediacy, recurrence, scalability, risk]
+  value_proximity_is_derived: true
+  every_human_assigned_value_requires_a_decision: true
+case_acceptance:
+  overall_decision: accept
+  every_required_check_must_be_verified: true
+reviewer_independence:
+  reviewer_id_must_differ_from_annotation_author_id: true
+  independent_attestation_required: true
+  conflict_disclosure_required: true
+blinding:
+  candidate_outputs_must_not_exist: true
+  model_arm_outputs_must_not_be_seen: true
+  generation_must_remain_blocked_during_review: true
+integrity:
+  manifest_sha256_must_match: true
+  packet_sha256_must_match: true
+  every_case_must_be_reviewed: true
+gate:
+  passed: at least one independent complete review accepts every case
+  blocked: no complete independent review exists
+  failed: any complete independent review requests a source or graph change

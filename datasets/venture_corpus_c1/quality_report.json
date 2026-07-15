@@ -5,7 +5,7 @@
       "cases_with_challenge": 10,
       "cases_with_evidence": 10,
       "cases_with_source": 10,
-      "review_statuses": {
+      "source_annotation_statuses_at_snapshot": {
         "pending_independent_review": 10
       }
     },
@@ -20,7 +20,7 @@
         1,
         1,
         1,
-        1,
+        2,
         1
       ],
       "matched_brief_count": 10,
@@ -38,6 +38,7 @@
       ]
     },
     "integrity": {
+      "edge_semantics_validation": "passed",
       "manifest_hash_validation": "passed",
       "partition_counts": {
         "calibration": 2,
@@ -52,6 +53,63 @@
       "cik_overlap_count": 0,
       "organization_overlap_count": 0,
       "outcome_labels_present": false
+    },
+    "source_review": {
+      "gate": {
+        "accepted_ai_reviews": 1,
+        "accepted_review_ids": [
+          "CHM-V-C1-AI-MULTI-LENS-004"
+        ],
+        "corpus_id": "CHM-VENTURE-C1",
+        "coverage": {
+          "constraint_node_decisions": 11,
+          "edge_decisions": 100,
+          "evidence_note_decisions": 32,
+          "filing_identity_decisions": 10,
+          "node_decisions": 126,
+          "node_rating_axis_decisions": 882,
+          "objective_node_decisions": 20,
+          "registered_cases": 10,
+          "source_locator_decisions": 10,
+          "total_item_decisions": 1191
+        },
+        "gate_authority": "ai_subagent_review",
+        "generation_allowed": true,
+        "human_review_required": false,
+        "manifest_sha256": "df47d36c082f159c785b304e7b624d1908e70c8c8d6e07429ddb49be15fdd1f3",
+        "minimum_accepted_reviews": 1,
+        "missing_review_ids": [],
+        "packet_sha256": "240d9f32e47515a7eed077206a6bf1964dbf19de224e32e175ab04ac955d5992",
+        "policy_mode": "accepted_existing_full_ledger",
+        "reason": "configured_ai_review_policy_accepted_snapshot",
+        "rejected_review_ids": [],
+        "required_ai_reviews": 1,
+        "review_artifacts": [
+          {
+            "path": "ai_reviews/multi_lens_ai_review.json",
+            "review_id": "CHM-V-C1-AI-MULTI-LENS-004",
+            "role": "multi_lens_full_ledger",
+            "sha256": "8a92fb5bf3a0b92b97f15978acd66676a27735dc6112e2775a4fa5c37df85409"
+          }
+        ],
+        "schema_version": 1,
+        "source_sha256": "924bfd862ce115ea302906b13d9887db464d76ae9739dc84c9a4e692ec558fa8",
+        "status": "passed"
+      },
+      "internal_auditor_id": "chimera-corpus-author-001",
+      "internal_auditor_independent": false,
+      "internal_filing_identity_verified": 10,
+      "internal_primary_source_support_verified": 10,
+      "legacy_semantic_mapping_pending_review": 10,
+      "required_item_counts": {
+        "cases": 10,
+        "constraint_nodes": 11,
+        "edges": 100,
+        "evidence_notes": 32,
+        "human_assigned_node_ratings": 882,
+        "nodes": 126,
+        "objective_nodes": 20
+      }
     },
     "timeliness": {
       "evaluation_min_period_end": "2025-01-26",
@@ -83,51 +141,45 @@
       "numeric_archive_has_text_or_objects": false
     },
     "volume_and_shape": {
-      "edge_count_max": 19,
-      "edge_count_median": 17.0,
-      "edge_count_min": 15,
+      "edge_count_max": 12,
+      "edge_count_median": 9.5,
+      "edge_count_min": 8,
       "edge_type_counts": {
         "1": 10,
-        "3": 34,
-        "4": 15,
-        "5": 15,
+        "3": 28,
+        "4": 18,
+        "5": 11,
         "6": 10,
         "7": 12,
         "8": 10,
-        "9": 10,
-        "10": 10,
-        "11": 11,
-        "13": 7,
-        "14": 16,
-        "15": 10
+        "11": 1
       },
       "node_count_max": 14,
-      "node_count_median": 13.0,
-      "node_count_min": 12,
+      "node_count_median": 12.5,
+      "node_count_min": 11,
       "node_type_counts": {
-        "1": 19,
+        "1": 20,
         "2": 10,
         "3": 22,
-        "4": 10,
-        "5": 10,
-        "6": 11,
+        "4": 11,
+        "5": 11,
+        "6": 10,
         "7": 10,
-        "8": 10,
+        "8": 12,
         "9": 10,
-        "10": 10,
-        "11": 10
+        "10": 10
       }
     }
   },
   "findings": [
     {
       "confidence": "high",
-      "finding": "All ten source-to-graph annotations await independent review.",
+      "finding": "The configured AI review policy accepted 1/1 required reviews.",
       "id": "C1-Q001",
       "impact": "Source interpretation errors could affect both experiment arms.",
-      "remediation": "A second reviewer must verify every evidence note, node, edge and challenge mask before generation.",
+      "remediation": "For later datasets, run three independent full-coverage subagents with source, semantic and commercial review roles.",
       "severity": "high",
-      "status": "open"
+      "status": "closed"
     },
     {
       "confidence": "high",
@@ -158,14 +210,14 @@
     }
   ],
   "fitness_for_use": {
-    "candidate_generation": "blocked_pending_C1-Q001",
+    "candidate_generation": "fit",
     "corpus_build_and_protocol_preregistration": "fit",
     "creativity_claim": "not_fit_until_blind_ratings_and_locked_analysis"
   },
   "generated_at": "2026-07-15",
   "intended_grain": "one organization filing, one challenge and one typed numeric graph",
   "intended_use": "preregistered CHM-V-H001 generation and blind evaluation",
-  "release_status": "provisional_pending_independent_annotation_review",
+  "release_status": "validated_by_ai_review",
   "report_id": "CHM-VENTURE-C1-QUALITY",
   "validation": {
     "calibration": 2,

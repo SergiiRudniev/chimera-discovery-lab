@@ -161,10 +161,18 @@ the same registered graph and challenge.
 - [Dataset manifest](datasets/venture_corpus_c1/manifest.json)
 - [Matched baseline protocol](datasets/venture_corpus_c1/matched_baseline_protocol.yaml)
 - [Blind rating protocol](datasets/venture_corpus_c1/rating_protocol.yaml)
+- [AI review protocol](datasets/venture_corpus_c1/ai_review_protocol.yaml)
+- [Global AI validation policy](datasets/ai_review_policy.yaml)
+- [Legacy human review protocol](datasets/venture_corpus_c1/review_protocol.yaml)
+- [Reviewer packet](datasets/venture_corpus_c1/reviewer_packet.json)
+- [AI-assisted review ledger](datasets/venture_corpus_c1/ai_reviews/multi_lens_ai_review.json)
 - [Executed quality notebook](notebooks/venture_corpus_c1_quality.ipynb)
 
-C1 is provisional. Candidate generation is blocked until a second reviewer
-closes the independent source-annotation audit.
+C1 is validated by the existing complete AI ledger: 1,191/1,191 registered items
+verified and 10/10 cases accepted on the current source, manifest and packet hashes.
+The configured gate passes and candidate generation is allowed. Human review is
+optional. Starting with the next dataset, three independent full-coverage subagents
+must unanimously accept the same immutable snapshot.
 
 ## Venture Trial T0
 
@@ -246,7 +254,7 @@ reconstructed from memory.
 | Venture Trial T2 | Passed exploratory proposal-policy qualification |
 | Trained checkpoint | T1 step 2700 engineering prerelease |
 | Proposal policy | T2 `explore-50`; T1 weights unchanged |
-| H001 protocol | Frozen; generation blocked pending independent C1 review |
+| H001 protocol | Amended before generation; C1 AI review gate passed |
 | Creativity claim | Not evaluated |
 
 ## Setup

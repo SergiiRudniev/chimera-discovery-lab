@@ -1,4 +1,5 @@
 {
+  "annotation_author_id": "chimera-corpus-author-001",
   "claim_boundary": "source-grounded evaluation inputs; no creativity labels and no H001 outcomes",
   "corpus_id": "CHM-VENTURE-C1",
   "counts": {
@@ -19,24 +20,32 @@
   "feature_schema": "venture-shared-axes-c0",
   "files": {
     "cases.jsonl": {
-      "bytes": 60720,
-      "sha256": "af4d2dc5d31eb8e9c357a1de0f7133e3d34fe05acb6be7faca906cee7b7033bd"
+      "bytes": 53507,
+      "sha256": "6d4dba0f55717043befa5f7814ba3fda31ac69e011db0ac07cb6a1ac7777034f"
     },
     "graphs.npz": {
-      "bytes": 2522,
-      "sha256": "d322045ef3a234cd93558351fa468809e00d13f583a06a05133f7d9571c498cb"
+      "bytes": 2567,
+      "sha256": "4c6037cc5542f9e6cffc01cc330399a72369486c92b0e159845046c41216e4f4"
+    },
+    "internal_source_audit.yaml": {
+      "bytes": 3157,
+      "sha256": "bde52e52dcc76bb535ae151737b31bbcc833f61a271752716b470412779eeb30"
     },
     "matched_baseline_protocol.yaml": {
       "bytes": 1298,
       "sha256": "5ebe8576fcb3331c91d0d74bc8a323b3c4a210d6cf23500ff7f56fb4736a1740"
     },
     "matched_briefs.jsonl": {
-      "bytes": 23844,
-      "sha256": "9353ae787e4bfe511937de2c33801f62853da50ddd1801f407c9f7541cb55462"
+      "bytes": 19931,
+      "sha256": "64bca589a134db50109dffe98f87867a7d62add3c5fb1c9abc6d5d49f06843af"
     },
     "rating_protocol.yaml": {
       "bytes": 3189,
       "sha256": "36362eaf520e07f78a5362a8f03926f671a2ead4fd87a73a0e159bfc5680c616"
+    },
+    "review_protocol.yaml": {
+      "bytes": 1424,
+      "sha256": "7aaddce7f3a245f32e18002c116357fa6278d568060fb48b9fd84b918820903d"
     }
   },
   "language_isolation": {
@@ -73,7 +82,7 @@
   "source_accessed_at": "2026-07-15",
   "source_document": {
     "path": "source_cases.yaml",
-    "sha256": "cae8ac57e9c03e8af6f6324a98c624e4466946ec5a52add840c6dd0f2511933c"
+    "sha256": "924bfd862ce115ea302906b13d9887db464d76ae9739dc84c9a4e692ec558fa8"
   },
   "temporal_boundary": {
     "accession_overlap_count": 0,

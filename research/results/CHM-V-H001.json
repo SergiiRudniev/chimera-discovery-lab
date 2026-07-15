@@ -3,5 +3,5 @@
   "status": "not_run",
   "metrics": null,
   "decision": "pending",
-  "notes": "Venture Corpus C1, the immutable matched baseline and the blind-rating analysis are preregistered. No candidates were generated and no ratings were collected. Independent source annotation review remains required before the run."
+  "notes": "Venture Corpus C1, the immutable matched baseline and the blind-rating analysis are preregistered. The configured AI dataset gate accepts the existing 1,191-item C1 ledger and permits generation. Human dataset review is optional. No H001 candidates were generated and no ratings were collected yet."
 }

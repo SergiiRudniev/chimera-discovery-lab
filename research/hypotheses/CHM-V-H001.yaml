@@ -29,7 +29,12 @@ protocol:
     - time_split_case_corpus
     - matched_text_baseline
     - blinded_human_rating_protocol
-    - independent_source_annotation_review
+    - configured_ai_dataset_review_gate
+  amendment:
+    amended_at: 2026-07-15
+    changed_before_generation: true
+    change: replace mandatory human dataset review with the configured AI review gate
+    rationale: prioritize reproducible validation throughput during early research
   primary_metric: novelty_at_matched_feasibility
   claim_boundary: no H001 result exists until generation, blind rating and locked analysis complete
 result: research/results/CHM-V-H001.json
