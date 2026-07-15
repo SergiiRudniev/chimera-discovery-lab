@@ -30,6 +30,13 @@ class RelationalSequenceWorldModel(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden, hidden),
         )
+        self.graph_temporal_encoder = nn.GRU(
+            input_size=hidden,
+            hidden_size=hidden,
+            num_layers=max(config.temporal_layers, 1),
+            dropout=config.dropout if config.temporal_layers > 1 else 0.0,
+            batch_first=True,
+        )
         self.spatial_blocks = nn.ModuleList(
             [SpatialBlock(config) for _ in range(config.spatial_layers)]
         )
@@ -41,6 +48,8 @@ class RelationalSequenceWorldModel(nn.Module):
             dropout=config.dropout if config.temporal_layers > 1 else 0.0,
             batch_first=True,
         )
+        self.relational_graph_projection = nn.Linear(hidden, hidden)
+        self.relational_gate_logit = nn.Parameter(torch.tensor(-2.0))
         self.intervention_type_embedding = nn.Embedding(
             config.intervention_types,
             hidden,
@@ -139,6 +148,14 @@ class RelationalSequenceWorldModel(nn.Module):
         )
         slot_states = slot_states + self.history_action_encoder(history_context)
         slot_states = slot_states * batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
+        slot_weight = batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
+        graph_states = (slot_states * slot_weight).sum(dim=2) / slot_weight.sum(
+            dim=2
+        ).clamp_min(1)
+        graph_states = graph_states * batch.time_mask.unsqueeze(-1).to(
+            graph_states.dtype
+        )
+        baseline_temporal_states, _ = self.graph_temporal_encoder(graph_states)
         flat_states = slot_states.reshape(
             batch_size * config.context_steps,
             config.max_slots,
@@ -180,14 +197,28 @@ class RelationalSequenceWorldModel(nn.Module):
             temporal_delta.permute(0, 2, 1, 3) + spatial_states
         ) * active
         final_steps = batch.time_mask.sum(dim=1) - 1
-        final_slots = self._gather_time(temporal_states, final_steps)
+        baseline_final_graph = self._gather_time(
+            baseline_temporal_states,
+            final_steps,
+        )
+        baseline_final_slots = self._gather_time(slot_states, final_steps)
+        relational_final_slots = self._gather_time(temporal_states, final_steps)
         final_slot_mask = self._gather_time(batch.slot_mask, final_steps)
         final_relations = self._gather_time(batch.relations, final_steps)
         final_observations = self._gather_time(batch.observations, final_steps)
-        slot_weight = final_slot_mask.unsqueeze(-1).to(final_slots.dtype)
-        final_graph = (final_slots * slot_weight).sum(dim=1) / slot_weight.sum(
+        relational_gate = torch.sigmoid(self.relational_gate_logit)
+        final_slots = baseline_final_slots + relational_gate * (
+            relational_final_slots - baseline_final_slots
+        )
+        final_slot_weight = final_slot_mask.unsqueeze(-1).to(final_slots.dtype)
+        relational_final_graph = (
+            relational_final_slots * final_slot_weight
+        ).sum(dim=1) / final_slot_weight.sum(
             dim=1
         ).clamp_min(1)
+        final_graph = baseline_final_graph + relational_gate * self.relational_graph_projection(
+            relational_final_graph
+        )
 
         source = self._gather_slots(final_slots, batch.source_slots)
         target = self._gather_slots(final_slots, batch.target_slots)
