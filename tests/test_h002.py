@@ -221,6 +221,23 @@ def test_h002_mechanism_embedding_reads_only_past_actions() -> None:
     )
 
 
+def test_h002_relational_prediction_reads_source_target_relation() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)  # type: ignore[arg-type]
+    changed = replace(window, relations=torch.randn_like(window.relations))
+    model = RelationalSequenceWorldModel(_model_config()).eval()
+
+    with torch.no_grad():
+        original_output = model(window)
+        changed_output = model(changed)
+
+    assert not torch.equal(original_output.effect_mean, changed_output.effect_mean)
+    assert not torch.equal(
+        original_output.next_state_mean,
+        changed_output.next_state_mean,
+    )
+
+
 def test_h002_alignment_penalizes_collapsed_embeddings() -> None:
     mechanism_ids = torch.tensor([0, 0, 1, 1])
     collapsed = torch.ones(4, 2)

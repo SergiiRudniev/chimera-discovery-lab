@@ -59,9 +59,14 @@ class RelationalSequenceWorldModel(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden, hidden),
         )
+        self.intervention_relation_encoder = nn.Sequential(
+            nn.Linear(config.relation_features * 2, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
         self.intervention_fusion = nn.Sequential(
-            nn.LayerNorm(hidden * 4),
-            nn.Linear(hidden * 4, hidden),
+            nn.LayerNorm(hidden * 5),
+            nn.Linear(hidden * 5, hidden),
             nn.SiLU(),
             nn.Linear(hidden, hidden),
         )
@@ -104,6 +109,17 @@ class RelationalSequenceWorldModel(nn.Module):
     def _gather_slots(values: Tensor, pointers: Tensor) -> Tensor:
         index = pointers[:, None, None].expand(values.shape[0], 1, values.shape[-1])
         return values.gather(1, index).squeeze(1)
+
+    @staticmethod
+    def _gather_relation_pairs(
+        relations: Tensor,
+        source_slots: Tensor,
+        target_slots: Tensor,
+    ) -> Tensor:
+        batch_indices = torch.arange(relations.shape[0], device=relations.device)
+        forward = relations[batch_indices, source_slots, target_slots]
+        reverse = relations[batch_indices, target_slots, source_slots]
+        return torch.cat([forward, reverse], dim=-1)
 
     def _validate_contract(self, batch: MetaWorldBatch) -> None:
         config = self.config
@@ -222,6 +238,11 @@ class RelationalSequenceWorldModel(nn.Module):
 
         source = self._gather_slots(final_slots, batch.source_slots)
         target = self._gather_slots(final_slots, batch.target_slots)
+        intervention_relations = self._gather_relation_pairs(
+            final_relations,
+            batch.source_slots,
+            batch.target_slots,
+        )
         intervention = self.intervention_fusion(
             torch.cat(
                 [
@@ -231,6 +252,7 @@ class RelationalSequenceWorldModel(nn.Module):
                     self.intervention_parameter_encoder(
                         batch.intervention_parameters
                     ),
+                    self.intervention_relation_encoder(intervention_relations),
                 ],
                 dim=-1,
             )
