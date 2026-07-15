@@ -29,6 +29,7 @@ Variants of one company never cross split boundaries.
 | `test.npz` | Numeric-only test tensors |
 | `manifest.json` | Counts, hashes, split boundaries and claim boundary |
 | `quality_report.json` | Reproducible integrity and distribution profile |
+| `target_quality_report.json` | Input-target ambiguity and loss-field relevance |
 
 ## Primary Sources
 
@@ -52,10 +53,18 @@ filing text is not redistributed.
 chimera build-corpus
 chimera validate-corpus
 python scripts/profile_venture_corpus.py --output datasets/venture_corpus_c0/quality_report.json
+python scripts/profile_venture_targets.py --output datasets/venture_corpus_c0/target_quality_report.json
 ```
 
 The committed shards contain no source text, labels or language embeddings.
 Human-readable metadata is isolated in JSONL and YAML sidecars.
+
+The target-quality profile found no conflicting target graphs and no input
+overlap across splits. Exact target-graph reconstruction is identifiable.
+Registered edit-program reconstruction is not fully identifiable because a
+small number of identical inputs have alternative valid programs. Operation-
+conditioned argument masks are required because 41.4% of raw argument slots are
+placeholders unused by their operation.
 
 ## Claim Boundary
 
