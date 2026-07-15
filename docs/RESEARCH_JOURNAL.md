@@ -1,5 +1,25 @@
 # Research Journal
 
+## 2026-07-15 — Venture Trial T1 result
+
+- **Protocol:** `CHM-V-T001`, frozen at commit `7b69794` before target metrics
+  were opened.
+- **Runtime:** Full 20,647,992-parameter Venture M0; 3,000 steps in 134.9 seconds
+  on an NVIDIA GeForce RTX 5070.
+- **Selection:** Step 2700 maximized validation exact-graph reconstruction at
+  30.47%; validation loss was only a tie-breaker.
+- **Optimization:** Batch loss decreased from 7.9580 to 0.1474 and remained finite.
+- **Reconstruction:** Exact-graph rates were 99.22% train, 30.47% validation and
+  14.84% test. The registered 95% train criterion passed.
+- **Generation:** 160/160 programs were valid; 144 changed their source graph and
+  53 result graphs were unique. Fixed-seed replay was exact.
+- **Trade-off:** Unique-graph rate decreased from 92.50% in T0 to 33.13% in T1;
+  final MAP-Elites coverage decreased from 43.75% to 18.75%.
+- **Decision:** Accept T1 as an engineering structural-reconstruction checkpoint,
+  not as creativity or CHM-V-H001 evidence.
+- **Next action:** Correct generation collapse before building the matched
+  language-baseline evaluation.
+
 ## 2026-07-15 — Venture Trial T1 registration
 
 - **Protocol:** `CHM-V-T001`; corrective engineering qualification after T0.

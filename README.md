@@ -22,9 +22,8 @@ core and introduced only after a candidate structure has been frozen.
 
 > [!IMPORTANT]
 > This repository contains an architecture and an engineering baseline. Venture
-> Trial T0 produced an unqualified structural-pretraining checkpoint; it does not
-> provide evidence that non-linguistic generation is more novel or useful than a
-> language baseline.
+> Trial T1 qualified structural reconstruction, but it does not provide evidence
+> that non-linguistic generation is more novel or useful than a language baseline.
 
 ## Reserved Model Families
 
@@ -120,7 +119,7 @@ predicted_delta: [utility, feasibility, coherence]
 
 ```text
 minimize  edit-program reconstruction
-        + source and target pointer loss
+        + operation-conditioned argument and pointer loss
         + next-state latent prediction
         + utility / feasibility / coherence calibration
         - bounded operation entropy
@@ -160,6 +159,21 @@ three edit families supervised by Corpus C0.
 - [Machine-readable result](research/trials/CHM-V-T000/result.json)
 - [Checkpoint manifest](research/trials/CHM-V-T000/checkpoint_manifest.json)
 
+## Venture Trial T1
+
+The corrective T1 trial masked arguments unused by each edit operation, trained
+for 3,000 CUDA steps and selected checkpoint step 2700 by validation exact-graph
+rate. It passed the registered engineering checks with 99.22% train exact-graph
+reconstruction, 30.47% validation reconstruction and 14.84% test reconstruction.
+
+T1 also exposed a trade-off: all generated programs were valid, but unique-graph
+rate fell from 92.50% in T0 to 33.13% in T1. The checkpoint qualifies structural
+learning only; generation diversity still requires correction.
+
+- [Trial report](research/trials/CHM-V-T001/README.md)
+- [Machine-readable result](research/trials/CHM-V-T001/result.json)
+- [Checkpoint manifest](research/trials/CHM-V-T001/checkpoint_manifest.json)
+
 ## Research Ledger
 
 Every experiment receives an immutable family-specific ID:
@@ -189,7 +203,8 @@ reconstructed from memory.
 | Venture Corpus C0 | 10 graphs; 640 source-isolated denoising transitions |
 | Corpus C0 training smoke | Passed: loss 7.3673 -> 1.1501 in 5 fixed-batch steps |
 | Venture Trial T0 | Completed with gaps; exact reconstruction criterion failed |
-| Trained checkpoint | Step 175 engineering checkpoint; not qualified |
+| Venture Trial T1 | Passed structural reconstruction qualification |
+| Trained checkpoint | T1 step 2700 engineering prerelease |
 | Creativity claim | Not evaluated |
 
 ## Setup
@@ -226,6 +241,9 @@ chimera build-corpus
 chimera validate-corpus
 chimera corpus-smoke --steps 5 --batch-size 2
 chimera venture-trial
+chimera venture-trial --config configs/venture/venture_trial_t1.yaml `
+  --output research/trials/CHM-V-T001 `
+  --checkpoint-dir checkpoints/venture_m0_t1
 ```
 
 ## Validation

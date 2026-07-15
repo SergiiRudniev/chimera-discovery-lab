@@ -1,0 +1,11 @@
+{
+  "best_step": 2700,
+  "bytes": 82666619,
+  "claim_boundary": "engineering structural pretraining; no creativity claim",
+  "file": "chimera-venture-m0-t1-step002700.pt",
+  "format_version": 1,
+  "model": "Chimera Venture M0",
+  "parameters": 20647992,
+  "release_tag": "venture-m0-t1",
+  "sha256": "678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47"
+}
