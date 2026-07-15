@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import replace
 from pathlib import Path
 
@@ -192,3 +193,42 @@ def test_meta_world_trial_writes_auditable_artifacts(
     assert (output / "environment.json").is_file()
     assert (output / "result.json").is_file()
     assert public_result.is_file()
+
+
+def test_meta_world_trial_persists_uncaught_failure(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    small_meta_world_model_config: MetaWorldModelConfig,
+    small_meta_world_training_config: MetaWorldTrainingConfig,
+) -> None:
+    config_path = tmp_path / "config.yaml"
+    output = tmp_path / "trial"
+    public_result = tmp_path / "result.json"
+    payload = {
+        "experiment_id": "CHM-W-H998",
+        "trial_id": "CHM-W-T998",
+        "model": small_meta_world_model_config.__dict__,
+        "training": small_meta_world_training_config.__dict__,
+        "qualification": {
+            "minimum_parameters": 1,
+            "maximum_parameters": 10_000_000,
+            "minimum_loss_reduction_fraction": 0.0,
+            "maximum_replay_delta": 0.0,
+            "require_cuda": False,
+            "require_all_finite": True,
+        },
+    }
+    config_path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+
+    def fail_train_step(self: MetaWorldTrainer, batch: object) -> dict[str, float]:
+        del self, batch
+        raise RuntimeError("injected trial failure")
+
+    monkeypatch.setattr(MetaWorldTrainer, "train_step", fail_train_step)
+    with pytest.raises(RuntimeError, match="injected"):
+        run_meta_world_trial(config_path, output, public_result)
+    failure = json.loads(public_result.read_text(encoding="utf-8"))
+    assert failure["status"] == "execution_failed"
+    assert failure["decision"] == "rejected"
+    assert failure["error"]["type"] == "RuntimeError"
+    assert (output / "result.json").is_file()

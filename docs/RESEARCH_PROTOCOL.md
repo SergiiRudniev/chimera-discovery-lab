@@ -45,3 +45,7 @@ Engineering smoke tests cannot promote a research claim.
 All attempted hypotheses remain visible. Test labels cannot select checkpoints,
 thresholds, archive dimensions or interpreter prompts. Multiple comparisons and
 repeated human ratings must be reported.
+
+Meta-World trial runners persist an `execution_failed` result before propagating
+an uncaught runtime exception. A failed execution is never silently reused under
+the same trial ID; corrective work receives a new hypothesis and trial record.

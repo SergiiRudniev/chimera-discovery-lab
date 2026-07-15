@@ -49,7 +49,7 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
-def run_meta_world_trial(
+def _execute_meta_world_trial(
     config_path: str | Path,
     output_dir: str | Path,
     result_path: str | Path,
@@ -161,3 +161,50 @@ def run_meta_world_trial(
     _write_json(output / "result.json", result)
     _write_json(public_result, result)
     return result
+
+
+def run_meta_world_trial(
+    config_path: str | Path,
+    output_dir: str | Path,
+    result_path: str | Path,
+) -> dict[str, Any]:
+    """Execute W0 and persist a rejected audit record for uncaught failures."""
+
+    config_file = Path(config_path)
+    output = Path(output_dir)
+    public_result = Path(result_path)
+    try:
+        return _execute_meta_world_trial(config_file, output, public_result)
+    except Exception as error:
+        output.mkdir(parents=True, exist_ok=True)
+        public_result.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            config = MetaWorldExperimentConfig.from_yaml(config_file)
+            experiment_id = config.experiment_id
+            trial_id = config.trial_id
+        except (OSError, TypeError, ValueError):
+            experiment_id = "unknown"
+            trial_id = "unknown"
+        failure: dict[str, Any] = {
+            "id": experiment_id,
+            "trial_id": trial_id,
+            "status": "execution_failed",
+            "decision": "rejected",
+            "metrics": None,
+            "error": {
+                "type": type(error).__name__,
+                "message": str(error),
+            },
+            "environment": {
+                "platform": platform.platform(),
+                "python": sys.version.split()[0],
+                "torch": torch.__version__,
+                "cuda_available": torch.cuda.is_available(),
+                "git_commit": _git_commit(),
+                "config_sha256": _sha256(config_file) if config_file.is_file() else None,
+            },
+            "claim_boundary": "Execution failed; no model-quality claim is permitted.",
+        }
+        _write_json(output / "result.json", failure)
+        _write_json(public_result, failure)
+        raise

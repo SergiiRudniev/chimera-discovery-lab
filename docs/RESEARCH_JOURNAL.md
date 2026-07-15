@@ -1,5 +1,16 @@
 # Research Journal
 
+## 2026-07-15 — Meta-World failure artifact policy
+
+- **Finding:** T000 failed before the trial runner created its normal result
+  files, so the rejection had to be recorded manually.
+- **Change:** The Meta-World runner now writes an `execution_failed` result with
+  exception type, environment, Git commit and config hash before re-raising.
+- **Protection:** A regression test injects an optimizer-step failure and verifies
+  both the trial-local and public research result artifacts.
+- **Boundary:** The policy records failures; it does not convert them into valid
+  model evidence or permit reuse of a failed trial ID.
+
 ## 2026-07-15 — Meta-World H001 result
 
 - **Protocol:** `CHM-W-T001`, frozen at commit `a437d3e`; architecture,
