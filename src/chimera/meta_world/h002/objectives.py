@@ -30,17 +30,6 @@ def _masked_gaussian_nll(
     return (per_value * weight).sum() / weight.sum().clamp_min(1)
 
 
-def _masked_normalized_mse(
-    prediction: Tensor,
-    target: Tensor,
-    mask: Tensor,
-) -> Tensor:
-    selected_prediction = prediction.float()[mask]
-    selected_target = target.float()[mask]
-    scale = selected_target.std(unbiased=False).detach().clamp_min(1e-4)
-    return ((selected_prediction - selected_target) / scale).square().mean()
-
-
 def _mechanism_alignment(
     embeddings: Tensor,
     mechanism_ids: Tensor,
@@ -78,19 +67,13 @@ def h002_loss(
 ) -> dict[str, Tensor]:
     """Return transition, outcome, alignment and anti-collapse loss components."""
 
-    next_state_nll = _masked_gaussian_nll(
+    next_state = _masked_gaussian_nll(
         output.next_state_mean,
         output.next_state_log_variance,
         batch.next_observations,
         batch.next_observation_mask,
     )
-    next_state_normalized_mse = _masked_normalized_mse(
-        output.next_state_mean,
-        batch.next_observations,
-        batch.next_observation_mask,
-    )
-    next_state = next_state_nll + next_state_normalized_mse
-    effect_nll = _masked_gaussian_nll(
+    effect = _masked_gaussian_nll(
         output.effect_mean,
         output.effect_log_variance,
         batch.effect_targets,
@@ -105,12 +88,6 @@ def h002_loss(
             dim=1,
         ),
     )
-    primary_effect_normalized_mse = _masked_normalized_mse(
-        output.effect_mean[:, -1],
-        batch.effect_targets[:, -1],
-        torch.ones_like(batch.effect_targets[:, -1], dtype=torch.bool),
-    )
-    effect = effect_nll + primary_effect_normalized_mse
     alignment = _mechanism_alignment(
         output.proposal_embedding,
         batch.mechanism_ids,
@@ -127,10 +104,6 @@ def h002_loss(
         "loss": total,
         "next_state_loss": next_state,
         "effect_loss": effect,
-        "next_state_nll": next_state_nll,
-        "next_state_normalized_mse": next_state_normalized_mse,
-        "effect_nll": effect_nll,
-        "primary_effect_normalized_mse": primary_effect_normalized_mse,
         "alignment_loss": alignment,
         "variance_loss": variance,
     }

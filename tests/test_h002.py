@@ -238,6 +238,22 @@ def test_h002_relational_prediction_reads_source_target_relation() -> None:
     )
 
 
+def test_h002_mechanism_embedding_is_relation_channel_invariant() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)  # type: ignore[arg-type]
+    changed = replace(window, relations=window.relations[..., [2, 0, 3, 1]])
+    model = RelationalSequenceWorldModel(_model_config()).eval()
+
+    with torch.no_grad():
+        original_output = model(window)
+        changed_output = model(changed)
+
+    torch.testing.assert_close(
+        original_output.proposal_embedding,
+        changed_output.proposal_embedding,
+    )
+
+
 def test_h002_alignment_penalizes_collapsed_embeddings() -> None:
     mechanism_ids = torch.tensor([0, 0, 1, 1])
     collapsed = torch.ones(4, 2)

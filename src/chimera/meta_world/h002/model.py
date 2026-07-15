@@ -13,6 +13,97 @@ from chimera.meta_world.config import MetaWorldModelConfig
 from chimera.meta_world.model import MetaWorldOutput, SpatialBlock, TransitionBlock
 
 
+class InvariantMechanismEncoder(nn.Module):
+    """Encode renderer-invariant graph and response statistics without IDs."""
+
+    def __init__(self, config: MetaWorldModelConfig) -> None:
+        super().__init__()
+        signature_features = config.relation_features * 5 + config.observation_features * 3
+        self.encoder = nn.Sequential(
+            nn.LayerNorm(signature_features),
+            nn.Linear(signature_features, config.hidden_dim),
+            nn.SiLU(),
+            nn.Linear(config.hidden_dim, config.hidden_dim),
+            nn.LayerNorm(config.hidden_dim),
+        )
+
+    @staticmethod
+    def _sorted(values: Tensor) -> Tensor:
+        return torch.sort(values, dim=-1).values
+
+    def forward(self, batch: MetaWorldBatch) -> Tensor:
+        if batch.action_history is None or batch.action_target_history is None:
+            raise ValueError("mechanism encoder requires causal action histories")
+        relations = batch.relations.float()
+        pair_mask = batch.slot_mask[:, :, :, None] & batch.slot_mask[:, :, None, :]
+        relation_weight = pair_mask.unsqueeze(-1).to(relations.dtype)
+        relation_count = relation_weight.sum(dim=(1, 2, 3)).clamp_min(1)
+        relation_mean = (relations * relation_weight).sum(dim=(1, 2, 3)) / relation_count
+        relation_absolute_mean = (
+            relations.abs() * relation_weight
+        ).sum(dim=(1, 2, 3)) / relation_count
+        relation_second_moment = (
+            relations.square() * relation_weight
+        ).sum(dim=(1, 2, 3)) / relation_count
+        relation_std = (
+            relation_second_moment - relation_mean.square()
+        ).clamp_min(0).sqrt()
+        relation_density = (
+            relations.abs().gt(1e-8).to(relations.dtype) * relation_weight
+        ).sum(dim=(1, 2, 3)) / relation_count
+        relation_maximum = relations.abs().masked_fill(
+            ~pair_mask.unsqueeze(-1),
+            0.0,
+        ).amax(dim=(1, 2, 3))
+
+        observations = batch.observations.float()
+        observation_weight = batch.observation_mask.to(observations.dtype)
+        observation_count = observation_weight.sum(dim=(1, 2)).clamp_min(1)
+        observation_mean = (observations * observation_weight).sum(
+            dim=(1, 2)
+        ) / observation_count
+        centered = (observations - observation_mean[:, None, None, :]) * observation_weight
+        observation_std = (
+            centered.square().sum(dim=(1, 2)) / observation_count
+        ).clamp_min(1e-6).sqrt()
+        normalized = centered / observation_std[:, None, None, :]
+        difference_mask = batch.observation_mask[:, 1:] & batch.observation_mask[:, :-1]
+        difference_weight = difference_mask.to(normalized.dtype)
+        difference = normalized[:, 1:] - normalized[:, :-1]
+        difference_count = difference_weight.sum(dim=(1, 2)).clamp_min(1)
+        difference_absolute_mean = (
+            difference.abs() * difference_weight
+        ).sum(dim=(1, 2)) / difference_count
+        lag_product = normalized[:, 1:] * normalized[:, :-1]
+        lag_correlation = (lag_product * difference_weight).sum(
+            dim=(1, 2)
+        ) / difference_count
+        action_targets = batch.action_target_history[:, 1:, :, None].to(
+            difference.dtype
+        )
+        action_strength = batch.action_history[:, 1:].float().square().sum(
+            dim=-1
+        ).sqrt()[:, :, None, None]
+        action_response = (
+            difference * action_targets * action_strength * difference_weight
+        ).sum(dim=(1, 2)) / difference_count
+
+        signature = torch.cat(
+            [
+                self._sorted(relation_mean),
+                self._sorted(relation_absolute_mean),
+                self._sorted(relation_std),
+                self._sorted(relation_density),
+                self._sorted(relation_maximum),
+                self._sorted(difference_absolute_mean),
+                self._sorted(lag_correlation),
+                self._sorted(action_response),
+            ],
+            dim=-1,
+        )
+        return cast(Tensor, self.encoder(signature))
+
+
 class RelationalSequenceWorldModel(nn.Module):
     """Track object states through time before applying a relational intervention."""
 
@@ -50,6 +141,8 @@ class RelationalSequenceWorldModel(nn.Module):
         )
         self.relational_graph_projection = nn.Linear(hidden, hidden)
         self.relational_gate_logit = nn.Parameter(torch.tensor(-2.0))
+        self.mechanism_encoder = InvariantMechanismEncoder(config)
+        self.mechanism_condition = nn.Linear(hidden, hidden)
         self.intervention_type_embedding = nn.Embedding(
             config.intervention_types,
             hidden,
@@ -232,8 +325,11 @@ class RelationalSequenceWorldModel(nn.Module):
         ).sum(dim=1) / final_slot_weight.sum(
             dim=1
         ).clamp_min(1)
-        final_graph = baseline_final_graph + relational_gate * self.relational_graph_projection(
-            relational_final_graph
+        mechanism_state = self.mechanism_encoder(batch)
+        final_graph = (
+            baseline_final_graph
+            + relational_gate * self.relational_graph_projection(relational_final_graph)
+            + self.mechanism_condition(mechanism_state)
         )
 
         source = self._gather_slots(final_slots, batch.source_slots)
@@ -305,7 +401,7 @@ class RelationalSequenceWorldModel(nn.Module):
                 max=config.log_variance_max,
             ),
             proposal_embedding=F.normalize(
-                self.mechanism_projection(final_graph),
+                self.mechanism_projection(mechanism_state),
                 dim=-1,
             ),
             final_slot_states=final_slots,
