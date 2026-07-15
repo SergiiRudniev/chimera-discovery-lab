@@ -2,6 +2,7 @@ schema_version: 1
 corpus_id: CHM-VENTURE-C1
 feature_schema: venture-shared-axes-c0
 accessed_at: "2026-07-15"
+annotation_author_id: chimera-corpus-author-001
 
 # Partitions are preregistered: calibration cases never enter the primary H001 estimate.
 # Ratings order: salience, evidence, control, immediacy, recurrence, scalability, risk.

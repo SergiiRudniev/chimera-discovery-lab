@@ -1,0 +1,1627 @@
+{
+  "attestation": {
+    "no_candidate_outputs_seen": null,
+    "no_model_arm_outputs_seen": null,
+    "registered_source_documents_opened": null
+  },
+  "cases": [
+    {
+      "case_id": "sec-walmart-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "price_trust"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "customer"
+        },
+        {
+          "decision": null,
+          "id": "value_need"
+        },
+        {
+          "decision": null,
+          "id": "store_network"
+        },
+        {
+          "decision": null,
+          "id": "inventory_data"
+        },
+        {
+          "decision": null,
+          "id": "orchestrate"
+        },
+        {
+          "decision": null,
+          "id": "omnichannel"
+        },
+        {
+          "decision": null,
+          "id": "customer_value"
+        },
+        {
+          "decision": null,
+          "id": "service_revenue"
+        },
+        {
+          "decision": null,
+          "id": "delivery_cost"
+        },
+        {
+          "decision": null,
+          "id": "price_trust"
+        },
+        {
+          "decision": null,
+          "id": "customer_frequency"
+        },
+        {
+          "decision": null,
+          "id": "demand_signal"
+        },
+        {
+          "decision": null,
+          "id": "marketplace_seller"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "service_revenue"
+        },
+        {
+          "decision": null,
+          "id": "customer_frequency"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-salesforce-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "trust_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "enterprise"
+        },
+        {
+          "decision": null,
+          "id": "automation_need"
+        },
+        {
+          "decision": null,
+          "id": "customer_data"
+        },
+        {
+          "decision": null,
+          "id": "agentforce"
+        },
+        {
+          "decision": null,
+          "id": "automate"
+        },
+        {
+          "decision": null,
+          "id": "cloud_channel"
+        },
+        {
+          "decision": null,
+          "id": "productivity"
+        },
+        {
+          "decision": null,
+          "id": "agent_revenue"
+        },
+        {
+          "decision": null,
+          "id": "compute_cost"
+        },
+        {
+          "decision": null,
+          "id": "trust_constraint"
+        },
+        {
+          "decision": null,
+          "id": "workflow_adoption"
+        },
+        {
+          "decision": null,
+          "id": "usage_signal"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "agent_revenue"
+        },
+        {
+          "decision": null,
+          "id": "workflow_adoption"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-microsoft-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "capacity_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        },
+        {
+          "decision": null,
+          "index": 17
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "enterprise"
+        },
+        {
+          "decision": null,
+          "id": "compute_need"
+        },
+        {
+          "decision": null,
+          "id": "datacenters"
+        },
+        {
+          "decision": null,
+          "id": "developer_stack"
+        },
+        {
+          "decision": null,
+          "id": "provision"
+        },
+        {
+          "decision": null,
+          "id": "azure"
+        },
+        {
+          "decision": null,
+          "id": "scalable_value"
+        },
+        {
+          "decision": null,
+          "id": "cloud_revenue"
+        },
+        {
+          "decision": null,
+          "id": "infrastructure_cost"
+        },
+        {
+          "decision": null,
+          "id": "capacity_constraint"
+        },
+        {
+          "decision": null,
+          "id": "ai_adoption"
+        },
+        {
+          "decision": null,
+          "id": "workload_signal"
+        },
+        {
+          "decision": null,
+          "id": "energy_supplier"
+        },
+        {
+          "decision": null,
+          "id": "energy_contract"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "cloud_revenue"
+        },
+        {
+          "decision": null,
+          "id": "ai_adoption"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-nvidia-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "supply_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "developer"
+        },
+        {
+          "decision": null,
+          "id": "acceleration_need"
+        },
+        {
+          "decision": null,
+          "id": "compute_platform"
+        },
+        {
+          "decision": null,
+          "id": "software_stack"
+        },
+        {
+          "decision": null,
+          "id": "optimize"
+        },
+        {
+          "decision": null,
+          "id": "partner_channel"
+        },
+        {
+          "decision": null,
+          "id": "performance_value"
+        },
+        {
+          "decision": null,
+          "id": "platform_revenue"
+        },
+        {
+          "decision": null,
+          "id": "supply_cost"
+        },
+        {
+          "decision": null,
+          "id": "supply_constraint"
+        },
+        {
+          "decision": null,
+          "id": "platform_adoption"
+        },
+        {
+          "decision": null,
+          "id": "developer_signal"
+        },
+        {
+          "decision": null,
+          "id": "foundry_partner"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "platform_revenue"
+        },
+        {
+          "decision": null,
+          "id": "platform_adoption"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-home-depot-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "cyclical_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "pro_customer"
+        },
+        {
+          "decision": null,
+          "id": "project_need"
+        },
+        {
+          "decision": null,
+          "id": "store_inventory"
+        },
+        {
+          "decision": null,
+          "id": "pro_services"
+        },
+        {
+          "decision": null,
+          "id": "fulfill_project"
+        },
+        {
+          "decision": null,
+          "id": "retail_channel"
+        },
+        {
+          "decision": null,
+          "id": "project_value"
+        },
+        {
+          "decision": null,
+          "id": "pro_revenue"
+        },
+        {
+          "decision": null,
+          "id": "fulfillment_cost"
+        },
+        {
+          "decision": null,
+          "id": "cyclical_constraint"
+        },
+        {
+          "decision": null,
+          "id": "pro_retention"
+        },
+        {
+          "decision": null,
+          "id": "project_signal"
+        },
+        {
+          "decision": null,
+          "id": "building_supplier"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "pro_revenue"
+        },
+        {
+          "decision": null,
+          "id": "pro_retention"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-intuit-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "data_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "small_business"
+        },
+        {
+          "decision": null,
+          "id": "decision_need"
+        },
+        {
+          "decision": null,
+          "id": "financial_data"
+        },
+        {
+          "decision": null,
+          "id": "ai_platform"
+        },
+        {
+          "decision": null,
+          "id": "recommend"
+        },
+        {
+          "decision": null,
+          "id": "product_channel"
+        },
+        {
+          "decision": null,
+          "id": "decision_value"
+        },
+        {
+          "decision": null,
+          "id": "platform_revenue"
+        },
+        {
+          "decision": null,
+          "id": "service_cost"
+        },
+        {
+          "decision": null,
+          "id": "data_constraint"
+        },
+        {
+          "decision": null,
+          "id": "cross_platform_use"
+        },
+        {
+          "decision": null,
+          "id": "outcome_signal"
+        },
+        {
+          "decision": null,
+          "id": "financial_partner"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "platform_revenue"
+        },
+        {
+          "decision": null,
+          "id": "cross_platform_use"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-fedex-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "volume_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "shipper"
+        },
+        {
+          "decision": null,
+          "id": "delivery_need"
+        },
+        {
+          "decision": null,
+          "id": "transport_network"
+        },
+        {
+          "decision": null,
+          "id": "shipment_data"
+        },
+        {
+          "decision": null,
+          "id": "consolidate"
+        },
+        {
+          "decision": null,
+          "id": "logistics_channel"
+        },
+        {
+          "decision": null,
+          "id": "reliability_value"
+        },
+        {
+          "decision": null,
+          "id": "transport_revenue"
+        },
+        {
+          "decision": null,
+          "id": "network_cost"
+        },
+        {
+          "decision": null,
+          "id": "volume_constraint"
+        },
+        {
+          "decision": null,
+          "id": "network_utilization"
+        },
+        {
+          "decision": null,
+          "id": "route_signal"
+        },
+        {
+          "decision": null,
+          "id": "carrier_partner"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "transport_revenue"
+        },
+        {
+          "decision": null,
+          "id": "network_utilization"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-nike-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "inventory_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        },
+        {
+          "decision": null,
+          "index": 17
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "athlete_consumer"
+        },
+        {
+          "decision": null,
+          "id": "product_need"
+        },
+        {
+          "decision": null,
+          "id": "design_capability"
+        },
+        {
+          "decision": null,
+          "id": "brand_demand"
+        },
+        {
+          "decision": null,
+          "id": "create_launch"
+        },
+        {
+          "decision": null,
+          "id": "marketplace"
+        },
+        {
+          "decision": null,
+          "id": "product_value"
+        },
+        {
+          "decision": null,
+          "id": "product_revenue"
+        },
+        {
+          "decision": null,
+          "id": "creation_cost"
+        },
+        {
+          "decision": null,
+          "id": "inventory_constraint"
+        },
+        {
+          "decision": null,
+          "id": "full_price_demand"
+        },
+        {
+          "decision": null,
+          "id": "demand_feedback"
+        },
+        {
+          "decision": null,
+          "id": "wholesale_partner"
+        },
+        {
+          "decision": null,
+          "id": "channel_inventory"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "product_revenue"
+        },
+        {
+          "decision": null,
+          "id": "full_price_demand"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-oracle-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "commitment_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "enterprise"
+        },
+        {
+          "decision": null,
+          "id": "integration_need"
+        },
+        {
+          "decision": null,
+          "id": "cloud_capacity"
+        },
+        {
+          "decision": null,
+          "id": "database_stack"
+        },
+        {
+          "decision": null,
+          "id": "deploy_workload"
+        },
+        {
+          "decision": null,
+          "id": "cloud_channel"
+        },
+        {
+          "decision": null,
+          "id": "integration_value"
+        },
+        {
+          "decision": null,
+          "id": "cloud_revenue"
+        },
+        {
+          "decision": null,
+          "id": "capacity_cost"
+        },
+        {
+          "decision": null,
+          "id": "commitment_constraint"
+        },
+        {
+          "decision": null,
+          "id": "workload_growth"
+        },
+        {
+          "decision": null,
+          "id": "usage_signal"
+        },
+        {
+          "decision": null,
+          "id": "capacity_partner"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "cloud_revenue"
+        },
+        {
+          "decision": null,
+          "id": "workload_growth"
+        }
+      ],
+      "overall": null
+    },
+    {
+      "case_id": "sec-pg-2025",
+      "constraint_nodes": [
+        {
+          "decision": null,
+          "id": "channel_constraint"
+        }
+      ],
+      "edges": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        },
+        {
+          "decision": null,
+          "index": 3
+        },
+        {
+          "decision": null,
+          "index": 4
+        },
+        {
+          "decision": null,
+          "index": 5
+        },
+        {
+          "decision": null,
+          "index": 6
+        },
+        {
+          "decision": null,
+          "index": 7
+        },
+        {
+          "decision": null,
+          "index": 8
+        },
+        {
+          "decision": null,
+          "index": 9
+        },
+        {
+          "decision": null,
+          "index": 10
+        },
+        {
+          "decision": null,
+          "index": 11
+        },
+        {
+          "decision": null,
+          "index": 12
+        },
+        {
+          "decision": null,
+          "index": 13
+        },
+        {
+          "decision": null,
+          "index": 14
+        },
+        {
+          "decision": null,
+          "index": 15
+        },
+        {
+          "decision": null,
+          "index": 16
+        },
+        {
+          "decision": null,
+          "index": 17
+        },
+        {
+          "decision": null,
+          "index": 18
+        }
+      ],
+      "evidence_notes": [
+        {
+          "decision": null,
+          "index": 0
+        },
+        {
+          "decision": null,
+          "index": 1
+        },
+        {
+          "decision": null,
+          "index": 2
+        }
+      ],
+      "filing_identity": null,
+      "nodes": [
+        {
+          "decision": null,
+          "id": "household"
+        },
+        {
+          "decision": null,
+          "id": "routine_need"
+        },
+        {
+          "decision": null,
+          "id": "consumer_insight"
+        },
+        {
+          "decision": null,
+          "id": "brand_portfolio"
+        },
+        {
+          "decision": null,
+          "id": "innovate_supply"
+        },
+        {
+          "decision": null,
+          "id": "retail_channel"
+        },
+        {
+          "decision": null,
+          "id": "routine_value"
+        },
+        {
+          "decision": null,
+          "id": "recurring_revenue"
+        },
+        {
+          "decision": null,
+          "id": "brand_cost"
+        },
+        {
+          "decision": null,
+          "id": "channel_constraint"
+        },
+        {
+          "decision": null,
+          "id": "repeat_purchase"
+        },
+        {
+          "decision": null,
+          "id": "usage_feedback"
+        },
+        {
+          "decision": null,
+          "id": "retail_customer"
+        },
+        {
+          "decision": null,
+          "id": "direct_channel"
+        }
+      ],
+      "notes": "",
+      "objective_nodes": [
+        {
+          "decision": null,
+          "id": "recurring_revenue"
+        },
+        {
+          "decision": null,
+          "id": "repeat_purchase"
+        }
+      ],
+      "overall": null
+    }
+  ],
+  "corpus_id": "CHM-VENTURE-C1",
+  "manifest_sha256": "b7929ba7122ddf7981be12173c8aac6b24e10f3bb22e62fa27271e34d2bd8c0b",
+  "packet_sha256": "92a6d79753015ffb56578a42a10b03c3ab3ad8403e905c9047779f0cbf3b8f91",
+  "review_id": "",
+  "reviewer": {
+    "conflicts_disclosed": "",
+    "id": "",
+    "independent_of_annotation_author": null
+  },
+  "schema_version": 1
+}

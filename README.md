@@ -161,10 +161,13 @@ the same registered graph and challenge.
 - [Dataset manifest](datasets/venture_corpus_c1/manifest.json)
 - [Matched baseline protocol](datasets/venture_corpus_c1/matched_baseline_protocol.yaml)
 - [Blind rating protocol](datasets/venture_corpus_c1/rating_protocol.yaml)
+- [Independent review protocol](datasets/venture_corpus_c1/review_protocol.yaml)
+- [Reviewer packet](datasets/venture_corpus_c1/reviewer_packet.json)
 - [Executed quality notebook](notebooks/venture_corpus_c1_quality.ipynb)
 
-C1 is provisional. Candidate generation is blocked until a second reviewer
-closes the independent source-annotation audit.
+C1 is provisional. An internal primary-source audit covers 10/10 cases, but the
+independent review gate remains blocked at 0/1 accepted reviews. Candidate
+generation cannot start until a second reviewer closes `C1-Q001`.
 
 ## Venture Trial T0
 

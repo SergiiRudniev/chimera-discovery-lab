@@ -98,6 +98,26 @@ print(json.dumps({
 }, indent=2))"""
         ),
         new_code_cell(
+            """source_review = quality["dimensions"]["source_review"]
+gate = source_review["gate"]
+print(json.dumps({
+    "internal_filing_identity_verified": source_review[
+        "internal_filing_identity_verified"
+    ],
+    "internal_primary_source_support_verified": source_review[
+        "internal_primary_source_support_verified"
+    ],
+    "internal_auditor_independent": source_review[
+        "internal_auditor_independent"
+    ],
+    "independent_reviews": (
+        f"{gate['accepted_reviews']}/{gate['minimum_independent_reviewers']}"
+    ),
+    "review_gate_status": gate["status"],
+    "generation_allowed": gate["generation_allowed"],
+}, indent=2))"""
+        ),
+        new_code_cell(
             """for finding in quality["findings"]:
     print(
         f"[{finding['severity'].upper()}] {finding['id']} — "
@@ -111,6 +131,7 @@ print(json.dumps(quality["fitness_for_use"], indent=2))"""
             """## Takeaways
 
 - The numeric contract, temporal isolation and matched baseline alignment pass.
+- Internal primary-source checks cover 10/10 cases; independent review is 0/1.
 - C1 is fit for preregistration, not yet for candidate generation.
 - A second reviewer must close `C1-Q001` before the frozen H001 run.
 - H001 remains `not_run`; this notebook contains no creativity result."""

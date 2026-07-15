@@ -10,8 +10,10 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import yaml
 
 from chimera.data.evaluation import EvaluationCorpus, validate_evaluation_corpus
+from chimera.data.review import evaluate_review_gate
 from chimera.data.semantics import FEATURE_NAMES
 
 
@@ -53,13 +55,28 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
         for edge_type in arrays["graph_edge_types"].reshape(-1)
         if int(edge_type) > 0
     )
+    audit = yaml.safe_load(
+        (base / "internal_source_audit.yaml").read_text(encoding="utf-8")
+    )
+    audit_cases = audit["cases"]
+    review_gate = evaluate_review_gate(
+        manifest_path,
+        base / "reviewer_packet.json",
+        base / "review_protocol.yaml",
+        base / "reviews",
+    )
+    review_passed = review_gate["status"] == "passed"
     findings = [
         {
             "id": "C1-Q001",
             "severity": "high",
             "confidence": "high",
-            "status": "open",
-            "finding": "All ten source-to-graph annotations await independent review.",
+            "status": "closed" if review_passed else "open",
+            "finding": (
+                "Internal primary-source checks cover all ten cases; "
+                f"independent reviews accepted: {review_gate['accepted_reviews']}/"
+                f"{review_gate['minimum_independent_reviewers']}."
+            ),
             "impact": "Source interpretation errors could affect both experiment arms.",
             "remediation": (
                 "A second reviewer must verify every evidence note, node, edge and "
@@ -178,11 +195,28 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
                 "calibration_excluded_from_primary_analysis": True,
                 "outcome_labels_present": False,
             },
+            "source_review": {
+                "internal_auditor_id": audit["auditor_id"],
+                "internal_auditor_independent": audit["independent"],
+                "internal_filing_identity_verified": sum(
+                    record["filing_identity"] == "verified" for record in audit_cases
+                ),
+                "internal_primary_source_support_verified": sum(
+                    record["primary_source_support"] == "verified" for record in audit_cases
+                ),
+                "semantic_mapping_pending_independent_review": sum(
+                    record["semantic_mapping"] == "pending_independent_review"
+                    for record in audit_cases
+                ),
+                "gate": review_gate,
+            },
         },
         "findings": findings,
         "fitness_for_use": {
             "corpus_build_and_protocol_preregistration": "fit",
-            "candidate_generation": "blocked_pending_C1-Q001",
+            "candidate_generation": (
+                "fit" if review_passed else "blocked_pending_C1-Q001"
+            ),
             "creativity_claim": "not_fit_until_blind_ratings_and_locked_analysis",
         },
     }

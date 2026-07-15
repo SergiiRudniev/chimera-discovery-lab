@@ -21,9 +21,16 @@ language rendering of the same registered structure for the text baseline.
 The corpus is provisional until an independent reviewer verifies every source
 mapping. It contains no creativity scores or experiment results.
 
+An internal second pass verifies filing identity and primary-source support for
+10/10 cases. It is not independent because the auditor is the annotation author.
+An external reviewer must complete `review_template.json`; the validator checks
+case coverage, every evidence note and graph element, attestations and file hashes.
+
 ```powershell
 chimera build-evaluation-corpus
 chimera validate-evaluation-corpus
+chimera build-review-packet
+chimera validate-review-gate
 ```
 
 Sources are public SEC Form 10-K filings registered in `source_cases.yaml`.

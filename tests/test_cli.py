@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
 
 from chimera.cli import main
 
@@ -38,6 +39,14 @@ def test_evaluation_corpus_cli_validates_dataset(capsys: object) -> None:
     ) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
     assert json.loads(captured.out) == {"calibration": 2, "cases": 10, "evaluation": 8}
+
+
+def test_review_gate_cli_blocks_without_independent_review(capsys: object, tmp_path: Path) -> None:
+    assert main(["validate-review-gate", "--status-output", str(tmp_path / "status.json")]) == 2
+    captured = capsys.readouterr()  # type: ignore[attr-defined]
+    payload = json.loads(captured.out)
+    assert payload["status"] == "blocked"
+    assert payload["generation_allowed"] is False
 
 
 def test_smoke_cli_runs_one_step(capsys: object) -> None:

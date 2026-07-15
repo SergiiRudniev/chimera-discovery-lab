@@ -1,5 +1,19 @@
 # Research Journal
 
+## 2026-07-15 — Venture Corpus C1 review gate
+
+- **Internal audit:** Filing identity and primary-source support verified for
+  10/10 registered cases.
+- **Independence:** The internal auditor is the annotation author, so this work
+  does not close `C1-Q001`.
+- **Gate:** Coverage and decisions are checked for every evidence note, node,
+  edge, objective and constraint, together with manifest and packet hashes.
+- **Protection:** Self-review, partial review, changed hashes, missing
+  attestations and `needs_change` all block generation.
+- **Status:** Blocked; 0/1 independent reviews accepted.
+- **Claim boundary:** No candidate, model output, rating or H001 result was
+  produced.
+
 ## 2026-07-15 — Venture Corpus C1 preregistration
 
 - **Corpus:** `CHM-VENTURE-C1`; 2 calibration and 8 evaluation cases from

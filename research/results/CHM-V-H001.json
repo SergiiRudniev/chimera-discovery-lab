@@ -3,5 +3,5 @@
   "status": "not_run",
   "metrics": null,
   "decision": "pending",
-  "notes": "Venture Corpus C1, the immutable matched baseline and the blind-rating analysis are preregistered. No candidates were generated and no ratings were collected. Independent source annotation review remains required before the run."
+  "notes": "Venture Corpus C1, the immutable matched baseline and the blind-rating analysis are preregistered. Internal primary-source checks cover 10/10 cases; independent reviews accepted: 0/1. The fail-closed review gate blocks generation. No candidates were generated and no ratings were collected."
 }

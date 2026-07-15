@@ -1,0 +1,2168 @@
+{
+  "annotation_author_id": "chimera-corpus-author-001",
+  "case_count": 10,
+  "cases": [
+    {
+      "case_id": "sec-walmart-2025",
+      "constraint_nodes": [
+        "price_trust"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "customer",
+          "target": "value_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "value_need",
+          "target": "customer_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "store_network",
+          "target": "orchestrate"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "inventory_data",
+          "target": "orchestrate"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "omnichannel",
+          "target": "customer"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "orchestrate",
+          "target": "customer_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "customer_value",
+          "target": "customer_frequency"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "customer",
+          "target": "service_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "service_revenue",
+          "target": "inventory_data"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "orchestrate",
+          "target": "delivery_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "delivery_cost",
+          "target": "customer_frequency"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "price_trust",
+          "target": "service_revenue"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "customer_frequency",
+          "target": "demand_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "demand_signal",
+          "target": "inventory_data"
+        },
+        {
+          "index": 14,
+          "relation": "AMPLIFIES",
+          "source": "demand_signal",
+          "target": "omnichannel"
+        },
+        {
+          "index": 15,
+          "relation": "REACHES",
+          "source": "omnichannel",
+          "target": "marketplace_seller"
+        },
+        {
+          "index": 16,
+          "relation": "PAYS",
+          "source": "marketplace_seller",
+          "target": "service_revenue"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "Walmart combines stores, ecommerce and fulfillment assets around an everyday-low-price proposition."
+        },
+        {
+          "index": 1,
+          "text": "Advertising, marketplace and membership mechanisms complement merchandise revenue."
+        },
+        {
+          "index": 2,
+          "text": "Price leadership depends on supply-chain productivity, inventory availability and customer trust."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "customer",
+          "label": "Omnichannel customer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "value_need",
+          "label": "Low-price convenient shopping",
+          "type": "NEED"
+        },
+        {
+          "id": "store_network",
+          "label": "Store and fulfillment network",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "inventory_data",
+          "label": "Inventory and customer signals",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "orchestrate",
+          "label": "Source fulfill and personalize",
+          "type": "ACTION"
+        },
+        {
+          "id": "omnichannel",
+          "label": "Stores app and delivery",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "customer_value",
+          "label": "Low-price convenient access",
+          "type": "VALUE"
+        },
+        {
+          "id": "service_revenue",
+          "label": "Membership marketplace and advertising revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "delivery_cost",
+          "label": "Fulfillment and last-mile cost",
+          "type": "COST"
+        },
+        {
+          "id": "price_trust",
+          "label": "Low-price promise and customer trust",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "customer_frequency",
+          "label": "Customer frequency and retention",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "demand_signal",
+          "label": "Demand and membership signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "marketplace_seller",
+          "label": "Marketplace seller",
+          "type": "ACTOR"
+        }
+      ],
+      "objective_nodes": [
+        "service_revenue",
+        "customer_frequency"
+      ],
+      "partition": "calibration",
+      "source": {
+        "accession": "0000104169-25-000021",
+        "cik": "0000104169",
+        "filing_date": "2025-03-14",
+        "form": "10-K",
+        "organization": "Walmart Inc.",
+        "period_end": "2025-01-31",
+        "url": "https://www.sec.gov/Archives/edgar/data/104169/000010416925000021/wmt-20250131.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "Omni-channel",
+          "marketplace offerings",
+          "advertising services",
+          "cost of sales"
+        ],
+        "section": "Item 1 Business; Revenue Recognition"
+      }
+    },
+    {
+      "case_id": "sec-salesforce-2025",
+      "constraint_nodes": [
+        "trust_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "enterprise",
+          "target": "automation_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "automation_need",
+          "target": "productivity"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "customer_data",
+          "target": "automate"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "agentforce",
+          "target": "automate"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "cloud_channel",
+          "target": "enterprise"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "automate",
+          "target": "productivity"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "productivity",
+          "target": "workflow_adoption"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "enterprise",
+          "target": "agent_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "agent_revenue",
+          "target": "agentforce"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "automate",
+          "target": "compute_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "compute_cost",
+          "target": "workflow_adoption"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "trust_constraint",
+          "target": "workflow_adoption"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "workflow_adoption",
+          "target": "usage_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "usage_signal",
+          "target": "customer_data"
+        },
+        {
+          "index": 14,
+          "relation": "BLOCKS",
+          "source": "trust_constraint",
+          "target": "automate"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "Salesforce operates an integrated customer platform with subscription and support revenue."
+        },
+        {
+          "index": 1,
+          "text": "Data Cloud and Agentforce connect enterprise data, workflows and autonomous agents."
+        },
+        {
+          "index": 2,
+          "text": "Adoption depends on security, privacy, reliability and customer trust."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "enterprise",
+          "label": "Enterprise customer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "automation_need",
+          "label": "Trusted customer workflow automation",
+          "type": "NEED"
+        },
+        {
+          "id": "customer_data",
+          "label": "Unified customer data",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "agentforce",
+          "label": "Agentforce platform",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "automate",
+          "label": "Configure and execute agent workflows",
+          "type": "ACTION"
+        },
+        {
+          "id": "cloud_channel",
+          "label": "Salesforce cloud applications",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "productivity",
+          "label": "Automated customer operations",
+          "type": "VALUE"
+        },
+        {
+          "id": "agent_revenue",
+          "label": "Agent and platform subscription revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "compute_cost",
+          "label": "Model inference and service delivery cost",
+          "type": "COST"
+        },
+        {
+          "id": "trust_constraint",
+          "label": "Data governance reliability and trust",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "workflow_adoption",
+          "label": "Production agent workflow adoption",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "usage_signal",
+          "label": "Workflow quality and usage signals",
+          "type": "FEEDBACK"
+        }
+      ],
+      "objective_nodes": [
+        "agent_revenue",
+        "workflow_adoption"
+      ],
+      "partition": "calibration",
+      "source": {
+        "accession": "0001108524-25-000006",
+        "cik": "0001108524",
+        "filing_date": "2025-03-05",
+        "form": "10-K",
+        "organization": "Salesforce, Inc.",
+        "period_end": "2025-01-31",
+        "url": "https://www.sec.gov/Archives/edgar/data/1108524/000110852425000006/crm-20250131.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "Agentforce",
+          "Data Cloud",
+          "trusted AI",
+          "Trust Layer"
+        ],
+        "section": "Item 1 Business; Service Offerings"
+      }
+    },
+    {
+      "case_id": "sec-microsoft-2025",
+      "constraint_nodes": [
+        "capacity_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "enterprise",
+          "target": "compute_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "compute_need",
+          "target": "scalable_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "datacenters",
+          "target": "provision"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "developer_stack",
+          "target": "provision"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "azure",
+          "target": "enterprise"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "provision",
+          "target": "scalable_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "scalable_value",
+          "target": "ai_adoption"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "enterprise",
+          "target": "cloud_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "cloud_revenue",
+          "target": "datacenters"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "provision",
+          "target": "infrastructure_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "infrastructure_cost",
+          "target": "ai_adoption"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "capacity_constraint",
+          "target": "ai_adoption"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "ai_adoption",
+          "target": "workload_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "workload_signal",
+          "target": "developer_stack"
+        },
+        {
+          "index": 14,
+          "relation": "ENABLES",
+          "source": "cloud_revenue",
+          "target": "developer_stack"
+        },
+        {
+          "index": 15,
+          "relation": "TRANSFERS_TO",
+          "source": "energy_supplier",
+          "target": "energy_contract"
+        },
+        {
+          "index": 16,
+          "relation": "ENABLES",
+          "source": "energy_contract",
+          "target": "datacenters"
+        },
+        {
+          "index": 17,
+          "relation": "BLOCKS",
+          "source": "capacity_constraint",
+          "target": "datacenters"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "Microsoft delivers cloud and AI services through a global datacenter infrastructure."
+        },
+        {
+          "index": 1,
+          "text": "Demand for AI services requires substantial investment in compute capacity and energy."
+        },
+        {
+          "index": 2,
+          "text": "Cloud value and recurring revenue depend on availability, security and capacity execution."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "enterprise",
+          "label": "Cloud and AI customer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "compute_need",
+          "label": "Reliable scalable AI capability",
+          "type": "NEED"
+        },
+        {
+          "id": "datacenters",
+          "label": "Datacenter and accelerator capacity",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "developer_stack",
+          "label": "Cloud developer and model stack",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "provision",
+          "label": "Provision and optimize AI workloads",
+          "type": "ACTION"
+        },
+        {
+          "id": "azure",
+          "label": "Azure and partner ecosystem",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "scalable_value",
+          "label": "Scalable governed AI execution",
+          "type": "VALUE"
+        },
+        {
+          "id": "cloud_revenue",
+          "label": "Cloud consumption and subscriptions",
+          "type": "REVENUE"
+        },
+        {
+          "id": "infrastructure_cost",
+          "label": "Datacenter energy and accelerator cost",
+          "type": "COST"
+        },
+        {
+          "id": "capacity_constraint",
+          "label": "Capacity energy and supply bottlenecks",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "ai_adoption",
+          "label": "Production AI workload adoption",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "workload_signal",
+          "label": "Workload demand and efficiency signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "energy_supplier",
+          "label": "Datacenter energy supplier",
+          "type": "ACTOR"
+        },
+        {
+          "id": "energy_contract",
+          "label": "Contracted energy capacity",
+          "type": "RESOURCE"
+        }
+      ],
+      "objective_nodes": [
+        "cloud_revenue",
+        "ai_adoption"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0000950170-25-100235",
+        "cik": "0000789019",
+        "filing_date": "2025-07-30",
+        "form": "10-K",
+        "organization": "Microsoft Corporation",
+        "period_end": "2025-06-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/789019/000095017025100235/msft-20250630.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "datacenter locations",
+          "server capacity",
+          "demand for AI services",
+          "energy"
+        ],
+        "section": "Item 1 Business; Operations; Risk Factors"
+      }
+    },
+    {
+      "case_id": "sec-nvidia-2025",
+      "constraint_nodes": [
+        "supply_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "developer",
+          "target": "acceleration_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "acceleration_need",
+          "target": "performance_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "compute_platform",
+          "target": "optimize"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "software_stack",
+          "target": "optimize"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "partner_channel",
+          "target": "developer"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "optimize",
+          "target": "performance_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "performance_value",
+          "target": "platform_adoption"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "developer",
+          "target": "platform_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "platform_revenue",
+          "target": "software_stack"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "optimize",
+          "target": "supply_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "supply_cost",
+          "target": "platform_adoption"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "supply_constraint",
+          "target": "platform_adoption"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "platform_adoption",
+          "target": "developer_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "developer_signal",
+          "target": "software_stack"
+        },
+        {
+          "index": 14,
+          "relation": "AMPLIFIES",
+          "source": "software_stack",
+          "target": "compute_platform"
+        },
+        {
+          "index": 15,
+          "relation": "TRANSFERS_TO",
+          "source": "foundry_partner",
+          "target": "compute_platform"
+        },
+        {
+          "index": 16,
+          "relation": "BLOCKS",
+          "source": "supply_constraint",
+          "target": "compute_platform"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "NVIDIA provides accelerated computing platforms spanning processors, systems, networking and software."
+        },
+        {
+          "index": 1,
+          "text": "Manufacturing and advanced packaging depend on external foundries and supply partners."
+        },
+        {
+          "index": 2,
+          "text": "Platform adoption grows through developers and an installed software ecosystem."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "developer",
+          "label": "AI developer and operator",
+          "type": "ACTOR"
+        },
+        {
+          "id": "acceleration_need",
+          "label": "Efficient accelerated computing",
+          "type": "NEED"
+        },
+        {
+          "id": "compute_platform",
+          "label": "Accelerators systems and networking",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "software_stack",
+          "label": "CUDA and platform software",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "optimize",
+          "label": "Optimize and deploy accelerated workloads",
+          "type": "ACTION"
+        },
+        {
+          "id": "partner_channel",
+          "label": "Cloud OEM and developer ecosystem",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "performance_value",
+          "label": "Higher compute performance per workload",
+          "type": "VALUE"
+        },
+        {
+          "id": "platform_revenue",
+          "label": "Platform product and software revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "supply_cost",
+          "label": "Foundry packaging and inventory commitments",
+          "type": "COST"
+        },
+        {
+          "id": "supply_constraint",
+          "label": "Foundry packaging and geographic concentration",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "platform_adoption",
+          "label": "Production accelerated workload adoption",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "developer_signal",
+          "label": "Developer and workload signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "foundry_partner",
+          "label": "Foundry and packaging partner",
+          "type": "ACTOR"
+        }
+      ],
+      "objective_nodes": [
+        "platform_revenue",
+        "platform_adoption"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0001045810-25-000023",
+        "cik": "0001045810",
+        "filing_date": "2025-02-26",
+        "form": "10-K",
+        "organization": "NVIDIA Corporation",
+        "period_end": "2025-01-26",
+        "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581025000023/nvda-20250126.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "accelerated computing",
+          "CUDA",
+          "foundries",
+          "geographic concentration"
+        ],
+        "section": "Item 1 Business; Risk Factors"
+      }
+    },
+    {
+      "case_id": "sec-home-depot-2025",
+      "constraint_nodes": [
+        "cyclical_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "pro_customer",
+          "target": "project_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "project_need",
+          "target": "project_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "store_inventory",
+          "target": "fulfill_project"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "pro_services",
+          "target": "fulfill_project"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "retail_channel",
+          "target": "pro_customer"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "fulfill_project",
+          "target": "project_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "project_value",
+          "target": "pro_retention"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "pro_customer",
+          "target": "pro_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "pro_revenue",
+          "target": "pro_services"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "fulfill_project",
+          "target": "fulfillment_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "fulfillment_cost",
+          "target": "pro_retention"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "cyclical_constraint",
+          "target": "pro_retention"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "pro_retention",
+          "target": "project_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "project_signal",
+          "target": "store_inventory"
+        },
+        {
+          "index": 14,
+          "relation": "AMPLIFIES",
+          "source": "project_signal",
+          "target": "pro_services"
+        },
+        {
+          "index": 15,
+          "relation": "TRANSFERS_TO",
+          "source": "building_supplier",
+          "target": "store_inventory"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "Home Depot serves do-it-yourself and professional customers through stores and interconnected retail."
+        },
+        {
+          "index": 1,
+          "text": "Professional customers value product availability, delivery, credit and job-site services."
+        },
+        {
+          "index": 2,
+          "text": "Housing and project demand are cyclical while fulfillment complexity affects service economics."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "pro_customer",
+          "label": "Professional contractor",
+          "type": "ACTOR"
+        },
+        {
+          "id": "project_need",
+          "label": "Reliable project completion supply",
+          "type": "NEED"
+        },
+        {
+          "id": "store_inventory",
+          "label": "Store and distribution inventory",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "pro_services",
+          "label": "Delivery credit and account services",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "fulfill_project",
+          "label": "Assemble and fulfill project orders",
+          "type": "ACTION"
+        },
+        {
+          "id": "retail_channel",
+          "label": "Stores digital and job-site delivery",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "project_value",
+          "label": "Available materials and reliable fulfillment",
+          "type": "VALUE"
+        },
+        {
+          "id": "pro_revenue",
+          "label": "Professional project and service revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "fulfillment_cost",
+          "label": "Complex order and last-mile cost",
+          "type": "COST"
+        },
+        {
+          "id": "cyclical_constraint",
+          "label": "Housing cycle and project demand volatility",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "pro_retention",
+          "label": "Professional customer retention",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "project_signal",
+          "label": "Project pipeline and fulfillment signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "building_supplier",
+          "label": "Building product supplier",
+          "type": "ACTOR"
+        }
+      ],
+      "objective_nodes": [
+        "pro_revenue",
+        "pro_retention"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0000354950-25-000085",
+        "cik": "0000354950",
+        "filing_date": "2025-03-25",
+        "form": "10-K",
+        "organization": "The Home Depot, Inc.",
+        "period_end": "2025-02-02",
+        "url": "https://www.sec.gov/Archives/edgar/data/354950/000035495025000085/hd-20250202.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "Pros",
+          "delivery network",
+          "Pro Xtra",
+          "credit offerings"
+        ],
+        "section": "Item 1 Business; Professional Customers"
+      }
+    },
+    {
+      "case_id": "sec-intuit-2025",
+      "constraint_nodes": [
+        "data_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "small_business",
+          "target": "decision_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "decision_need",
+          "target": "decision_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "financial_data",
+          "target": "recommend"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "ai_platform",
+          "target": "recommend"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "product_channel",
+          "target": "small_business"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "recommend",
+          "target": "decision_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "decision_value",
+          "target": "cross_platform_use"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "small_business",
+          "target": "platform_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "platform_revenue",
+          "target": "ai_platform"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "recommend",
+          "target": "service_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "service_cost",
+          "target": "cross_platform_use"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "data_constraint",
+          "target": "cross_platform_use"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "cross_platform_use",
+          "target": "outcome_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "outcome_signal",
+          "target": "financial_data"
+        },
+        {
+          "index": 14,
+          "relation": "DEPENDS_ON",
+          "source": "financial_data",
+          "target": "data_constraint"
+        },
+        {
+          "index": 15,
+          "relation": "TRANSFERS_TO",
+          "source": "financial_partner",
+          "target": "financial_data"
+        },
+        {
+          "index": 16,
+          "relation": "REACHES",
+          "source": "product_channel",
+          "target": "financial_partner"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "Intuit operates a connected platform across consumer and small-business financial workflows."
+        },
+        {
+          "index": 1,
+          "text": "Data and AI can connect tax, accounting, payments, credit and marketing decisions."
+        },
+        {
+          "index": 2,
+          "text": "Use of sensitive financial data is constrained by consent, security and regulation."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "small_business",
+          "label": "Small business customer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "decision_need",
+          "label": "Timely financial and growth decisions",
+          "type": "NEED"
+        },
+        {
+          "id": "financial_data",
+          "label": "Permissioned financial and customer data",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "ai_platform",
+          "label": "Connected AI platform",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "recommend",
+          "label": "Predict and recommend next financial action",
+          "type": "ACTION"
+        },
+        {
+          "id": "product_channel",
+          "label": "QuickBooks and connected products",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "decision_value",
+          "label": "Better coordinated financial decisions",
+          "type": "VALUE"
+        },
+        {
+          "id": "platform_revenue",
+          "label": "Subscription and transaction revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "service_cost",
+          "label": "Data AI and expert service cost",
+          "type": "COST"
+        },
+        {
+          "id": "data_constraint",
+          "label": "Consent privacy security and regulation",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "cross_platform_use",
+          "label": "Cross-platform customer adoption",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "outcome_signal",
+          "label": "Financial outcome and usage signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "financial_partner",
+          "label": "Financial data and transaction partner",
+          "type": "ACTOR"
+        }
+      ],
+      "objective_nodes": [
+        "platform_revenue",
+        "cross_platform_use"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0000896878-25-000035",
+        "cik": "0000896878",
+        "filing_date": "2025-09-03",
+        "form": "10-K",
+        "organization": "Intuit Inc.",
+        "period_end": "2025-07-31",
+        "url": "https://www.sec.gov/Archives/edgar/data/896878/000089687825000035/intu-20250731.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "connected all-in-one platform",
+          "AI agents",
+          "data privacy",
+          "responsible AI"
+        ],
+        "section": "Item 1 Business; Global Business Solutions"
+      }
+    },
+    {
+      "case_id": "sec-fedex-2025",
+      "constraint_nodes": [
+        "volume_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "shipper",
+          "target": "delivery_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "delivery_need",
+          "target": "reliability_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "transport_network",
+          "target": "consolidate"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "shipment_data",
+          "target": "consolidate"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "logistics_channel",
+          "target": "shipper"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "consolidate",
+          "target": "reliability_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "reliability_value",
+          "target": "network_utilization"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "shipper",
+          "target": "transport_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "transport_revenue",
+          "target": "transport_network"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "consolidate",
+          "target": "network_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "network_cost",
+          "target": "network_utilization"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "volume_constraint",
+          "target": "network_utilization"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "network_utilization",
+          "target": "route_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "route_signal",
+          "target": "shipment_data"
+        },
+        {
+          "index": 14,
+          "relation": "ENABLES",
+          "source": "shipment_data",
+          "target": "logistics_channel"
+        },
+        {
+          "index": 15,
+          "relation": "TRANSFERS_TO",
+          "source": "carrier_partner",
+          "target": "transport_network"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "FedEx operates integrated air and ground transportation networks."
+        },
+        {
+          "index": 1,
+          "text": "Network 2.0 and DRIVE target structural cost and operating efficiency improvements."
+        },
+        {
+          "index": 2,
+          "text": "Shipment volume and mix vary while service reliability remains central to customer value."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "shipper",
+          "label": "Business shipper",
+          "type": "ACTOR"
+        },
+        {
+          "id": "delivery_need",
+          "label": "Reliable time-definite delivery",
+          "type": "NEED"
+        },
+        {
+          "id": "transport_network",
+          "label": "Integrated air and ground network",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "shipment_data",
+          "label": "Shipment routing and demand signals",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "consolidate",
+          "label": "Consolidate route and move shipments",
+          "type": "ACTION"
+        },
+        {
+          "id": "logistics_channel",
+          "label": "Pickup hubs and delivery routes",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "reliability_value",
+          "label": "Predictable delivery performance",
+          "type": "VALUE"
+        },
+        {
+          "id": "transport_revenue",
+          "label": "Package and freight revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "network_cost",
+          "label": "Aircraft vehicle labor and fuel cost",
+          "type": "COST"
+        },
+        {
+          "id": "volume_constraint",
+          "label": "Volume and mix volatility",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "network_utilization",
+          "label": "Network utilization with service reliability",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "route_signal",
+          "label": "Route density and service signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "carrier_partner",
+          "label": "Contracted transport provider",
+          "type": "ACTOR"
+        }
+      ],
+      "objective_nodes": [
+        "transport_revenue",
+        "network_utilization"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0001048911-25-000011",
+        "cik": "0001048911",
+        "filing_date": "2025-07-21",
+        "form": "10-K",
+        "organization": "FedEx Corporation",
+        "period_end": "2025-05-31",
+        "url": "https://www.sec.gov/Archives/edgar/data/1048911/000104891125000011/fdx-20250531.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "Network 2.0",
+          "DRIVE",
+          "efficiency",
+          "asset utilization"
+        ],
+        "section": "Item 1 Business; DRIVE Transformation"
+      }
+    },
+    {
+      "case_id": "sec-nike-2025",
+      "constraint_nodes": [
+        "inventory_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "athlete_consumer",
+          "target": "product_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "product_need",
+          "target": "product_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "design_capability",
+          "target": "create_launch"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "brand_demand",
+          "target": "create_launch"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "marketplace",
+          "target": "athlete_consumer"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "create_launch",
+          "target": "product_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "product_value",
+          "target": "full_price_demand"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "athlete_consumer",
+          "target": "product_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "product_revenue",
+          "target": "design_capability"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "create_launch",
+          "target": "creation_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "creation_cost",
+          "target": "full_price_demand"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "inventory_constraint",
+          "target": "full_price_demand"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "full_price_demand",
+          "target": "demand_feedback"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "demand_feedback",
+          "target": "design_capability"
+        },
+        {
+          "index": 14,
+          "relation": "AMPLIFIES",
+          "source": "marketplace",
+          "target": "brand_demand"
+        },
+        {
+          "index": 15,
+          "relation": "REACHES",
+          "source": "marketplace",
+          "target": "wholesale_partner"
+        },
+        {
+          "index": 16,
+          "relation": "TRANSFERS_TO",
+          "source": "wholesale_partner",
+          "target": "channel_inventory"
+        },
+        {
+          "index": 17,
+          "relation": "ENABLES",
+          "source": "channel_inventory",
+          "target": "marketplace"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "NIKE develops and markets athletic footwear, apparel and equipment through direct and wholesale channels."
+        },
+        {
+          "index": 1,
+          "text": "Demand creation, product innovation and marketplace presentation shape brand demand."
+        },
+        {
+          "index": 2,
+          "text": "Inventory, markdowns and channel traffic can pressure revenue and margins."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "athlete_consumer",
+          "label": "Athlete and lifestyle consumer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "product_need",
+          "label": "Distinctive performance and style",
+          "type": "NEED"
+        },
+        {
+          "id": "design_capability",
+          "label": "Product design and athlete insight",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "brand_demand",
+          "label": "Brand and demand creation capability",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "create_launch",
+          "label": "Create test and launch product",
+          "type": "ACTION"
+        },
+        {
+          "id": "marketplace",
+          "label": "Direct and wholesale marketplace",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "product_value",
+          "label": "Relevant performance and cultural value",
+          "type": "VALUE"
+        },
+        {
+          "id": "product_revenue",
+          "label": "Full-price product revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "creation_cost",
+          "label": "Product creation and demand cost",
+          "type": "COST"
+        },
+        {
+          "id": "inventory_constraint",
+          "label": "Inventory markdown and channel traffic risk",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "full_price_demand",
+          "label": "Full-price demand and product pull",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "demand_feedback",
+          "label": "Sell-through athlete and consumer signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "wholesale_partner",
+          "label": "Wholesale marketplace partner",
+          "type": "ACTOR"
+        },
+        {
+          "id": "channel_inventory",
+          "label": "Channel inventory allocation",
+          "type": "RESOURCE"
+        }
+      ],
+      "objective_nodes": [
+        "product_revenue",
+        "full_price_demand"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0000320187-25-000047",
+        "cik": "0000320187",
+        "filing_date": "2025-07-24",
+        "form": "10-K",
+        "organization": "NIKE, Inc.",
+        "period_end": "2025-05-31",
+        "url": "https://www.sec.gov/Archives/edgar/data/320187/000032018725000047/nke-20250531.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "product innovation",
+          "channel mix",
+          "inventory",
+          "increased markdowns"
+        ],
+        "section": "Item 1 Business; Fiscal 2025 Financial Highlights"
+      }
+    },
+    {
+      "case_id": "sec-oracle-2025",
+      "constraint_nodes": [
+        "commitment_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "enterprise",
+          "target": "integration_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "integration_need",
+          "target": "integration_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "cloud_capacity",
+          "target": "deploy_workload"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "database_stack",
+          "target": "deploy_workload"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "cloud_channel",
+          "target": "enterprise"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "deploy_workload",
+          "target": "integration_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "integration_value",
+          "target": "workload_growth"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "enterprise",
+          "target": "cloud_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "cloud_revenue",
+          "target": "cloud_capacity"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "deploy_workload",
+          "target": "capacity_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "capacity_cost",
+          "target": "workload_growth"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "commitment_constraint",
+          "target": "workload_growth"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "workload_growth",
+          "target": "usage_signal"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "usage_signal",
+          "target": "database_stack"
+        },
+        {
+          "index": 14,
+          "relation": "AMPLIFIES",
+          "source": "cloud_channel",
+          "target": "database_stack"
+        },
+        {
+          "index": 15,
+          "relation": "TRANSFERS_TO",
+          "source": "capacity_partner",
+          "target": "cloud_capacity"
+        },
+        {
+          "index": 16,
+          "relation": "BLOCKS",
+          "source": "commitment_constraint",
+          "target": "cloud_capacity"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "Oracle provides cloud infrastructure, applications, database software and support."
+        },
+        {
+          "index": 1,
+          "text": "Cloud expansion requires substantial datacenter capacity and long-term infrastructure commitments."
+        },
+        {
+          "index": 2,
+          "text": "Customers value integrated data, applications and compute while competition affects adoption."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "enterprise",
+          "label": "Enterprise technology customer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "integration_need",
+          "label": "Integrated data applications and compute",
+          "type": "NEED"
+        },
+        {
+          "id": "cloud_capacity",
+          "label": "Cloud regions and compute capacity",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "database_stack",
+          "label": "Database and application stack",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "deploy_workload",
+          "label": "Migrate integrate and operate workloads",
+          "type": "ACTION"
+        },
+        {
+          "id": "cloud_channel",
+          "label": "Oracle cloud and partner channel",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "integration_value",
+          "label": "Integrated governed workload operation",
+          "type": "VALUE"
+        },
+        {
+          "id": "cloud_revenue",
+          "label": "Cloud services and license support revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "capacity_cost",
+          "label": "Datacenter and equipment commitments",
+          "type": "COST"
+        },
+        {
+          "id": "commitment_constraint",
+          "label": "Capacity commitments and cloud competition",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "workload_growth",
+          "label": "Cloud workload consumption growth",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "usage_signal",
+          "label": "Consumption and performance signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "capacity_partner",
+          "label": "Datacenter capacity partner",
+          "type": "ACTOR"
+        }
+      ],
+      "objective_nodes": [
+        "cloud_revenue",
+        "workload_growth"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0000950170-25-087926",
+        "cik": "0001341439",
+        "filing_date": "2025-06-24",
+        "form": "10-K",
+        "organization": "Oracle Corporation",
+        "period_end": "2025-05-31",
+        "url": "https://www.sec.gov/Archives/edgar/data/1341439/000095017025087926/orcl-20250531.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "OCI",
+          "data center capacity",
+          "long-term lease commitments",
+          "customer demand"
+        ],
+        "section": "Item 1 Business; Risk Factors"
+      }
+    },
+    {
+      "case_id": "sec-pg-2025",
+      "constraint_nodes": [
+        "channel_constraint"
+      ],
+      "edges": [
+        {
+          "index": 0,
+          "relation": "HAS_NEED",
+          "source": "household",
+          "target": "routine_need"
+        },
+        {
+          "index": 1,
+          "relation": "DEPENDS_ON",
+          "source": "routine_need",
+          "target": "routine_value"
+        },
+        {
+          "index": 2,
+          "relation": "ENABLES",
+          "source": "consumer_insight",
+          "target": "innovate_supply"
+        },
+        {
+          "index": 3,
+          "relation": "ENABLES",
+          "source": "brand_portfolio",
+          "target": "innovate_supply"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "retail_channel",
+          "target": "household"
+        },
+        {
+          "index": 5,
+          "relation": "DELIVERS",
+          "source": "innovate_supply",
+          "target": "routine_value"
+        },
+        {
+          "index": 6,
+          "relation": "PRODUCES",
+          "source": "routine_value",
+          "target": "repeat_purchase"
+        },
+        {
+          "index": 7,
+          "relation": "PAYS",
+          "source": "household",
+          "target": "recurring_revenue"
+        },
+        {
+          "index": 8,
+          "relation": "ENABLES",
+          "source": "recurring_revenue",
+          "target": "consumer_insight"
+        },
+        {
+          "index": 9,
+          "relation": "COSTS",
+          "source": "innovate_supply",
+          "target": "brand_cost"
+        },
+        {
+          "index": 10,
+          "relation": "REDUCES",
+          "source": "brand_cost",
+          "target": "repeat_purchase"
+        },
+        {
+          "index": 11,
+          "relation": "BLOCKS",
+          "source": "channel_constraint",
+          "target": "repeat_purchase"
+        },
+        {
+          "index": 12,
+          "relation": "FEEDS_BACK",
+          "source": "repeat_purchase",
+          "target": "usage_feedback"
+        },
+        {
+          "index": 13,
+          "relation": "AMPLIFIES",
+          "source": "usage_feedback",
+          "target": "consumer_insight"
+        },
+        {
+          "index": 14,
+          "relation": "AMPLIFIES",
+          "source": "consumer_insight",
+          "target": "brand_portfolio"
+        },
+        {
+          "index": 15,
+          "relation": "REACHES",
+          "source": "retail_channel",
+          "target": "retail_customer"
+        },
+        {
+          "index": 16,
+          "relation": "PAYS",
+          "source": "retail_customer",
+          "target": "recurring_revenue"
+        },
+        {
+          "index": 17,
+          "relation": "REACHES",
+          "source": "direct_channel",
+          "target": "household"
+        },
+        {
+          "index": 18,
+          "relation": "BLOCKS",
+          "source": "channel_constraint",
+          "target": "direct_channel"
+        }
+      ],
+      "evidence_notes": [
+        {
+          "index": 0,
+          "text": "P&G sells branded consumer products through retail and ecommerce channels."
+        },
+        {
+          "index": 1,
+          "text": "Consumer understanding, product innovation and brand building support demand and pricing."
+        },
+        {
+          "index": 2,
+          "text": "Retail concentration and channel relationships constrain direct consumer mechanisms."
+        }
+      ],
+      "nodes": [
+        {
+          "id": "household",
+          "label": "Household consumer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "routine_need",
+          "label": "Reliable everyday product performance",
+          "type": "NEED"
+        },
+        {
+          "id": "consumer_insight",
+          "label": "Consumer and category insight",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "brand_portfolio",
+          "label": "Product and brand portfolio",
+          "type": "RESOURCE"
+        },
+        {
+          "id": "innovate_supply",
+          "label": "Innovate manufacture and replenish",
+          "type": "ACTION"
+        },
+        {
+          "id": "retail_channel",
+          "label": "Retail ecommerce and distributor channel",
+          "type": "CHANNEL"
+        },
+        {
+          "id": "routine_value",
+          "label": "Trusted repeatable product outcome",
+          "type": "VALUE"
+        },
+        {
+          "id": "recurring_revenue",
+          "label": "Recurring household product revenue",
+          "type": "REVENUE"
+        },
+        {
+          "id": "brand_cost",
+          "label": "Innovation manufacturing and brand cost",
+          "type": "COST"
+        },
+        {
+          "id": "channel_constraint",
+          "label": "Retail concentration and channel conflict",
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "repeat_purchase",
+          "label": "Repeat purchase and household retention",
+          "type": "OUTCOME"
+        },
+        {
+          "id": "usage_feedback",
+          "label": "Usage replenishment and product signals",
+          "type": "FEEDBACK"
+        },
+        {
+          "id": "retail_customer",
+          "label": "Retail and ecommerce customer",
+          "type": "ACTOR"
+        },
+        {
+          "id": "direct_channel",
+          "label": "Permissioned direct consumer channel",
+          "type": "CHANNEL"
+        }
+      ],
+      "objective_nodes": [
+        "recurring_revenue",
+        "repeat_purchase"
+      ],
+      "partition": "evaluation",
+      "source": {
+        "accession": "0000080424-25-000076",
+        "cik": "0000080424",
+        "filing_date": "2025-08-05",
+        "form": "10-K",
+        "organization": "The Procter & Gamble Company",
+        "period_end": "2025-06-30",
+        "url": "https://www.sec.gov/Archives/edgar/data/80424/000008042425000076/pg-20250630.htm"
+      },
+      "source_locator": {
+        "search_terms": [
+          "consumer insights",
+          "product innovation",
+          "distribution channels",
+          "retail execution"
+        ],
+        "section": "Item 1 Business; Business Model"
+      }
+    }
+  ],
+  "corpus_id": "CHM-VENTURE-C1",
+  "decision_values": [
+    "cannot_verify",
+    "needs_change",
+    "verified"
+  ],
+  "internal_audit_sha256": "bde52e52dcc76bb535ae151737b31bbcc833f61a271752716b470412779eeb30",
+  "manifest_sha256": "b7929ba7122ddf7981be12173c8aac6b24e10f3bb22e62fa27271e34d2bd8c0b",
+  "packet_id": "CHM-V-C1-REVIEW-PACKET",
+  "review_protocol_sha256": "199b65906f1044f8eb55e1aef84c01e41ecf7217b3e2b5299a70a37b92baaeee",
+  "schema_version": 1,
+  "source_sha256": "e5e55e46640b1f9fa4dccc9f57604d5c6555b153b43105d31d32a3c7bff992cf"
+}

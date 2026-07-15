@@ -53,6 +53,27 @@
       "organization_overlap_count": 0,
       "outcome_labels_present": false
     },
+    "source_review": {
+      "gate": {
+        "accepted_reviews": 0,
+        "changed_reviews": 0,
+        "corpus_id": "CHM-VENTURE-C1",
+        "generation_allowed": false,
+        "manifest_sha256": "b7929ba7122ddf7981be12173c8aac6b24e10f3bb22e62fa27271e34d2bd8c0b",
+        "minimum_independent_reviewers": 1,
+        "packet_sha256": "92a6d79753015ffb56578a42a10b03c3ab3ad8403e905c9047779f0cbf3b8f91",
+        "reason": "no_complete_independent_review",
+        "review_files": 0,
+        "review_ids": [],
+        "schema_version": 1,
+        "status": "blocked"
+      },
+      "internal_auditor_id": "chimera-corpus-author-001",
+      "internal_auditor_independent": false,
+      "internal_filing_identity_verified": 10,
+      "internal_primary_source_support_verified": 10,
+      "semantic_mapping_pending_independent_review": 10
+    },
     "timeliness": {
       "evaluation_min_period_end": "2025-01-26",
       "pretraining_max_period_end": "2024-12-31",
@@ -122,7 +143,7 @@
   "findings": [
     {
       "confidence": "high",
-      "finding": "All ten source-to-graph annotations await independent review.",
+      "finding": "Internal primary-source checks cover all ten cases; independent reviews accepted: 0/1.",
       "id": "C1-Q001",
       "impact": "Source interpretation errors could affect both experiment arms.",
       "remediation": "A second reviewer must verify every evidence note, node, edge and challenge mask before generation.",

@@ -1,0 +1,14 @@
+{
+  "accepted_reviews": 0,
+  "changed_reviews": 0,
+  "corpus_id": "CHM-VENTURE-C1",
+  "generation_allowed": false,
+  "manifest_sha256": "b7929ba7122ddf7981be12173c8aac6b24e10f3bb22e62fa27271e34d2bd8c0b",
+  "minimum_independent_reviewers": 1,
+  "packet_sha256": "92a6d79753015ffb56578a42a10b03c3ab3ad8403e905c9047779f0cbf3b8f91",
+  "reason": "no_complete_independent_review",
+  "review_files": 0,
+  "review_ids": [],
+  "schema_version": 1,
+  "status": "blocked"
+}

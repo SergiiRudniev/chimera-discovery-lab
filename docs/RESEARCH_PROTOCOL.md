@@ -31,6 +31,12 @@ the one-sided 90% case-cluster bootstrap lower bound for feasibility to remain
 above the registered -0.5 non-inferiority margin. Calibration cases never enter
 the primary estimate.
 
+Candidate generation is fail-closed behind the C1 independent-review gate. A
+review must cover every registered filing, evidence note, node, edge, objective
+and constraint, and attest both reviewer independence and blinding to model
+outputs. A hash mismatch, partial review, self-review, `needs_change` decision or
+missing attestation blocks generation.
+
 ## Decisions
 
 - `accepted`: preregistered primary rule passed.

@@ -189,7 +189,12 @@ def build_evaluation_corpus(
     stacked_arrays = {name: np.stack(values) for name, values in arrays.items()}
     np.savez_compressed(graphs_path, **stacked_arrays)  # type: ignore[arg-type]
     protocol_paths: list[Path] = []
-    for protocol_name in ("matched_baseline_protocol.yaml", "rating_protocol.yaml"):
+    for protocol_name in (
+        "matched_baseline_protocol.yaml",
+        "rating_protocol.yaml",
+        "review_protocol.yaml",
+        "internal_source_audit.yaml",
+    ):
         registered_protocol = source.parent / protocol_name
         if not registered_protocol.is_file():
             raise FileNotFoundError(f"missing preregistered protocol: {registered_protocol}")
@@ -212,6 +217,7 @@ def build_evaluation_corpus(
         "feature_names": list(FEATURE_NAMES),
         "max_nodes": config.max_nodes,
         "source_accessed_at": _required_string(document, "accessed_at"),
+        "annotation_author_id": _required_string(document, "annotation_author_id"),
         "source_document": {"path": source.name, "sha256": _sha256(source)},
         "pretraining_corpus": {
             "corpus_id": _required_string(pretraining, "corpus_id"),
