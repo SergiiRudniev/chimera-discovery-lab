@@ -199,6 +199,7 @@ on every pull request and protected model-family branch.
 - [Architecture](docs/ARCHITECTURE.md)
 - [Data contract](docs/DATA_CONTRACT.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
+- [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)
 - [Reproducibility](docs/REPRODUCIBILITY.md)
 
