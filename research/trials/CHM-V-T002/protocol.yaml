@@ -1,0 +1,71 @@
+schema_version: 1
+trial_id: CHM-V-T002
+name: Venture Trial T2
+model: Chimera Venture M0
+corpus: Chimera Venture Corpus C0
+hypothesis_context: CHM-V-H001
+status: registered
+scope: frozen_proposal_policy_qualification
+registered_at: 2026-07-15
+implementation_commit: 6a4b2ce4c7c1f9d948bc10105eeaefb09fb34f9b
+config: configs/venture/venture_trial_t2.yaml
+config_sha256: 7592bf6d6319e98e7d216aa627c561a70c5beccfee6385bd3f293ce57a402669
+checkpoint:
+  source_trial: CHM-V-T001
+  sha256: 678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47
+  weights_modified: false
+motivation:
+  t0_unique_graph_rate: 0.925
+  t1_unique_graph_rate: 0.33125
+  unique_graph_rate_delta: -0.59375
+  t1_top_program_sequence: CONNECT>STOP
+  t1_top_program_sequence_rate: 0.45625
+diagnostic:
+  scope: canonical train cases only
+  validation_opened: false
+  test_opened: false
+  artifact: research/trials/CHM-V-T002/diagnostic.json
+  artifact_git_blob_sha256: 83a7bff613a43427881e4c5ecff01bf469dce4fd2f09db05fa167b28f026761e
+  finding: >-
+    Legal-uniform exploration at rate 0.50 restored mean train unique-graph
+    rate to 0.86545, changed-candidate rate to 0.99219 and operation coverage
+    to all eight non-terminal operations with zero invalid programs.
+policies:
+  baseline: model-only
+  candidates:
+    - model-only
+    - explore-20
+    - explore-35
+    - explore-50
+  distribution: (1-r)*model_softmax + r*legal_uniform
+  validity_constrained: true
+selection:
+  split: validation
+  seeds: [1702, 1703, 1704]
+  candidates_per_case: 64
+  eligibility:
+    invalid_candidate_rate_max: 0.01
+    changed_candidate_rate_min: 0.95
+    feasibility_drop_from_baseline_max: 0.05
+    deterministic_replay: true
+  ordering:
+    - maximum mean unique-graph rate
+    - maximum mean archive coverage
+    - maximum operation coverage
+    - lower exploration rate
+test_usage:
+  policy_selection: forbidden
+  threshold_selection: forbidden
+  final_reporting_only: true
+acceptance:
+  checkpoint_hash_verified: true
+  weights_unchanged: true
+  train_exact_graph_rate_min: 0.95
+  test_unique_graph_rate_min: 0.80
+  test_changed_candidate_rate_min: 0.95
+  test_invalid_candidate_rate_max: 0.01
+  test_feasibility_drop_from_baseline_max: 0.05
+  deterministic_replay: true
+claim_boundary: >-
+  T2 can qualify a structured proposal sampling policy only. It cannot decide
+  semantic novelty, commercial utility or the CHM-V-H001 language hypothesis.

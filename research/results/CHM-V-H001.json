@@ -3,5 +3,5 @@
   "status": "not_run",
   "metrics": null,
   "decision": "pending",
-  "notes": "Venture Trial T1 passed structural-reconstruction qualification, but generation diversity regressed and no evidence-bearing evaluation corpus or matched text baseline exists."
+  "notes": "Venture Trial T2 passed proposal-policy qualification with the frozen T1 checkpoint, but no evidence-bearing evaluation corpus or matched text baseline exists."
 }

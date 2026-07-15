@@ -61,6 +61,19 @@ Novelty is calculated against retained candidate embeddings. MAP-Elites keeps
 the highest-quality candidate in each descriptor cell rather than collapsing
 the search into one global optimum.
 
+## Proposal Policy
+
+Reconstruction and exploration use separate inference policies. The frozen T1
+weights provide graph and edit logits. T2 mixes each masked model distribution
+with a uniform distribution over currently legal symbols:
+
+```text
+p_proposal = (1 - r) * p_model + r * uniform(legal symbols)
+```
+
+The validity masks apply before sampling to operations and their arguments. T2
+selected `r = 0.50`; the model weights and reconstruction path are unchanged.
+
 ## Parameter Accounting
 
 `chimera inspect` instantiates the registered configuration and counts trainable
@@ -75,7 +88,6 @@ parameters**.
 
 - Learn the numeric business-state schema from real event data.
 - Define time-isolated business-case splits.
-- Add hard masks for operation-specific validity before sampling.
 - Calibrate learned score heads against blinded human and observed outcomes.
 - Test graph and latent representations against matched text baselines.
 - Audit interpreter consistency with multiple independent decoders.
