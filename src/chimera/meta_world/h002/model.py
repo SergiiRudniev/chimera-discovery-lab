@@ -13,6 +13,47 @@ from chimera.meta_world.config import MetaWorldModelConfig
 from chimera.meta_world.model import MetaWorldOutput, SpatialBlock, TransitionBlock
 
 
+class DirectedRelationMessageBlock(nn.Module):
+    """Propagate continuous edge content from source slots to target slots."""
+
+    def __init__(self, config: MetaWorldModelConfig) -> None:
+        super().__init__()
+        hidden = config.hidden_dim
+        inner = hidden * config.feedforward_multiplier
+        self.source_projection = nn.Linear(hidden, hidden, bias=False)
+        self.target_projection = nn.Linear(hidden, hidden, bias=False)
+        self.relation_projection = nn.Linear(
+            config.relation_features,
+            hidden,
+            bias=False,
+        )
+        self.message_output = nn.Sequential(
+            nn.LayerNorm(hidden),
+            nn.Linear(hidden, inner),
+            nn.SiLU(),
+            nn.Dropout(config.dropout),
+            nn.Linear(inner, hidden),
+            nn.Dropout(config.dropout),
+        )
+
+    def forward(
+        self,
+        slot_states: Tensor,
+        relations: Tensor,
+        slot_mask: Tensor,
+    ) -> Tensor:
+        source = self.source_projection(slot_states)[:, :, None, :]
+        target = self.target_projection(slot_states)[:, None, :, :]
+        relation = self.relation_projection(relations)
+        messages = F.silu(source + target + relation)
+        pair_mask = slot_mask[:, :, None] & slot_mask[:, None, :]
+        pair_mask = pair_mask & relations.abs().sum(dim=-1).gt(0)
+        weight = pair_mask.unsqueeze(-1).to(messages.dtype)
+        aggregated = (messages * weight).sum(dim=1) / weight.sum(dim=1).clamp_min(1)
+        updated = slot_states + self.message_output(aggregated)
+        return cast(Tensor, updated * slot_mask.unsqueeze(-1).to(updated.dtype))
+
+
 class RelationalSequenceWorldModel(nn.Module):
     """Track object states through time before applying a relational intervention."""
 
@@ -89,8 +130,12 @@ class RelationalSequenceWorldModel(nn.Module):
             nn.Linear(hidden, hidden),
         )
         self.global_condition = nn.Linear(hidden, hidden)
-        self.intervention_spatial = SpatialBlock(config)
-        self.intervention_spatial_scale = nn.Parameter(torch.zeros(()))
+        self.intervention_messages = nn.ModuleList(
+            [
+                DirectedRelationMessageBlock(config)
+                for _ in range(max(config.transition_layers // 3, 1))
+            ]
+        )
         self.slot_output_norm = nn.LayerNorm(hidden)
         self.state_head = nn.Sequential(
             nn.Linear(hidden, hidden),
@@ -317,14 +362,12 @@ class RelationalSequenceWorldModel(nn.Module):
             + self.slot_relation_encoder(slot_relation_summaries)
             + self.global_condition(transition).unsqueeze(1)
         )
-        propagated_slots = self.intervention_spatial(
-            conditioned_slots,
-            final_relations,
-            final_slot_mask,
-        )
-        conditioned_slots = conditioned_slots + torch.tanh(
-            self.intervention_spatial_scale
-        ) * (propagated_slots - conditioned_slots)
+        for message_block in self.intervention_messages:
+            conditioned_slots = message_block(
+                conditioned_slots,
+                final_relations,
+                final_slot_mask,
+            )
         conditioned_slots = self.slot_output_norm(conditioned_slots)
         decoded = self.state_head(conditioned_slots)
         delta_mean, raw_state_log_variance = decoded.chunk(2, dim=-1)
