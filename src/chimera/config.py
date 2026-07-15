@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping
 from dataclasses import asdict, dataclass, field, fields
 from pathlib import Path
@@ -10,9 +11,7 @@ from typing import Any
 import yaml
 
 
-def _validate_fields(
-    class_name: str, allowed_fields: set[str], values: Mapping[str, Any]
-) -> None:
+def _validate_fields(class_name: str, allowed_fields: set[str], values: Mapping[str, Any]) -> None:
     unknown = sorted(set(values) - allowed_fields)
     if unknown:
         raise ValueError(f"Unknown {class_name} fields: {', '.join(unknown)}")
@@ -96,9 +95,7 @@ class TrainingConfig:
 
     @classmethod
     def from_mapping(cls, values: Mapping[str, Any]) -> TrainingConfig:
-        _validate_fields(
-            "TrainingConfig", {item.name for item in fields(TrainingConfig)}, values
-        )
+        _validate_fields("TrainingConfig", {item.name for item in fields(TrainingConfig)}, values)
         return cls(**values)
 
 
@@ -137,6 +134,115 @@ class ExperimentConfig:
             values = yaml.safe_load(handle)
         if not isinstance(values, Mapping):
             raise TypeError("experiment config must contain a mapping")
+        return cls.from_mapping(values)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class TrialEvaluationConfig:
+    """Evaluation and candidate-generation contract for an engineering trial."""
+
+    corpus_manifest: str = "datasets/venture_corpus_c0/manifest.json"
+    eval_interval: int = 25
+    evaluation_batch_size: int = 16
+    candidates_per_case: int = 16
+    generation_temperature: float = 0.75
+    generation_seed: int = 1702
+    min_edits: int = 1
+    max_edits: int = 3
+    archive_bins: tuple[int, int] = (4, 4)
+    memorization_exact_graph_min: float = 0.95
+    invalid_candidate_rate_max: float = 0.01
+
+    def __post_init__(self) -> None:
+        positive = {
+            "eval_interval": self.eval_interval,
+            "evaluation_batch_size": self.evaluation_batch_size,
+            "candidates_per_case": self.candidates_per_case,
+            "max_edits": self.max_edits,
+        }
+        invalid = [name for name, value in positive.items() if value <= 0]
+        if invalid:
+            raise ValueError(f"TrialEvaluationConfig values must be positive: {', '.join(invalid)}")
+        if self.generation_temperature < 0:
+            raise ValueError("generation_temperature must be non-negative")
+        if self.min_edits < 0 or self.min_edits > self.max_edits:
+            raise ValueError("min_edits must be between zero and max_edits")
+        if len(self.archive_bins) != 2 or any(value <= 0 for value in self.archive_bins):
+            raise ValueError("archive_bins must contain two positive dimensions")
+        for name, value in (
+            ("memorization_exact_graph_min", self.memorization_exact_graph_min),
+            ("invalid_candidate_rate_max", self.invalid_candidate_rate_max),
+        ):
+            if not 0.0 <= value <= 1.0:
+                raise ValueError(f"{name} must be in [0, 1]")
+        if not self.corpus_manifest:
+            raise ValueError("corpus_manifest is required")
+
+    @classmethod
+    def from_mapping(cls, values: Mapping[str, Any]) -> TrialEvaluationConfig:
+        _validate_fields(
+            "TrialEvaluationConfig",
+            {item.name for item in fields(TrialEvaluationConfig)},
+            values,
+        )
+        normalized = dict(values)
+        if "archive_bins" in normalized:
+            normalized["archive_bins"] = tuple(int(value) for value in normalized["archive_bins"])
+        return cls(**normalized)
+
+
+@dataclass(frozen=True)
+class VentureTrialConfig:
+    """Frozen configuration for a reproducible Venture engineering trial."""
+
+    trial_id: str
+    hypothesis_id: str
+    model: ModelConfig = field(default_factory=ModelConfig)
+    training: TrainingConfig = field(default_factory=TrainingConfig)
+    evaluation: TrialEvaluationConfig = field(default_factory=TrialEvaluationConfig)
+
+    def __post_init__(self) -> None:
+        if re.fullmatch(r"CHM-V-T\d{3}", self.trial_id) is None:
+            raise ValueError("Venture trial IDs must use CHM-V-T###")
+        if re.fullmatch(r"CHM-V-H\d{3}", self.hypothesis_id) is None:
+            raise ValueError("Venture hypothesis IDs must use CHM-V-H###")
+        if self.evaluation.max_edits > self.model.max_edits:
+            raise ValueError("trial max_edits exceeds model capacity")
+
+    @classmethod
+    def from_mapping(cls, values: Mapping[str, Any]) -> VentureTrialConfig:
+        unknown = sorted(
+            set(values) - {"trial_id", "hypothesis_id", "model", "training", "evaluation"}
+        )
+        if unknown:
+            raise ValueError(f"Unknown VentureTrialConfig fields: {', '.join(unknown)}")
+        for required in ("trial_id", "hypothesis_id"):
+            if required not in values:
+                raise ValueError(f"{required} is required")
+        model_values = values.get("model", {})
+        training_values = values.get("training", {})
+        evaluation_values = values.get("evaluation", {})
+        if not all(
+            isinstance(item, Mapping) for item in (model_values, training_values, evaluation_values)
+        ):
+            raise TypeError("model, training and evaluation must be mappings")
+        return cls(
+            trial_id=str(values["trial_id"]),
+            hypothesis_id=str(values["hypothesis_id"]),
+            model=ModelConfig.from_mapping(model_values),
+            training=TrainingConfig.from_mapping(training_values),
+            evaluation=TrialEvaluationConfig.from_mapping(evaluation_values),
+        )
+
+    @classmethod
+    def from_yaml(cls, path: str | Path) -> VentureTrialConfig:
+        with Path(path).open("r", encoding="utf-8") as handle:
+            values = yaml.safe_load(handle)
+        if not isinstance(values, Mapping):
+            raise TypeError("trial config must contain a mapping")
         return cls.from_mapping(values)
 
     def to_dict(self) -> dict[str, Any]:

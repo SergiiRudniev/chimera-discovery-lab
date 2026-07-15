@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from chimera.config import ExperimentConfig, ModelConfig
+from chimera.config import ExperimentConfig, ModelConfig, VentureTrialConfig
 
 
 def test_registered_config_loads() -> None:
@@ -24,3 +24,10 @@ def test_unknown_config_field_is_rejected(tmp_path: Path) -> None:
 def test_hidden_dimension_must_match_heads() -> None:
     with pytest.raises(ValueError, match="divisible"):
         ModelConfig(hidden_dim=31, num_heads=4)
+
+
+def test_registered_trial_config_loads() -> None:
+    config = VentureTrialConfig.from_yaml("configs/venture/venture_trial_t0.yaml")
+    assert config.trial_id == "CHM-V-T000"
+    assert config.hypothesis_id == "CHM-V-H001"
+    assert config.evaluation.archive_bins == (4, 4)

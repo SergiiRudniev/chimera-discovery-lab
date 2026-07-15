@@ -78,3 +78,77 @@ def apply_edit_program(graph: GraphBatch, edits: EditBatch) -> GraphBatch:
                     )
                     _remove_node(result, batch_index, target)
     return with_value_proximity(result)
+
+
+@torch.no_grad()
+def validate_edit_program(graph: GraphBatch, edits: EditBatch) -> tuple[tuple[str, ...], ...]:
+    """Return semantic precondition failures while simulating each program."""
+
+    graph.validate()
+    edits.validate(batch_size=graph.batch_size, max_nodes=graph.max_nodes)
+    failures: list[tuple[str, ...]] = []
+    for batch_index in range(graph.batch_size):
+        current = GraphBatch(
+            node_types=graph.node_types[batch_index : batch_index + 1].clone(),
+            node_features=graph.node_features[batch_index : batch_index + 1].clone(),
+            edge_types=graph.edge_types[batch_index : batch_index + 1].clone(),
+            node_mask=graph.node_mask[batch_index : batch_index + 1].clone(),
+        )
+        errors: list[str] = []
+        for step in range(edits.steps):
+            if not bool(edits.step_mask[batch_index, step]):
+                continue
+            operation = EditOperation(int(edits.operations[batch_index, step]))
+            if operation is EditOperation.STOP:
+                break
+            source = int(edits.source_nodes[batch_index, step])
+            target = int(edits.target_nodes[batch_index, step])
+            node_type = int(edits.node_types[batch_index, step])
+            edge_type = int(edits.edge_types[batch_index, step])
+            source_active = bool(current.node_mask[0, source])
+            target_active = bool(current.node_mask[0, target])
+            reason: str | None = None
+            if operation is EditOperation.ADD_NODE:
+                if not source_active or node_type == 0 or edge_type == 0:
+                    reason = "ADD_NODE requires active source and non-zero types"
+                elif not bool((~current.node_mask[0]).any()):
+                    reason = "ADD_NODE exceeds graph capacity"
+            elif operation in {EditOperation.CONNECT, EditOperation.REWIRE}:
+                if not source_active or not target_active or source == target or edge_type == 0:
+                    reason = f"{operation.name} requires distinct active nodes and relation"
+            elif operation is EditOperation.TRANSFER_ROLE:
+                if not target_active or node_type == 0:
+                    reason = "TRANSFER_ROLE requires active target and node type"
+            elif operation is EditOperation.REMOVE_CONSTRAINT:
+                if not source_active or int(current.node_types[0, source]) != int(
+                    NodeType.CONSTRAINT
+                ):
+                    reason = "REMOVE_CONSTRAINT source is not an active constraint"
+            elif operation is EditOperation.INVERT_RELATION:
+                if (
+                    not source_active
+                    or not target_active
+                    or int(current.edge_types[0, source, target]) == 0
+                ):
+                    reason = "INVERT_RELATION requires an existing directed relation"
+            elif operation is EditOperation.SUBSTITUTE:
+                if not source_active or node_type == 0:
+                    reason = "SUBSTITUTE requires active source and node type"
+            elif operation is EditOperation.MERGE and (
+                not source_active or not target_active or source == target
+            ):
+                reason = "MERGE requires distinct active nodes"
+            if reason is not None:
+                errors.append(f"step {step}: {reason}")
+                continue
+            one_step = EditBatch(
+                operations=edits.operations[batch_index : batch_index + 1, step : step + 1],
+                source_nodes=edits.source_nodes[batch_index : batch_index + 1, step : step + 1],
+                target_nodes=edits.target_nodes[batch_index : batch_index + 1, step : step + 1],
+                node_types=edits.node_types[batch_index : batch_index + 1, step : step + 1],
+                edge_types=edits.edge_types[batch_index : batch_index + 1, step : step + 1],
+                step_mask=edits.step_mask[batch_index : batch_index + 1, step : step + 1],
+            )
+            current = apply_edit_program(current, one_step)
+        failures.append(tuple(errors))
+    return tuple(failures)

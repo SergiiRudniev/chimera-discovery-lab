@@ -1,0 +1,38 @@
+trial_id: CHM-V-T000
+hypothesis_id: CHM-V-H001
+model:
+  node_types: 12
+  edge_types: 16
+  edit_operations: 9
+  node_numeric_features: 8
+  score_dimensions: 3
+  hidden_dim: 384
+  num_heads: 8
+  encoder_layers: 5
+  decoder_layers: 3
+  transition_layers: 3
+  feedforward_multiplier: 4
+  max_nodes: 64
+  max_edits: 8
+  dropout: 0.1
+training:
+  seed: 1701
+  batch_size: 8
+  steps: 300
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  target_ema_decay: 0.99
+  device: auto
+evaluation:
+  corpus_manifest: datasets/venture_corpus_c0/manifest.json
+  eval_interval: 25
+  evaluation_batch_size: 16
+  candidates_per_case: 16
+  generation_temperature: 0.75
+  generation_seed: 1702
+  min_edits: 1
+  max_edits: 3
+  archive_bins: [4, 4]
+  memorization_exact_graph_min: 0.95
+  invalid_candidate_rate_max: 0.01
