@@ -79,9 +79,7 @@ class EditBatch:
     edge_types: Tensor
     step_mask: Tensor
 
-    def validate(
-        self, *, batch_size: int | None = None, max_nodes: int | None = None
-    ) -> EditBatch:
+    def validate(self, *, batch_size: int | None = None, max_nodes: int | None = None) -> EditBatch:
         _require_shape("operations", self.operations, (batch_size, None))
         shape = tuple(self.operations.shape)
         for name, value in (
@@ -106,8 +104,7 @@ class EditBatch:
         if self.step_mask.dtype != torch.bool:
             raise TypeError("step_mask must be torch.bool")
         if max_nodes is not None and (
-            torch.any(self.source_nodes >= max_nodes)
-            or torch.any(self.target_nodes >= max_nodes)
+            torch.any(self.source_nodes >= max_nodes) or torch.any(self.target_nodes >= max_nodes)
         ):
             raise ValueError("edit node index exceeds graph capacity")
         return self
@@ -124,6 +121,35 @@ class EditBatch:
             node_types=self.node_types.to(device),
             edge_types=self.edge_types.to(device),
             step_mask=self.step_mask.to(device),
+        )
+
+    def with_terminal_stop(self) -> EditBatch:
+        """Expose the first padded position as an explicit STOP target."""
+
+        operations = self.operations.clone()
+        source_nodes = self.source_nodes.clone()
+        target_nodes = self.target_nodes.clone()
+        node_types = self.node_types.clone()
+        edge_types = self.edge_types.clone()
+        step_mask = self.step_mask.clone()
+        for batch_index in range(operations.shape[0]):
+            padding = torch.where(~step_mask[batch_index])[0]
+            if padding.numel() == 0:
+                continue
+            stop_index = int(padding[0])
+            operations[batch_index, stop_index] = 0
+            source_nodes[batch_index, stop_index] = 0
+            target_nodes[batch_index, stop_index] = 0
+            node_types[batch_index, stop_index] = 0
+            edge_types[batch_index, stop_index] = 0
+            step_mask[batch_index, stop_index] = True
+        return EditBatch(
+            operations=operations,
+            source_nodes=source_nodes,
+            target_nodes=target_nodes,
+            node_types=node_types,
+            edge_types=edge_types,
+            step_mask=step_mask,
         )
 
 
@@ -155,4 +181,12 @@ class TrainingBatch:
             edits=self.edits.to(device),
             next_graph=self.next_graph.to(device),
             scores=self.scores.to(device),
+        )
+
+    def with_terminal_stop(self) -> TrainingBatch:
+        return TrainingBatch(
+            graph=self.graph,
+            edits=self.edits.with_terminal_stop(),
+            next_graph=self.next_graph,
+            scores=self.scores,
         )

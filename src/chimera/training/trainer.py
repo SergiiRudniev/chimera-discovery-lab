@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import copy
 import random
+from dataclasses import asdict
+from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -61,6 +63,7 @@ class ChimeraTrainer:
         self.step = 0
 
     def train_step(self, batch: TrainingBatch) -> dict[str, float]:
+        batch = batch.with_terminal_stop()
         batch.validate(
             feature_dim=self.model.config.node_numeric_features,
             score_dimensions=self.model.config.score_dimensions,
@@ -79,15 +82,33 @@ class ChimeraTrainer:
             weights=self.loss_weights,
         )
         losses["loss"].backward()  # type: ignore[no-untyped-call]
-        gradient_norm = nn.utils.clip_grad_norm_(
-            self.model.parameters(), self.config.max_grad_norm
-        )
+        gradient_norm = nn.utils.clip_grad_norm_(self.model.parameters(), self.config.max_grad_norm)
         self.optimizer.step()
         self._update_target_encoder()
         self.step += 1
         metrics = {name: float(value.detach().cpu()) for name, value in losses.items()}
         metrics["gradient_norm"] = float(gradient_norm.detach().cpu())
         return metrics
+
+    @torch.no_grad()
+    def evaluate_step(self, batch: TrainingBatch) -> dict[str, float]:
+        batch = batch.with_terminal_stop()
+        batch.validate(
+            feature_dim=self.model.config.node_numeric_features,
+            score_dimensions=self.model.config.score_dimensions,
+        )
+        batch = batch.to(self.device)
+        self.model.eval()
+        output = self.model(batch.graph, batch.edits)
+        target_state = self.target_encoder(batch.next_graph).graph_state
+        losses = chimera_loss(
+            output,
+            batch.edits,
+            batch.scores,
+            target_state,
+            weights=self.loss_weights,
+        )
+        return {name: float(value.detach().cpu()) for name, value in losses.items()}
 
     @torch.no_grad()
     def _update_target_encoder(self) -> None:
@@ -101,9 +122,19 @@ class ChimeraTrainer:
         return {
             "format_version": 1,
             "step": self.step,
-            "model_config": self.model.config,
-            "training_config": self.config,
+            "model_config": asdict(self.model.config),
+            "training_config": asdict(self.config),
             "model_state": self.model.state_dict(),
             "target_encoder_state": self.target_encoder.state_dict(),
             "optimizer_state": self.optimizer.state_dict(),
         }
+
+    def save_checkpoint(self, path: str | Path, *, metadata: dict[str, Any] | None = None) -> Path:
+        destination = Path(path)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        payload = self.checkpoint()
+        payload["metadata"] = metadata or {}
+        temporary = destination.with_suffix(destination.suffix + ".tmp")
+        torch.save(payload, temporary)
+        temporary.replace(destination)
+        return destination
