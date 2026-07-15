@@ -42,3 +42,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H002.yaml
     result: research/results/CHM-W-H002.json
+  - id: CHM-W-H003
+    title: Closed-loop world rollout and cross-batch mechanism discrimination
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H003.yaml
+    result: research/results/CHM-W-H003.json

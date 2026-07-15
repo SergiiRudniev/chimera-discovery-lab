@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 from dataclasses import dataclass
 
 import torch
@@ -22,6 +23,7 @@ class GeneratedSequenceSample:
 
     batch: GeneratedWorldBatch
     mechanism_ids: Tensor
+    mechanism_keys: Tensor
     world_family_ids: Tensor
     renderer_profile_ids: Tensor
     trajectory_indices: Tensor
@@ -31,6 +33,7 @@ class GeneratedSequenceSample:
         expected = (self.batch.batch_size,)
         for name in (
             "mechanism_ids",
+            "mechanism_keys",
             "world_family_ids",
             "renderer_profile_ids",
             "trajectory_indices",
@@ -63,14 +66,18 @@ def materialize_sequence_sample(
     )
     mechanism_lookup: dict[str, int] = {}
     mechanism_values: list[int] = []
+    mechanism_keys: list[int] = []
     for trajectory in trajectories:
         mechanism_id = trajectory.metadata.mechanism_id
         if mechanism_id not in mechanism_lookup:
             mechanism_lookup[mechanism_id] = len(mechanism_lookup)
         mechanism_values.append(mechanism_lookup[mechanism_id])
+        digest = hashlib.sha256(mechanism_id.encode("utf-8")).digest()
+        mechanism_keys.append(int.from_bytes(digest[:8], "big") & ((1 << 63) - 1))
     return GeneratedSequenceSample(
         batch=sequence_batch,
         mechanism_ids=torch.tensor(mechanism_values, dtype=torch.long),
+        mechanism_keys=torch.tensor(mechanism_keys, dtype=torch.long),
         world_family_ids=torch.tensor(
             [trajectory.metadata.world_family_id for trajectory in trajectories],
             dtype=torch.long,
@@ -107,9 +114,16 @@ def make_transition_window(
         slots,
         features,
         dtype=generated.observations.dtype,
+        device=generated.observations.device,
     )
     observation_mask = torch.zeros_like(observations, dtype=torch.bool)
-    slot_mask = torch.zeros(batch, context_steps, slots, dtype=torch.bool)
+    slot_mask = torch.zeros(
+        batch,
+        context_steps,
+        slots,
+        dtype=torch.bool,
+        device=generated.observations.device,
+    )
     relations = torch.zeros(
         batch,
         context_steps,
@@ -117,19 +131,27 @@ def make_transition_window(
         slots,
         generated.relations.shape[-1],
         dtype=generated.relations.dtype,
+        device=generated.relations.device,
     )
-    time_mask = torch.zeros(batch, context_steps, dtype=torch.bool)
+    time_mask = torch.zeros(
+        batch,
+        context_steps,
+        dtype=torch.bool,
+        device=generated.observations.device,
+    )
     action_history = torch.zeros(
         batch,
         context_steps,
         generated.actions.shape[-1] + 1,
         dtype=generated.actions.dtype,
+        device=generated.actions.device,
     )
     action_target_history = torch.zeros(
         batch,
         context_steps,
         slots,
         dtype=generated.action_targets.dtype,
+        device=generated.action_targets.device,
     )
     history = slice(history_start, prediction_step + 1)
     observations[:, :history_length] = generated.observations[:, history]
@@ -173,8 +195,16 @@ def make_transition_window(
         slot_mask=slot_mask,
         relations=relations,
         time_mask=time_mask,
-        domain_ids=torch.zeros(batch, dtype=torch.long),
-        intervention_types=torch.zeros(batch, dtype=torch.long),
+        domain_ids=torch.zeros(
+            batch,
+            dtype=torch.long,
+            device=generated.observations.device,
+        ),
+        intervention_types=torch.zeros(
+            batch,
+            dtype=torch.long,
+            device=generated.observations.device,
+        ),
         source_slots=source_slots,
         target_slots=target_slots,
         intervention_parameters=intervention_parameters,

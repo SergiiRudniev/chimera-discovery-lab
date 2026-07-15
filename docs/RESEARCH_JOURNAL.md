@@ -1,5 +1,49 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H003 exploratory validation preflight
+
+- **Scope:** Single-seed (`260903`), 300-step exploratory comparison on
+  `train` and `validation`; all test splits remained sealed.
+- **Full arm:** With alignment weight `1.0`, intervention-effect NRMSE reached
+  `0.829864`, four-step rollout NRMSE `0.432069`, effect coverage `0.988839`
+  and mechanism retrieval `0.0`.
+- **Matched one-step baseline:** Effect NRMSE `0.857798` and rollout NRMSE
+  `0.445780`. Full-arm ratios were `0.967435` and `0.969244` respectively.
+- **Ablations:** Closed-loop without discrimination reached effect `0.836194`
+  and rollout `0.441474`. Alignment weight `0.2` reached effect `0.852021`
+  and rollout `0.432761`.
+- **Embedding diagnosis:** Same-mechanism validation cosine reached `0.984971`,
+  but the mean hardest distinct-mechanism cosine was still `0.994591`; nearest
+  neighbour retrieval therefore remained zero.
+- **Decision:** Do not run the remaining registered seeds, do not freeze
+  `CHM-W-T003`, do not open test and do not promote a checkpoint. The full arm
+  missed both `0.95` primary-error ratios and the `0.10` retrieval gate.
+- **Next action:** Change the data-identification signal. Add controlled numeric
+  system-identification probes instead of applying more weight or search to the
+  same instance-discrimination loss.
+- **Claim boundary:** Exploratory validation engineering evidence only. H003
+  remains `not_run`; no test-world transfer or production claim exists.
+
+## 2026-07-15 — CHM-W-H003 registration
+
+- **Question:** Does four-step closed-loop training plus a cross-batch
+  hard-negative queue improve unseen-world intervention-effect and rollout
+  prediction over every matched baseline?
+- **Diagnosis inherited from H002:** Relational state improved intervention
+  prediction over the temporal baseline, but in-batch mechanism alignment hurt
+  both primary validation metrics relative to the same unaligned architecture.
+- **Change:** Train autoregressively for four steps and contrast mechanisms
+  against `256..2048` detached embeddings retained across batches.
+- **Isolation:** Hidden IDs may pair examples for the training loss, but never
+  enter the model forward contract. H002 split isolation and generator SHA-256
+  remain frozen.
+- **Validation gate:** Across seeds `260903..260905`, both primary median errors
+  must be no more than `0.95` times the strongest learned baseline, mechanism
+  retrieval must reach `0.10`, and effect coverage must remain at least `0.85`.
+- **Status:** `not_run`; test metrics remain sealed and no checkpoint exists.
+- **Claim boundary:** Simulator-distribution transfer only; no real-world
+  causality, business utility, language-independent thought or production claim.
+
 ## 2026-07-15 — CHM-W-H002 validation-only model preflight
 
 - **Scope:** Matched single-seed engineering preflight on `train` and
