@@ -23,6 +23,7 @@ def test_research_registry_is_valid() -> None:
         "CHM-W-H005",
         "CHM-W-H006",
         "CHM-W-H007",
+        "CHM-W-H008",
     ]
 
 
@@ -216,4 +217,14 @@ def test_h007_development_failure_keeps_validation_and_test_sealed() -> None:
     assert preflight["test_metrics_opened"] is False
     assert preflight["checkpoint_promoted"] is False
     assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h008_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H008.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H008"
+    assert result["trial_id"] == "CHM-W-T008"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
     assert result["metrics"] is None

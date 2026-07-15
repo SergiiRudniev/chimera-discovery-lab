@@ -525,3 +525,26 @@
   than by altering shared training gradients.
 - **Boundary:** Development optimizer evidence only; no transfer or production
   claim.
+
+## 2026-07-15 — CHM-W-H008 registration
+
+- **Ensemble audit:** Four matched 3-member windows and one 6-member ensemble
+  were evaluated only on already-opened validation. Six-member effect NRMSE was
+  `0.82647` mixed versus `0.82491` random; ratio `1.00190`.
+- **Decision:** Do not spend production inference compute on ensembling a policy
+  advantage that disappears after aggregation.
+- **Question:** Does enforcing effect as factual utility minus no-op utility
+  improve intervention prediction over an unconstrained direct-effect head?
+- **Change:** Reinterpret the fourth head channel as no-op utility. Emit effect
+  mean by exact subtraction and effect variance as the sum of factual/no-op
+  variances. Head width and parameter count remain matched.
+- **Controls:** Counterfactual/direct heads under both mixed and random policies;
+  all other architecture, optimizer, data and evaluator settings are identical.
+- **Development gate:** Seed `260922`; require effect ratio at most `0.90`,
+  rollout ratio at most `1.00` versus direct mixed, and exact identity residual
+  below `1e-6`.
+- **Validation discipline:** Seeds `260923..260925` and every test split remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H008 metric or checkpoint exists.
+- **Boundary:** Simulator outcome-head evidence only; no real-world, business or
+  production claim.

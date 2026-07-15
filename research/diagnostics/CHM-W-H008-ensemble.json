@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "diagnostic_id": "CHM-W-H008-ENSEMBLE-001",
+  "scope": "already-opened validation ensemble diagnosis",
+  "dataset_config_sha256": "0b3e06e1c3b0969471e05751d8825101f711bc1c419d272c5ff9c6e555e05b45",
+  "run_config_sha256": "ff7525645d0f0e3496e970cd413b8e0b14e5830fdcd1c8c66174e1ce6373cb67",
+  "aggregation": {
+    "mean": "uniform arithmetic member mean",
+    "variance": "law of total variance Gaussian mixture"
+  },
+  "groups": {
+    "260910_260911_260912": {
+      "mixed_effect_nrmse": 0.8363086453675475,
+      "random_effect_nrmse": 0.8275634690994454,
+      "effect_ratio": 1.0105673783276328,
+      "mixed_rollout_nrmse": 0.4691697359085083,
+      "random_rollout_nrmse": 0.46492284536361694,
+      "rollout_ratio": 1.0091346135971655
+    },
+    "260911_260912_260913": {
+      "mixed_effect_nrmse": 0.8409802609609274,
+      "random_effect_nrmse": 0.8393173187754682,
+      "effect_ratio": 1.0019813033143237,
+      "mixed_rollout_nrmse": 0.46545952558517456,
+      "random_rollout_nrmse": 0.4698590338230133,
+      "rollout_ratio": 0.990636535809385
+    },
+    "260912_260913_260914": {
+      "mixed_effect_nrmse": 0.8530425412702382,
+      "random_effect_nrmse": 0.8298785452641521,
+      "effect_ratio": 1.0279125133891887,
+      "mixed_rollout_nrmse": 0.4640102982521057,
+      "random_rollout_nrmse": 0.48090115189552307,
+      "rollout_ratio": 0.964876662123099
+    },
+    "260913_260914_260918": {
+      "mixed_effect_nrmse": 0.897624619900484,
+      "random_effect_nrmse": 0.8357073211965114,
+      "effect_ratio": 1.0740896928069548,
+      "mixed_rollout_nrmse": 0.4686792492866516,
+      "random_rollout_nrmse": 0.47558367252349854,
+      "rollout_ratio": 0.9854822113631208
+    },
+    "all_six": {
+      "seeds": [260910, 260911, 260912, 260913, 260914, 260918],
+      "mixed_effect_nrmse": 0.8264720550717037,
+      "random_effect_nrmse": 0.824906500614173,
+      "effect_ratio": 1.0018978568557346,
+      "mixed_rollout_nrmse": 0.4646560847759247,
+      "random_rollout_nrmse": 0.46428000926971436,
+      "rollout_ratio": 1.0008100187358957
+    }
+  },
+  "mixed_checkpoint_sha256": {
+    "260910": "4dd5f210650ec1c0bd4b9b9244e8fe715ef3cf59be56c72dd10978e03aeeafd3",
+    "260911": "a9bf09fe74771207ca0bffcee4485afd5a6d05e7db62eb75a18f34ffd5b621b7",
+    "260912": "36c9fc656a3eb87875bf1b3d96fdf9307ea4a778b2f4b149d7f92f2afebeef99",
+    "260913": "e8467544ae32b663db616b9801aef0a50ebcfe841b564d55c787cc66c9314709",
+    "260914": "c836e98c6c0bd795628a7e1ff322996633b226edfaf97c8111968e12e3fc09fb",
+    "260918": "79c3db6799e903dba115f3693297628c71d63acd2b2859d3e4a01b0343ef0b3a"
+  },
+  "random_checkpoint_sha256": {
+    "260910": "1d0f6201dd6ee07cd9b1e513dac9e62bf6a37272882ed874e2f18feb44458115",
+    "260911": "9d9ef2f07a69e0a090c587a9f90d8666389b11c812cefd264ab386fd5b673a81",
+    "260912": "363e1d2ddba802f318d1661477a8979468467ab166958f08cb39cdf5c281f30b",
+    "260913": "42bc4b8b763ebc352ac8259693883d88437a785f3f6b1a0d6550e89bb678b404",
+    "260914": "1c936122717fca6a1de2fdb01eaa4ef782cc904707f7ee8241269a66de2b5131",
+    "260918": "69eb6f9c11b19879fea4a3efbffb8719a15d725719f99ae700fc42cbf7b1aec9"
+  },
+  "frozen_validation_seeds_opened": false,
+  "test_metrics_opened": false,
+  "interpretation": "Uniform multi-seed ensembling reduces absolute error and seed variance but removes rather than stabilizes the mixed-policy advantage. The next hypothesis changes the intervention-effect representation instead of adding ensemble compute.",
+  "claim_boundary": "Post-hoc diagnosis on already-opened validation only; no new validation, test-transfer, causal, business or production claim."
+}

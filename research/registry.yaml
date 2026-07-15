@@ -72,3 +72,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H007.yaml
     result: research/results/CHM-W-H007.json
+  - id: CHM-W-H008
+    title: Counterfactual outcome-head decomposition
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H008.yaml
+    result: research/results/CHM-W-H008.json
