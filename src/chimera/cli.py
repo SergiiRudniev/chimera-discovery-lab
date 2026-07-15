@@ -25,6 +25,7 @@ from chimera.meta_world.h002 import run_h002_preflight
 from chimera.meta_world.h003 import run_h003_preflight
 from chimera.meta_world.h004 import (
     build_h004_probe_dataset,
+    run_h004_preflight,
     validate_h004_probe_dataset,
 )
 from chimera.meta_world.model import ChimeraMetaWorld
@@ -222,6 +223,26 @@ def _h003_preflight(arguments: argparse.Namespace) -> int:
                 "run_id": result["run_id"],
                 "status": result["status"],
                 "arm": result["arm"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h004_preflight(arguments: argparse.Namespace) -> int:
+    result = run_h004_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "train_action_policy": result["train_action_policy"],
                 "parameters": result["parameters"],
                 "best_step": result["best_step"],
                 "output": str(arguments.output),
@@ -600,6 +621,17 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("runs/h003_preflight_closed_loop"),
     )
+    h004_preflight_parser = subparsers.add_parser("meta-world-h004-preflight")
+    h004_preflight_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h004_preflight_probe.yaml"),
+    )
+    h004_preflight_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h004_preflight_probe"),
+    )
     return parser
 
 
@@ -641,6 +673,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h002_preflight(arguments)
     if arguments.command == "meta-world-h003-preflight":
         return _h003_preflight(arguments)
+    if arguments.command == "meta-world-h004-preflight":
+        return _h004_preflight(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)
