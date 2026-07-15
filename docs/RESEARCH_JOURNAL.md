@@ -1,5 +1,27 @@
 # Research Journal
 
+## 2026-07-15 — Meta-World Corpus C0 preregistration
+
+- **Corpus:** Reserve `CHM-W-C000` for 163,840 deterministic procedural
+  trajectories with one unique record ID and seed per intervention-conditioned
+  history.
+- **Isolation:** Train uses eras 0–9 and twelve domain-mechanism pairs;
+  validation uses era 10, test era 11, and transfer era 12 with four disjoint
+  domain-mechanism pairs.
+- **Semantics:** Four latent mechanisms, four fixed observation transforms,
+  eight intervention types and eight active numeric control parameters are
+  frozen in `generator_contract.json` before the full corpus is built.
+- **Quality gate:** Require hash integrity, global key uniqueness, exact split
+  and era isolation, balanced combinations, deterministic replay, complete
+  stratified sampling, finite tensors, effect invariants and non-collapsed
+  effects for every mechanism-intervention pair.
+- **Review gate:** After hashes are frozen, three independent AI reviewers must
+  accept integrity/provenance, causal semantics and modeling/transfer suitability.
+- **Status:** Preregistered; the full corpus has not yet been generated or
+  reviewed.
+- **Claim boundary:** C0 can support mechanistic held-out training only. It
+  cannot establish real-world causality, idea quality or production readiness.
+
 ## 2026-07-15 — Meta-World failure artifact policy
 
 - **Finding:** T000 failed before the trial runner created its normal result

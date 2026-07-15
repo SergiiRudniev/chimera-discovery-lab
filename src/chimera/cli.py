@@ -14,6 +14,10 @@ from chimera.data.corpus import CorpusSplit, build_corpus, validate_corpus
 from chimera.data.evaluation import build_evaluation_corpus, validate_evaluation_corpus
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.meta_world.config import MetaWorldExperimentConfig
+from chimera.meta_world.corpus import (
+    build_meta_world_corpus,
+    validate_meta_world_corpus,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -68,6 +72,36 @@ def _meta_world_trial(arguments: argparse.Namespace) -> int:
                 "decision": result["decision"],
                 "parameters": result["parameters"],
                 "output": str(arguments.output),
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _build_meta_world_corpus(arguments: argparse.Namespace) -> int:
+    manifest = build_meta_world_corpus(
+        arguments.output,
+        arguments.config,
+        base_seed=arguments.seed,
+        active_slots=arguments.active_slots,
+        train_repeats=arguments.train_repeats,
+        evaluation_repeats=arguments.evaluation_repeats,
+        transfer_repeats=arguments.transfer_repeats,
+        source_revision=arguments.source_revision,
+    )
+    print(json.dumps({"corpus_id": manifest["corpus_id"], **manifest["counts"]}, sort_keys=True))
+    return 0
+
+
+def _validate_meta_world_corpus(arguments: argparse.Namespace) -> int:
+    report = validate_meta_world_corpus(arguments.manifest)
+    print(
+        json.dumps(
+            {
+                "corpus_id": report["corpus_id"],
+                "status": report["status"],
+                **report["counts"],
             },
             sort_keys=True,
         )
@@ -359,6 +393,31 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/results/CHM-W-H000.json"),
     )
+    meta_world_corpus_parser = subparsers.add_parser("build-meta-world-corpus")
+    meta_world_corpus_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/meta_world_w0_t1.yaml"),
+    )
+    meta_world_corpus_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("datasets/meta_world_corpus_c0"),
+    )
+    meta_world_corpus_parser.add_argument("--seed", type=int, default=260_800)
+    meta_world_corpus_parser.add_argument("--active-slots", type=int, default=8)
+    meta_world_corpus_parser.add_argument("--train-repeats", type=int, default=1_280)
+    meta_world_corpus_parser.add_argument("--evaluation-repeats", type=int, default=128)
+    meta_world_corpus_parser.add_argument("--transfer-repeats", type=int, default=512)
+    meta_world_corpus_parser.add_argument("--source-revision")
+    meta_world_corpus_validation_parser = subparsers.add_parser(
+        "validate-meta-world-corpus"
+    )
+    meta_world_corpus_validation_parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path("datasets/meta_world_corpus_c0/manifest.json"),
+    )
     return parser
 
 
@@ -386,6 +445,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _meta_world_inspect(MetaWorldExperimentConfig.from_yaml(arguments.config))
     if arguments.command == "meta-world-trial":
         return _meta_world_trial(arguments)
+    if arguments.command == "build-meta-world-corpus":
+        return _build_meta_world_corpus(arguments)
+    if arguments.command == "validate-meta-world-corpus":
+        return _validate_meta_world_corpus(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)
