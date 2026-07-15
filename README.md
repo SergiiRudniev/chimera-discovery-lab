@@ -163,11 +163,14 @@ the same registered graph and challenge.
 - [Blind rating protocol](datasets/venture_corpus_c1/rating_protocol.yaml)
 - [Independent review protocol](datasets/venture_corpus_c1/review_protocol.yaml)
 - [Reviewer packet](datasets/venture_corpus_c1/reviewer_packet.json)
+- [AI-assisted review ledger](datasets/venture_corpus_c1/ai_reviews/multi_lens_ai_review.json)
 - [Executed quality notebook](notebooks/venture_corpus_c1_quality.ipynb)
 
 C1 is provisional. An internal primary-source audit covers 10/10 cases, but the
-independent review gate remains blocked at 0/1 accepted reviews. Candidate
-generation cannot start until a second reviewer closes `C1-Q001`.
+independent review gate remains blocked at 0/1 accepted reviews. The v2 review
+packet requires decisions on 32 evidence notes, 126 nodes, 882 human-assigned
+ratings, 100 edges and every objective/constraint reference. Candidate generation
+cannot start until a second reviewer closes `C1-Q001`.
 
 ## Venture Trial T0
 

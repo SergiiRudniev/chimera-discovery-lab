@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -33,6 +34,8 @@ def _complete_review() -> dict[str, object]:
         for field in ("evidence_notes", "nodes", "edges", "objective_nodes", "constraint_nodes"):
             for decision in case[field]:
                 decision["decision"] = "verified"
+                for rating in decision.get("ratings", []):
+                    rating["decision"] = "verified"
         case["overall"] = "accept"
     return review
 
@@ -67,8 +70,23 @@ def test_ai_review_cannot_satisfy_human_gate() -> None:
     assert review["reviewer"]["human_independent"] is False
     assert review["reviewer"]["satisfies_human_gate"] is False
     assert review["generation_allowed"] is False
-    assert len(review["cases"]) == 10
-    assert {case["verdict"] for case in review["cases"]} == {"needs_change"}
+    assert review["c1_q001_status"] == "open"
+    assert review["coverage"]["item_level_decision_ledger_complete"] is True
+    total = review["coverage"]["total_item_decisions"]
+    assert sum(review["decision_counts"].values()) == total
+    integrity = review["input_integrity"]
+    for key, path in (
+        ("source_sha256", DATA / "source_cases.yaml"),
+        ("corpus_manifest_sha256", DATA / "manifest.json"),
+        ("reviewer_packet_sha256", DATA / "reviewer_packet.json"),
+    ):
+        assert integrity[key] == hashlib.sha256(path.read_bytes()).hexdigest()
+    assert len(review["case_reviews"]) == 10
+    assert {case["verdict"] for case in review["case_reviews"]} <= {
+        "accept",
+        "needs_change",
+        "cannot_verify",
+    }
 
 
 def test_review_packet_build_is_deterministic(tmp_path: Path) -> None:
@@ -115,6 +133,35 @@ def test_review_requesting_change_fails_gate(tmp_path: Path) -> None:
     assert result["status"] == "failed"
     assert result["changed_reviews"] == 1
     assert result["generation_allowed"] is False
+
+
+def test_review_requesting_rating_change_fails_gate(tmp_path: Path) -> None:
+    review = _complete_review()
+    review["cases"][0]["nodes"][0]["ratings"][0]["decision"] = "needs_change"
+    review["cases"][0]["overall"] = "needs_change"
+    reviews = _write_review(tmp_path, review)
+    result = evaluate_review_gate(
+        DATA / "manifest.json",
+        DATA / "reviewer_packet.json",
+        DATA / "review_protocol.yaml",
+        reviews,
+    )
+    assert result["status"] == "failed"
+    assert result["changed_reviews"] == 1
+    assert result["generation_allowed"] is False
+
+
+def test_review_cannot_change_rating_value(tmp_path: Path) -> None:
+    review = _complete_review()
+    review["cases"][0]["nodes"][0]["ratings"][0]["value"] = 0.0
+    reviews = _write_review(tmp_path, review)
+    with pytest.raises(ValueError, match="rating values do not match"):
+        evaluate_review_gate(
+            DATA / "manifest.json",
+            DATA / "reviewer_packet.json",
+            DATA / "review_protocol.yaml",
+            reviews,
+        )
 
 
 def test_changed_protocol_invalidates_review_packet(tmp_path: Path) -> None:

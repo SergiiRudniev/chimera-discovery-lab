@@ -1,5 +1,21 @@
 # Research Journal
 
+## 2026-07-15 — C1 correction and AI re-review
+
+- **Correction:** Removed unsupported causal and feedback edges, aligned payer
+  roles with revenue mechanisms, corrected four SEC filing dates, separated
+  NIKE direct and wholesale revenue, and recalibrated overstated numeric anchors.
+- **Protection:** Review packet schema v2 requires an independent decision for
+  every one of the seven human-assigned ratings on every node. The corpus builder
+  rejects fixed relation-role violations and the discovered causal anti-patterns.
+- **AI verification:** The four-lens subagent accepted 1,191/1,191 item decisions
+  across 10 filing identities, 32 evidence notes, 126 nodes, 882 ratings, 100
+  edges, 20 objectives and 11 constraints; all 10 cases were accepted.
+- **Integrity:** The AI ledger is SHA-256 bound to the source, corpus manifest and
+  reviewer packet. Local validation, deterministic rebuild and semantic checks pass.
+- **Independence:** AI acceptance is support evidence only. `C1-Q001` remains open,
+  the human gate remains blocked at 0/1 and H001 generation remains disabled.
+
 ## 2026-07-15 — C1 multi-lens AI review
 
 - **Reviewer:** Codex subagent with source-diligence, commercial-logic,

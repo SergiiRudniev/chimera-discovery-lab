@@ -24,7 +24,13 @@ mapping. It contains no creativity scores or experiment results.
 An internal second pass verifies filing identity and primary-source support for
 10/10 cases. It is not independent because the auditor is the annotation author.
 An external reviewer must complete `review_template.json`; the validator checks
-case coverage, every evidence note and graph element, attestations and file hashes.
+case coverage, every evidence note, graph element and human-assigned numeric rating,
+plus attestations and file hashes. `value_proximity` is derived from topology and is
+not reviewed as a human-assigned value.
+
+The complete [multi-lens AI review](ai_reviews/multi_lens_ai_review.json) accepts
+1,191/1,191 item decisions after correction. It is internal AI evidence only and
+cannot satisfy the independent human gate or enable generation.
 
 ```powershell
 chimera build-evaluation-corpus

@@ -5,7 +5,7 @@
     {
       "case_id": "sec-walmart-2025",
       "constraint_nodes": [
-        "price_trust"
+        "price_execution_risk"
       ],
       "edges": [
         {
@@ -16,99 +16,51 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "value_need",
-          "target": "customer_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "store_network",
           "target": "orchestrate"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "inventory_data",
           "target": "orchestrate"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "omnichannel",
           "target": "customer"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "orchestrate",
           "target": "customer_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "customer_value",
-          "target": "customer_frequency"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "customer",
-          "target": "service_revenue"
+          "target": "membership_revenue"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "service_revenue",
-          "target": "inventory_data"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "orchestrate",
           "target": "delivery_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "delivery_cost",
+          "index": 7,
+          "relation": "BLOCKS",
+          "source": "price_execution_risk",
           "target": "customer_frequency"
         },
         {
-          "index": 11,
-          "relation": "BLOCKS",
-          "source": "price_trust",
-          "target": "service_revenue"
-        },
-        {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "customer_frequency",
-          "target": "demand_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "demand_signal",
-          "target": "inventory_data"
-        },
-        {
-          "index": 14,
-          "relation": "AMPLIFIES",
-          "source": "demand_signal",
-          "target": "omnichannel"
-        },
-        {
-          "index": 15,
-          "relation": "REACHES",
-          "source": "omnichannel",
-          "target": "marketplace_seller"
-        },
-        {
-          "index": 16,
+          "index": 8,
           "relation": "PAYS",
-          "source": "marketplace_seller",
-          "target": "service_revenue"
+          "source": "advertiser",
+          "target": "advertising_revenue"
         }
       ],
       "evidence_notes": [
@@ -118,82 +70,476 @@
         },
         {
           "index": 1,
-          "text": "Advertising, marketplace and membership mechanisms complement merchandise revenue."
+          "text": "Advertising and membership mechanisms complement merchandise revenue."
         },
         {
           "index": 2,
-          "text": "Price leadership depends on supply-chain productivity, inventory availability and customer trust."
+          "text": "Supply-chain productivity and inventory availability are material operating factors."
+        },
+        {
+          "index": 3,
+          "text": "Sustaining the everyday-low-price proposition is a customer-trust execution risk."
         }
       ],
       "nodes": [
         {
           "id": "customer",
           "label": "Omnichannel customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "value_need",
           "label": "Low-price convenient shopping",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "store_network",
           "label": "Store and fulfillment network",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "inventory_data",
           "label": "Inventory and customer signals",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "orchestrate",
           "label": "Source fulfill and personalize",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "omnichannel",
           "label": "Stores app and delivery",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "customer_value",
           "label": "Low-price convenient access",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
-          "id": "service_revenue",
-          "label": "Membership marketplace and advertising revenue",
+          "id": "membership_revenue",
+          "label": "Membership fee revenue recognized over active terms",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
+          "type": "REVENUE"
+        },
+        {
+          "id": "advertising_revenue",
+          "label": "Retail media advertising revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "delivery_cost",
           "label": "Fulfillment and last-mile cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
-          "id": "price_trust",
-          "label": "Low-price promise and customer trust",
+          "id": "price_execution_risk",
+          "label": "Failure to sustain low-price trust",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "customer_frequency",
-          "label": "Customer frequency and retention",
+          "label": "Customer shopping frequency objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "OUTCOME"
         },
         {
-          "id": "demand_signal",
-          "label": "Demand and membership signals",
-          "type": "FEEDBACK"
-        },
-        {
-          "id": "marketplace_seller",
-          "label": "Marketplace seller",
+          "id": "advertiser",
+          "label": "Marketplace advertiser",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         }
       ],
       "objective_nodes": [
-        "service_revenue",
+        "membership_revenue",
         "customer_frequency"
       ],
       "partition": "calibration",
@@ -230,84 +576,48 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "automation_need",
-          "target": "productivity"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "customer_data",
           "target": "automate"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "agentforce",
           "target": "automate"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "cloud_channel",
           "target": "enterprise"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "automate",
           "target": "productivity"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "productivity",
-          "target": "workflow_adoption"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "enterprise",
-          "target": "agent_revenue"
+          "target": "platform_subscription_revenue"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "agent_revenue",
-          "target": "agentforce"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "automate",
           "target": "compute_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "compute_cost",
-          "target": "workflow_adoption"
-        },
-        {
-          "index": 11,
+          "index": 7,
           "relation": "BLOCKS",
           "source": "trust_constraint",
           "target": "workflow_adoption"
         },
         {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "workflow_adoption",
-          "target": "usage_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "usage_signal",
-          "target": "customer_data"
-        },
-        {
-          "index": 14,
+          "index": 8,
           "relation": "BLOCKS",
           "source": "trust_constraint",
           "target": "automate"
@@ -331,66 +641,391 @@
         {
           "id": "enterprise",
           "label": "Enterprise customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "automation_need",
           "label": "Trusted customer workflow automation",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "customer_data",
           "label": "Unified customer data",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "agentforce",
           "label": "Agentforce platform",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "automate",
           "label": "Configure and execute agent workflows",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "cloud_channel",
           "label": "Salesforce cloud applications",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "productivity",
           "label": "Automated customer operations",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
-          "id": "agent_revenue",
-          "label": "Agent and platform subscription revenue",
+          "id": "platform_subscription_revenue",
+          "label": "Platform subscription and support revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "compute_cost",
           "label": "Model inference and service delivery cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.5
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "trust_constraint",
           "label": "Data governance reliability and trust",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "workflow_adoption",
-          "label": "Production agent workflow adoption",
+          "label": "Production workflow adoption objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "usage_signal",
-          "label": "Workflow quality and usage signals",
-          "type": "FEEDBACK"
         }
       ],
       "objective_nodes": [
-        "agent_revenue",
+        "platform_subscription_revenue",
         "workflow_adoption"
       ],
       "partition": "calibration",
@@ -427,102 +1062,60 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "compute_need",
-          "target": "scalable_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "datacenters",
           "target": "provision"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "developer_stack",
           "target": "provision"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "azure",
           "target": "enterprise"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "provision",
           "target": "scalable_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "scalable_value",
-          "target": "ai_adoption"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "enterprise",
           "target": "cloud_revenue"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "cloud_revenue",
-          "target": "datacenters"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "provision",
           "target": "infrastructure_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "infrastructure_cost",
-          "target": "ai_adoption"
-        },
-        {
-          "index": 11,
+          "index": 7,
           "relation": "BLOCKS",
           "source": "capacity_constraint",
           "target": "ai_adoption"
         },
         {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "ai_adoption",
-          "target": "workload_signal"
+          "index": 8,
+          "relation": "DEPENDS_ON",
+          "source": "energy_capacity",
+          "target": "energy_supplier"
         },
         {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "workload_signal",
-          "target": "developer_stack"
-        },
-        {
-          "index": 14,
+          "index": 9,
           "relation": "ENABLES",
-          "source": "cloud_revenue",
-          "target": "developer_stack"
-        },
-        {
-          "index": 15,
-          "relation": "TRANSFERS_TO",
-          "source": "energy_supplier",
-          "target": "energy_contract"
-        },
-        {
-          "index": 16,
-          "relation": "ENABLES",
-          "source": "energy_contract",
+          "source": "energy_capacity",
           "target": "datacenters"
         },
         {
-          "index": 17,
+          "index": 10,
           "relation": "BLOCKS",
           "source": "capacity_constraint",
           "target": "datacenters"
@@ -546,71 +1139,456 @@
         {
           "id": "enterprise",
           "label": "Cloud and AI customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "compute_need",
           "label": "Reliable scalable AI capability",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "datacenters",
           "label": "Datacenter and accelerator capacity",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "developer_stack",
           "label": "Cloud developer and model stack",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "provision",
           "label": "Provision and optimize AI workloads",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "azure",
           "label": "Azure and partner ecosystem",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "scalable_value",
           "label": "Scalable governed AI execution",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
           "id": "cloud_revenue",
           "label": "Cloud consumption and subscriptions",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "infrastructure_cost",
           "label": "Datacenter energy and accelerator cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "capacity_constraint",
           "label": "Capacity energy and supply bottlenecks",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "ai_adoption",
-          "label": "Production AI workload adoption",
+          "label": "Production AI workload adoption objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "workload_signal",
-          "label": "Workload demand and efficiency signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "energy_supplier",
           "label": "Datacenter energy supplier",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "ACTOR"
         },
         {
-          "id": "energy_contract",
-          "label": "Contracted energy capacity",
+          "id": "energy_capacity",
+          "label": "Available datacenter energy capacity",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.5
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         }
       ],
@@ -652,27 +1630,27 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "acceleration_need",
-          "target": "performance_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "compute_platform",
           "target": "optimize"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "software_stack",
           "target": "optimize"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "partner_channel",
           "target": "developer"
+        },
+        {
+          "index": 4,
+          "relation": "REACHES",
+          "source": "partner_channel",
+          "target": "platform_customer"
         },
         {
           "index": 5,
@@ -682,66 +1660,36 @@
         },
         {
           "index": 6,
-          "relation": "PRODUCES",
-          "source": "performance_value",
-          "target": "platform_adoption"
+          "relation": "PAYS",
+          "source": "platform_customer",
+          "target": "platform_revenue"
         },
         {
           "index": 7,
-          "relation": "PAYS",
-          "source": "developer",
-          "target": "platform_revenue"
+          "relation": "COSTS",
+          "source": "manufacture_platform",
+          "target": "supply_cost"
         },
         {
           "index": 8,
           "relation": "ENABLES",
-          "source": "platform_revenue",
-          "target": "software_stack"
+          "source": "foundry_partner",
+          "target": "manufacture_platform"
         },
         {
           "index": 9,
-          "relation": "COSTS",
-          "source": "optimize",
-          "target": "supply_cost"
+          "relation": "ENABLES",
+          "source": "manufacture_platform",
+          "target": "compute_platform"
         },
         {
           "index": 10,
-          "relation": "REDUCES",
-          "source": "supply_cost",
-          "target": "platform_adoption"
+          "relation": "BLOCKS",
+          "source": "supply_constraint",
+          "target": "manufacture_platform"
         },
         {
           "index": 11,
-          "relation": "BLOCKS",
-          "source": "supply_constraint",
-          "target": "platform_adoption"
-        },
-        {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "platform_adoption",
-          "target": "developer_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "developer_signal",
-          "target": "software_stack"
-        },
-        {
-          "index": 14,
-          "relation": "AMPLIFIES",
-          "source": "software_stack",
-          "target": "compute_platform"
-        },
-        {
-          "index": 15,
-          "relation": "TRANSFERS_TO",
-          "source": "foundry_partner",
-          "target": "compute_platform"
-        },
-        {
-          "index": 16,
           "relation": "BLOCKS",
           "source": "supply_constraint",
           "target": "compute_platform"
@@ -758,73 +1706,498 @@
         },
         {
           "index": 2,
-          "text": "Platform adoption grows through developers and an installed software ecosystem."
+          "text": "NVIDIA serves developers through an installed platform software ecosystem."
         }
       ],
       "nodes": [
         {
           "id": "developer",
           "label": "AI developer and operator",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
+          "type": "ACTOR"
+        },
+        {
+          "id": "platform_customer",
+          "label": "Cloud and enterprise platform customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "acceleration_need",
           "label": "Efficient accelerated computing",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "compute_platform",
           "label": "Accelerators systems and networking",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "software_stack",
           "label": "CUDA and platform software",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "optimize",
           "label": "Optimize and deploy accelerated workloads",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
+          "type": "ACTION"
+        },
+        {
+          "id": "manufacture_platform",
+          "label": "Manufacture and package compute systems",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "partner_channel",
           "label": "Cloud OEM and developer ecosystem",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "performance_value",
           "label": "Higher compute performance per workload",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
           "id": "platform_revenue",
           "label": "Platform product and software revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "supply_cost",
           "label": "Foundry packaging and inventory commitments",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "supply_constraint",
           "label": "Foundry packaging and geographic concentration",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "platform_adoption",
-          "label": "Production accelerated workload adoption",
+          "label": "Production accelerated workload adoption objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "developer_signal",
-          "label": "Developer and workload signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "foundry_partner",
           "label": "Foundry and packaging partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "ACTOR"
         }
       ],
@@ -866,91 +2239,49 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "project_need",
-          "target": "project_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "store_inventory",
           "target": "fulfill_project"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "pro_services",
           "target": "fulfill_project"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "retail_channel",
           "target": "pro_customer"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "fulfill_project",
           "target": "project_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "project_value",
-          "target": "pro_retention"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "pro_customer",
-          "target": "pro_revenue"
+          "target": "pro_sales"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "pro_revenue",
-          "target": "pro_services"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "fulfill_project",
           "target": "fulfillment_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "fulfillment_cost",
-          "target": "pro_retention"
-        },
-        {
-          "index": 11,
+          "index": 7,
           "relation": "BLOCKS",
           "source": "cyclical_constraint",
-          "target": "pro_retention"
+          "target": "pro_sales"
         },
         {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "pro_retention",
-          "target": "project_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "project_signal",
-          "target": "store_inventory"
-        },
-        {
-          "index": 14,
-          "relation": "AMPLIFIES",
-          "source": "project_signal",
-          "target": "pro_services"
-        },
-        {
-          "index": 15,
-          "relation": "TRANSFERS_TO",
+          "index": 8,
+          "relation": "ENABLES",
           "source": "building_supplier",
           "target": "store_inventory"
         }
@@ -966,85 +2297,444 @@
         },
         {
           "index": 2,
-          "text": "Housing and project demand are cyclical while fulfillment complexity affects service economics."
+          "text": "Housing and project demand are cyclical."
+        },
+        {
+          "index": 3,
+          "text": "Professional fulfillment includes complex orders and last-mile delivery."
         }
       ],
       "nodes": [
         {
           "id": "pro_customer",
           "label": "Professional contractor",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "project_need",
           "label": "Reliable project completion supply",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "store_inventory",
           "label": "Store and distribution inventory",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "pro_services",
           "label": "Delivery credit and account services",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "fulfill_project",
           "label": "Assemble and fulfill project orders",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "retail_channel",
           "label": "Stores digital and job-site delivery",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "project_value",
           "label": "Available materials and reliable fulfillment",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
-          "id": "pro_revenue",
-          "label": "Professional project and service revenue",
+          "id": "pro_sales",
+          "label": "Professional customer sales",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "fulfillment_cost",
           "label": "Complex order and last-mile cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "cyclical_constraint",
           "label": "Housing cycle and project demand volatility",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
-          "id": "pro_retention",
-          "label": "Professional customer retention",
+          "id": "project_fulfillment",
+          "label": "Reliable professional project fulfillment objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "project_signal",
-          "label": "Project pipeline and fulfillment signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "building_supplier",
           "label": "Building product supplier",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         }
       ],
       "objective_nodes": [
-        "pro_revenue",
-        "pro_retention"
+        "pro_sales",
+        "project_fulfillment"
       ],
       "partition": "evaluation",
       "source": {
         "accession": "0000354950-25-000085",
         "cik": "0000354950",
-        "filing_date": "2025-03-25",
+        "filing_date": "2025-03-21",
         "form": "10-K",
         "organization": "The Home Depot, Inc.",
         "period_end": "2025-02-02",
@@ -1074,99 +2764,57 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "decision_need",
-          "target": "decision_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "financial_data",
           "target": "recommend"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "ai_platform",
           "target": "recommend"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "product_channel",
           "target": "small_business"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "recommend",
           "target": "decision_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "decision_value",
-          "target": "cross_platform_use"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "small_business",
           "target": "platform_revenue"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "platform_revenue",
-          "target": "ai_platform"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "recommend",
           "target": "service_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "service_cost",
-          "target": "cross_platform_use"
+          "index": 7,
+          "relation": "BLOCKS",
+          "source": "data_constraint",
+          "target": "recommend"
         },
         {
-          "index": 11,
+          "index": 8,
           "relation": "BLOCKS",
           "source": "data_constraint",
           "target": "cross_platform_use"
         },
         {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "cross_platform_use",
-          "target": "outcome_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "outcome_signal",
-          "target": "financial_data"
-        },
-        {
-          "index": 14,
-          "relation": "DEPENDS_ON",
-          "source": "financial_data",
-          "target": "data_constraint"
-        },
-        {
-          "index": 15,
-          "relation": "TRANSFERS_TO",
+          "index": 9,
+          "relation": "ENABLES",
           "source": "financial_partner",
           "target": "financial_data"
-        },
-        {
-          "index": 16,
-          "relation": "REACHES",
-          "source": "product_channel",
-          "target": "financial_partner"
         }
       ],
       "evidence_notes": [
@@ -1187,66 +2835,421 @@
         {
           "id": "small_business",
           "label": "Small business customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "decision_need",
           "label": "Timely financial and growth decisions",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "financial_data",
           "label": "Permissioned financial and customer data",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "ai_platform",
           "label": "Connected AI platform",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "recommend",
           "label": "Predict and recommend next financial action",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "product_channel",
           "label": "QuickBooks and connected products",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "decision_value",
           "label": "Better coordinated financial decisions",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
           "id": "platform_revenue",
           "label": "Subscription and transaction revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "service_cost",
           "label": "Data AI and expert service cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.5
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "data_constraint",
           "label": "Consent privacy security and regulation",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "cross_platform_use",
-          "label": "Cross-platform customer adoption",
+          "label": "Cross-platform customer adoption objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "outcome_signal",
-          "label": "Financial outcome and usage signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "financial_partner",
           "label": "Financial data and transaction partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "ACTOR"
         }
       ],
@@ -1288,91 +3291,49 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "delivery_need",
-          "target": "reliability_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "transport_network",
           "target": "consolidate"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "shipment_data",
           "target": "consolidate"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "logistics_channel",
           "target": "shipper"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "consolidate",
           "target": "reliability_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "reliability_value",
-          "target": "network_utilization"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "shipper",
           "target": "transport_revenue"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "transport_revenue",
-          "target": "transport_network"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "consolidate",
           "target": "network_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "network_cost",
-          "target": "network_utilization"
-        },
-        {
-          "index": 11,
+          "index": 7,
           "relation": "BLOCKS",
           "source": "volume_constraint",
           "target": "network_utilization"
         },
         {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "network_utilization",
-          "target": "route_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "route_signal",
-          "target": "shipment_data"
-        },
-        {
-          "index": 14,
+          "index": 8,
           "relation": "ENABLES",
-          "source": "shipment_data",
-          "target": "logistics_channel"
-        },
-        {
-          "index": 15,
-          "relation": "TRANSFERS_TO",
           "source": "carrier_partner",
           "target": "transport_network"
         }
@@ -1395,66 +3356,421 @@
         {
           "id": "shipper",
           "label": "Business shipper",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "delivery_need",
           "label": "Reliable time-definite delivery",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "transport_network",
           "label": "Integrated air and ground network",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "shipment_data",
           "label": "Shipment routing and demand signals",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "consolidate",
-          "label": "Consolidate route and move shipments",
+          "label": "Consolidate routes and move shipments",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "logistics_channel",
           "label": "Pickup hubs and delivery routes",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "reliability_value",
           "label": "Predictable delivery performance",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
           "id": "transport_revenue",
           "label": "Package and freight revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "network_cost",
           "label": "Aircraft vehicle labor and fuel cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "volume_constraint",
           "label": "Volume and mix volatility",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "network_utilization",
-          "label": "Network utilization with service reliability",
+          "label": "Asset utilization objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "route_signal",
-          "label": "Route density and service signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "carrier_partner",
           "label": "Contracted transport provider",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "ACTOR"
         }
       ],
@@ -1496,105 +3812,69 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "product_need",
-          "target": "product_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "design_capability",
           "target": "create_launch"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "brand_demand",
           "target": "create_launch"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "marketplace",
           "target": "athlete_consumer"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "create_launch",
           "target": "product_value"
         },
         {
+          "index": 5,
+          "relation": "PAYS",
+          "source": "athlete_consumer",
+          "target": "direct_product_revenue"
+        },
+        {
           "index": 6,
-          "relation": "PRODUCES",
-          "source": "product_value",
-          "target": "full_price_demand"
+          "relation": "PAYS",
+          "source": "wholesale_partner",
+          "target": "wholesale_product_revenue"
         },
         {
           "index": 7,
-          "relation": "PAYS",
-          "source": "athlete_consumer",
-          "target": "product_revenue"
-        },
-        {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "product_revenue",
-          "target": "design_capability"
-        },
-        {
-          "index": 9,
           "relation": "COSTS",
           "source": "create_launch",
           "target": "creation_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "creation_cost",
-          "target": "full_price_demand"
-        },
-        {
-          "index": 11,
+          "index": 8,
           "relation": "BLOCKS",
           "source": "inventory_constraint",
           "target": "full_price_demand"
         },
         {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "full_price_demand",
-          "target": "demand_feedback"
+          "index": 9,
+          "relation": "BLOCKS",
+          "source": "inventory_constraint",
+          "target": "direct_product_revenue"
         },
         {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "demand_feedback",
-          "target": "design_capability"
+          "index": 10,
+          "relation": "BLOCKS",
+          "source": "inventory_constraint",
+          "target": "wholesale_product_revenue"
         },
         {
-          "index": 14,
-          "relation": "AMPLIFIES",
-          "source": "marketplace",
-          "target": "brand_demand"
-        },
-        {
-          "index": 15,
-          "relation": "REACHES",
-          "source": "marketplace",
-          "target": "wholesale_partner"
-        },
-        {
-          "index": 16,
-          "relation": "TRANSFERS_TO",
+          "index": 11,
+          "relation": "ENABLES",
           "source": "wholesale_partner",
           "target": "channel_inventory"
-        },
-        {
-          "index": 17,
-          "relation": "ENABLES",
-          "source": "channel_inventory",
-          "target": "marketplace"
         }
       ],
       "evidence_notes": [
@@ -1615,83 +3895,503 @@
         {
           "id": "athlete_consumer",
           "label": "Athlete and lifestyle consumer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "product_need",
           "label": "Distinctive performance and style",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "design_capability",
           "label": "Product design and athlete insight",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "brand_demand",
           "label": "Brand and demand creation capability",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "create_launch",
           "label": "Create test and launch product",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "marketplace",
           "label": "Direct and wholesale marketplace",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "product_value",
           "label": "Relevant performance and cultural value",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
-          "id": "product_revenue",
-          "label": "Full-price product revenue",
+          "id": "direct_product_revenue",
+          "label": "Direct-to-consumer product sales",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
+          "type": "REVENUE"
+        },
+        {
+          "id": "wholesale_product_revenue",
+          "label": "Wholesale product sales",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "creation_cost",
           "label": "Product creation and demand cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
           "id": "inventory_constraint",
-          "label": "Inventory markdown and channel traffic risk",
+          "label": "Inventory and markdown pressure",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "full_price_demand",
-          "label": "Full-price demand and product pull",
+          "label": "Full-price product demand objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "demand_feedback",
-          "label": "Sell-through athlete and consumer signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "wholesale_partner",
           "label": "Wholesale marketplace partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "channel_inventory",
           "label": "Channel inventory allocation",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 0.75
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         }
       ],
       "objective_nodes": [
-        "product_revenue",
+        "direct_product_revenue",
         "full_price_demand"
       ],
       "partition": "evaluation",
       "source": {
         "accession": "0000320187-25-000047",
         "cik": "0000320187",
-        "filing_date": "2025-07-24",
+        "filing_date": "2025-07-17",
         "form": "10-K",
         "organization": "NIKE, Inc.",
         "period_end": "2025-05-31",
@@ -1710,7 +4410,8 @@
     {
       "case_id": "sec-oracle-2025",
       "constraint_nodes": [
-        "commitment_constraint"
+        "capacity_shortage",
+        "competition_constraint"
       ],
       "edges": [
         {
@@ -1721,99 +4422,63 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "integration_need",
-          "target": "integration_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "cloud_capacity",
           "target": "deploy_workload"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "database_stack",
           "target": "deploy_workload"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "cloud_channel",
           "target": "enterprise"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "deploy_workload",
           "target": "integration_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "integration_value",
-          "target": "workload_growth"
-        },
-        {
-          "index": 7,
+          "index": 5,
           "relation": "PAYS",
           "source": "enterprise",
           "target": "cloud_revenue"
         },
         {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "cloud_revenue",
-          "target": "cloud_capacity"
-        },
-        {
-          "index": 9,
+          "index": 6,
           "relation": "COSTS",
           "source": "deploy_workload",
           "target": "capacity_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "capacity_cost",
-          "target": "workload_growth"
-        },
-        {
-          "index": 11,
-          "relation": "BLOCKS",
-          "source": "commitment_constraint",
-          "target": "workload_growth"
-        },
-        {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "workload_growth",
-          "target": "usage_signal"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "usage_signal",
-          "target": "database_stack"
-        },
-        {
-          "index": 14,
-          "relation": "AMPLIFIES",
-          "source": "cloud_channel",
-          "target": "database_stack"
-        },
-        {
-          "index": 15,
-          "relation": "TRANSFERS_TO",
+          "index": 7,
+          "relation": "ENABLES",
           "source": "capacity_partner",
           "target": "cloud_capacity"
         },
         {
-          "index": 16,
+          "index": 8,
           "relation": "BLOCKS",
-          "source": "commitment_constraint",
+          "source": "capacity_shortage",
           "target": "cloud_capacity"
+        },
+        {
+          "index": 9,
+          "relation": "BLOCKS",
+          "source": "capacity_shortage",
+          "target": "workload_growth"
+        },
+        {
+          "index": 10,
+          "relation": "BLOCKS",
+          "source": "competition_constraint",
+          "target": "workload_growth"
         }
       ],
       "evidence_notes": [
@@ -1834,66 +4499,456 @@
         {
           "id": "enterprise",
           "label": "Enterprise technology customer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "integration_need",
           "label": "Integrated data applications and compute",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "cloud_capacity",
           "label": "Cloud regions and compute capacity",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "database_stack",
           "label": "Database and application stack",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "deploy_workload",
           "label": "Migrate integrate and operate workloads",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "cloud_channel",
           "label": "Oracle cloud and partner channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "integration_value",
           "label": "Integrated governed workload operation",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
           "id": "cloud_revenue",
           "label": "Cloud services and license support revenue",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "capacity_cost",
           "label": "Datacenter and equipment commitments",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
-          "id": "commitment_constraint",
-          "label": "Capacity commitments and cloud competition",
+          "id": "capacity_shortage",
+          "label": "Available datacenter capacity shortage",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
+          "type": "CONSTRAINT"
+        },
+        {
+          "id": "competition_constraint",
+          "label": "Cloud infrastructure competition",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "workload_growth",
-          "label": "Cloud workload consumption growth",
+          "label": "Cloud workload consumption growth objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "OUTCOME"
-        },
-        {
-          "id": "usage_signal",
-          "label": "Consumption and performance signals",
-          "type": "FEEDBACK"
         },
         {
           "id": "capacity_partner",
           "label": "Datacenter capacity partner",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 1.0
+            }
+          ],
           "type": "ACTOR"
         }
       ],
@@ -1905,7 +4960,7 @@
       "source": {
         "accession": "0000950170-25-087926",
         "cik": "0001341439",
-        "filing_date": "2025-06-24",
+        "filing_date": "2025-06-18",
         "form": "10-K",
         "organization": "Oracle Corporation",
         "period_end": "2025-05-31",
@@ -1924,7 +4979,7 @@
     {
       "case_id": "sec-pg-2025",
       "constraint_nodes": [
-        "channel_constraint"
+        "retail_concentration"
       ],
       "edges": [
         {
@@ -1935,111 +4990,45 @@
         },
         {
           "index": 1,
-          "relation": "DEPENDS_ON",
-          "source": "routine_need",
-          "target": "routine_value"
-        },
-        {
-          "index": 2,
           "relation": "ENABLES",
           "source": "consumer_insight",
           "target": "innovate_supply"
         },
         {
-          "index": 3,
+          "index": 2,
           "relation": "ENABLES",
           "source": "brand_portfolio",
           "target": "innovate_supply"
         },
         {
-          "index": 4,
+          "index": 3,
           "relation": "REACHES",
           "source": "retail_channel",
           "target": "household"
         },
         {
-          "index": 5,
+          "index": 4,
           "relation": "DELIVERS",
           "source": "innovate_supply",
           "target": "routine_value"
         },
         {
-          "index": 6,
-          "relation": "PRODUCES",
-          "source": "routine_value",
-          "target": "repeat_purchase"
-        },
-        {
-          "index": 7,
-          "relation": "PAYS",
-          "source": "household",
-          "target": "recurring_revenue"
-        },
-        {
-          "index": 8,
-          "relation": "ENABLES",
-          "source": "recurring_revenue",
-          "target": "consumer_insight"
-        },
-        {
-          "index": 9,
+          "index": 5,
           "relation": "COSTS",
           "source": "innovate_supply",
           "target": "brand_cost"
         },
         {
-          "index": 10,
-          "relation": "REDUCES",
-          "source": "brand_cost",
-          "target": "repeat_purchase"
-        },
-        {
-          "index": 11,
-          "relation": "BLOCKS",
-          "source": "channel_constraint",
-          "target": "repeat_purchase"
-        },
-        {
-          "index": 12,
-          "relation": "FEEDS_BACK",
-          "source": "repeat_purchase",
-          "target": "usage_feedback"
-        },
-        {
-          "index": 13,
-          "relation": "AMPLIFIES",
-          "source": "usage_feedback",
-          "target": "consumer_insight"
-        },
-        {
-          "index": 14,
-          "relation": "AMPLIFIES",
-          "source": "consumer_insight",
-          "target": "brand_portfolio"
-        },
-        {
-          "index": 15,
-          "relation": "REACHES",
-          "source": "retail_channel",
-          "target": "retail_customer"
-        },
-        {
-          "index": 16,
+          "index": 6,
           "relation": "PAYS",
           "source": "retail_customer",
-          "target": "recurring_revenue"
+          "target": "product_sales_revenue"
         },
         {
-          "index": 17,
-          "relation": "REACHES",
-          "source": "direct_channel",
-          "target": "household"
-        },
-        {
-          "index": 18,
+          "index": 7,
           "relation": "BLOCKS",
-          "source": "channel_constraint",
-          "target": "direct_channel"
+          "source": "retail_concentration",
+          "target": "product_sales_revenue"
         }
       ],
       "evidence_notes": [
@@ -2053,90 +5042,440 @@
         },
         {
           "index": 2,
-          "text": "Retail concentration and channel relationships constrain direct consumer mechanisms."
+          "text": "Retail concentration and channel relationships create commercial and execution constraints."
         }
       ],
       "nodes": [
         {
           "id": "household",
           "label": "Household consumer",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "ACTOR"
         },
         {
           "id": "routine_need",
           "label": "Reliable everyday product performance",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "NEED"
         },
         {
           "id": "consumer_insight",
           "label": "Consumer and category insight",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 1.0
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "brand_portfolio",
           "label": "Product and brand portfolio",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "RESOURCE"
         },
         {
           "id": "innovate_supply",
           "label": "Innovate manufacture and replenish",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 1.0
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTION"
         },
         {
           "id": "retail_channel",
           "label": "Retail ecommerce and distributor channel",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.5
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "CHANNEL"
         },
         {
           "id": "routine_value",
           "label": "Trusted repeatable product outcome",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "VALUE"
         },
         {
-          "id": "recurring_revenue",
-          "label": "Recurring household product revenue",
+          "id": "product_sales_revenue",
+          "label": "Branded consumer product sales",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 1.0
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "REVENUE"
         },
         {
           "id": "brand_cost",
           "label": "Innovation manufacturing and brand cost",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 0.75
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.5
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "COST"
         },
         {
-          "id": "channel_constraint",
-          "label": "Retail concentration and channel conflict",
+          "id": "retail_concentration",
+          "label": "Retail customer concentration",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.25
+            },
+            {
+              "axis": "risk",
+              "value": 0.75
+            }
+          ],
           "type": "CONSTRAINT"
         },
         {
           "id": "repeat_purchase",
-          "label": "Repeat purchase and household retention",
+          "label": "Household repeat-purchase objective",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.25
+            },
+            {
+              "axis": "control",
+              "value": 0.75
+            },
+            {
+              "axis": "immediacy",
+              "value": 0.75
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.5
+            },
+            {
+              "axis": "risk",
+              "value": 0.25
+            }
+          ],
           "type": "OUTCOME"
         },
         {
-          "id": "usage_feedback",
-          "label": "Usage replenishment and product signals",
-          "type": "FEEDBACK"
-        },
-        {
           "id": "retail_customer",
-          "label": "Retail and ecommerce customer",
+          "label": "Retailer and ecommerce intermediary",
+          "ratings": [
+            {
+              "axis": "salience",
+              "value": 1.0
+            },
+            {
+              "axis": "evidence",
+              "value": 0.75
+            },
+            {
+              "axis": "control",
+              "value": 0.25
+            },
+            {
+              "axis": "immediacy",
+              "value": 1.0
+            },
+            {
+              "axis": "recurrence",
+              "value": 1.0
+            },
+            {
+              "axis": "scalability",
+              "value": 0.75
+            },
+            {
+              "axis": "risk",
+              "value": 0.5
+            }
+          ],
           "type": "ACTOR"
-        },
-        {
-          "id": "direct_channel",
-          "label": "Permissioned direct consumer channel",
-          "type": "CHANNEL"
         }
       ],
       "objective_nodes": [
-        "recurring_revenue",
+        "product_sales_revenue",
         "repeat_purchase"
       ],
       "partition": "evaluation",
       "source": {
         "accession": "0000080424-25-000076",
         "cik": "0000080424",
-        "filing_date": "2025-08-05",
+        "filing_date": "2025-08-04",
         "form": "10-K",
         "organization": "The Procter & Gamble Company",
         "period_end": "2025-06-30",
@@ -2160,9 +5499,19 @@
     "verified"
   ],
   "internal_audit_sha256": "bde52e52dcc76bb535ae151737b31bbcc833f61a271752716b470412779eeb30",
-  "manifest_sha256": "30a211a83bf57d167fdd3a1b68f3459ace65843b4eb026bdc0600794abdc3c18",
+  "manifest_sha256": "df47d36c082f159c785b304e7b624d1908e70c8c8d6e07429ddb49be15fdd1f3",
+  "node_rating_axes": [
+    "salience",
+    "evidence",
+    "control",
+    "immediacy",
+    "recurrence",
+    "scalability",
+    "risk"
+  ],
+  "node_rating_semantics": "docs/BUSINESS_GRAPH_SEMANTICS.md#numeric-features",
   "packet_id": "CHM-V-C1-REVIEW-PACKET",
-  "review_protocol_sha256": "199b65906f1044f8eb55e1aef84c01e41ecf7217b3e2b5299a70a37b92baaeee",
-  "schema_version": 1,
-  "source_sha256": "e5e55e46640b1f9fa4dccc9f57604d5c6555b153b43105d31d32a3c7bff992cf"
+  "review_protocol_sha256": "7aaddce7f3a245f32e18002c116357fa6278d568060fb48b9fd84b918820903d",
+  "schema_version": 2,
+  "source_sha256": "924bfd862ce115ea302906b13d9887db464d76ae9739dc84c9a4e692ec558fa8"
 }

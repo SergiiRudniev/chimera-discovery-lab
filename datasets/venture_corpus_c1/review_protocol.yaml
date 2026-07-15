@@ -10,12 +10,18 @@ scope:
     - filing_identity
     - evidence_notes
     - nodes
+    - node_ratings
     - edges
     - objective_nodes
     - constraint_nodes
 decisions:
   allowed: [verified, needs_change, cannot_verify]
   accepted: verified
+node_ratings:
+  semantics: docs/BUSINESS_GRAPH_SEMANTICS.md#numeric-features
+  reviewed_axes: [salience, evidence, control, immediacy, recurrence, scalability, risk]
+  value_proximity_is_derived: true
+  every_human_assigned_value_requires_a_decision: true
 case_acceptance:
   overall_decision: accept
   every_required_check_must_be_verified: true

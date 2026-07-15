@@ -66,6 +66,23 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
         base / "reviews",
     )
     review_passed = review_gate["status"] == "passed"
+    review_item_counts = {
+        "cases": len(corpus.cases),
+        "evidence_notes": sum(len(record["evidence"]) for record in corpus.cases),
+        "nodes": sum(len(record["nodes"]) for record in corpus.cases),
+        "human_assigned_node_ratings": sum(
+            len(node["annotated_features"])
+            for record in corpus.cases
+            for node in record["nodes"]
+        ),
+        "edges": sum(len(record["edges"]) for record in corpus.cases),
+        "objective_nodes": sum(
+            len(record["challenge"]["objective_nodes"]) for record in corpus.cases
+        ),
+        "constraint_nodes": sum(
+            len(record["challenge"]["constraint_nodes"]) for record in corpus.cases
+        ),
+    }
     findings = [
         {
             "id": "C1-Q001",
@@ -79,8 +96,8 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
             ),
             "impact": "Source interpretation errors could affect both experiment arms.",
             "remediation": (
-                "A second reviewer must verify every evidence note, node, edge and "
-                "challenge mask before generation."
+                "A second reviewer must verify every evidence note, node label and type, "
+                "each human-assigned rating, edge and challenge mask before generation."
             ),
         },
         {
@@ -171,6 +188,7 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
             "integrity": {
                 "manifest_hash_validation": "passed",
                 "safe_npz_allow_pickle_false": "passed",
+                "edge_semantics_validation": "passed",
                 "partition_counts": validation,
             },
             "timeliness": {
@@ -208,6 +226,7 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
                     record["semantic_mapping"] == "pending_independent_review"
                     for record in audit_cases
                 ),
+                "required_item_counts": review_item_counts,
                 "gate": review_gate,
             },
         },

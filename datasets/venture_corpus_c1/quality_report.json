@@ -20,7 +20,7 @@
         1,
         1,
         1,
-        1,
+        2,
         1
       ],
       "matched_brief_count": 10,
@@ -38,6 +38,7 @@
       ]
     },
     "integrity": {
+      "edge_semantics_validation": "passed",
       "manifest_hash_validation": "passed",
       "partition_counts": {
         "calibration": 2,
@@ -59,19 +60,28 @@
         "changed_reviews": 0,
         "corpus_id": "CHM-VENTURE-C1",
         "generation_allowed": false,
-        "manifest_sha256": "30a211a83bf57d167fdd3a1b68f3459ace65843b4eb026bdc0600794abdc3c18",
+        "manifest_sha256": "df47d36c082f159c785b304e7b624d1908e70c8c8d6e07429ddb49be15fdd1f3",
         "minimum_independent_reviewers": 1,
-        "packet_sha256": "869226f011ed52754078ca5b1ebed9c950723f3585333c01580b823c549ae9ca",
+        "packet_sha256": "240d9f32e47515a7eed077206a6bf1964dbf19de224e32e175ab04ac955d5992",
         "reason": "no_complete_independent_review",
         "review_files": 0,
         "review_ids": [],
-        "schema_version": 1,
+        "schema_version": 2,
         "status": "blocked"
       },
       "internal_auditor_id": "chimera-corpus-author-001",
       "internal_auditor_independent": false,
       "internal_filing_identity_verified": 10,
       "internal_primary_source_support_verified": 10,
+      "required_item_counts": {
+        "cases": 10,
+        "constraint_nodes": 11,
+        "edges": 100,
+        "evidence_notes": 32,
+        "human_assigned_node_ratings": 882,
+        "nodes": 126,
+        "objective_nodes": 20
+      },
       "semantic_mapping_pending_independent_review": 10
     },
     "timeliness": {
@@ -104,39 +114,33 @@
       "numeric_archive_has_text_or_objects": false
     },
     "volume_and_shape": {
-      "edge_count_max": 19,
-      "edge_count_median": 17.0,
-      "edge_count_min": 15,
+      "edge_count_max": 12,
+      "edge_count_median": 9.5,
+      "edge_count_min": 8,
       "edge_type_counts": {
         "1": 10,
-        "3": 34,
-        "4": 15,
-        "5": 15,
+        "3": 28,
+        "4": 18,
+        "5": 11,
         "6": 10,
         "7": 12,
         "8": 10,
-        "9": 10,
-        "10": 10,
-        "11": 11,
-        "13": 7,
-        "14": 16,
-        "15": 10
+        "11": 1
       },
       "node_count_max": 14,
-      "node_count_median": 13.0,
-      "node_count_min": 12,
+      "node_count_median": 12.5,
+      "node_count_min": 11,
       "node_type_counts": {
-        "1": 19,
+        "1": 20,
         "2": 10,
         "3": 22,
-        "4": 10,
-        "5": 10,
-        "6": 11,
+        "4": 11,
+        "5": 11,
+        "6": 10,
         "7": 10,
-        "8": 10,
+        "8": 12,
         "9": 10,
-        "10": 10,
-        "11": 10
+        "10": 10
       }
     }
   },
@@ -146,7 +150,7 @@
       "finding": "Internal primary-source checks cover all ten cases; independent reviews accepted: 0/1.",
       "id": "C1-Q001",
       "impact": "Source interpretation errors could affect both experiment arms.",
-      "remediation": "A second reviewer must verify every evidence note, node, edge and challenge mask before generation.",
+      "remediation": "A second reviewer must verify every evidence note, node label and type, each human-assigned rating, edge and challenge mask before generation.",
       "severity": "high",
       "status": "open"
     },

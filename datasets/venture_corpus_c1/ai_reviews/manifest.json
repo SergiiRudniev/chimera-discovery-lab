@@ -1,62 +1,46 @@
 {
-  "manifest_version": "1.0",
-  "skill": "investment-banking:cim-teardown",
-  "artifact_mode": "support_only",
-  "output_dir": "datasets/venture_corpus_c1/ai_reviews",
-  "first_read": {
-    "path": "multi_lens_ai_review.json",
-    "role": "AI-assisted review support artifact",
-    "why": "Open this first for the case findings and correction proposals."
+  "schema_version": 4,
+  "review_id": "CHM-V-C1-AI-MULTI-LENS-004",
+  "corpus_id": "CHM-VENTURE-C1",
+  "overall_verdict": "accept",
+  "generation_allowed": false,
+  "c1_q001_status": "open",
+  "human_gate_status": "blocked_pending_independent_human_review",
+  "human_independent": false,
+  "satisfies_human_gate": false,
+  "input_integrity": {
+    "corpus_manifest_path": "datasets/venture_corpus_c1/manifest.json",
+    "corpus_manifest_sha256": "df47d36c082f159c785b304e7b624d1908e70c8c8d6e07429ddb49be15fdd1f3",
+    "source_path": "datasets/venture_corpus_c1/source_cases.yaml",
+    "source_sha256": "924bfd862ce115ea302906b13d9887db464d76ae9739dc84c9a4e692ec558fa8",
+    "reviewer_packet_path": "datasets/venture_corpus_c1/reviewer_packet.json",
+    "reviewer_packet_sha256": "240d9f32e47515a7eed077206a6bf1964dbf19de224e32e175ab04ac955d5992",
+    "packet_manifest_sha256_matches": true,
+    "packet_source_sha256_matches": true,
+    "manifest_source_sha256_matches": true
   },
-  "primary_human_deliverable": null,
-  "human_deliverables": [],
-  "companion_deliverables": [],
-  "support_artifacts": [
-    {
-      "path": "multi_lens_ai_review.json",
-      "role": "support_artifact",
-      "artifact_type": "json",
-      "description": "Multi-lens AI-assisted C1 material-findings review",
-      "user_visible_default": true,
-      "contains_new_analysis": true,
-      "support_reason": "Falsification pass before dataset correction and human review",
-      "user_requested_machine_readable": false
+  "coverage": {
+    "registered_cases": 10,
+    "filing_identity_decisions": 10,
+    "source_locator_decisions": 10,
+    "evidence_note_decisions": 32,
+    "node_decisions": 126,
+    "node_rating_axis_decisions": 882,
+    "edge_decisions": 100,
+    "objective_node_decisions": 20,
+    "constraint_node_decisions": 11,
+    "total_item_decisions": 1191,
+    "item_level_decision_ledger_complete": true,
+    "value_proximity_reviewed_as_derived": true
+  },
+  "files": {
+    "multi_lens_ai_review.json": {
+      "bytes": 461325,
+      "sha256": "8a92fb5bf3a0b92b97f15978acd66676a27735dc6112e2775a4fa5c37df85409"
     },
-    {
-      "path": "README.md",
-      "role": "support_artifact",
-      "artifact_type": "markdown",
-      "description": "Review scope and independence boundary",
-      "user_visible_default": false,
-      "contains_new_analysis": false,
-      "support_reason": "Explains why the artifact cannot satisfy the human gate",
-      "user_requested_machine_readable": false
+    "README.md": {
+      "bytes": 801,
+      "sha256": "a332535332fd28dab812ca8f3e0c67d42ee473bbe2243e1501c0b5c153d3e55d"
     }
-  ],
-  "agent_artifacts": [
-    {
-      "path": "../../../research/reviewers/CHM-V-AI-MULTI-LENS.md",
-      "role": "agent_artifact",
-      "artifact_type": "markdown",
-      "description": "Reusable AI reviewer role and safety boundary",
-      "user_visible_default": false,
-      "contains_new_analysis": false,
-      "support_reason": "Makes the reviewer procedure repeatable",
-      "user_requested_machine_readable": false
-    }
-  ],
-  "support_artifacts_user_visible_default": false,
-  "blocked_or_partial_status": {
-    "status": "partial",
-    "reason": "Material findings are recorded, but the independent human review is still required.",
-    "missing_inputs": [
-      "complete item-level decision ledger",
-      "independent human review"
-    ]
-  },
-  "final_response_guidance": {
-    "lead_with": "multi_lens_ai_review.json",
-    "mention_support_artifacts": "only_briefly_unless_requested"
-  },
-  "discipline_note": "This package is an AI audit support layer and cannot enable H001 generation."
+  }
 }

@@ -3,12 +3,12 @@
   "changed_reviews": 0,
   "corpus_id": "CHM-VENTURE-C1",
   "generation_allowed": false,
-  "manifest_sha256": "30a211a83bf57d167fdd3a1b68f3459ace65843b4eb026bdc0600794abdc3c18",
+  "manifest_sha256": "df47d36c082f159c785b304e7b624d1908e70c8c8d6e07429ddb49be15fdd1f3",
   "minimum_independent_reviewers": 1,
-  "packet_sha256": "869226f011ed52754078ca5b1ebed9c950723f3585333c01580b823c549ae9ca",
+  "packet_sha256": "240d9f32e47515a7eed077206a6bf1964dbf19de224e32e175ab04ac955d5992",
   "reason": "no_complete_independent_review",
   "review_files": 0,
   "review_ids": [],
-  "schema_version": 1,
+  "schema_version": 2,
   "status": "blocked"
 }

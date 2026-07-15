@@ -11,8 +11,9 @@ from typing import Any
 import yaml
 
 from chimera.data.evaluation import validate_evaluation_corpus
+from chimera.data.semantics import ANNOTATED_FEATURE_NAMES
 
-REVIEW_SCHEMA_VERSION = 1
+REVIEW_SCHEMA_VERSION = 2
 REVIEW_DECISIONS = frozenset({"verified", "needs_change", "cannot_verify"})
 
 
@@ -83,10 +84,7 @@ def build_review_packet(
                 "evidence_notes": [
                     {"index": index, "text": text} for index, text in enumerate(evidence)
                 ],
-                "nodes": [
-                    {"id": node["id"], "type": node["type"], "label": node["label"]}
-                    for node in nodes
-                ],
+                "nodes": [_packet_node(node, case_id) for node in nodes],
                 "edges": [
                     {
                         "index": index,
@@ -111,6 +109,8 @@ def build_review_packet(
         "review_protocol_sha256": _sha256(protocol_file),
         "case_count": len(packet_cases),
         "decision_values": sorted(REVIEW_DECISIONS),
+        "node_rating_axes": list(ANNOTATED_FEATURE_NAMES),
+        "node_rating_semantics": "docs/BUSINESS_GRAPH_SEMANTICS.md#numeric-features",
         "cases": packet_cases,
     }
     output = Path(output_path)
@@ -135,7 +135,20 @@ def build_review_template(packet_path: str | Path, output_path: str | Path) -> d
                     for item in _mapping_list(case.get("evidence_notes"), "evidence notes")
                 ],
                 "nodes": [
-                    {"id": item["id"], "decision": None}
+                    {
+                        "id": item["id"],
+                        "decision": None,
+                        "ratings": [
+                            {
+                                "axis": rating["axis"],
+                                "value": rating["value"],
+                                "decision": None,
+                            }
+                            for rating in _mapping_list(
+                                item.get("ratings"), "node ratings"
+                            )
+                        ],
+                    }
                     for item in _mapping_list(case.get("nodes"), "nodes")
                 ],
                 "edges": [
@@ -306,7 +319,7 @@ def _validate_case_review(review: Mapping[str, Any], expected: Mapping[str, Any]
     decisions.extend(
         _indexed_decisions(review.get("evidence_notes"), expected.get("evidence_notes"), "index")
     )
-    decisions.extend(_indexed_decisions(review.get("nodes"), expected.get("nodes"), "id"))
+    decisions.extend(_node_review_decisions(review.get("nodes"), expected.get("nodes")))
     decisions.extend(_indexed_decisions(review.get("edges"), expected.get("edges"), "index"))
     decisions.extend(
         _node_decisions(review.get("objective_nodes"), expected.get("objective_nodes"))
@@ -332,6 +345,31 @@ def _indexed_decisions(value: object, expected_value: object, key: str) -> list[
     return [_decision(record.get("decision"), "review decision") for record in records]
 
 
+def _node_review_decisions(value: object, expected_value: object) -> list[str]:
+    records = _mapping_list(value, "review node decisions")
+    expected = _mapping_list(expected_value, "expected nodes")
+    if [record.get("id") for record in records] != [record["id"] for record in expected]:
+        raise ValueError("review node decisions are not aligned with packet")
+    decisions: list[str] = []
+    for record, expected_node in zip(records, expected, strict=True):
+        decisions.append(_decision(record.get("decision"), "review node decision"))
+        ratings = _mapping_list(record.get("ratings"), "review node rating decisions")
+        expected_ratings = _mapping_list(expected_node.get("ratings"), "expected node ratings")
+        if [rating.get("axis") for rating in ratings] != [
+            rating["axis"] for rating in expected_ratings
+        ]:
+            raise ValueError("review node rating decisions are not aligned with packet")
+        if [rating.get("value") for rating in ratings] != [
+            rating["value"] for rating in expected_ratings
+        ]:
+            raise ValueError("review node rating values do not match packet")
+        decisions.extend(
+            _decision(rating.get("decision"), "review node rating decision")
+            for rating in ratings
+        )
+    return decisions
+
+
 def _node_decisions(value: object, expected_value: object) -> list[str]:
     records = _mapping_list(value, "review node decisions")
     expected = _string_list(expected_value, "expected node IDs")
@@ -344,6 +382,24 @@ def _decision(value: object, name: str) -> str:
     if not isinstance(value, str) or value not in REVIEW_DECISIONS:
         raise ValueError(f"{name} must use a registered review decision")
     return value
+
+
+def _packet_node(node: Mapping[str, Any], case_id: str) -> dict[str, Any]:
+    features = _mapping(node.get("annotated_features"), f"annotated features for {case_id}")
+    if set(features) != set(ANNOTATED_FEATURE_NAMES):
+        raise ValueError(f"annotated feature axes do not match semantics: {case_id}/{node['id']}")
+    ratings: list[dict[str, Any]] = []
+    for axis in ANNOTATED_FEATURE_NAMES:
+        value = features[axis]
+        if not isinstance(value, (int, float)):
+            raise TypeError(f"annotated feature must be numeric: {case_id}/{node['id']}/{axis}")
+        ratings.append({"axis": axis, "value": float(value)})
+    return {
+        "id": node["id"],
+        "type": node["type"],
+        "label": node["label"],
+        "ratings": ratings,
+    }
 
 
 def _load_json_mapping(path: Path, name: str) -> Mapping[str, Any]:
