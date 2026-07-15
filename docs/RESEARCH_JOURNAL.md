@@ -1,5 +1,44 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H002 generator implementation
+
+- **Architecture:** Implemented independent `MechanismGenerator`,
+  `WorldGenerator` and `ObservationRenderer` layers with `FlowWorld`,
+  `CompetitionWorld` and `FunnelWorld`.
+- **Modes:** CPU online generation and fixed object-free NPZ evaluation shards
+  use the same seed-addressable trajectory pipeline.
+- **Smoke artifact:** Five splits with 12 trajectories each; manifest SHA-256 is
+  `eda799f1f499078491269724e0ac58839e0b14f23676dafe80d522a52c75d657`.
+- **Integrity:** 15/15 gates passed, including exact replay, source and shard
+  hashes, tensor shapes, finite values, concrete mechanism/world/seed/config
+  isolation and held mechanism/family/renderer policies.
+- **Software validation:** Ruff and strict mypy passed; 62 tests passed with
+  82.40% branch coverage.
+- **Decision:** Engineering pipeline ready for an evidence-bearing trial.
+  `CHM-W-H002` remains `not_run`; no target metrics or checkpoint were created.
+
+## 2026-07-15 — CHM-W-H002 registration
+
+- **Question:** Does cross-world pretraining with mechanism alignment improve
+  intervention-effect prediction and four-step rollout prediction in held-out
+  world-family mappings?
+- **Worlds:** Programmatic numerical `FlowWorld`, `CompetitionWorld` and
+  `FunnelWorld`; no language is accepted by the model input contract.
+- **Representation:** Hidden mechanisms are rendered through independently
+  sampled object, feature, unit, time, noise and visibility transforms.
+- **Isolation:** Concrete mechanisms, world instances, seeds, world configs and
+  renderer configs cannot cross dataset splits. Mechanism templates may repeat
+  where the registered transfer question requires a known law in a new world
+  family or rendering.
+- **Primary gate:** On `test_world_transfer`, both intervention-effect RMSE and
+  four-step rollout NRMSE must be at most 0.90 times the strongest baseline,
+  and each paired 90% bootstrap ratio upper bound must be below 1.00.
+- **Comparators:** No-alignment, target-family-only, temporal-without-relations
+  and legal-random-intervention baselines.
+- **Status:** `not_run`; no target metrics or checkpoints have been opened.
+- **Claim boundary:** Simulator-distribution mechanism transfer only; no claim
+  of real-world causal discovery, profitable ideas or production readiness.
+
 ## 2026-07-15 — Meta-World failure artifact policy
 
 - **Finding:** T000 failed before the trial runner created its normal result

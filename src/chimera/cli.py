@@ -14,6 +14,13 @@ from chimera.data.corpus import CorpusSplit, build_corpus, validate_corpus
 from chimera.data.evaluation import build_evaluation_corpus, validate_evaluation_corpus
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.meta_world.config import MetaWorldExperimentConfig
+from chimera.meta_world.generators import (
+    GeneratedWorldDatasetConfig,
+    SplitName,
+    WorldGenerationPipeline,
+    build_generated_world_dataset,
+    validate_generated_world_dataset,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -72,6 +79,72 @@ def _meta_world_trial(arguments: argparse.Namespace) -> int:
             sort_keys=True,
         )
     )
+    return 0
+
+
+def _build_generated_world_dataset(arguments: argparse.Namespace) -> int:
+    manifest = build_generated_world_dataset(
+        arguments.output,
+        arguments.config,
+        trajectories_per_split=arguments.trajectories_per_split,
+    )
+    counts = manifest["counts"]
+    if not isinstance(counts, dict):
+        raise TypeError("generated-world manifest counts must be a mapping")
+    print(
+        json.dumps(
+            {
+                "dataset_id": manifest["dataset_id"],
+                "manifest": str(arguments.output / "manifest.json"),
+                **counts,
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _validate_generated_world_dataset(arguments: argparse.Namespace) -> int:
+    report = validate_generated_world_dataset(arguments.manifest)
+    counts = report["counts"]
+    if not isinstance(counts, dict):
+        raise TypeError("generated-world report counts must be a mapping")
+    print(
+        json.dumps(
+            {
+                "dataset_id": report["dataset_id"],
+                "status": report["status"],
+                **counts,
+            },
+            sort_keys=True,
+        )
+    )
+    return 0 if report["status"] == "passed" else 1
+
+
+def _world_generator_smoke(arguments: argparse.Namespace) -> int:
+    config = GeneratedWorldDatasetConfig.from_yaml(arguments.config)
+    batch = WorldGenerationPipeline(config).online_batch(
+        SplitName(arguments.split),
+        arguments.batch_size,
+        start_index=arguments.start_index,
+    )
+    payload = {
+        "dataset_id": config.dataset_id,
+        "split": arguments.split,
+        "batch_size": batch.batch_size,
+        "observations": list(batch.observations.shape),
+        "relations": list(batch.relations.shape),
+        "actions": list(batch.actions.shape),
+        "outcomes": list(batch.outcomes.shape),
+        "all_finite": bool(
+            torch.isfinite(batch.observations).all()
+            and torch.isfinite(batch.relations).all()
+            and torch.isfinite(batch.outcomes).all()
+        ),
+        "language_inputs": False,
+    }
+    print(json.dumps(payload, sort_keys=True))
     return 0
 
 
@@ -359,6 +432,45 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/results/CHM-W-H000.json"),
     )
+    world_generator_build_parser = subparsers.add_parser(
+        "build-world-generator-dataset"
+    )
+    world_generator_build_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_generators_h002.yaml"),
+    )
+    world_generator_build_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("artifacts/meta_world_generator_smoke"),
+    )
+    world_generator_build_parser.add_argument(
+        "--trajectories-per-split",
+        type=int,
+        default=12,
+    )
+    world_generator_validation_parser = subparsers.add_parser(
+        "validate-world-generator-dataset"
+    )
+    world_generator_validation_parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path("artifacts/meta_world_generator_smoke/manifest.json"),
+    )
+    world_generator_smoke_parser = subparsers.add_parser("world-generator-smoke")
+    world_generator_smoke_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_generators_h002.yaml"),
+    )
+    world_generator_smoke_parser.add_argument(
+        "--split",
+        choices=[item.value for item in SplitName],
+        default=SplitName.TRAIN.value,
+    )
+    world_generator_smoke_parser.add_argument("--batch-size", type=int, default=4)
+    world_generator_smoke_parser.add_argument("--start-index", type=int, default=0)
     return parser
 
 
@@ -386,6 +498,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _meta_world_inspect(MetaWorldExperimentConfig.from_yaml(arguments.config))
     if arguments.command == "meta-world-trial":
         return _meta_world_trial(arguments)
+    if arguments.command == "build-world-generator-dataset":
+        return _build_generated_world_dataset(arguments)
+    if arguments.command == "validate-world-generator-dataset":
+        return _validate_generated_world_dataset(arguments)
+    if arguments.command == "world-generator-smoke":
+        return _world_generator_smoke(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

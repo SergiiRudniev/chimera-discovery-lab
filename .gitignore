@@ -11,6 +11,7 @@ dist/
 build/
 runs/
 checkpoints/
+artifacts/
 data/raw/
 data/processed/
 *.pt
