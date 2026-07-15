@@ -94,3 +94,27 @@ def test_world_generator_fixed_dataset_cli(tmp_path: Path, capsys: object) -> No
     ) == 0
     validate_payload = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
     assert validate_payload["status"] == "passed"
+
+
+def test_world_probe_fixed_dataset_cli(tmp_path: Path, capsys: object) -> None:
+    assert main(
+        [
+            "build-world-probe-dataset",
+            "--output",
+            str(tmp_path),
+            "--trajectories-per-split",
+            "8",
+        ]
+    ) == 0
+    build_payload = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+    assert build_payload["dataset_id"] == "CHM-W-WG1"
+    assert main(
+        [
+            "validate-world-probe-dataset",
+            "--manifest",
+            str(tmp_path / "manifest.json"),
+        ]
+    ) == 0
+    validation = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+    assert validation["status"] == "passed"
+    assert validation["probe_response_separation"] > 0.0

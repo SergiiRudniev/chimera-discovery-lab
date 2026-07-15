@@ -120,6 +120,16 @@ Stable mechanism fingerprints are evaluator-only labels. They pair losses and
 never enter the model forward contract. The registered test splits remain
 sealed. See the [H003 training contract](docs/CLOSED_LOOP_H003.md).
 
+## Active Identification H004
+
+H004 replaces passive random-action pretraining with controlled numerical
+system-identification probes. WG1 applies zero baselines, low/high impulses,
+control polarity, reversals and recovery across generated worlds, then evaluates
+every arm on the same short probe prefix followed by seeded random actions.
+
+The action policy is evaluator metadata, not a model feature. See the
+[H004 probe contract](docs/WORLD_PROBES_H004.md).
+
 ## Numerical Output
 
 ```text
@@ -187,7 +197,8 @@ context exceeds the initial memory budget.
 | BF16 CUDA engineering gate | Accepted: H001/T001 |
 | Generated-world corpus | Implemented and validated |
 | H002 | Validation preflight negative; test sealed; result `not_run` |
-| H003 | Preregistered; implementation under validation |
+| H003 | Exploratory validation negative; test sealed; result `not_run` |
+| H004 | Preregistered; WG1 implemented and validated |
 | W0 configuration | `meta_world_w0_t1.yaml` |
 | Promoted checkpoint | None |
 | Empirical claims | None |
@@ -213,6 +224,7 @@ datasets and research identifiers.
 - [Meta-World W0 design contract](docs/META_WORLD_W0.md)
 - [Generated Worlds H002](docs/WORLD_GENERATORS_H002.md)
 - [Closed-Loop Training H003](docs/CLOSED_LOOP_H003.md)
+- [System-Identification Probes H004](docs/WORLD_PROBES_H004.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)

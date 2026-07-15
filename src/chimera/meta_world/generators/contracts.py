@@ -339,3 +339,19 @@ class GeneratedWorld(Protocol):
 
     def sample_action(self, rng: np.random.Generator) -> WorldAction:
         ...
+
+
+class WorldActionPolicy(Protocol):
+    """Evaluator-selected numeric excitation policy; never a model input."""
+
+    @property
+    def policy_id(self) -> str:
+        ...
+
+    def sample_action(
+        self,
+        world: GeneratedWorld,
+        rng: np.random.Generator,
+        step: int,
+    ) -> WorldAction:
+        ...

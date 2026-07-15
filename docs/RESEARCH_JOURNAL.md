@@ -1,5 +1,22 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H004 WG1 implementation
+
+- **Dataset:** Implemented `CHM-W-WG1` with 16-step trajectories, deterministic
+  system-identification train probes and a shared four-probe-plus-random
+  evaluator policy.
+- **Boundary:** Policy IDs remain manifest metadata. Model batches contain only
+  numeric observations, masks, relations, actions, time and outcomes.
+- **Fixed smoke:** 16 trajectories per split, 80 total; manifest SHA-256
+  `cc0305bd99f05cf5d528f045dd494652d377be2c5836d5922d589eb6d3b96461`.
+- **Integrity:** 20/20 gates passed, including exact replay, source/shard hashes,
+  tensor shape and finite checks, all split-isolation policies and registered
+  probe-prefix coverage.
+- **Excitation diagnostic:** Between/within paired response separation was
+  `1.235036`. This confirms non-zero numeric response diversity only.
+- **Status:** Data pipeline ready for a validation-only model preflight. H004
+  remains `not_run`; no model metric or checkpoint was produced.
+
 ## 2026-07-15 — CHM-W-H004 registration
 
 - **Question:** Do controlled numeric system-identification probes improve
