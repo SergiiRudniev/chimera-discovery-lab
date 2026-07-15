@@ -21,6 +21,7 @@ from chimera.meta_world.generators import (
     build_generated_world_dataset,
     validate_generated_world_dataset,
 )
+from chimera.meta_world.h002 import run_h002_preflight
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -145,6 +146,25 @@ def _world_generator_smoke(arguments: argparse.Namespace) -> int:
         "language_inputs": False,
     }
     print(json.dumps(payload, sort_keys=True))
+    return 0
+
+
+def _h002_preflight(arguments: argparse.Namespace) -> int:
+    result = run_h002_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 
@@ -471,6 +491,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     world_generator_smoke_parser.add_argument("--batch-size", type=int, default=4)
     world_generator_smoke_parser.add_argument("--start-index", type=int, default=0)
+    h002_preflight_parser = subparsers.add_parser("meta-world-h002-preflight")
+    h002_preflight_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h002_preflight.yaml"),
+    )
+    h002_preflight_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h002_preflight_aligned_a"),
+    )
     return parser
 
 
@@ -504,6 +535,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _validate_generated_world_dataset(arguments)
     if arguments.command == "world-generator-smoke":
         return _world_generator_smoke(arguments)
+    if arguments.command == "meta-world-h002-preflight":
+        return _h002_preflight(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

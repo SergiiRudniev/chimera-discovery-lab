@@ -142,6 +142,10 @@ on `test_world_transfer` are at most `0.90` times the strongest baseline and
 both paired 90% bootstrap ratio upper bounds are below `1.00`. Test splits stay
 closed until validation checkpoint selection is frozen.
 
+State prediction and rollout metrics cover the four renderer signal channels.
+Renderer nuisance channels remain visible as model-input distractors but are
+excluded from prediction targets because each step resamples them independently.
+
 ## Limitations
 
 - The worlds encode human-selected mathematical priors; they are non-linguistic
@@ -152,5 +156,6 @@ closed until validation checkpoint selection is frozen.
   causal identification.
 - Cross-platform bitwise equality across different NumPy versions is not yet a
   registered guarantee.
-- H002 remains `not_run`; no transfer metrics or checkpoint exist.
-
+- H002 remains `not_run`; validation-only engineering metrics and unpromoted
+  preflight checkpoints exist, but no registered test-transfer result or
+  production checkpoint exists.

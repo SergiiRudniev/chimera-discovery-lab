@@ -1,0 +1,42 @@
+run_id: H002-PREFLIGHT-RELATIONAL-G
+mode: preflight
+arm: cross_world_pretraining_with_mechanism_alignment
+generator_config: configs/meta_world/world_generators_h002.yaml
+model:
+  observation_features: 8
+  relation_features: 4
+  intervention_types: 1
+  intervention_parameters: 3
+  effect_dimensions: 4
+  domain_count: 1
+  mechanism_count: 8
+  hidden_dim: 512
+  num_heads: 8
+  spatial_layers: 8
+  temporal_layers: 6
+  transition_layers: 6
+  feedforward_multiplier: 4
+  max_slots: 10
+  context_steps: 4
+  dropout: 0.1
+  log_variance_min: -6.0
+  log_variance_max: 2.0
+training:
+  seed: 260902
+  batch_size: 16
+  active_slots: 4
+  steps: 500
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  next_state_weight: 1.0
+  effect_weight: 1.0
+  alignment_weight: 0.2
+  variance_weight: 0.01
+  alignment_margin: 0.2
+  device: cuda
+  precision: bfloat16
+evaluation:
+  evaluation_interval: 100
+  validation_trajectories: 64
+  rollout_horizon: 4
