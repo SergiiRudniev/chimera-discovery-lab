@@ -1,0 +1,556 @@
+{
+  "claim_boundary": "Engineering diagnosis only; no novelty or utility claim.",
+  "code_commit": "6a4b2ce4c7c1f9d948bc10105eeaefb09fb34f9b",
+  "config_sha256": "7592bf6d6319e98e7d216aa627c561a70c5beccfee6385bd3f293ce57a402669",
+  "diagnosis": {
+    "unresolved": "Held-out policy performance remains unopened until registration.",
+    "verified": "T1 concentrated proposals into short repeated programs; legal-uniform exploration restores operation coverage and graph diversity on train cases."
+  },
+  "historical": {
+    "baseline": {
+      "candidates": 160,
+      "changed_candidate_rate": 1.0,
+      "path": "research/trials/CHM-V-T000/candidates.jsonl",
+      "per_case": {
+        "sec-adobe-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 14
+        },
+        "sec-airbnb-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 16
+        },
+        "sec-amazon-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 16
+        },
+        "sec-costco-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 16
+        },
+        "sec-deere-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 16
+        },
+        "sec-marriott-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 16
+        },
+        "sec-netflix-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 12
+        },
+        "sec-tesla-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 14
+        },
+        "sec-uber-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 15
+        },
+        "sec-visa-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 13
+        }
+      },
+      "sha256": "3e72f395f07135759b20af415d050b51397c5cada43a37f8d810676fba134c61",
+      "top_program_sequence": "INVERT_RELATION>STOP",
+      "top_program_sequence_count": 35,
+      "top_program_sequence_rate": 0.21875,
+      "unique_graph_rate": 0.925,
+      "unique_graphs": 148,
+      "unique_programs": 143
+    },
+    "changed_candidate_rate_delta": -0.09999999999999998,
+    "collapsed": {
+      "candidates": 160,
+      "changed_candidate_rate": 0.9,
+      "path": "research/trials/CHM-V-T001/candidates.jsonl",
+      "per_case": {
+        "sec-adobe-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 14
+        },
+        "sec-airbnb-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 8
+        },
+        "sec-amazon-2024": {
+          "candidates": 16,
+          "changed": 1,
+          "unique_graphs": 2
+        },
+        "sec-costco-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 4
+        },
+        "sec-deere-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 9
+        },
+        "sec-marriott-2024": {
+          "candidates": 16,
+          "changed": 15,
+          "unique_graphs": 2
+        },
+        "sec-netflix-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 4
+        },
+        "sec-tesla-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 3
+        },
+        "sec-uber-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 4
+        },
+        "sec-visa-2024": {
+          "candidates": 16,
+          "changed": 16,
+          "unique_graphs": 3
+        }
+      },
+      "sha256": "6798aeec8790f87579b9b31a0403989a21a6ef8e1e3176103ec6da561442963b",
+      "top_program_sequence": "CONNECT>STOP",
+      "top_program_sequence_count": 73,
+      "top_program_sequence_rate": 0.45625,
+      "unique_graph_rate": 0.33125,
+      "unique_graphs": 53,
+      "unique_programs": 49
+    },
+    "unique_graph_rate_delta": -0.59375
+  },
+  "schema_version": 1,
+  "scope": "train_only_diagnostic",
+  "test_opened": false,
+  "train_policy_sweep": {
+    "explore-20": {
+      "archive_coverage_mean": 0.4166666666666667,
+      "candidates": 1152,
+      "changed_candidate_rate_mean": 0.9565972222222222,
+      "changed_candidate_rate_min": 0.9505208333333334,
+      "feasibility_mean": 0.6889337602899306,
+      "feasibility_median": 0.7000000476837158,
+      "invalid_candidate_rate_max": 0.0,
+      "invalid_candidate_rate_mean": 0.0,
+      "operation_counts": {
+        "ADD_NODE": 51,
+        "CONNECT": 675,
+        "INVERT_RELATION": 472,
+        "MERGE": 61,
+        "REMOVE_CONSTRAINT": 52,
+        "REWIRE": 54,
+        "SUBSTITUTE": 79,
+        "TRANSFER_ROLE": 56
+      },
+      "operation_coverage": 8,
+      "policy": {
+        "exploration_rate": 0.2,
+        "policy_id": "explore-20",
+        "temperature": 0.75
+      },
+      "reproducible": true,
+      "seed_metrics": [
+        {
+          "archive_coverage": 0.375,
+          "archive_entries": 6,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9635416666666666,
+          "exploration_rate": 0.2,
+          "generation_seed": 1702,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 18,
+            "CONNECT": 230,
+            "INVERT_RELATION": 157,
+            "MERGE": 15,
+            "REMOVE_CONSTRAINT": 22,
+            "REWIRE": 19,
+            "SUBSTITUTE": 24,
+            "TRANSFER_ROLE": 19
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.6119791666666666,
+          "unique_graphs": 235
+        },
+        {
+          "archive_coverage": 0.4375,
+          "archive_entries": 7,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9505208333333334,
+          "exploration_rate": 0.2,
+          "generation_seed": 1703,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 15,
+            "CONNECT": 225,
+            "INVERT_RELATION": 152,
+            "MERGE": 20,
+            "REMOVE_CONSTRAINT": 14,
+            "REWIRE": 16,
+            "SUBSTITUTE": 27,
+            "TRANSFER_ROLE": 18
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.6302083333333334,
+          "unique_graphs": 242
+        },
+        {
+          "archive_coverage": 0.4375,
+          "archive_entries": 7,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9557291666666666,
+          "exploration_rate": 0.2,
+          "generation_seed": 1704,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 18,
+            "CONNECT": 220,
+            "INVERT_RELATION": 163,
+            "MERGE": 26,
+            "REMOVE_CONSTRAINT": 16,
+            "REWIRE": 19,
+            "SUBSTITUTE": 28,
+            "TRANSFER_ROLE": 19
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.6171875,
+          "unique_graphs": 237
+        }
+      ],
+      "seeds": 3,
+      "unique_graph_rate_mean": 0.6197916666666666,
+      "unique_graph_rate_min": 0.6119791666666666,
+      "unique_graph_rate_std": 0.007666459085354063
+    },
+    "explore-35": {
+      "archive_coverage_mean": 0.5,
+      "candidates": 1152,
+      "changed_candidate_rate_mean": 0.9826388888888888,
+      "changed_candidate_rate_min": 0.9765625,
+      "feasibility_mean": 0.6948470266846319,
+      "feasibility_median": 0.7000000476837158,
+      "invalid_candidate_rate_max": 0.0,
+      "invalid_candidate_rate_mean": 0.0,
+      "operation_counts": {
+        "ADD_NODE": 109,
+        "CONNECT": 614,
+        "INVERT_RELATION": 423,
+        "MERGE": 115,
+        "REMOVE_CONSTRAINT": 107,
+        "REWIRE": 112,
+        "SUBSTITUTE": 105,
+        "TRANSFER_ROLE": 117
+      },
+      "operation_coverage": 8,
+      "policy": {
+        "exploration_rate": 0.35,
+        "policy_id": "explore-35",
+        "temperature": 0.75
+      },
+      "reproducible": true,
+      "seed_metrics": [
+        {
+          "archive_coverage": 0.4375,
+          "archive_entries": 7,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9869791666666666,
+          "exploration_rate": 0.35,
+          "generation_seed": 1702,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 42,
+            "CONNECT": 211,
+            "INVERT_RELATION": 143,
+            "MERGE": 29,
+            "REMOVE_CONSTRAINT": 39,
+            "REWIRE": 35,
+            "SUBSTITUTE": 37,
+            "TRANSFER_ROLE": 40
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.7786458333333334,
+          "unique_graphs": 299
+        },
+        {
+          "archive_coverage": 0.5625,
+          "archive_entries": 9,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9765625,
+          "exploration_rate": 0.35,
+          "generation_seed": 1703,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 34,
+            "CONNECT": 193,
+            "INVERT_RELATION": 131,
+            "MERGE": 43,
+            "REMOVE_CONSTRAINT": 34,
+            "REWIRE": 38,
+            "SUBSTITUTE": 38,
+            "TRANSFER_ROLE": 45
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.8046875,
+          "unique_graphs": 309
+        },
+        {
+          "archive_coverage": 0.5,
+          "archive_entries": 8,
+          "candidates": 384,
+          "changed_candidate_rate": 0.984375,
+          "exploration_rate": 0.35,
+          "generation_seed": 1704,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 33,
+            "CONNECT": 210,
+            "INVERT_RELATION": 149,
+            "MERGE": 43,
+            "REMOVE_CONSTRAINT": 34,
+            "REWIRE": 39,
+            "SUBSTITUTE": 30,
+            "TRANSFER_ROLE": 32
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.7473958333333334,
+          "unique_graphs": 287
+        }
+      ],
+      "seeds": 3,
+      "unique_graph_rate_mean": 0.7769097222222222,
+      "unique_graph_rate_min": 0.7473958333333334,
+      "unique_graph_rate_std": 0.02342141938061117
+    },
+    "explore-50": {
+      "archive_coverage_mean": 0.4791666666666667,
+      "candidates": 1152,
+      "changed_candidate_rate_mean": 0.9921875,
+      "changed_candidate_rate_min": 0.9895833333333334,
+      "feasibility_mean": 0.7005403862179568,
+      "feasibility_median": 0.7000000476837158,
+      "invalid_candidate_rate_max": 0.0,
+      "invalid_candidate_rate_mean": 0.0,
+      "operation_counts": {
+        "ADD_NODE": 171,
+        "CONNECT": 530,
+        "INVERT_RELATION": 399,
+        "MERGE": 178,
+        "REMOVE_CONSTRAINT": 156,
+        "REWIRE": 161,
+        "SUBSTITUTE": 168,
+        "TRANSFER_ROLE": 177
+      },
+      "operation_coverage": 8,
+      "policy": {
+        "exploration_rate": 0.5,
+        "policy_id": "explore-50",
+        "temperature": 0.75
+      },
+      "reproducible": true,
+      "seed_metrics": [
+        {
+          "archive_coverage": 0.5,
+          "archive_entries": 8,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9895833333333334,
+          "exploration_rate": 0.5,
+          "generation_seed": 1702,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 61,
+            "CONNECT": 170,
+            "INVERT_RELATION": 142,
+            "MERGE": 51,
+            "REMOVE_CONSTRAINT": 62,
+            "REWIRE": 49,
+            "SUBSTITUTE": 53,
+            "TRANSFER_ROLE": 53
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.84375,
+          "unique_graphs": 324
+        },
+        {
+          "archive_coverage": 0.5,
+          "archive_entries": 8,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9921875,
+          "exploration_rate": 0.5,
+          "generation_seed": 1703,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 56,
+            "CONNECT": 169,
+            "INVERT_RELATION": 126,
+            "MERGE": 63,
+            "REMOVE_CONSTRAINT": 48,
+            "REWIRE": 55,
+            "SUBSTITUTE": 58,
+            "TRANSFER_ROLE": 67
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.8776041666666666,
+          "unique_graphs": 337
+        },
+        {
+          "archive_coverage": 0.4375,
+          "archive_entries": 7,
+          "candidates": 384,
+          "changed_candidate_rate": 0.9947916666666666,
+          "exploration_rate": 0.5,
+          "generation_seed": 1704,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "ADD_NODE": 54,
+            "CONNECT": 191,
+            "INVERT_RELATION": 131,
+            "MERGE": 64,
+            "REMOVE_CONSTRAINT": 46,
+            "REWIRE": 57,
+            "SUBSTITUTE": 57,
+            "TRANSFER_ROLE": 57
+          },
+          "operation_coverage": 8,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.875,
+          "unique_graphs": 336
+        }
+      ],
+      "seeds": 3,
+      "unique_graph_rate_mean": 0.8654513888888888,
+      "unique_graph_rate_min": 0.84375,
+      "unique_graph_rate_std": 0.01538198363426158
+    },
+    "model-only": {
+      "archive_coverage_mean": 0.125,
+      "candidates": 1152,
+      "changed_candidate_rate_mean": 0.8394097222222222,
+      "changed_candidate_rate_min": 0.8333333333333334,
+      "feasibility_mean": 0.683506965637207,
+      "feasibility_median": 0.6958333551883698,
+      "invalid_candidate_rate_max": 0.0,
+      "invalid_candidate_rate_mean": 0.0,
+      "operation_counts": {
+        "CONNECT": 762,
+        "INVERT_RELATION": 606
+      },
+      "operation_coverage": 2,
+      "policy": {
+        "exploration_rate": 0.0,
+        "policy_id": "model-only",
+        "temperature": 0.75
+      },
+      "reproducible": true,
+      "seed_metrics": [
+        {
+          "archive_coverage": 0.125,
+          "archive_entries": 2,
+          "candidates": 384,
+          "changed_candidate_rate": 0.84375,
+          "exploration_rate": 0.0,
+          "generation_seed": 1702,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "CONNECT": 257,
+            "INVERT_RELATION": 203
+          },
+          "operation_coverage": 2,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.17708333333333334,
+          "unique_graphs": 68
+        },
+        {
+          "archive_coverage": 0.125,
+          "archive_entries": 2,
+          "candidates": 384,
+          "changed_candidate_rate": 0.8411458333333334,
+          "exploration_rate": 0.0,
+          "generation_seed": 1703,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "CONNECT": 246,
+            "INVERT_RELATION": 204
+          },
+          "operation_coverage": 2,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.15625,
+          "unique_graphs": 60
+        },
+        {
+          "archive_coverage": 0.125,
+          "archive_entries": 2,
+          "candidates": 384,
+          "changed_candidate_rate": 0.8333333333333334,
+          "exploration_rate": 0.0,
+          "generation_seed": 1704,
+          "invalid_candidate_rate": 0.0,
+          "operation_counts": {
+            "CONNECT": 259,
+            "INVERT_RELATION": 199
+          },
+          "operation_coverage": 2,
+          "reproducible": true,
+          "source_cases": 6,
+          "temperature": 0.75,
+          "unique_graph_rate": 0.1875,
+          "unique_graphs": 72
+        }
+      ],
+      "seeds": 3,
+      "unique_graph_rate_mean": 0.1736111111111111,
+      "unique_graph_rate_min": 0.15625,
+      "unique_graph_rate_std": 0.012991865926298408
+    }
+  },
+  "trial_id": "CHM-V-T002",
+  "validation_opened": false
+}

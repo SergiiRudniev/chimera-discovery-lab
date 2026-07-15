@@ -15,6 +15,7 @@ from chimera.data.synthetic import make_synthetic_batch
 from chimera.models.venture import ChimeraVenture
 from chimera.research import load_research_registry
 from chimera.training.trainer import ChimeraTrainer
+from chimera.trials.proposal import run_proposal_diagnostic, run_proposal_trial
 from chimera.trials.venture import run_venture_trial
 
 
@@ -138,6 +139,41 @@ def _venture_trial(arguments: argparse.Namespace) -> int:
     return 0
 
 
+def _proposal_diagnostic(arguments: argparse.Namespace) -> int:
+    result = run_proposal_diagnostic(
+        arguments.config,
+        arguments.output,
+        baseline_candidates=arguments.baseline_candidates,
+        collapsed_candidates=arguments.collapsed_candidates,
+    )
+    print(
+        json.dumps(
+            {
+                "trial_id": result["trial_id"],
+                "scope": result["scope"],
+                "output": str(arguments.output),
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _proposal_trial(arguments: argparse.Namespace) -> int:
+    result = run_proposal_trial(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "trial_id": result["trial_id"],
+                "status": result["status"],
+                "selected_policy_id": result["selection"]["selected_policy_id"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="chimera")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -193,6 +229,38 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("checkpoints/venture_m0_t0"),
     )
+    proposal_diagnostic_parser = subparsers.add_parser("proposal-diagnostic")
+    proposal_diagnostic_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/venture/venture_trial_t2.yaml"),
+    )
+    proposal_diagnostic_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("research/trials/CHM-V-T002/diagnostic.json"),
+    )
+    proposal_diagnostic_parser.add_argument(
+        "--baseline-candidates",
+        type=Path,
+        default=Path("research/trials/CHM-V-T000/candidates.jsonl"),
+    )
+    proposal_diagnostic_parser.add_argument(
+        "--collapsed-candidates",
+        type=Path,
+        default=Path("research/trials/CHM-V-T001/candidates.jsonl"),
+    )
+    proposal_trial_parser = subparsers.add_parser("proposal-trial")
+    proposal_trial_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/venture/venture_trial_t2.yaml"),
+    )
+    proposal_trial_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("research/trials/CHM-V-T002"),
+    )
     return parser
 
 
@@ -208,6 +276,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _validate_corpus(arguments)
     if arguments.command == "venture-trial":
         return _venture_trial(arguments)
+    if arguments.command == "proposal-diagnostic":
+        return _proposal_diagnostic(arguments)
+    if arguments.command == "proposal-trial":
+        return _proposal_trial(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

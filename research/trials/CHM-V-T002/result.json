@@ -1,0 +1,690 @@
+{
+  "checkpoint": {
+    "file": "chimera-venture-m0-t1-step002700.pt",
+    "sha256": "678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47",
+    "source_trial_id": "CHM-V-T001",
+    "weights_modified": false
+  },
+  "checks": {
+    "checkpoint_hash_verified": true,
+    "deterministic_replay": true,
+    "reconstruction_guardrail": true,
+    "test_candidate_validity": true,
+    "test_changed_candidate_rate": true,
+    "test_feasibility_guardrail": true,
+    "test_unique_graph_rate": true,
+    "validation_policy_eligible": true,
+    "weights_unchanged": true
+  },
+  "claim_boundary": "CHM-V-T002 qualifies a frozen structured proposal policy only; it does not evaluate semantic novelty, commercial utility or CHM-V-H001.",
+  "code_commit": "df49c791b5e1912d8bf5a17929d9486f25ca6618",
+  "config_sha256": "7592bf6d6319e98e7d216aa627c561a70c5beccfee6385bd3f293ce57a402669",
+  "corpus_manifest_sha256": "26809d4dcc1bd00607fc90dd84ef26d740a447cd5924708bb2a9efd0753b52cd",
+  "device": "cuda:0",
+  "duration_seconds": 36.512231,
+  "finished_at": "2026-07-15T15:04:52.356672+00:00",
+  "hypothesis_id": "CHM-V-H001",
+  "metrics": {
+    "test": {
+      "explore-50": {
+        "archive_coverage_mean": 0.5208333333333334,
+        "candidates": 384,
+        "changed_candidate_rate_mean": 1.0,
+        "changed_candidate_rate_min": 1.0,
+        "feasibility_mean": 0.5742578365219136,
+        "feasibility_median": 0.5874999761581421,
+        "invalid_candidate_rate_max": 0.0,
+        "invalid_candidate_rate_mean": 0.0,
+        "operation_counts": {
+          "ADD_NODE": 66,
+          "CONNECT": 290,
+          "INVERT_RELATION": 72,
+          "MERGE": 50,
+          "REMOVE_CONSTRAINT": 55,
+          "REWIRE": 63,
+          "SUBSTITUTE": 100,
+          "TRANSFER_ROLE": 71
+        },
+        "operation_coverage": 8,
+        "policy": {
+          "exploration_rate": 0.5,
+          "policy_id": "explore-50",
+          "temperature": 0.75
+        },
+        "reproducible": true,
+        "seed_metrics": [
+          {
+            "archive_coverage": 0.5625,
+            "archive_entries": 9,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.5,
+            "generation_seed": 1702,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 23,
+              "CONNECT": 89,
+              "INVERT_RELATION": 28,
+              "MERGE": 17,
+              "REMOVE_CONSTRAINT": 25,
+              "REWIRE": 18,
+              "SUBSTITUTE": 30,
+              "TRANSFER_ROLE": 21
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.921875,
+            "unique_graphs": 118
+          },
+          {
+            "archive_coverage": 0.5,
+            "archive_entries": 8,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.5,
+            "generation_seed": 1703,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 19,
+              "CONNECT": 98,
+              "INVERT_RELATION": 24,
+              "MERGE": 17,
+              "REMOVE_CONSTRAINT": 14,
+              "REWIRE": 24,
+              "SUBSTITUTE": 36,
+              "TRANSFER_ROLE": 26
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.9375,
+            "unique_graphs": 120
+          },
+          {
+            "archive_coverage": 0.5,
+            "archive_entries": 8,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.5,
+            "generation_seed": 1704,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 24,
+              "CONNECT": 103,
+              "INVERT_RELATION": 20,
+              "MERGE": 16,
+              "REMOVE_CONSTRAINT": 16,
+              "REWIRE": 21,
+              "SUBSTITUTE": 34,
+              "TRANSFER_ROLE": 24
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.9609375,
+            "unique_graphs": 123
+          }
+        ],
+        "seeds": 3,
+        "unique_graph_rate_mean": 0.9401041666666666,
+        "unique_graph_rate_min": 0.921875,
+        "unique_graph_rate_std": 0.016053161466065044
+      },
+      "model-only": {
+        "archive_coverage_mean": 0.3125,
+        "candidates": 384,
+        "changed_candidate_rate_mean": 1.0,
+        "changed_candidate_rate_min": 1.0,
+        "feasibility_mean": 0.5471245947604378,
+        "feasibility_median": 0.5718750357627869,
+        "invalid_candidate_rate_max": 0.0,
+        "invalid_candidate_rate_mean": 0.0,
+        "operation_counts": {
+          "CONNECT": 497,
+          "INVERT_RELATION": 6,
+          "SUBSTITUTE": 97
+        },
+        "operation_coverage": 3,
+        "policy": {
+          "exploration_rate": 0.0,
+          "policy_id": "model-only",
+          "temperature": 0.75
+        },
+        "reproducible": true,
+        "seed_metrics": [
+          {
+            "archive_coverage": 0.3125,
+            "archive_entries": 5,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.0,
+            "generation_seed": 1702,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "CONNECT": 163,
+              "INVERT_RELATION": 3,
+              "SUBSTITUTE": 33
+            },
+            "operation_coverage": 3,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.265625,
+            "unique_graphs": 34
+          },
+          {
+            "archive_coverage": 0.3125,
+            "archive_entries": 5,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.0,
+            "generation_seed": 1703,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "CONNECT": 167,
+              "INVERT_RELATION": 3,
+              "SUBSTITUTE": 30
+            },
+            "operation_coverage": 3,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.3125,
+            "unique_graphs": 40
+          },
+          {
+            "archive_coverage": 0.3125,
+            "archive_entries": 5,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.0,
+            "generation_seed": 1704,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "CONNECT": 167,
+              "SUBSTITUTE": 34
+            },
+            "operation_coverage": 2,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.234375,
+            "unique_graphs": 30
+          }
+        ],
+        "seeds": 3,
+        "unique_graph_rate_mean": 0.2708333333333333,
+        "unique_graph_rate_min": 0.234375,
+        "unique_graph_rate_std": 0.03210632293213009
+      }
+    },
+    "train_reconstruction": {
+      "exact_graph_rate": 0.9921875,
+      "examples": 384.0
+    },
+    "validation": {
+      "explore-20": {
+        "archive_coverage_mean": 0.4166666666666667,
+        "candidates": 384,
+        "changed_candidate_rate_mean": 1.0,
+        "changed_candidate_rate_min": 1.0,
+        "feasibility_mean": 0.6237060947654148,
+        "feasibility_median": 0.6750000715255737,
+        "invalid_candidate_rate_max": 0.0,
+        "invalid_candidate_rate_mean": 0.0,
+        "operation_counts": {
+          "ADD_NODE": 19,
+          "CONNECT": 177,
+          "INVERT_RELATION": 24,
+          "MERGE": 19,
+          "REMOVE_CONSTRAINT": 17,
+          "REWIRE": 21,
+          "SUBSTITUTE": 164,
+          "TRANSFER_ROLE": 21
+        },
+        "operation_coverage": 8,
+        "policy": {
+          "exploration_rate": 0.2,
+          "policy_id": "explore-20",
+          "temperature": 0.75
+        },
+        "reproducible": true,
+        "seed_metrics": [
+          {
+            "archive_coverage": 0.4375,
+            "archive_entries": 7,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.2,
+            "generation_seed": 1702,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 9,
+              "CONNECT": 56,
+              "INVERT_RELATION": 10,
+              "MERGE": 6,
+              "REMOVE_CONSTRAINT": 7,
+              "REWIRE": 5,
+              "SUBSTITUTE": 54,
+              "TRANSFER_ROLE": 5
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.5703125,
+            "unique_graphs": 73
+          },
+          {
+            "archive_coverage": 0.375,
+            "archive_entries": 6,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.2,
+            "generation_seed": 1703,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 2,
+              "CONNECT": 60,
+              "INVERT_RELATION": 11,
+              "MERGE": 5,
+              "REMOVE_CONSTRAINT": 2,
+              "REWIRE": 8,
+              "SUBSTITUTE": 54,
+              "TRANSFER_ROLE": 7
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.59375,
+            "unique_graphs": 76
+          },
+          {
+            "archive_coverage": 0.4375,
+            "archive_entries": 7,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.2,
+            "generation_seed": 1704,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 8,
+              "CONNECT": 61,
+              "INVERT_RELATION": 3,
+              "MERGE": 8,
+              "REMOVE_CONSTRAINT": 8,
+              "REWIRE": 8,
+              "SUBSTITUTE": 56,
+              "TRANSFER_ROLE": 9
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.5546875,
+            "unique_graphs": 71
+          }
+        ],
+        "seeds": 3,
+        "unique_graph_rate_mean": 0.5729166666666666,
+        "unique_graph_rate_min": 0.5546875,
+        "unique_graph_rate_std": 0.016053161466065044
+      },
+      "explore-35": {
+        "archive_coverage_mean": 0.4583333333333333,
+        "candidates": 384,
+        "changed_candidate_rate_mean": 1.0,
+        "changed_candidate_rate_min": 1.0,
+        "feasibility_mean": 0.6316949180327356,
+        "feasibility_median": 0.6750000715255737,
+        "invalid_candidate_rate_max": 0.0,
+        "invalid_candidate_rate_mean": 0.0,
+        "operation_counts": {
+          "ADD_NODE": 34,
+          "CONNECT": 168,
+          "INVERT_RELATION": 45,
+          "MERGE": 26,
+          "REMOVE_CONSTRAINT": 32,
+          "REWIRE": 37,
+          "SUBSTITUTE": 145,
+          "TRANSFER_ROLE": 39
+        },
+        "operation_coverage": 8,
+        "policy": {
+          "exploration_rate": 0.35,
+          "policy_id": "explore-35",
+          "temperature": 0.75
+        },
+        "reproducible": true,
+        "seed_metrics": [
+          {
+            "archive_coverage": 0.4375,
+            "archive_entries": 7,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.35,
+            "generation_seed": 1702,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 14,
+              "CONNECT": 51,
+              "INVERT_RELATION": 17,
+              "MERGE": 8,
+              "REMOVE_CONSTRAINT": 13,
+              "REWIRE": 11,
+              "SUBSTITUTE": 47,
+              "TRANSFER_ROLE": 9
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.7265625,
+            "unique_graphs": 93
+          },
+          {
+            "archive_coverage": 0.5,
+            "archive_entries": 8,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.35,
+            "generation_seed": 1703,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 4,
+              "CONNECT": 56,
+              "INVERT_RELATION": 18,
+              "MERGE": 10,
+              "REMOVE_CONSTRAINT": 7,
+              "REWIRE": 12,
+              "SUBSTITUTE": 51,
+              "TRANSFER_ROLE": 14
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.78125,
+            "unique_graphs": 100
+          },
+          {
+            "archive_coverage": 0.4375,
+            "archive_entries": 7,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.35,
+            "generation_seed": 1704,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 16,
+              "CONNECT": 61,
+              "INVERT_RELATION": 10,
+              "MERGE": 8,
+              "REMOVE_CONSTRAINT": 12,
+              "REWIRE": 14,
+              "SUBSTITUTE": 47,
+              "TRANSFER_ROLE": 16
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.7578125,
+            "unique_graphs": 97
+          }
+        ],
+        "seeds": 3,
+        "unique_graph_rate_mean": 0.7552083333333334,
+        "unique_graph_rate_min": 0.7265625,
+        "unique_graph_rate_std": 0.02240188871625684
+      },
+      "explore-50": {
+        "archive_coverage_mean": 0.4791666666666667,
+        "candidates": 384,
+        "changed_candidate_rate_mean": 1.0,
+        "changed_candidate_rate_min": 1.0,
+        "feasibility_mean": 0.6403505160318067,
+        "feasibility_median": 0.6750000715255737,
+        "invalid_candidate_rate_max": 0.0,
+        "invalid_candidate_rate_mean": 0.0,
+        "operation_counts": {
+          "ADD_NODE": 62,
+          "CONNECT": 150,
+          "INVERT_RELATION": 63,
+          "MERGE": 54,
+          "REMOVE_CONSTRAINT": 51,
+          "REWIRE": 56,
+          "SUBSTITUTE": 145,
+          "TRANSFER_ROLE": 63
+        },
+        "operation_coverage": 8,
+        "policy": {
+          "exploration_rate": 0.5,
+          "policy_id": "explore-50",
+          "temperature": 0.75
+        },
+        "reproducible": true,
+        "seed_metrics": [
+          {
+            "archive_coverage": 0.375,
+            "archive_entries": 6,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.5,
+            "generation_seed": 1702,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 26,
+              "CONNECT": 41,
+              "INVERT_RELATION": 22,
+              "MERGE": 17,
+              "REMOVE_CONSTRAINT": 19,
+              "REWIRE": 16,
+              "SUBSTITUTE": 46,
+              "TRANSFER_ROLE": 15
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.890625,
+            "unique_graphs": 114
+          },
+          {
+            "archive_coverage": 0.5625,
+            "archive_entries": 9,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.5,
+            "generation_seed": 1703,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 15,
+              "CONNECT": 52,
+              "INVERT_RELATION": 24,
+              "MERGE": 18,
+              "REMOVE_CONSTRAINT": 14,
+              "REWIRE": 19,
+              "SUBSTITUTE": 45,
+              "TRANSFER_ROLE": 30
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.859375,
+            "unique_graphs": 110
+          },
+          {
+            "archive_coverage": 0.5,
+            "archive_entries": 8,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.5,
+            "generation_seed": 1704,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "ADD_NODE": 21,
+              "CONNECT": 57,
+              "INVERT_RELATION": 17,
+              "MERGE": 19,
+              "REMOVE_CONSTRAINT": 18,
+              "REWIRE": 21,
+              "SUBSTITUTE": 54,
+              "TRANSFER_ROLE": 18
+            },
+            "operation_coverage": 8,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.890625,
+            "unique_graphs": 114
+          }
+        ],
+        "seeds": 3,
+        "unique_graph_rate_mean": 0.8802083333333334,
+        "unique_graph_rate_min": 0.859375,
+        "unique_graph_rate_std": 0.01473139127471974
+      },
+      "model-only": {
+        "archive_coverage_mean": 0.0625,
+        "candidates": 384,
+        "changed_candidate_rate_mean": 1.0,
+        "changed_candidate_rate_min": 1.0,
+        "feasibility_mean": 0.6165799001852671,
+        "feasibility_median": 0.616666704416275,
+        "invalid_candidate_rate_max": 0.0,
+        "invalid_candidate_rate_mean": 0.0,
+        "operation_counts": {
+          "CONNECT": 187,
+          "INVERT_RELATION": 11,
+          "SUBSTITUTE": 186
+        },
+        "operation_coverage": 3,
+        "policy": {
+          "exploration_rate": 0.0,
+          "policy_id": "model-only",
+          "temperature": 0.75
+        },
+        "reproducible": true,
+        "seed_metrics": [
+          {
+            "archive_coverage": 0.0625,
+            "archive_entries": 1,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.0,
+            "generation_seed": 1702,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "CONNECT": 65,
+              "INVERT_RELATION": 3,
+              "SUBSTITUTE": 60
+            },
+            "operation_coverage": 3,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.140625,
+            "unique_graphs": 18
+          },
+          {
+            "archive_coverage": 0.0625,
+            "archive_entries": 1,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.0,
+            "generation_seed": 1703,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "CONNECT": 63,
+              "INVERT_RELATION": 2,
+              "SUBSTITUTE": 63
+            },
+            "operation_coverage": 3,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.1171875,
+            "unique_graphs": 15
+          },
+          {
+            "archive_coverage": 0.0625,
+            "archive_entries": 1,
+            "candidates": 128,
+            "changed_candidate_rate": 1.0,
+            "exploration_rate": 0.0,
+            "generation_seed": 1704,
+            "invalid_candidate_rate": 0.0,
+            "operation_counts": {
+              "CONNECT": 59,
+              "INVERT_RELATION": 6,
+              "SUBSTITUTE": 63
+            },
+            "operation_coverage": 3,
+            "reproducible": true,
+            "source_cases": 2,
+            "temperature": 0.75,
+            "unique_graph_rate": 0.109375,
+            "unique_graphs": 14
+          }
+        ],
+        "seeds": 3,
+        "unique_graph_rate_mean": 0.12239583333333333,
+        "unique_graph_rate_min": 0.109375,
+        "unique_graph_rate_std": 0.01327869664998121
+      }
+    }
+  },
+  "policy_bundle": {
+    "checkpoint": {
+      "file": "chimera-venture-m0-t1-step002700.pt",
+      "sha256": "678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47",
+      "source_trial_id": "CHM-V-T001",
+      "weights_modified": false
+    },
+    "claim_boundary": "Engineering proposal policy; no creativity or utility claim.",
+    "code_commit": "df49c791b5e1912d8bf5a17929d9486f25ca6618",
+    "config_sha256": "7592bf6d6319e98e7d216aa627c561a70c5beccfee6385bd3f293ce57a402669",
+    "format_version": 1,
+    "model": "Chimera Venture M0",
+    "proposal_policy": {
+      "exploration_rate": 0.5,
+      "policy_id": "explore-50",
+      "temperature": 0.75
+    },
+    "sampler": {
+      "distribution": "(1-r)*model_softmax + r*legal_uniform",
+      "max_edits": 3,
+      "min_edits": 1,
+      "validity_constrained": true
+    },
+    "trial_id": "CHM-V-T002"
+  },
+  "schema_version": 1,
+  "selection": {
+    "baseline_policy_id": "model-only",
+    "eligible_policy_ids": [
+      "explore-20",
+      "explore-35",
+      "explore-50"
+    ],
+    "final_split": "test",
+    "ordering": [
+      "unique_graph_rate_mean",
+      "archive_coverage_mean",
+      "operation_coverage",
+      "lower_exploration_rate"
+    ],
+    "selected_policy_id": "explore-50",
+    "selection_split": "validation"
+  },
+  "started_at": "2026-07-15T15:04:15.844441+00:00",
+  "status": "passed",
+  "trial_id": "CHM-V-T002"
+}

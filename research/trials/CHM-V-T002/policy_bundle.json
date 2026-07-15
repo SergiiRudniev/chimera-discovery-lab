@@ -1,0 +1,25 @@
+{
+  "checkpoint": {
+    "file": "chimera-venture-m0-t1-step002700.pt",
+    "sha256": "678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47",
+    "source_trial_id": "CHM-V-T001",
+    "weights_modified": false
+  },
+  "claim_boundary": "Engineering proposal policy; no creativity or utility claim.",
+  "code_commit": "df49c791b5e1912d8bf5a17929d9486f25ca6618",
+  "config_sha256": "7592bf6d6319e98e7d216aa627c561a70c5beccfee6385bd3f293ce57a402669",
+  "format_version": 1,
+  "model": "Chimera Venture M0",
+  "proposal_policy": {
+    "exploration_rate": 0.5,
+    "policy_id": "explore-50",
+    "temperature": 0.75
+  },
+  "sampler": {
+    "distribution": "(1-r)*model_softmax + r*legal_uniform",
+    "max_edits": 3,
+    "min_edits": 1,
+    "validity_constrained": true
+  },
+  "trial_id": "CHM-V-T002"
+}
