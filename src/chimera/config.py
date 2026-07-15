@@ -59,7 +59,7 @@ class ModelConfig:
         if self.hidden_dim % self.num_heads:
             raise ValueError("hidden_dim must be divisible by num_heads")
         if self.score_dimensions != 3:
-            raise ValueError("Venture V0.1 defines exactly three score dimensions")
+            raise ValueError("Venture M0 defines exactly three score dimensions")
         if not 0.0 <= self.dropout < 1.0:
             raise ValueError("dropout must be in [0, 1)")
 

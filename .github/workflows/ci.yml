@@ -40,4 +40,4 @@ jobs:
       - name: Research ledger
         run: chimera validate-research
       - name: Registered parameter count
-        run: chimera inspect --config configs/venture/venture_v0_1_20m.yaml
+        run: chimera inspect --config configs/venture/venture_m0_20m.yaml

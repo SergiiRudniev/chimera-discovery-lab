@@ -7,8 +7,8 @@
 [![Python](https://img.shields.io/badge/Python-3.10--3.13-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![CI](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml)
-[![Model](https://img.shields.io/badge/model-Venture%20V0.1-7B5CFA)](#venture-v01)
-[![Parameters](https://img.shields.io/badge/parameters-20.648M-2E8B57)](#venture-v01)
+[![Model](https://img.shields.io/badge/model-Venture%20M0-7B5CFA)](#venture-m0)
+[![Parameters](https://img.shields.io/badge/parameters-20.648M-2E8B57)](#venture-m0)
 [![Status](https://img.shields.io/badge/status-prospective%20R%26D-F0B429)](#current-status)
 [![License](https://img.shields.io/badge/license-Apache--2.0-4C566A)](LICENSE)
 
@@ -85,15 +85,15 @@ flowchart TB
     QD --> FREEZE --> INTERPRET
 ```
 
-## Venture V0.1
+## Venture M0
 
-The registered V0.1 configuration contains **20,647,992 trainable parameters**
+The registered M0 configuration contains **20,647,992 trainable parameters**
 and uses a 384-dimensional graph state, five
 relation-aware encoder blocks, three edit-decoder blocks and three latent
 transition blocks. It accepts up to 64 nodes and emits up to eight structural
 edits per candidate.
 
-| Component | V0.1 contract |
+| Component | M0 contract |
 | --- | --- |
 | Input | Typed graph plus eight numeric features per node |
 | Context | Maximum 64 nodes, 16 relation types |
@@ -173,7 +173,7 @@ python -m pip install -e ".[dev]"
 Inspect the registered model:
 
 ```powershell
-chimera inspect --config configs/venture/venture_v0_1_20m.yaml
+chimera inspect --config configs/venture/venture_m0_20m.yaml
 ```
 
 Run the deterministic engineering smoke test:
