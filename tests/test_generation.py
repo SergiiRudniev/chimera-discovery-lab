@@ -6,7 +6,7 @@ import torch
 from chimera.config import ModelConfig
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.generation.archive import ArchiveEntry, MapElitesArchive
-from chimera.generation.mutate import apply_edit_program
+from chimera.generation.mutate import apply_edit_program, validate_edit_program
 from chimera.generation.sampler import sample_edit_program
 from chimera.models.venture import ChimeraVenture
 
@@ -25,6 +25,7 @@ def test_sampler_returns_bounded_program(small_model_config: ModelConfig) -> Non
     program = sample_edit_program(model, batch.graph, temperature=0.0)
     program.validate(batch_size=2, max_nodes=8)
     assert program.steps == 3
+    assert validate_edit_program(batch.graph, program) == ((), ())
 
 
 def test_archive_replaces_only_with_higher_quality() -> None:

@@ -16,6 +16,25 @@ def test_synthetic_batch_satisfies_contract(small_model_config: ModelConfig) -> 
     assert torch.all((batch.scores >= 0) & (batch.scores <= 1))
 
 
+def test_terminal_stop_uses_first_padding_position(
+    small_model_config: ModelConfig,
+) -> None:
+    batch = make_synthetic_batch(small_model_config, batch_size=1, seed=13)
+    edits = batch.edits
+    mask = torch.ones_like(edits.step_mask)
+    mask[:, -1] = False
+    stopped = type(edits)(
+        operations=edits.operations,
+        source_nodes=edits.source_nodes,
+        target_nodes=edits.target_nodes,
+        node_types=edits.node_types,
+        edge_types=edits.edge_types,
+        step_mask=mask,
+    ).with_terminal_stop()
+    assert bool(stopped.step_mask[0, -1])
+    assert int(stopped.operations[0, -1]) == 0
+
+
 def test_padded_node_type_must_be_zero() -> None:
     graph = GraphBatch(
         node_types=torch.tensor([[1, 2]]),

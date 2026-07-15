@@ -15,6 +15,7 @@ from chimera.data.synthetic import make_synthetic_batch
 from chimera.models.venture import ChimeraVenture
 from chimera.research import load_research_registry
 from chimera.training.trainer import ChimeraTrainer
+from chimera.trials.venture import run_venture_trial
 
 
 def _inspect(config: ExperimentConfig) -> int:
@@ -117,6 +118,26 @@ def _corpus_smoke(
     return 0
 
 
+def _venture_trial(arguments: argparse.Namespace) -> int:
+    result = run_venture_trial(
+        arguments.config,
+        arguments.output,
+        checkpoint_dir=arguments.checkpoint_dir,
+    )
+    print(
+        json.dumps(
+            {
+                "trial_id": result["trial_id"],
+                "status": result["status"],
+                "best_step": result["best_step"],
+                "checkpoint": result["checkpoint"]["file"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="chimera")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -133,9 +154,7 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("datasets/venture_corpus_c0/source_graphs.yaml"),
     )
-    corpus_parser.add_argument(
-        "--output", type=Path, default=Path("datasets/venture_corpus_c0")
-    )
+    corpus_parser.add_argument("--output", type=Path, default=Path("datasets/venture_corpus_c0"))
     corpus_parser.add_argument(
         "--config", type=Path, default=Path("configs/venture/venture_m0_20m.yaml")
     )
@@ -158,6 +177,22 @@ def build_parser() -> argparse.ArgumentParser:
     )
     corpus_smoke_parser.add_argument("--steps", type=int, default=5)
     corpus_smoke_parser.add_argument("--batch-size", type=int, default=2)
+    trial_parser = subparsers.add_parser("venture-trial")
+    trial_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/venture/venture_trial_t0.yaml"),
+    )
+    trial_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("research/trials/CHM-V-T000"),
+    )
+    trial_parser.add_argument(
+        "--checkpoint-dir",
+        type=Path,
+        default=Path("checkpoints/venture_m0_t0"),
+    )
     return parser
 
 
@@ -171,15 +206,15 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _build_corpus(arguments)
     if arguments.command == "validate-corpus":
         return _validate_corpus(arguments)
+    if arguments.command == "venture-trial":
+        return _venture_trial(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)
     if arguments.command == "smoke":
         return _smoke(config, arguments.steps)
     if arguments.command == "corpus-smoke":
-        return _corpus_smoke(
-            config, arguments.manifest, arguments.steps, arguments.batch_size
-        )
+        return _corpus_smoke(config, arguments.manifest, arguments.steps, arguments.batch_size)
     raise AssertionError(f"unhandled command: {arguments.command}")
 
 

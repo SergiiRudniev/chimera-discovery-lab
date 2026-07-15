@@ -1,0 +1,29 @@
+schema_version: 1
+trial_id: CHM-V-T000
+name: Venture Trial T0
+model: Chimera Venture M0
+corpus: Chimera Venture Corpus C0
+hypothesis_context: CHM-V-H001
+status: registered
+scope: engineering_qualification
+registered_at: 2026-07-15
+config: configs/venture/venture_trial_t0.yaml
+objectives:
+  - train the full M0 architecture on numeric graph transitions
+  - freeze the best validation-loss checkpoint
+  - measure train, validation and test structural reconstruction
+  - generate validity-constrained graph-edit candidates
+  - verify deterministic replay for a fixed generation seed
+acceptance:
+  finite_training: true
+  training_loss_reduced: true
+  train_exact_graph_rate_min: 0.95
+  invalid_candidate_rate_max: 0.01
+  deterministic_replay: true
+test_usage:
+  checkpoint_selection: forbidden
+  threshold_selection: forbidden
+  final_reporting_only: true
+claim_boundary: >-
+  T0 qualifies engineering behavior only. It cannot decide novelty, commercial
+  utility or the CHM-V-H001 language hypothesis.
