@@ -85,6 +85,11 @@ def test_generated_sequence_window_hides_service_metadata() -> None:
     assert window.observations.shape == (4, 4, 10, 8)
     assert window.intervention_parameters.shape == (4, 3)
     assert window.effect_targets.shape == (4, 4)
+    assert window.action_history is not None
+    assert window.action_target_history is not None
+    assert window.action_history.shape == (4, 4, 3)
+    assert window.action_target_history.shape == (4, 4, 10)
+    assert torch.count_nonzero(window.action_history[:, 0]) == 0
     assert torch.equal(window.domain_ids, torch.zeros(4, dtype=torch.long))
     assert not hasattr(window, "world_family_ids")
     assert torch.all(window.source_slots != window.target_slots)
@@ -142,6 +147,11 @@ def test_h002_relational_model_is_slot_permutation_equivariant() -> None:
         target_slots=inverse[window.target_slots],
         next_observations=window.next_observations[:, permutation],
         next_observation_mask=window.next_observation_mask[:, permutation],
+        action_target_history=(
+            window.action_target_history[:, :, permutation]
+            if window.action_target_history is not None
+            else None
+        ),
     )
     model = RelationalSequenceWorldModel(_model_config()).eval()
 
@@ -185,6 +195,26 @@ def test_h002_mechanism_embedding_is_action_independent() -> None:
     assert not torch.equal(
         original_output.next_state_mean,
         changed_output.next_state_mean,
+    )
+
+
+def test_h002_mechanism_embedding_reads_only_past_actions() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)  # type: ignore[arg-type]
+    assert window.action_history is not None
+    changed = replace(
+        window,
+        action_history=torch.randn_like(window.action_history),
+    )
+    model = RelationalSequenceWorldModel(_model_config()).eval()
+
+    with torch.no_grad():
+        original_output = model(window)
+        changed_output = model(changed)
+
+    assert not torch.equal(
+        original_output.proposal_embedding,
+        changed_output.proposal_embedding,
     )
 
 

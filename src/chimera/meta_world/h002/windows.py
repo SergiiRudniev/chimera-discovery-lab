@@ -115,6 +115,18 @@ def make_transition_window(
         dtype=generated.relations.dtype,
     )
     time_mask = torch.zeros(batch, context_steps, dtype=torch.bool)
+    action_history = torch.zeros(
+        batch,
+        context_steps,
+        generated.actions.shape[-1] + 1,
+        dtype=generated.actions.dtype,
+    )
+    action_target_history = torch.zeros(
+        batch,
+        context_steps,
+        slots,
+        dtype=generated.action_targets.dtype,
+    )
     history = slice(history_start, prediction_step + 1)
     observations[:, :history_length] = generated.observations[:, history]
     slot_mask[:, :history_length] = generated.object_mask[:, history]
@@ -125,6 +137,18 @@ def make_transition_window(
         :, history
     ].unsqueeze(-1).to(generated.relations.dtype)
     time_mask[:, :history_length] = generated.sequence_mask[:, history]
+    if history_length > 1:
+        prior_actions = slice(history_start, prediction_step)
+        action_history[:, 1:history_length] = torch.cat(
+            [
+                generated.actions[:, prior_actions],
+                generated.delta_time[:, prior_actions, None],
+            ],
+            dim=-1,
+        )
+        action_target_history[:, 1:history_length] = generated.action_targets[
+            :, prior_actions
+        ]
     action_targets = generated.action_targets[:, prediction_step]
     source_slots = action_targets.argmin(dim=1)
     target_slots = action_targets.argmax(dim=1)
@@ -153,7 +177,8 @@ def make_transition_window(
         next_observation_mask=next_observation_mask,
         effect_targets=generated.outcomes[:, prediction_step],
         mechanism_ids=sample.mechanism_ids,
+        action_history=action_history,
+        action_target_history=action_target_history,
     )
     window.validate()
     return window
-

@@ -25,6 +25,11 @@ class RelationalSequenceWorldModel(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden, hidden),
         )
+        self.history_action_encoder = nn.Sequential(
+            nn.Linear(config.intervention_parameters + 1, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
         self.spatial_blocks = nn.ModuleList(
             [SpatialBlock(config) for _ in range(config.spatial_layers)]
         )
@@ -117,6 +122,10 @@ class RelationalSequenceWorldModel(nn.Module):
             raise ValueError("batch intervention parameter count does not match the model")
         if torch.any(batch.domain_ids != 0):
             raise ValueError("H002 relational model forbids service-domain IDs")
+        if batch.action_history is None or batch.action_target_history is None:
+            raise ValueError("H002 relational model requires causal action histories")
+        if batch.action_history.shape[-1] != config.intervention_parameters:
+            raise ValueError("action history parameter count does not match the model")
 
     def forward(self, batch: MetaWorldBatch) -> MetaWorldOutput:
         batch.validate()
@@ -128,6 +137,19 @@ class RelationalSequenceWorldModel(nn.Module):
             dim=-1,
         )
         slot_states = self.slot_encoder(slot_input)
+        assert batch.action_history is not None
+        assert batch.action_target_history is not None
+        history_parameters = batch.action_history[:, :, None, :].expand(
+            -1,
+            -1,
+            config.max_slots,
+            -1,
+        )
+        history_context = torch.cat(
+            [history_parameters, batch.action_target_history.unsqueeze(-1)],
+            dim=-1,
+        )
+        slot_states = slot_states + self.history_action_encoder(history_context)
         slot_states = slot_states * batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
         flat_states = slot_states.reshape(
             batch_size * config.context_steps,
@@ -272,6 +294,11 @@ class TemporalWorldBaseline(nn.Module):
             nn.SiLU(),
             nn.Linear(hidden, hidden),
         )
+        self.history_action_encoder = nn.Sequential(
+            nn.Linear(config.intervention_parameters + 1, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
         self.temporal = nn.GRU(
             input_size=hidden,
             hidden_size=hidden,
@@ -324,11 +351,24 @@ class TemporalWorldBaseline(nn.Module):
             config.observation_features,
         ):
             raise ValueError("batch observations do not match the temporal baseline")
+        if batch.action_history is None or batch.action_target_history is None:
+            raise ValueError("temporal baseline requires causal action histories")
         adapter_input = torch.cat(
             [batch.observations, batch.observation_mask.to(batch.observations.dtype)],
             dim=-1,
         )
         slot_states = self.slot_encoder(adapter_input)
+        history_parameters = batch.action_history[:, :, None, :].expand(
+            -1,
+            -1,
+            config.max_slots,
+            -1,
+        )
+        history_context = torch.cat(
+            [history_parameters, batch.action_target_history.unsqueeze(-1)],
+            dim=-1,
+        )
+        slot_states = slot_states + self.history_action_encoder(history_context)
         slot_states = slot_states * batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
         weights = batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
         graph_states = (slot_states * weights).sum(dim=2) / weights.sum(dim=2).clamp_min(1)

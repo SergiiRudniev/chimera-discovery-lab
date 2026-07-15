@@ -26,6 +26,8 @@ class MetaWorldBatch:
     next_observation_mask: Tensor
     effect_targets: Tensor
     mechanism_ids: Tensor
+    action_history: Tensor | None = None
+    action_target_history: Tensor | None = None
 
     @property
     def batch_size(self) -> int:
@@ -61,6 +63,21 @@ class MetaWorldBatch:
             raise ValueError("intervention_parameters must have shape [batch, parameters]")
         if self.effect_targets.ndim != 2 or self.effect_targets.shape[0] != batch:
             raise ValueError("effect_targets must have shape [batch, effects]")
+        histories = (self.action_history, self.action_target_history)
+        if any(value is None for value in histories) and not all(
+            value is None for value in histories
+        ):
+            raise ValueError("action histories must either both be present or both be absent")
+        if self.action_history is not None and self.action_target_history is not None:
+            if self.action_history.ndim != 3 or tuple(self.action_history.shape[:2]) != (
+                batch,
+                time,
+            ):
+                raise ValueError("action_history must have shape [batch, time, parameters]")
+            if tuple(self.action_target_history.shape) != (batch, time, slots):
+                raise ValueError(
+                    "action_target_history must have shape [batch, time, slots]"
+                )
         for name in ("observation_mask", "slot_mask", "time_mask", "next_observation_mask"):
             if getattr(self, name).dtype != torch.bool:
                 raise TypeError(f"{name} must be boolean")
@@ -86,5 +103,10 @@ class MetaWorldBatch:
                 raise ValueError(f"{name} must point to an active final-step slot")
 
     def to(self, device: torch.device | str) -> MetaWorldBatch:
-        values = {item.name: getattr(self, item.name).to(device) for item in fields(self)}
+        values = {
+            item.name: (
+                value.to(device) if isinstance(value := getattr(self, item.name), Tensor) else value
+            )
+            for item in fields(self)
+        }
         return MetaWorldBatch(**values)
