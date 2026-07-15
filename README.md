@@ -97,6 +97,17 @@ flowchart TB
 The detailed boundary and qualification requirements are frozen in the
 [W0 design contract](docs/META_WORLD_W0.md).
 
+## Generated Worlds H002
+
+H002 replaces static trajectory enumeration with seed-addressable mathematical
+world generators. `FlowWorld`, `CompetitionWorld` and `FunnelWorld` share hidden
+mechanisms while independent renderers change objects, channels, units, time,
+noise and visibility. Model batches contain only numeric tensors; generator IDs
+remain outside the model boundary.
+
+The hypothesis, split isolation and acceptance rule were frozen before target
+metrics. See the [generated-world contract](docs/WORLD_GENERATORS_H002.md).
+
 ## Numerical Output
 
 ```text
@@ -165,6 +176,7 @@ configuration exists and `chimera inspect` can derive it from code.
 | Architecture implementation | Implemented |
 | BF16 CUDA engineering gate | Accepted: H001/T001 |
 | First cross-domain corpus | Not built |
+| Generated-world H002 | Preregistered and implemented; scientific run not started |
 | W0 configuration | `meta_world_w0_t1.yaml` |
 | Trained checkpoint | None |
 | Empirical claims | None |
@@ -188,6 +200,7 @@ datasets and research identifiers.
 ## Documentation
 
 - [Meta-World W0 design contract](docs/META_WORLD_W0.md)
+- [Generated Worlds H002](docs/WORLD_GENERATORS_H002.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)
