@@ -19,6 +19,7 @@ from chimera.trials.proposal import (
     _historical_candidate_summary,
     _reconstruction_guardrail,
     _select_policy,
+    _write_json,
 )
 
 
@@ -118,6 +119,14 @@ def test_historical_candidate_summary(tmp_path: Path) -> None:
     assert summary["changed_candidate_rate"] == 0.5
     assert summary["top_program_sequence"] == "CONNECT>STOP"
     assert summary["per_case"]["case-a"]["unique_graphs"] == 1
+
+
+def test_json_artifacts_use_lf_line_endings(tmp_path: Path) -> None:
+    path = tmp_path / "artifact.json"
+    _write_json(path, {"value": [1, 2]})
+    payload = path.read_bytes()
+    assert payload.endswith(b"\n")
+    assert b"\r\n" not in payload
 
 
 def test_reconstruction_guardrail_reports_exact_rate(
