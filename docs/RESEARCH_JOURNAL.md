@@ -1,5 +1,25 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H003 registration
+
+- **Question:** Does four-step closed-loop training plus a cross-batch
+  hard-negative queue improve unseen-world intervention-effect and rollout
+  prediction over every matched baseline?
+- **Diagnosis inherited from H002:** Relational state improved intervention
+  prediction over the temporal baseline, but in-batch mechanism alignment hurt
+  both primary validation metrics relative to the same unaligned architecture.
+- **Change:** Train autoregressively for four steps and contrast mechanisms
+  against `256..2048` detached embeddings retained across batches.
+- **Isolation:** Hidden IDs may pair examples for the training loss, but never
+  enter the model forward contract. H002 split isolation and generator SHA-256
+  remain frozen.
+- **Validation gate:** Across seeds `260903..260905`, both primary median errors
+  must be no more than `0.95` times the strongest learned baseline, mechanism
+  retrieval must reach `0.10`, and effect coverage must remain at least `0.85`.
+- **Status:** `not_run`; test metrics remain sealed and no checkpoint exists.
+- **Claim boundary:** Simulator-distribution transfer only; no real-world
+  causality, business utility, language-independent thought or production claim.
+
 ## 2026-07-15 — CHM-W-H002 validation-only model preflight
 
 - **Scope:** Matched single-seed engineering preflight on `train` and
