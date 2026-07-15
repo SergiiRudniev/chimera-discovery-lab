@@ -1,5 +1,49 @@
 # Research Journal
 
+## 2026-07-15 — Meta-World Corpus C0 automated result
+
+- **Build:** `CHM-W-C000` was generated from source revision `b580131` with
+  163,840 trajectories: 122,880 train, 12,288 validation, 12,288 test and
+  16,384 transfer.
+- **Integrity:** Manifest SHA-256 is
+  `e46e85efa97fb230ae2e4a4ad16d2786f1e93b055d71a07e7c562144a21088d1`;
+  all declared file hashes, record IDs and record seeds passed validation.
+- **Isolation:** Train eras 0–9, validation era 10, test era 11 and transfer
+  era 12 are exact. Transfer's four domain-mechanism pairs are disjoint from
+  the twelve fitting pairs.
+- **Effects:** In 512 stratified materializations, all eight interventions and
+  all 32 mechanism-intervention combinations had nonzero, varying effects.
+  All eight numeric control parameters passed sensitivity checks.
+- **Reproducibility:** Exact replay, byte-reproducible rebuild tests and the
+  executed quality notebook passed. Quality-report SHA-256 is
+  `e1cbcc87cd2472e54a8d3e18adc64c0b2950fd8adc1849cf23c1527b2d94cdd3`.
+- **Decision:** Freeze C0 as an automated-gate-passed candidate. Do not start
+  H002 until three independent AI reviewers accept the same immutable hashes.
+- **Claim boundary:** C0 remains procedural and cannot establish real-world
+  causality, idea quality or production readiness.
+
+## 2026-07-15 — Meta-World Corpus C0 preregistration
+
+- **Corpus:** Reserve `CHM-W-C000` for 163,840 deterministic procedural
+  trajectories with one unique record ID and seed per intervention-conditioned
+  history.
+- **Isolation:** Train uses eras 0–9 and twelve domain-mechanism pairs;
+  validation uses era 10, test era 11, and transfer era 12 with four disjoint
+  domain-mechanism pairs.
+- **Semantics:** Four latent mechanisms, four fixed observation transforms,
+  eight intervention types and eight active numeric control parameters are
+  frozen in `generator_contract.json` before the full corpus is built.
+- **Quality gate:** Require hash integrity, global key uniqueness, exact split
+  and era isolation, balanced combinations, deterministic replay, complete
+  stratified sampling, finite tensors, effect invariants and non-collapsed
+  effects for every mechanism-intervention pair.
+- **Review gate:** After hashes are frozen, three independent AI reviewers must
+  accept integrity/provenance, causal semantics and modeling/transfer suitability.
+- **Status:** Preregistered; the full corpus has not yet been generated or
+  reviewed.
+- **Claim boundary:** C0 can support mechanistic held-out training only. It
+  cannot establish real-world causality, idea quality or production readiness.
+
 ## 2026-07-15 — Meta-World failure artifact policy
 
 - **Finding:** T000 failed before the trial runner created its normal result

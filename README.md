@@ -164,7 +164,7 @@ configuration exists and `chimera inspect` can derive it from code.
 | Numerical output boundary | Registered |
 | Architecture implementation | Implemented |
 | BF16 CUDA engineering gate | Accepted: H001/T001 |
-| First cross-domain corpus | Not built |
+| First cross-domain corpus | C0 built; automated gate passed; AI review pending |
 | W0 configuration | `meta_world_w0_t1.yaml` |
 | Trained checkpoint | None |
 | Empirical claims | None |
@@ -183,11 +183,13 @@ datasets and research identifiers.
 .\.venv\Scripts\python.exe -m mypy src
 .\.venv\Scripts\python.exe -m pytest
 .\.venv\Scripts\python.exe -m chimera.cli validate-research
+.\.venv\Scripts\python.exe -m chimera.cli validate-meta-world-corpus
 ```
 
 ## Documentation
 
 - [Meta-World W0 design contract](docs/META_WORLD_W0.md)
+- [Meta-World Corpus C0](datasets/meta_world_corpus_c0/README.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)

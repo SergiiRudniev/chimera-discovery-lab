@@ -60,3 +60,23 @@ def test_meta_world_inspect_reports_w0_contract(capsys: object) -> None:
     assert payload["model"] == "Chimera Meta-World W0"
     assert 50_000_000 <= payload["trainable_parameters"] <= 80_000_000
     assert payload["language_inputs"] is False
+
+
+def test_meta_world_corpus_cli_validates_dataset(capsys: object) -> None:
+    assert main(
+        [
+            "validate-meta-world-corpus",
+            "--manifest",
+            "datasets/meta_world_corpus_c0/manifest.json",
+        ]
+    ) == 0
+    captured = capsys.readouterr()  # type: ignore[attr-defined]
+    assert json.loads(captured.out) == {
+        "corpus_id": "CHM-W-C000",
+        "status": "passed",
+        "test": 12_288,
+        "total": 163_840,
+        "train": 122_880,
+        "transfer": 16_384,
+        "validation": 12_288,
+    }

@@ -8,6 +8,17 @@ The synthetic generator is deterministic for a fixed configuration and seed. It
 exists only to validate tensor contracts, forward passes, gradients and
 checkpoint wiring.
 
+Meta-World Corpus C0 stores compact `int64` indices rather than materialized
+trajectories. Each row has a unique seed, so materialization is independent of
+batch order. Its manifest binds the exact W0 tensor contract, generator source
+hashes, source revision, split policy and every shard hash. The validation command
+replays a stratified sample and verifies file integrity, split isolation,
+combination balance, effect invariants and parameter sensitivity:
+
+```powershell
+.\.venv\Scripts\python.exe -m chimera.cli validate-meta-world-corpus
+```
+
 Corpus C0 is rebuilt from `source_graphs.yaml` with seed 1701. The manifest
 records the annotation hash, every shard hash, source-isolated case IDs and
 tensor capacities. `chimera validate-corpus` reconstructs every canonical target
