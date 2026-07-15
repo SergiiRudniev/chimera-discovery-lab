@@ -430,3 +430,20 @@
   checkpoint step 300 and seeds 260911–260913 before opening validation.
 - **Boundary:** Development evidence only. Frozen validation and every test split
   remained unopened; no checkpoint was promoted.
+# 2026-07-15 — Meta-World H005 frozen validation
+
+- **Protocol:** `CHM-W-H005`, frozen at commit `5b6fa44`; checkpoint step 300
+  and seeds 260911–260913 were fixed before metrics were opened.
+- **Result:** Median mixed/random intervention-effect NRMSE ratio was 1.03230
+  versus the registered maximum 0.90. The primary gate failed.
+- **Rollout:** Median four-step ratio was 0.98968 and the worst seed was 1.00936,
+  both within their guardrails. Mixed training helped dynamics but did not
+  improve intervention-effect transfer.
+- **Calibration:** Minimum mixed-arm 90% interval coverage was 0.97813; all
+  metrics were finite and WG1 replay/leakage checks remained clean.
+- **Decision:** Do not open `CHM-W-T005` test and do not promote a checkpoint.
+- **Next diagnosis:** Separate effect learning from passive rollout learning;
+  the shared objective appears to convert probe coverage into state prediction
+  without a seed-stable intervention-effect advantage.
+- **Boundary:** Frozen-validation evidence only; no test, real-world or
+  production claim.

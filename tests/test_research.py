@@ -144,3 +144,20 @@ def test_h005_is_registered_before_metrics_are_opened() -> None:
     assert result["status"] == "not_run"
     assert result["decision"] == "not_run"
     assert result["metrics"] is None
+
+
+def test_h005_failed_validation_gate_keeps_test_sealed() -> None:
+    validation = json.loads(
+        Path("research/preflights/CHM-W-H005-validation.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H005.json").read_text(encoding="utf-8"))
+
+    assert validation["validation_gate"]["passed"] is False
+    assert validation["decision"] == "do_not_open_T005_test"
+    assert validation["frozen_validation_seeds_opened"] is True
+    assert validation["test_metrics_opened"] is False
+    assert validation["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None

@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "validation_id": "CHM-W-H005-VALIDATION-001",
+  "hypothesis_id": "CHM-W-H005",
+  "status": "completed_frozen_validation",
+  "scientific_result": false,
+  "registered_trial_executed": false,
+  "frozen_protocol_commit": "5b6fa44205c83b6c0cb20849138f1f12693c44e3",
+  "frozen_checkpoint_step": 300,
+  "seeds": {
+    "260911": {
+      "mixed": {
+        "intervention_effect_nrmse": 0.8993324334634945,
+        "four_step_rollout_nrmse": 0.47531411051750183,
+        "one_step_prediction_rmse": 0.08224162980580565,
+        "intervention_effect_90_coverage": 0.978125,
+        "checkpoint_sha256": "a9bf09fe74771207ca0bffcee4485afd5a6d05e7db62eb75a18f34ffd5b621b7",
+        "config_sha256": "bcdf0a2540d45e394252fa607e88b9e6382449a7b3c8a4a7036bcc0feeed92cd"
+      },
+      "random": {
+        "intervention_effect_nrmse": 0.8711899949358197,
+        "four_step_rollout_nrmse": 0.48626866936683655,
+        "one_step_prediction_rmse": 0.08388696551364463,
+        "intervention_effect_90_coverage": 0.9895833333333334,
+        "checkpoint_sha256": "9d9ef2f07a69e0a090c587a9f90d8666389b11c812cefd264ab386fd5b673a81",
+        "config_sha256": "76c7bc8ab3e1044cf94cffc146b42be6a3678fbd4006ff0eeb504847a88331a7"
+      },
+      "ratios": {
+        "intervention_effect_nrmse": 1.032303445507025,
+        "four_step_rollout_nrmse": 0.977472209213893
+      }
+    },
+    "260912": {
+      "mixed": {
+        "intervention_effect_nrmse": 0.8756374670368426,
+        "four_step_rollout_nrmse": 0.4781405031681061,
+        "one_step_prediction_rmse": 0.08302651855183822,
+        "intervention_effect_90_coverage": 0.99375,
+        "checkpoint_sha256": "36c9fc656a3eb87875bf1b3d96fdf9307ea4a778b2f4b149d7f92f2afebeef99",
+        "config_sha256": "975d235285f51cf2f36c300e070f10dd477be72c88d9a2f36fcbcd756b6363ed"
+      },
+      "random": {
+        "intervention_effect_nrmse": 0.8608987811062121,
+        "four_step_rollout_nrmse": 0.4831271767616272,
+        "one_step_prediction_rmse": 0.08332983259047594,
+        "intervention_effect_90_coverage": 0.990625,
+        "checkpoint_sha256": "363e1d2ddba802f318d1661477a8979468467ab166958f08cb39cdf5c281f30b",
+        "config_sha256": "8f605144015a38d10078b05b0847efd648bb2933281395e66b489ca88e2cdbb9"
+      },
+      "ratios": {
+        "intervention_effect_nrmse": 1.0171201147615658,
+        "four_step_rollout_nrmse": 0.989678341783738
+      }
+    },
+    "260913": {
+      "mixed": {
+        "intervention_effect_nrmse": 1.2857002159613882,
+        "four_step_rollout_nrmse": 0.49604532122612,
+        "one_step_prediction_rmse": 0.0846587842562849,
+        "intervention_effect_90_coverage": 0.9791666666666666,
+        "checkpoint_sha256": "e8467544ae32b663db616b9801aef0a50ebcfe841b564d55c787cc66c9314709",
+        "config_sha256": "d8980f35288da25175cf3e8a06cc5eb8ce2381c1edd2a97d3d9d8410105b136c"
+      },
+      "random": {
+        "intervention_effect_nrmse": 1.0028302554361714,
+        "four_step_rollout_nrmse": 0.4914432168006897,
+        "one_step_prediction_rmse": 0.08434583984514515,
+        "intervention_effect_90_coverage": 0.9854166666666667,
+        "checkpoint_sha256": "42bc4b8b763ebc352ac8259693883d88437a785f3f6b1a0d6550e89bb678b404",
+        "config_sha256": "914a166905531b02ece172fcfbdff5caa745b5b41403a3ce19791965749188d5"
+      },
+      "ratios": {
+        "intervention_effect_nrmse": 1.282071625772983,
+        "four_step_rollout_nrmse": 1.0093644683009162
+      }
+    }
+  },
+  "aggregate": {
+    "median_intervention_effect_nrmse_ratio": 1.032303445507025,
+    "median_four_step_rollout_nrmse_ratio": 0.989678341783738,
+    "maximum_four_step_rollout_nrmse_ratio": 1.0093644683009162,
+    "minimum_mixed_intervention_effect_90_coverage": 0.978125,
+    "all_metrics_finite": true,
+    "total_runtime_seconds": 490.5400511000189,
+    "peak_memory_bytes": 2165645312
+  },
+  "validation_gate": {
+    "median_intervention_effect_nrmse_ratio_maximum": 0.9,
+    "median_four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "each_seed_four_step_rollout_nrmse_ratio_maximum": 1.05,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "deterministic_dataset_replay_rate": 1.0,
+    "split_leakage_findings": 0,
+    "all_metrics_finite": true,
+    "passed": false
+  },
+  "decision": "do_not_open_T005_test",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "frozen_validation_seeds_opened": true,
+  "test_metrics_opened": false,
+  "checkpoint_promoted": false,
+  "claim_boundary": "Frozen-validation evidence only. H005 did not pass its intervention-effect gate; test-world-transfer remained sealed and no causal, real-world, business-utility or production claim is supported."
+}
