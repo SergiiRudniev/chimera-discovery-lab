@@ -24,3 +24,15 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-V-H003.yaml
     result: research/results/CHM-V-H003.json
+  - id: CHM-W-H000
+    title: Meta-World W0 numerical dynamics engineering qualification
+    status: rejected
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H000.yaml
+    result: research/results/CHM-W-H000.json
+  - id: CHM-W-H001
+    title: Meta-World W0 BF16 corrective engineering qualification
+    status: accepted
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H001.yaml
+    result: research/results/CHM-W-H001.json

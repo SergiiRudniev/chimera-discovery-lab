@@ -1,0 +1,39 @@
+{
+  "architecture": "Chimera Meta-World W0",
+  "checks": {
+    "all_metrics_finite": true,
+    "deterministic_replay": true,
+    "loss_reduction": true,
+    "parameter_range": true,
+    "required_device": true
+  },
+  "claim_boundary": "Engineering validation only; no evidence for causal discovery, cross-domain transfer, grounding quality or production ideation.",
+  "decision": "accepted",
+  "environment": {
+    "config_sha256": "a6fde8f7a074203ed17f219d8ccf0dbe920ee3e3f3ed9fd66fdfdd0a32679467",
+    "device": "cuda",
+    "device_memory_bytes": 12820480000,
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "a437d3edb7645f065d931dde27b752e404c24a2a",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "id": "CHM-W-H001",
+  "metrics": {
+    "all_metrics_finite": true,
+    "batch_size": 16,
+    "final_loss": -1.8921295404434204,
+    "initial_loss": 0.11089120805263519,
+    "loss_reduction_fraction": 18.06293558949515,
+    "peak_memory_bytes": 1902361600,
+    "replay_delta_after": 0.0,
+    "replay_delta_before": 0.0,
+    "runtime_seconds": 1.3708928999840282,
+    "steps": 20
+  },
+  "parameters": 61854120,
+  "status": "completed",
+  "trial_id": "CHM-W-T001"
+}

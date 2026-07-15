@@ -1,0 +1,33 @@
+trial_id: CHM-W-T001
+hypothesis_id: CHM-W-H001
+parent_trial_id: CHM-W-T000
+registered_at: 2026-07-15
+status: registered
+config: configs/meta_world/meta_world_w0_t1.yaml
+correction:
+  root_cause: FP32 selection buffer rejected BF16 autocast adapter output
+  change: dtype-preserving domain output selection
+  regression_test: test_meta_world_forward_supports_bfloat16_autocast
+invariants:
+  architecture_dimensions: unchanged
+  fixed_batch: true
+  seed: 260715
+  batch_size: 16
+  active_slots: 8
+  context_steps: 8
+  mechanism_families: 4
+  domain_views: 4
+  intervention_types: 8
+execution:
+  device: cuda
+  precision: bfloat16
+  steps: 20
+  checkpoint_written: false
+qualification:
+  minimum_parameters: 50000000
+  maximum_parameters: 80000000
+  minimum_loss_reduction_fraction: 0.10
+  maximum_replay_delta: 0.0
+  require_all_finite: true
+  require_cuda: true
+claim_boundary: corrective_engineering_validation_only

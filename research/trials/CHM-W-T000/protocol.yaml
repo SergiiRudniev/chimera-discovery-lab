@@ -1,0 +1,28 @@
+trial_id: CHM-W-T000
+hypothesis_id: CHM-W-H000
+registered_at: 2026-07-15
+status: registered
+config: configs/meta_world/meta_world_w0.yaml
+data:
+  generator: chimera.meta_world.synthetic.make_mechanistic_batch
+  fixed_batch: true
+  seed: 260715
+  batch_size: 16
+  active_slots: 8
+  context_steps: 8
+  mechanism_families: 4
+  domain_views: 4
+  intervention_types: 8
+execution:
+  device: cuda
+  precision: bfloat16
+  steps: 20
+  checkpoint_written: false
+qualification:
+  minimum_parameters: 50000000
+  maximum_parameters: 80000000
+  minimum_loss_reduction_fraction: 0.10
+  maximum_replay_delta: 0.0
+  require_all_finite: true
+  require_cuda: true
+claim_boundary: engineering_validation_only

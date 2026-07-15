@@ -8,8 +8,8 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![CI](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml/badge.svg?branch=chimera-meta-world)](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml?query=branch%3Achimera-meta-world)
 [![Model](https://img.shields.io/badge/model-Meta--World%20W0-7B5CFA)](#chimera-meta-world-w0)
-[![Parameters](https://img.shields.io/badge/target-~64M%20parameters-2E8B57)](#hardware-envelope)
-[![Status](https://img.shields.io/badge/status-registered%20design-F0B429)](#current-status)
+[![Parameters](https://img.shields.io/badge/parameters-61.854M-2E8B57)](#hardware-envelope)
+[![Status](https://img.shields.io/badge/status-engineering%20qualified-F0B429)](#current-status)
 [![License](https://img.shields.io/badge/license-Apache--2.0-4C566A)](LICENSE)
 
 </div>
@@ -20,9 +20,9 @@ systems, discover mechanisms across domains and propose interventions before
 language grounding.
 
 > [!IMPORTANT]
-> W0 is a registered architecture, not a trained model release. This branch
-> contains no Meta-World checkpoint and no empirical evidence for causal
-> discovery, cross-domain transfer or idea quality.
+> W0 has passed a fixed-batch engineering qualification, not a model release.
+> This branch contains no promoted Meta-World checkpoint and no evidence for
+> causal discovery, cross-domain transfer or idea quality.
 
 ## Chimera Meta-World W0
 
@@ -146,7 +146,7 @@ arrive through linear, squash-merged pull requests with both Python CI jobs.
 
 ## Hardware Envelope
 
-W0 targets approximately **64M trainable parameters** for local mixed-precision
+W0 contains **61,854,120 trainable parameters** for local mixed-precision
 training on an NVIDIA GeForce RTX 5070 with 12,227 MiB VRAM. Gradient
 accumulation and activation checkpointing remain available if the final temporal
 context exceeds the initial memory budget.
@@ -162,9 +162,10 @@ configuration exists and `chimera inspect` can derive it from code.
 | Protected family branch | Active |
 | W0 design contract | Registered |
 | Numerical output boundary | Registered |
-| Architecture implementation | Not started |
+| Architecture implementation | Implemented |
+| BF16 CUDA engineering gate | Accepted: H001/T001 |
 | First cross-domain corpus | Not built |
-| W0 configuration | Not created |
+| W0 configuration | `meta_world_w0_t1.yaml` |
 | Trained checkpoint | None |
 | Empirical claims | None |
 

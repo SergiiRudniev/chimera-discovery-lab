@@ -17,7 +17,7 @@ def test_inspect_cli_reports_registered_model(capsys: object) -> None:
 def test_research_cli_validates_registry(capsys: object) -> None:
     assert main(["validate-research", "--registry", "research/registry.yaml"]) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
-    assert json.loads(captured.out) == {"validated_hypotheses": 4}
+    assert json.loads(captured.out) == {"validated_hypotheses": 6}
 
 
 def test_corpus_cli_validates_dataset(capsys: object) -> None:
@@ -49,3 +49,14 @@ def test_smoke_cli_runs_one_step(capsys: object) -> None:
     summary = json.loads(lines[-1])["summary"]
     assert summary["steps"] == 1
     assert summary["finite"] is True
+
+
+def test_meta_world_inspect_reports_w0_contract(capsys: object) -> None:
+    assert main(
+        ["meta-world-inspect", "--config", "configs/meta_world/meta_world_w0.yaml"]
+    ) == 0
+    captured = capsys.readouterr()  # type: ignore[attr-defined]
+    payload = json.loads(captured.out)
+    assert payload["model"] == "Chimera Meta-World W0"
+    assert 50_000_000 <= payload["trainable_parameters"] <= 80_000_000
+    assert payload["language_inputs"] is False

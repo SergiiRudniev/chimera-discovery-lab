@@ -13,6 +13,9 @@ from chimera.config import ExperimentConfig
 from chimera.data.corpus import CorpusSplit, build_corpus, validate_corpus
 from chimera.data.evaluation import build_evaluation_corpus, validate_evaluation_corpus
 from chimera.data.synthetic import make_synthetic_batch
+from chimera.meta_world.config import MetaWorldExperimentConfig
+from chimera.meta_world.model import ChimeraMetaWorld
+from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
 from chimera.research import load_research_registry
 from chimera.training.trainer import ChimeraTrainer
@@ -33,6 +36,42 @@ def _inspect(config: ExperimentConfig) -> int:
         "transition_layers": config.model.transition_layers,
     }
     print(json.dumps(payload, indent=2))
+    return 0
+
+
+def _meta_world_inspect(config: MetaWorldExperimentConfig) -> int:
+    model = ChimeraMetaWorld(config.model)
+    payload = {
+        "experiment_id": config.experiment_id,
+        "trial_id": config.trial_id,
+        "model": "Chimera Meta-World W0",
+        "trainable_parameters": model.trainable_parameter_count(),
+        "hidden_dim": config.model.hidden_dim,
+        "max_slots": config.model.max_slots,
+        "context_steps": config.model.context_steps,
+        "spatial_layers": config.model.spatial_layers,
+        "temporal_layers": config.model.temporal_layers,
+        "transition_layers": config.model.transition_layers,
+        "language_inputs": False,
+    }
+    print(json.dumps(payload, indent=2))
+    return 0
+
+
+def _meta_world_trial(arguments: argparse.Namespace) -> int:
+    result = run_meta_world_trial(arguments.config, arguments.output, arguments.result)
+    print(
+        json.dumps(
+            {
+                "id": result["id"],
+                "trial_id": result["trial_id"],
+                "decision": result["decision"],
+                "parameters": result["parameters"],
+                "output": str(arguments.output),
+            },
+            sort_keys=True,
+        )
+    )
     return 0
 
 
@@ -298,6 +337,28 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/trials/CHM-V-T002"),
     )
+    meta_world_inspect_parser = subparsers.add_parser("meta-world-inspect")
+    meta_world_inspect_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/meta_world_w0.yaml"),
+    )
+    meta_world_trial_parser = subparsers.add_parser("meta-world-trial")
+    meta_world_trial_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/meta_world_w0.yaml"),
+    )
+    meta_world_trial_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("research/trials/CHM-W-T000"),
+    )
+    meta_world_trial_parser.add_argument(
+        "--result",
+        type=Path,
+        default=Path("research/results/CHM-W-H000.json"),
+    )
     return parser
 
 
@@ -321,6 +382,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _proposal_diagnostic(arguments)
     if arguments.command == "proposal-trial":
         return _proposal_trial(arguments)
+    if arguments.command == "meta-world-inspect":
+        return _meta_world_inspect(MetaWorldExperimentConfig.from_yaml(arguments.config))
+    if arguments.command == "meta-world-trial":
+        return _meta_world_trial(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

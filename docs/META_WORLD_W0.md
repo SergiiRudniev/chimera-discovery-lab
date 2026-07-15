@@ -9,9 +9,9 @@
 | Family branch | `chimera-meta-world` |
 | Research prefix | `CHM-W` |
 | Config namespace | `configs/meta_world/` |
-| Target size | Approximately 64M trainable parameters |
+| Registered size | 61,854,120 trainable parameters |
 | Local hardware | NVIDIA GeForce RTX 5070, 12,227 MiB VRAM |
-| Status | Registered design; not implemented or trained |
+| Status | Core implemented; H001 engineering qualification accepted |
 
 W0 is a bounded research model, not a claim to general world understanding. Its
 first purpose is to test whether one numerical dynamics representation can
@@ -129,5 +129,7 @@ research/trials/CHM-W-T000/
 chimera-meta-world-w0-step######.pt
 ```
 
-These paths reserve the namespace only. They are created when their protocols
-and implementations exist; placeholder results and checkpoints are forbidden.
+The executable corrective configuration is
+`configs/meta_world/meta_world_w0_t1.yaml`. H001 qualifies CUDA execution and
+fixed-batch optimization only. No W0 checkpoint is promoted until held-out
+dynamics, calibration and transfer protocols pass.

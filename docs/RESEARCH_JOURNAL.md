@@ -1,5 +1,47 @@
 # Research Journal
 
+## 2026-07-15 — Meta-World failure artifact policy
+
+- **Finding:** T000 failed before the trial runner created its normal result
+  files, so the rejection had to be recorded manually.
+- **Change:** The Meta-World runner now writes an `execution_failed` result with
+  exception type, environment, Git commit and config hash before re-raising.
+- **Protection:** A regression test injects an optimizer-step failure and verifies
+  both the trial-local and public research result artifacts.
+- **Boundary:** The policy records failures; it does not convert them into valid
+  model evidence or permit reuse of a failed trial ID.
+
+## 2026-07-15 — Meta-World H001 result
+
+- **Protocol:** `CHM-W-T001`, frozen at commit `a437d3e`; architecture,
+  fixed batch, seed, optimizer and gates were unchanged from rejected T000.
+- **Correction:** Replaced FP32 indexed assignment with dtype-preserving
+  selection across domain-adapter outputs and added a BF16 autocast regression test.
+- **Runtime:** 61,854,120 parameters; 20 BF16 CUDA steps in 1.37 seconds on the
+  RTX 5070; peak allocated VRAM was 1,902,361,600 bytes.
+- **Optimization:** Fixed-batch loss moved from 0.110891 to -1.892130; all
+  recorded metrics and gradients were finite.
+- **Determinism:** Maximum evaluation replay delta was exactly 0 before and
+  after training.
+- **Decision:** Accept H001 as W0 core engineering qualification. Do not publish
+  a checkpoint from this overfit smoke trial.
+- **Next action:** Build time-isolated mechanistic trajectories and evaluate
+  held-out next-state accuracy, uncertainty calibration and cross-domain transfer.
+- **Claim boundary:** No real-world causality, semantic grounding, idea quality
+  or production-readiness evidence exists.
+
+## 2026-07-15 — Meta-World H000 result
+
+- **Protocol:** `CHM-W-T000`, frozen at commit `42f016c` before CUDA execution.
+- **Architecture:** Full 61,854,120-parameter Meta-World W0; 16 fixed systems,
+  four mechanism families, four domain transforms and eight interventions.
+- **Failure:** The first BF16 forward pass stopped in domain-adapter selection:
+  indexed assignment attempted to write a BF16 adapter result into an FP32 buffer.
+- **Boundary:** No complete forward pass, optimizer step, target loss metric or
+  checkpoint was produced.
+- **Decision:** Reject H000. Correct dtype propagation under a new immutable
+  hypothesis and trial ID; do not rerun T000.
+
 ## 2026-07-15 — Chimera Meta-World W0 registration
 
 - **Decision:** Name the new causal world-model family `Chimera Meta-World` and

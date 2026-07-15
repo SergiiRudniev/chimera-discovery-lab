@@ -5,7 +5,7 @@ Names and namespaces are reserved before experiments begin.
 | Family | Branch | Prefix | State |
 | --- | --- | --- | --- |
 | Chimera Venture | `chimera-venture` | `CHM-V` | Active |
-| Chimera Meta-World | `chimera-meta-world` | `CHM-W` | Registered design |
+| Chimera Meta-World | `chimera-meta-world` | `CHM-W` | Core engineering-qualified |
 | Chimera Catalyst | `chimera-catalyst` | `CHM-C` | Reserved |
 | Chimera Oracle | `chimera-oracle` | `CHM-O` | Reserved |
 | Chimera Architect | `chimera-architect` | `CHM-A` | Reserved |
