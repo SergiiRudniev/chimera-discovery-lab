@@ -33,6 +33,8 @@ def test_evaluation_build_is_deterministic(tmp_path: Path) -> None:
         pretraining_manifest_path="datasets/venture_corpus_c0/manifest.json",
     )
     assert first_manifest == second_manifest
+    assert b"\r\n" not in (first / "manifest.json").read_bytes()
+    assert (first / "manifest.json").read_bytes() == (second / "manifest.json").read_bytes()
 
 
 def test_numeric_archive_contains_no_text_or_object_arrays() -> None:

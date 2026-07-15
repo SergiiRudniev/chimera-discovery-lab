@@ -2160,7 +2160,7 @@
     "verified"
   ],
   "internal_audit_sha256": "bde52e52dcc76bb535ae151737b31bbcc833f61a271752716b470412779eeb30",
-  "manifest_sha256": "b7929ba7122ddf7981be12173c8aac6b24e10f3bb22e62fa27271e34d2bd8c0b",
+  "manifest_sha256": "30a211a83bf57d167fdd3a1b68f3459ace65843b4eb026bdc0600794abdc3c18",
   "packet_id": "CHM-V-C1-REVIEW-PACKET",
   "review_protocol_sha256": "199b65906f1044f8eb55e1aef84c01e41ecf7217b3e2b5299a70a37b92baaeee",
   "schema_version": 1,

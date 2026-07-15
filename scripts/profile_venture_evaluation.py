@@ -236,9 +236,8 @@ def main() -> int:
     )
     arguments = parser.parse_args()
     report = build_report(arguments.manifest)
-    arguments.output.write_text(
-        json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    with arguments.output.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps(report["fitness_for_use"], sort_keys=True))
     return 0
 

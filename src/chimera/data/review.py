@@ -114,7 +114,7 @@ def build_review_packet(
         "cases": packet_cases,
     }
     output = Path(output_path)
-    output.write_text(json.dumps(packet, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_json(output, packet)
     return packet
 
 
@@ -173,7 +173,7 @@ def build_review_template(packet_path: str | Path, output_path: str | Path) -> d
         "cases": review_cases,
     }
     output = Path(output_path)
-    output.write_text(json.dumps(template, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    _write_json(output, template)
     return template
 
 
@@ -290,9 +290,7 @@ def evaluate_review_gate(
         "packet_sha256": _sha256(packet_file),
     }
     if status_path is not None:
-        Path(status_path).write_text(
-            json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-        )
+        _write_json(Path(status_path), result)
     return result
 
 
@@ -398,3 +396,8 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _write_json(path: Path, value: Mapping[str, Any]) -> None:
+    with path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(value, indent=2, sort_keys=True) + "\n")

@@ -238,9 +238,8 @@ def build_evaluation_corpus(
         ),
     }
     manifest_path = destination / "manifest.json"
-    manifest_path.write_text(
-        json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+    with manifest_path.open("w", encoding="utf-8", newline="\n") as handle:
+        handle.write(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
     validate_evaluation_corpus(manifest_path)
     return manifest
 

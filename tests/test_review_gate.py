@@ -72,6 +72,8 @@ def test_review_packet_build_is_deterministic(tmp_path: Path) -> None:
     template = build_review_template(packet_path, template_path)
     assert packet == json.loads((DATA / "reviewer_packet.json").read_text(encoding="utf-8"))
     assert template == json.loads((DATA / "review_template.json").read_text(encoding="utf-8"))
+    assert b"\r\n" not in packet_path.read_bytes()
+    assert b"\r\n" not in template_path.read_bytes()
 
 
 def test_complete_independent_review_passes_gate(tmp_path: Path) -> None:
