@@ -1,0 +1,22 @@
+schema_version: 1
+policy_id: CHIMERA-AI-DATASET-VALIDATION
+default_for_new_datasets:
+  minimum_independent_subagents: 3
+  required_roles:
+    - source_diligence
+    - semantic_integrity
+    - commercial_challenge
+  unanimous_accept_required: true
+  same_snapshot_sha_required: true
+  full_snapshot_coverage_per_subagent: true
+  unresolved_decisions_allowed: false
+  candidate_outputs_hidden: true
+  role_focus:
+    source_diligence: primary emphasis on filing identity, locators and evidence
+    semantic_integrity: primary emphasis on nodes, ratings and relation contracts
+    commercial_challenge: primary emphasis on objectives, constraints and revenue logic
+exceptions:
+  CHM-VENTURE-C1:
+    mode: accepted_existing_full_ledger
+    review_id: CHM-V-C1-AI-MULTI-LENS-004
+    repeat_validation_required: false

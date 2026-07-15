@@ -12,8 +12,8 @@ from typing import Any
 import numpy as np
 import yaml
 
+from chimera.data.ai_review import evaluate_ai_review_gate
 from chimera.data.evaluation import EvaluationCorpus, validate_evaluation_corpus
-from chimera.data.review import evaluate_review_gate
 from chimera.data.semantics import FEATURE_NAMES
 
 
@@ -59,11 +59,11 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
         (base / "internal_source_audit.yaml").read_text(encoding="utf-8")
     )
     audit_cases = audit["cases"]
-    review_gate = evaluate_review_gate(
+    review_gate = evaluate_ai_review_gate(
         manifest_path,
         base / "reviewer_packet.json",
-        base / "review_protocol.yaml",
-        base / "reviews",
+        base / "ai_review_protocol.yaml",
+        source_path=base / "source_cases.yaml",
     )
     review_passed = review_gate["status"] == "passed"
     review_item_counts = {
@@ -90,14 +90,14 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
             "confidence": "high",
             "status": "closed" if review_passed else "open",
             "finding": (
-                "Internal primary-source checks cover all ten cases; "
-                f"independent reviews accepted: {review_gate['accepted_reviews']}/"
-                f"{review_gate['minimum_independent_reviewers']}."
+                "The configured AI review policy accepted "
+                f"{review_gate['accepted_ai_reviews']}/"
+                f"{review_gate['minimum_accepted_reviews']} required reviews."
             ),
             "impact": "Source interpretation errors could affect both experiment arms.",
             "remediation": (
-                "A second reviewer must verify every evidence note, node label and type, "
-                "each human-assigned rating, edge and challenge mask before generation."
+                "For later datasets, run three independent full-coverage subagents "
+                "with source, semantic and commercial review roles."
             ),
         },
         {
@@ -148,7 +148,7 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
         "report_id": "CHM-VENTURE-C1-QUALITY",
         "generated_at": manifest["source_accessed_at"],
         "corpus_id": manifest["corpus_id"],
-        "release_status": manifest["release_status"],
+        "release_status": "validated_by_ai_review" if review_passed else manifest["release_status"],
         "intended_grain": "one organization filing, one challenge and one typed numeric graph",
         "intended_use": "preregistered CHM-V-H001 generation and blind evaluation",
         "validation": validation,
@@ -159,7 +159,7 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
                 "cases_with_challenge": sum(
                     bool(record.get("challenge")) for record in corpus.cases
                 ),
-                "review_statuses": dict(sorted(review_statuses.items())),
+                "source_annotation_statuses_at_snapshot": dict(sorted(review_statuses.items())),
             },
             "uniqueness": {
                 "unique_case_ids": len({record["case_id"] for record in corpus.cases}),
@@ -222,7 +222,7 @@ def build_report(manifest_path: Path) -> dict[str, Any]:
                 "internal_primary_source_support_verified": sum(
                     record["primary_source_support"] == "verified" for record in audit_cases
                 ),
-                "semantic_mapping_pending_independent_review": sum(
+                "legacy_semantic_mapping_pending_review": sum(
                     record["semantic_mapping"] == "pending_independent_review"
                     for record in audit_cases
                 ),

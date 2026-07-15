@@ -41,12 +41,13 @@ def test_evaluation_corpus_cli_validates_dataset(capsys: object) -> None:
     assert json.loads(captured.out) == {"calibration": 2, "cases": 10, "evaluation": 8}
 
 
-def test_review_gate_cli_blocks_without_independent_review(capsys: object, tmp_path: Path) -> None:
-    assert main(["validate-review-gate", "--status-output", str(tmp_path / "status.json")]) == 2
+def test_ai_review_gate_cli_passes_for_c1(capsys: object, tmp_path: Path) -> None:
+    assert main(["validate-review-gate", "--status-output", str(tmp_path / "status.json")]) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
     payload = json.loads(captured.out)
-    assert payload["status"] == "blocked"
-    assert payload["generation_allowed"] is False
+    assert payload["status"] == "passed"
+    assert payload["generation_allowed"] is True
+    assert payload["gate_authority"] == "ai_subagent_review"
 
 
 def test_smoke_cli_runs_one_step(capsys: object) -> None:

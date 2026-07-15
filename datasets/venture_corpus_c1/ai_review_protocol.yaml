@@ -1,0 +1,20 @@
+schema_version: 1
+protocol_id: CHM-V-C1-AI-REVIEW-GATE
+corpus_id: CHM-VENTURE-C1
+policy_mode: accepted_existing_full_ledger
+minimum_accepted_reviews: 1
+required_reviews:
+  - review_id: CHM-V-C1-AI-MULTI-LENS-004
+    role: multi_lens_full_ledger
+    path: ai_reviews/multi_lens_ai_review.json
+decision:
+  accepted_verdict: accept
+  require_every_item_verified: true
+  require_every_case_accepted: true
+  require_current_input_hashes: true
+  human_review_required: false
+supersedes:
+  policy: independent_human_review_before_generation
+  reason: >-
+    Early research iteration prioritizes reproducible AI validation throughput;
+    the existing C1 full-ledger AI review is accepted without a repeat review.

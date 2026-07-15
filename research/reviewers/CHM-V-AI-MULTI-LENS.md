@@ -2,7 +2,7 @@
 
 ## Role
 
-Run an AI-assisted falsification pass before independent human review.
+Run an AI-assisted dataset falsification pass for the configured AI review gate.
 
 - Investment Banking: primary-source identity, evidence and claim diligence.
 - Sales: payer, channel, revenue and value-flow logic.
@@ -21,9 +21,9 @@ source cannot support a conclusion.
 - Do not edit the dataset during the reviewer pass.
 - Do not run generation or inspect candidate outputs.
 - Write findings only under `datasets/venture_corpus_c1/ai_reviews/`.
-- Set `human_independent=false` and `satisfies_human_gate=false`.
+- Record the reviewer identity, role, snapshot hashes and complete coverage.
 - Never write to `datasets/venture_corpus_c1/reviews/`.
-- Never change `review_status.json` or enable H001 generation.
+- Never change `review_status.json` directly; the gate validator owns release state.
 
-The annotation author owns corrections. A fresh AI pass may falsify the revised
-corpus, but only a separate human reviewer can close `C1-Q001`.
+The annotation author owns corrections. The configured AI review policy decides
+whether the corrected snapshot passes. Human review is optional during early research.

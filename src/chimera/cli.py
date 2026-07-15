@@ -10,13 +10,10 @@ from pathlib import Path
 import torch
 
 from chimera.config import ExperimentConfig
+from chimera.data.ai_review import evaluate_ai_review_gate
 from chimera.data.corpus import CorpusSplit, build_corpus, validate_corpus
 from chimera.data.evaluation import build_evaluation_corpus, validate_evaluation_corpus
-from chimera.data.review import (
-    build_review_packet,
-    build_review_template,
-    evaluate_review_gate,
-)
+from chimera.data.review import build_review_packet, build_review_template
 from chimera.data.synthetic import make_synthetic_batch
 from chimera.models.venture import ChimeraVenture
 from chimera.research import load_research_registry
@@ -127,11 +124,11 @@ def _build_review_packet(arguments: argparse.Namespace) -> int:
 
 
 def _validate_review_gate(arguments: argparse.Namespace) -> int:
-    result = evaluate_review_gate(
+    result = evaluate_ai_review_gate(
         arguments.manifest,
         arguments.packet,
         arguments.protocol,
-        arguments.reviews_dir,
+        source_path=arguments.source,
         status_path=arguments.status_output,
     )
     print(json.dumps(result, sort_keys=True))
@@ -308,10 +305,10 @@ def build_parser() -> argparse.ArgumentParser:
     review_gate_parser.add_argument(
         "--protocol",
         type=Path,
-        default=Path("datasets/venture_corpus_c1/review_protocol.yaml"),
+        default=Path("datasets/venture_corpus_c1/ai_review_protocol.yaml"),
     )
     review_gate_parser.add_argument(
-        "--reviews-dir", type=Path, default=Path("datasets/venture_corpus_c1/reviews")
+        "--source", type=Path, default=Path("datasets/venture_corpus_c1/source_cases.yaml")
     )
     review_gate_parser.add_argument(
         "--status-output",

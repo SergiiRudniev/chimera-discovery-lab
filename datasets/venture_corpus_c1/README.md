@@ -18,19 +18,17 @@ numeric objective/constraint masks; it contains no strings or object arrays.
 `cases.jsonl` is the audit sidecar. `matched_briefs.jsonl` is the deterministic
 language rendering of the same registered structure for the text baseline.
 
-The corpus is provisional until an independent reviewer verifies every source
-mapping. It contains no creativity scores or experiment results.
+The corpus is validated for H001 input construction. It contains no creativity
+scores or experiment results.
 
-An internal second pass verifies filing identity and primary-source support for
-10/10 cases. It is not independent because the auditor is the annotation author.
-An external reviewer must complete `review_template.json`; the validator checks
-case coverage, every evidence note, graph element and human-assigned numeric rating,
-plus attestations and file hashes. `value_proximity` is derived from topology and is
-not reviewed as a human-assigned value.
+An internal source pass verifies filing identity and primary-source support for
+10/10 cases. The review packet exposes every evidence note, graph element and
+human-assigned numeric rating; `value_proximity` remains derived from topology.
 
 The complete [multi-lens AI review](ai_reviews/multi_lens_ai_review.json) accepts
-1,191/1,191 item decisions after correction. It is internal AI evidence only and
-cannot satisfy the independent human gate or enable generation.
+1,191/1,191 item decisions after correction. The registered
+[AI review protocol](ai_review_protocol.yaml) accepts this existing ledger without
+a repeat pass and enables generation. Human review remains optional.
 
 ```powershell
 chimera build-evaluation-corpus

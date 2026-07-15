@@ -49,7 +49,7 @@ def _write_review(tmp_path: Path, review: object) -> Path:
     return reviews
 
 
-def test_committed_review_gate_is_explicitly_blocked() -> None:
+def test_legacy_human_review_gate_remains_available_and_blocked() -> None:
     result = evaluate_review_gate(
         DATA / "manifest.json",
         DATA / "reviewer_packet.json",
@@ -62,7 +62,7 @@ def test_committed_review_gate_is_explicitly_blocked() -> None:
         assert_review_gate_passed(result)
 
 
-def test_ai_review_cannot_satisfy_human_gate() -> None:
+def test_ai_review_artifact_preserves_original_human_gate_boundary() -> None:
     review = json.loads(
         (DATA / "ai_reviews" / "multi_lens_ai_review.json").read_text(encoding="utf-8")
     )

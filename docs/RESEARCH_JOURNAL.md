@@ -1,5 +1,18 @@
 # Research Journal
 
+## 2026-07-15 — AI dataset validation policy
+
+- **Decision:** AI subagents replace mandatory human review as the dataset release
+  authority during early research. Human review remains optional.
+- **C1:** No repeat validation is required. The existing full ledger already verifies
+  1,191/1,191 items and accepts 10/10 cases on the current immutable snapshot.
+- **C2+:** Three distinct full-coverage subagents review each dataset with source,
+  semantic and commercial primary roles. All three must accept identical hashes.
+- **Gate:** Missing reviews block; unresolved findings fail; stale hashes are errors;
+  unanimous configured acceptance permits downstream generation.
+- **H001 amendment:** The gate policy changed before candidate generation or ratings.
+  The hypothesis, arms, metrics and blind-rating analysis are unchanged.
+
 ## 2026-07-15 — C1 correction and AI re-review
 
 - **Correction:** Removed unsupported causal and feedback edges, aligned payer

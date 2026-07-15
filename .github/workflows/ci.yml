@@ -41,5 +41,7 @@ jobs:
         run: chimera validate-research
       - name: Venture corpus
         run: chimera validate-corpus
+      - name: Venture evaluation gate
+        run: chimera validate-evaluation-corpus && chimera validate-review-gate
       - name: Registered parameter count
         run: chimera inspect --config configs/venture/venture_m0_20m.yaml
