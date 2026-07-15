@@ -1,0 +1,171 @@
+from __future__ import annotations
+
+from dataclasses import replace
+from pathlib import Path
+
+import torch
+import yaml
+
+from chimera.meta_world.config import MetaWorldModelConfig, MetaWorldTrainingConfig
+from chimera.meta_world.generators import (
+    GeneratedWorldDatasetConfig,
+    SplitName,
+    WorldGenerationPipeline,
+)
+from chimera.meta_world.h002 import (
+    H002Trainer,
+    TemporalWorldBaseline,
+    evaluate_h002_model,
+    make_transition_window,
+    materialize_sequence_sample,
+    run_h002_preflight,
+)
+from chimera.meta_world.model import ChimeraMetaWorld
+
+
+def _model_config() -> MetaWorldModelConfig:
+    return MetaWorldModelConfig(
+        observation_features=8,
+        relation_features=4,
+        intervention_types=1,
+        intervention_parameters=3,
+        effect_dimensions=4,
+        domain_count=1,
+        mechanism_count=2,
+        hidden_dim=32,
+        num_heads=4,
+        spatial_layers=1,
+        temporal_layers=1,
+        transition_layers=1,
+        feedforward_multiplier=2,
+        max_slots=10,
+        context_steps=4,
+        dropout=0.0,
+    )
+
+
+def _training_config() -> MetaWorldTrainingConfig:
+    return MetaWorldTrainingConfig(
+        seed=260902,
+        batch_size=4,
+        active_slots=4,
+        steps=1,
+        learning_rate=1e-3,
+        weight_decay=0.0,
+        next_state_weight=1.0,
+        effect_weight=0.5,
+        alignment_weight=0.1,
+        variance_weight=0.01,
+        alignment_margin=0.2,
+        device="cpu",
+        precision="float32",
+    )
+
+
+def _sample() -> tuple[WorldGenerationPipeline, object]:
+    generator_config = GeneratedWorldDatasetConfig.from_yaml(
+        "configs/meta_world/world_generators_h002.yaml"
+    )
+    pipeline = WorldGenerationPipeline(generator_config)
+    return pipeline, materialize_sequence_sample(
+        pipeline,
+        SplitName.TRAIN,
+        start_index=0,
+        batch_size=4,
+    )
+
+
+def test_generated_sequence_window_hides_service_metadata() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=2, context_steps=4)  # type: ignore[arg-type]
+
+    assert sample.mechanism_ids.tolist() == [0, 0, 1, 1]  # type: ignore[attr-defined]
+    assert window.observations.shape == (4, 4, 10, 8)
+    assert window.intervention_parameters.shape == (4, 3)
+    assert window.effect_targets.shape == (4, 4)
+    assert torch.equal(window.domain_ids, torch.zeros(4, dtype=torch.long))
+    assert not hasattr(window, "world_family_ids")
+    assert torch.all(window.source_slots != window.target_slots)
+
+
+def test_temporal_baseline_does_not_read_relations() -> None:
+    _, sample = _sample()
+    window = make_transition_window(sample, prediction_step=3, context_steps=4)  # type: ignore[arg-type]
+    model = TemporalWorldBaseline(_model_config()).eval()
+    changed = replace(window, relations=torch.randn_like(window.relations))
+
+    with torch.no_grad():
+        original_output = model(window)
+        changed_output = model(changed)
+
+    assert torch.equal(original_output.next_state_mean, changed_output.next_state_mean)
+    assert torch.equal(original_output.effect_mean, changed_output.effect_mean)
+
+
+def test_h002_relational_train_step_and_evaluation_are_finite() -> None:
+    _, sample = _sample()
+    model = ChimeraMetaWorld(_model_config())
+    trainer = H002Trainer(model, _training_config())
+    window = make_transition_window(sample, prediction_step=2, context_steps=4)  # type: ignore[arg-type]
+
+    metrics = trainer.train_step(window)
+    evaluation = evaluate_h002_model(
+        trainer,
+        sample,  # type: ignore[arg-type]
+        context_steps=4,
+        rollout_horizon=4,
+    )
+
+    assert all(torch.isfinite(torch.tensor(value)) for value in metrics.values())
+    assert evaluation.one_step_prediction_rmse >= 0.0
+    assert evaluation.intervention_effect_rmse >= 0.0
+    assert evaluation.intervention_effect_nrmse >= 0.0
+    assert evaluation.four_step_rollout_nrmse >= 0.0
+    assert 0.0 <= evaluation.intervention_effect_90_coverage <= 1.0
+    assert 0.0 <= evaluation.mechanism_retrieval_accuracy <= 1.0
+
+
+def test_sequence_sampler_rejects_partial_alignment_groups() -> None:
+    pipeline, _ = _sample()
+
+    try:
+        materialize_sequence_sample(
+            pipeline,
+            SplitName.TRAIN,
+            start_index=1,
+            batch_size=3,
+        )
+    except ValueError as error:
+        assert "mechanism-view" in str(error)
+    else:
+        raise AssertionError("partial mechanism-view group was accepted")
+
+
+def test_validation_only_preflight_persists_unpromoted_checkpoint(tmp_path: Path) -> None:
+    model = _model_config()
+    training = _training_config()
+    payload = {
+        "run_id": "H002-PREFLIGHT-TEST",
+        "mode": "preflight",
+        "arm": "cross_world_pretraining_with_mechanism_alignment",
+        "generator_config": "configs/meta_world/world_generators_h002.yaml",
+        "model": model.__dict__,
+        "training": {**training.__dict__, "steps": 2},
+        "evaluation": {
+            "evaluation_interval": 1,
+            "validation_trajectories": 4,
+            "rollout_horizon": 4,
+        },
+    }
+    config_path = tmp_path / "preflight.yaml"
+    config_path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+    output = tmp_path / "output"
+
+    result = run_h002_preflight(config_path, output)
+
+    assert result["status"] == "completed_preflight"
+    assert result["opened_splits"] == ["train", "validation"]
+    assert result["test_metrics_opened"] is False
+    assert (output / "checkpoint.pt").is_file()
+    assert (output / "checkpoint_manifest.json").is_file()
+    assert (output / "metrics.jsonl").is_file()
