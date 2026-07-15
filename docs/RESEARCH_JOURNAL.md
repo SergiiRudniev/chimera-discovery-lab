@@ -1,5 +1,21 @@
 # Research Journal
 
+## 2026-07-15 — Venture Trial T2 registration
+
+- **Protocol:** `CHM-V-T002`; frozen proposal-policy qualification using the
+  unchanged T1 step-2700 checkpoint.
+- **Diagnosis:** T1 unique-graph rate fell by 59.38 percentage points versus T0;
+  `CONNECT>STOP` accounted for 45.63% of its candidate programs.
+- **Train-only probe:** Legal-uniform exploration at rate 0.50 produced 86.55%
+  mean unique graphs, 99.22% changed candidates, all eight non-terminal
+  operations and zero invalid programs across three seeds.
+- **Separation:** Reconstruction remains bound to the immutable T1 checkpoint;
+  T2 selects only an inference-time proposal policy.
+- **Data boundary:** Train was used for diagnosis; validation will select the
+  policy and test is reserved for one final report.
+- **Status:** Registered; validation and test policy metrics remain unopened.
+- **Claim boundary:** Engineering proposal-policy evidence only.
+
 ## 2026-07-15 — Venture Trial T1 result
 
 - **Protocol:** `CHM-V-T001`, frozen at commit `7b69794` before target metrics

@@ -7,6 +7,7 @@ import pytest
 from chimera.config import (
     ExperimentConfig,
     ModelConfig,
+    ProposalTrialConfig,
     VentureTrialConfig,
 )
 
@@ -43,3 +44,11 @@ def test_corrective_trial_config_loads() -> None:
     assert config.training.argument_loss_mode == "operation_conditioned"
     assert config.training.learning_rate_schedule == "cosine"
     assert config.evaluation.checkpoint_selection == "validation_exact_graph"
+
+
+def test_proposal_trial_config_loads() -> None:
+    config = ProposalTrialConfig.from_yaml("configs/venture/venture_trial_t2.yaml")
+    assert config.trial_id == "CHM-V-T002"
+    assert config.baseline_policy_id == "model-only"
+    assert [policy.exploration_rate for policy in config.policies] == [0.0, 0.2, 0.35, 0.5]
+    assert config.seeds == (1702, 1703, 1704)

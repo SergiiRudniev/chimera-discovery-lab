@@ -1,0 +1,32 @@
+trial_id: CHM-V-T002
+hypothesis_id: CHM-V-H001
+checkpoint_path: checkpoints/venture_m0_t1/chimera-venture-m0-t1-step002700.pt
+checkpoint_sha256: 678864489faa860b6c18a4c65467c29fc831942349028ee64d97295d115e7c47
+reconstruction_config: configs/venture/venture_trial_t1.yaml
+reconstruction_result: research/trials/CHM-V-T001/result.json
+corpus_manifest: datasets/venture_corpus_c0/manifest.json
+device: cuda
+seeds: [1702, 1703, 1704]
+candidates_per_case: 64
+min_edits: 1
+max_edits: 3
+archive_bins: [4, 4]
+baseline_policy_id: model-only
+policies:
+  - policy_id: model-only
+    temperature: 0.75
+    exploration_rate: 0.0
+  - policy_id: explore-20
+    temperature: 0.75
+    exploration_rate: 0.20
+  - policy_id: explore-35
+    temperature: 0.75
+    exploration_rate: 0.35
+  - policy_id: explore-50
+    temperature: 0.75
+    exploration_rate: 0.50
+unique_graph_rate_min: 0.80
+changed_candidate_rate_min: 0.95
+invalid_candidate_rate_max: 0.01
+feasibility_drop_max: 0.05
+reconstruction_exact_graph_min: 0.95
