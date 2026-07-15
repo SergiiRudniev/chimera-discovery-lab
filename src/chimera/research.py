@@ -9,7 +9,7 @@ from typing import Any
 
 import yaml
 
-HYPOTHESIS_ID = re.compile(r"^CHM-(V|C|O|A|N|F)-H\d{3}$")
+HYPOTHESIS_ID = re.compile(r"^CHM-(V|W|C|O|A|N|F)-H\d{3}$")
 ALLOWED_STATUSES = {"registered", "running", "accepted", "rejected", "inconclusive"}
 
 

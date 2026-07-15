@@ -31,6 +31,7 @@ core and introduced only after a candidate structure has been frozen.
 | Family | Specialization | Branch | Research IDs |
 | --- | --- | --- | --- |
 | **Chimera Venture** | Business models and commercial hypotheses | `chimera-venture` | `CHM-V-H###` |
+| **Chimera Meta-World** | Cross-domain causal dynamics and intervention discovery | `chimera-meta-world` | `CHM-W-H###` |
 | **Chimera Catalyst** | Product and growth mechanisms | `chimera-catalyst` | `CHM-C-H###` |
 | **Chimera Oracle** | Scientific hypotheses | `chimera-oracle` | `CHM-O-H###` |
 | **Chimera Architect** | Systems and engineering concepts | `chimera-architect` | `CHM-A-H###` |
@@ -39,6 +40,18 @@ core and introduced only after a candidate structure has been frozen.
 
 Names, branch namespaces and experiment prefixes are reserved in the
 [model registry](docs/MODEL_REGISTRY.md).
+
+## Chimera Meta-World W0
+
+Meta-World W0 is the registered first generation of a separate world-model
+family. It is scoped as a numerical, cross-domain causal-dynamics model that
+freezes an intervention before any language grounding. The architecture is
+registered but not implemented or trained.
+
+- [W0 design contract](docs/META_WORLD_W0.md)
+- Family branch: `chimera-meta-world`
+- Research namespace: `CHM-W-H###`
+- Planned parameter envelope: approximately 64M trainable parameters
 
 ## Complete Architecture
 
@@ -232,6 +245,7 @@ reconstructed from memory.
 | Item | Status |
 | --- | --- |
 | Venture architecture | Implemented |
+| Meta-World W0 | Registered design; not implemented or trained |
 | Structured tensor contracts | Implemented |
 | Autoregressive graph-edit generator | Implemented |
 | EMA latent-world objective | Implemented |
@@ -308,6 +322,7 @@ on every pull request and protected model-family branch.
 - [Architecture](docs/ARCHITECTURE.md)
 - [Data contract](docs/DATA_CONTRACT.md)
 - [Business graph semantics](docs/BUSINESS_GRAPH_SEMANTICS.md)
+- [Meta-World W0 design contract](docs/META_WORLD_W0.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)
