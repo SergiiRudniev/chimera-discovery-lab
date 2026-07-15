@@ -185,7 +185,7 @@ def build_corpus(
         split = _required_string(case, "split")
         if split not in split_records:
             raise ValueError(f"case {case_id} uses unknown split {split}")
-        target, canonical = _graph_from_case(case, config)
+        target, canonical = graph_from_annotated_case(case, config)
         canonical_records.append(canonical)
         split_case_ids[split].append(case_id)
         rng = np.random.default_rng(seed + case_index * 1009)
@@ -374,9 +374,10 @@ def _load_source_document(path: Path) -> Mapping[str, Any]:
     return document
 
 
-def _graph_from_case(
+def graph_from_annotated_case(
     case: Mapping[str, Any], config: ModelConfig
 ) -> tuple[GraphBatch, dict[str, Any]]:
+    """Convert one evidence-annotated case into the numeric graph contract."""
     case_id = _required_string(case, "case_id")
     nodes_value = case.get("nodes")
     edges_value = case.get("edges")

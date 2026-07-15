@@ -9,7 +9,7 @@
 [![CI](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml)
 [![Model](https://img.shields.io/badge/model-Venture%20M0-7B5CFA)](#venture-m0)
 [![Parameters](https://img.shields.io/badge/parameters-20.648M-2E8B57)](#venture-m0)
-[![Corpus](https://img.shields.io/badge/corpus-C0%20%7C%20640%20transitions-2E8B57)](#venture-corpus-c0)
+[![Corpus](https://img.shields.io/badge/corpus-C1%20%7C%2010%20cases-2E8B57)](#venture-corpus-c1)
 [![Status](https://img.shields.io/badge/status-prospective%20R%26D-F0B429)](#current-status)
 [![License](https://img.shields.io/badge/license-Apache--2.0-4C566A)](LICENSE)
 
@@ -145,6 +145,27 @@ in sidecars that are never passed to the model.
 - [Dataset manifest](datasets/venture_corpus_c0/manifest.json)
 - [Data-quality profile](datasets/venture_corpus_c0/quality_report.json)
 
+## Venture Corpus C1
+
+Corpus C1 freezes the evidence-bearing inputs for `CHM-V-H001`: **2 calibration
+cases and 8 evaluation cases** from FY2025 SEC filings. Its organizations, CIKs
+and accessions have zero overlap with C0, and its earliest period end is later
+than every C0 period end.
+
+The Chimera arm receives `graphs.npz`: node types, relation types, eight numeric
+features and numeric objective/constraint masks. The archive contains no text or
+object arrays. The matched text baseline receives a deterministic rendering of
+the same registered graph and challenge.
+
+- [Dataset card](datasets/venture_corpus_c1/README.md)
+- [Dataset manifest](datasets/venture_corpus_c1/manifest.json)
+- [Matched baseline protocol](datasets/venture_corpus_c1/matched_baseline_protocol.yaml)
+- [Blind rating protocol](datasets/venture_corpus_c1/rating_protocol.yaml)
+- [Executed quality notebook](notebooks/venture_corpus_c1_quality.ipynb)
+
+C1 is provisional. Candidate generation is blocked until a second reviewer
+closes the independent source-annotation audit.
+
 ## Venture Trial T0
 
 The first frozen end-to-end trial trained M0 for 300 steps on Corpus C0 and
@@ -217,12 +238,15 @@ reconstructed from memory.
 | MAP-Elites archive | Implemented |
 | Synthetic engineering validation | Passed: loss 7.1843 → 1.0263 in 20 fixed-batch steps |
 | Venture Corpus C0 | 10 graphs; 640 source-isolated denoising transitions |
+| Venture Corpus C1 | 2 calibration + 8 evaluation graphs; preregistered |
+| C0/C1 source overlap | 0 organizations, 0 CIKs, 0 accessions |
 | Corpus C0 training smoke | Passed: loss 7.3673 -> 1.1501 in 5 fixed-batch steps |
 | Venture Trial T0 | Completed with gaps; exact reconstruction criterion failed |
 | Venture Trial T1 | Passed structural reconstruction qualification |
 | Venture Trial T2 | Passed exploratory proposal-policy qualification |
 | Trained checkpoint | T1 step 2700 engineering prerelease |
 | Proposal policy | T2 `explore-50`; T1 weights unchanged |
+| H001 protocol | Frozen; generation blocked pending independent C1 review |
 | Creativity claim | Not evaluated |
 
 ## Setup
