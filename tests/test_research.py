@@ -172,3 +172,20 @@ def test_h006_is_registered_before_metrics_are_opened() -> None:
     assert result["status"] == "not_run"
     assert result["decision"] == "not_run"
     assert result["metrics"] is None
+
+
+def test_h006_development_failure_keeps_validation_and_test_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H006-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H006.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H006_frozen_validation"
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None

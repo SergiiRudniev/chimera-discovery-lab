@@ -467,3 +467,22 @@
 - **Status:** `not_run`; no H006 metric or checkpoint exists.
 - **Boundary:** Simulator objective-routing evidence only; no real-world,
   business-utility or production claim.
+
+## 2026-07-15 — CHM-W-H006 development preflight
+
+- **Protocol:** Seed `260914`, 300 steps, paired WG1 worlds and the frozen
+  hybrid evaluator. Frozen validation and test remained sealed.
+- **Routed arm:** Effect NRMSE `1.07551`, rollout NRMSE `0.47489` and effect
+  coverage `0.98229`.
+- **Matched random:** Effect NRMSE `1.01771` and rollout NRMSE `0.48781`.
+  Routed/random ratios were `1.05679` and `0.97350`; the primary effect gate
+  failed even though rollout improved.
+- **Shared-loss control:** Effect NRMSE `0.81285`, rollout `0.46926`; ratios
+  versus random were `0.79871` and `0.96196`. Removing probe effect supervision
+  caused a 32.31% effect-error increase versus shared mixed training.
+- **Decision:** Reject H006 routing, do not open seeds `260915..260917`, do not
+  open test and do not promote any checkpoint.
+- **Diagnosis:** Probe outcomes contain useful effect supervision; the remaining
+  issue is seed instability of shared multi-objective optimization, not simply
+  a zero-heavy probe label distribution.
+- **Boundary:** Development evidence only; no transfer or production claim.
