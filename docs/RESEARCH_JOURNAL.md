@@ -1,5 +1,29 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H003 exploratory validation preflight
+
+- **Scope:** Single-seed (`260903`), 300-step exploratory comparison on
+  `train` and `validation`; all test splits remained sealed.
+- **Full arm:** With alignment weight `1.0`, intervention-effect NRMSE reached
+  `0.829864`, four-step rollout NRMSE `0.432069`, effect coverage `0.988839`
+  and mechanism retrieval `0.0`.
+- **Matched one-step baseline:** Effect NRMSE `0.857798` and rollout NRMSE
+  `0.445780`. Full-arm ratios were `0.967435` and `0.969244` respectively.
+- **Ablations:** Closed-loop without discrimination reached effect `0.836194`
+  and rollout `0.441474`. Alignment weight `0.2` reached effect `0.852021`
+  and rollout `0.432761`.
+- **Embedding diagnosis:** Same-mechanism validation cosine reached `0.984971`,
+  but the mean hardest distinct-mechanism cosine was still `0.994591`; nearest
+  neighbour retrieval therefore remained zero.
+- **Decision:** Do not run the remaining registered seeds, do not freeze
+  `CHM-W-T003`, do not open test and do not promote a checkpoint. The full arm
+  missed both `0.95` primary-error ratios and the `0.10` retrieval gate.
+- **Next action:** Change the data-identification signal. Add controlled numeric
+  system-identification probes instead of applying more weight or search to the
+  same instance-discrimination loss.
+- **Claim boundary:** Exploratory validation engineering evidence only. H003
+  remains `not_run`; no test-world transfer or production claim exists.
+
 ## 2026-07-15 — CHM-W-H003 registration
 
 - **Question:** Does four-step closed-loop training plus a cross-batch

@@ -88,3 +88,20 @@ def test_h003_is_registered_before_metrics_are_opened() -> None:
         "status": "not_run",
         "trial_id": "CHM-W-T003",
     }
+
+
+def test_h003_exploratory_preflight_does_not_open_registered_trial() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H003-validation.json").read_text(encoding="utf-8")
+    )
+    result = json.loads(Path("research/results/CHM-W-H003.json").read_text(encoding="utf-8"))
+
+    assert preflight["scientific_result"] is False
+    assert preflight["registered_trial_executed"] is False
+    assert preflight["remaining_registered_seeds_run"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["opened_splits"] == ["train", "validation"]
+    assert preflight["decision"] == "do_not_freeze_T003"
+    assert all(not arm["checkpoint"]["promoted"] for arm in preflight["arms"].values())
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
