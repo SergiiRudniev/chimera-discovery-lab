@@ -16,7 +16,8 @@ matched text-generation system.
 Each business state is a bounded directed multirelation graph represented as a
 dense relation matrix. M0 uses 12 node types, 16 relation types and eight
 normalized numeric features per node. The numeric fields are domain contracts,
-not text embeddings.
+not text embeddings. Their fixed order, anchors and derived topology feature are
+defined in [Business Graph Semantics](BUSINESS_GRAPH_SEMANTICS.md).
 
 The encoder adds a learned global state token and applies five pre-normalized
 graph transformer blocks. Relation IDs contribute a separate learned bias to
@@ -51,9 +52,10 @@ required ablation against zero transition weight.
 
 ## Candidate Scores
 
-The model predicts normalized utility, feasibility and coherence. These heads
-are learned estimates, not ground truth. Deterministic schema validity is kept
-outside the network.
+The model predicts normalized utility, feasibility and coherence from its
+predicted next-state representation, so scores are conditioned on the proposed
+edit program. These heads are learned estimates, not ground truth. Deterministic
+schema validity is kept outside the network.
 
 Novelty is calculated against retained candidate embeddings. MAP-Elites keeps
 the highest-quality candidate in each descriptor cell rather than collapsing
