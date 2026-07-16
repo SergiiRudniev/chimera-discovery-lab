@@ -30,6 +30,7 @@ ranking_training:
   max_grad_norm: 1.0
 evaluation_states: 32
 oracle_pool_candidates_per_state: 256
+ranking_diagnostic_candidates_per_state: 256
 search:
   rounds: 4
   candidates_per_round: 64

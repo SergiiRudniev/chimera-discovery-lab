@@ -50,6 +50,11 @@ The ranking critic must reduce mean realized regret to at most:
 - `0.75` of legal random;
 - `0.85` of the H015 pointwise control.
 
+After candidate selection finishes, the evaluator may score the fixed oracle
+pool once per learned arm to report within-state Spearman and NDCG@8. These
+diagnostic scores are separate from the 256-score search budget and cannot
+change selected candidates.
+
 Training-candidate replay, search replay, dataset replay, legality, exact
 budgets, finite metrics and zero leakage are hard guards. Frozen validation
 seeds and every model test split stay sealed until the development gate passes.

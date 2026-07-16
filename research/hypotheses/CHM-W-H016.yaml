@@ -69,6 +69,10 @@ method:
     candidates_per_state: 256
     source: fixed_seeded_legal_pool
     visible_to_model: false
+    ranking_diagnostics: >-
+      After both searches finish, evaluator scores this pool once per learned
+      arm for Spearman and NDCG only. These diagnostic scores cannot alter
+      candidate selection and are reported outside the search budget.
   search:
     algorithm: H015_cross_entropy_method_with_quality_diversity_archive
     rounds: 4
