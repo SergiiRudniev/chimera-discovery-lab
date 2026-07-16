@@ -48,6 +48,10 @@ from chimera.meta_world.h016 import (
     run_h016_development_suite,
     run_h016_engineering_smoke,
 )
+from chimera.meta_world.h017 import (
+    run_h017_development_suite,
+    run_h017_engineering_smoke,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -559,6 +563,38 @@ def _h016_smoke(arguments: argparse.Namespace) -> int:
 
 def _h016_suite(arguments: argparse.Namespace) -> int:
     result = run_h016_development_suite(
+        arguments.config,
+        arguments.output,
+        arguments.report,
+    )
+    print(
+        json.dumps(
+            {
+                "preflight_id": result["preflight_id"],
+                "status": result["status"],
+                "decision": result["decision"],
+                "passed": result["development_gate"]["passed"],
+                "report": str(arguments.report),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h017_smoke(arguments: argparse.Namespace) -> int:
+    result = run_h017_engineering_smoke(
+        arguments.config,
+        arguments.backbone_smoke_config,
+        arguments.output,
+    )
+    print(json.dumps(result, sort_keys=True))
+    return 0
+
+
+def _h017_suite(arguments: argparse.Namespace) -> int:
+    result = run_h017_development_suite(
         arguments.config,
         arguments.output,
         arguments.report,
@@ -1423,6 +1459,40 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/preflights/CHM-W-H016-development.json"),
     )
+    h017_smoke_parser = subparsers.add_parser("meta-world-h017-smoke")
+    h017_smoke_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h017_suite.yaml"),
+    )
+    h017_smoke_parser.add_argument(
+        "--backbone-smoke-config",
+        type=Path,
+        default=Path(
+            "configs/meta_world/world_h016_development_smoke_backbone.yaml"
+        ),
+    )
+    h017_smoke_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h017_engineering_smoke"),
+    )
+    h017_suite_parser = subparsers.add_parser("meta-world-h017-suite")
+    h017_suite_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h017_suite.yaml"),
+    )
+    h017_suite_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h017_development"),
+    )
+    h017_suite_parser.add_argument(
+        "--report",
+        type=Path,
+        default=Path("research/preflights/CHM-W-H017-development.json"),
+    )
     return parser
 
 
@@ -1510,6 +1580,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h016_smoke(arguments)
     if arguments.command == "meta-world-h016-suite":
         return _h016_suite(arguments)
+    if arguments.command == "meta-world-h017-smoke":
+        return _h017_smoke(arguments)
+    if arguments.command == "meta-world-h017-suite":
+        return _h017_suite(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

@@ -204,6 +204,12 @@ magnitude and produced `1.269622x` random regret. The next hypothesis preserves
 the ranking critic while replacing adaptive optimization with finite,
 support-preserving candidate generation and reranking.
 
+## Support-Preserving Pool H017
+
+H017 keeps the H016 critic and replaces iterative CEM with 256 balanced,
+Latin-hypercube numerical interventions followed by one-pass quality-diversity
+reranking. See the [H017 support-pool contract](docs/SUPPORT_POOL_H017.md).
+
 ## Numerical Output
 
 ```text

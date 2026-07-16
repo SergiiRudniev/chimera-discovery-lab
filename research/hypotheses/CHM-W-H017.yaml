@@ -1,0 +1,127 @@
+id: CHM-W-H017
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  One-pass quality-diversity reranking of a balanced, support-preserving
+  low-discrepancy intervention pool reduces realized best-candidate simulator
+  regret by at least 25% versus legal random selection and by at least 15%
+  versus adaptive H016 CEM under equal model-score and simulator budgets.
+scope: support_preserving_numerical_candidate_generation
+parent: CHM-W-H016
+rationale:
+  diagnostic: research/preflights/CHM-W-H016-development.json
+  observation: >-
+    H016 improved fixed-pool Spearman and NDCG but adaptive CEM collapsed toward
+    magnitude zero, selecting 32.42 percent exact-boundary candidates and
+    worsening realized regret. The critic signal must be tested without
+    iterative optimizer-induced distribution shift.
+data:
+  dataset_id: CHM-W-WG4
+  generator_config: configs/meta_world/world_generators_h013.yaml
+  integrity_evidence: research/preflights/CHM-W-H013-WG4-integrity.json
+  integrity_evidence_revalidated: false
+  model_input_language: false
+  generator_output_language: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  critic:
+    suite_config: configs/meta_world/world_h016_suite.yaml
+    architecture: H016_frozen_backbone_with_listwise_ranking_head
+    backbone_seed: 260954
+    ranking_seed: 260954
+    retrained_in_H017_run: true
+    weights_shared_between_search_arms: true
+  support_pool:
+    candidates_per_state: 256
+    discrete_design: balanced_ordered_source_target_pairs
+    maximum_pair_count_discrepancy: 1
+    continuous_design: seeded_independent_Latin_hypercube
+    magnitude_interval: open_0_1
+    control_interval: open_minus1_1
+    exact_continuous_boundary_rate: 0.0
+    unique_vector_rate: 1.0
+    seed_rule: development_seed_plus_state_index_times_1000003_plus_41
+  experimental_search:
+    algorithm: one_pass_quality_diversity_pool_reranking
+    model_scoring_budget_per_state: 256
+    simulator_execution_budget_per_state: 8
+    archive_descriptor: [source_slot, target_slot, magnitude_quartile]
+    archive_retention: maximum_rank_logit_per_cell
+  adaptive_control:
+    algorithm: H016_cross_entropy_method_with_quality_diversity_archive
+    rounds: 4
+    candidates_per_round: 64
+    elite_candidates_per_round: 8
+    model_scoring_budget_per_state: 256
+    simulator_execution_budget_per_state: 8
+    seed_rule: development_seed_plus_state_index_times_1000003_plus_29
+  legal_random_control:
+    source: first_eight_from_seeded_support_pool
+    simulator_execution_budget_per_state: 8
+  evaluator_oracle_pool:
+    candidates_per_state: 256
+    source: independent_fixed_seeded_legal_pool
+    visible_to_model: false
+    seed_rule: development_seed_plus_state_index_times_1000003_plus_11
+protocol:
+  trial_id: CHM-W-T017
+  status: not_run
+  development_seed: 260958
+  frozen_validation_seeds: [260959, 260960, 260961]
+  evaluation_states: 32
+  comparison_arms:
+    - support_preserving_QD_pool_reranking
+    - H016_adaptive_CEM_QD_search
+    - support_pool_legal_random_selection
+    - independent_fixed_pool_oracle_evaluator
+  primary_split: test_world_transfer
+  primary_metric: realized_best_candidate_regret
+  development_gate:
+    regret_ratio_vs_legal_random_maximum: 0.75
+    regret_ratio_vs_H016_adaptive_CEM_maximum: 0.85
+    legal_action_rate: 1.00
+    support_pool_replay_rate: 1.00
+    support_pool_exact_boundary_rate: 0.00
+    support_pool_unique_vector_rate: 1.00
+    support_pool_pair_count_discrepancy_maximum: 1
+    simulator_executions_per_state_each_arm: 8
+    model_scores_per_state_each_learned_arm: 256
+    deterministic_training_candidate_replay_rate: 1.00
+    deterministic_search_replay_rate: 1.00
+    deterministic_dataset_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    regret_ratio_vs_legal_random_maximum: 0.75
+    regret_ratio_vs_H016_adaptive_CEM_maximum: 0.85
+    paired_bootstrap_90_percent_regret_ratio_upper_bound_below: 1.00
+    legal_action_rate: 1.00
+    support_pool_replay_rate: 1.00
+    support_pool_exact_boundary_rate: 0.00
+    support_pool_unique_vector_rate: 1.00
+    deterministic_training_candidate_replay_rate: 1.00
+    deterministic_search_replay_rate: 1.00
+    deterministic_dataset_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - realized_best_candidate_effect
+    - mean_realized_candidate_effect
+    - selected_magnitude_mean
+    - selected_exact_boundary_rate
+    - archive_cell_coverage
+    - unique_source_target_pairs
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports support-preserving numerical candidate generation
+    only inside the registered procedural simulator and action distribution. It
+    is not evidence of real-world causal discovery, safe business intervention,
+    profitable or creative ideas, language-independent thought or production
+    readiness.
+result: research/results/CHM-W-H017.json
