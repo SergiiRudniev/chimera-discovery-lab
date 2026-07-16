@@ -21,4 +21,7 @@ direct paired-response objective before H011 development execution.
 `world_generators_h012.yaml` and `world_h012_suite.yaml` freeze the WG3 seeds,
 five comparison arms, sealed-test policy and primary transfer gate.
 
+`world_generators_h013.yaml` and `world_h013_suite.yaml` freeze the WG4 paired
+factual/no-op transition contract and parameter-matched additive-dynamics gate.
+
 No configuration in this directory may reuse Venture graph semantics implicitly.

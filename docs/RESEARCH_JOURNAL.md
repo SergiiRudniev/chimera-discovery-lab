@@ -1,5 +1,25 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H013 registration
+
+- **Question:** Does exact additive factorization of state dynamics improve
+  prediction of intervention-induced state change without harming factual
+  rollout, no-op-state or intervention-effect prediction?
+- **Data change:** WG4 adds a simulator-derived no-op next-state target paired
+  with every factual transition under identical state, external event and
+  renderer noise. The target never enters the model as a feature.
+- **Controlled comparison:** Factorized and direct dual-transition models have
+  identical parameter counts, encoder, outcome semantics, data, actions,
+  optimizer, seed and training budget. Only state-transition arithmetic differs.
+- **Primary gate:** Delta-state NRMSE must improve by at least 10% versus the
+  matched direct control while factual rollout, no-op-state and effect NRMSE do
+  not increase. The additive identity residual must be at most `1e-6`.
+- **Isolation:** Development opens train and validation only. Frozen validation
+  seeds and every test split stay sealed until the development gate passes.
+- **Status:** `not_run`; no H013 metric or checkpoint exists.
+- **Claim boundary:** Simulator representation evidence only; no real-world
+  causal, business-profitability, language-independence or production claim.
+
 ## 2026-07-16 — CHM-W-H012 development preflight
 
 - **Scope:** Development seed `260938`, four trainable arms, 1000 optimizer
