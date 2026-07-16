@@ -568,3 +568,25 @@
 - **Status:** `not_run`; no H009 metric, checkpoint or transfer claim exists.
 - **Boundary:** Simulator transfer evidence only; no causal-discovery,
   business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H009 development preflight
+
+- **Protocol:** Seed `260926`, 1,000 BF16 steps per arm on RTX 5070. Only
+  generated `train` and checkpoint-selection `validation` were opened.
+- **Aligned:** Effect NRMSE `0.89387`, rollout NRMSE `0.44715`, retrieval
+  accuracy `0.45312` and effect coverage `0.97321`.
+- **No alignment:** Effect `0.89338`, rollout `0.44775`, retrieval `0.29688`.
+  Aligned/no-alignment ratios were `1.00056` and `0.99866`.
+- **Temporal control:** Effect `0.99010`, rollout `0.46294`. Relational state
+  remains useful, but the paired alignment objective does not improve its
+  prediction heads over the matched relational control.
+- **Diagnosis:** Exact renderer pairs make mechanism identity easier to
+  retrieve (`+0.15625`) without improving intervention or rollout prediction.
+  The alignment embedding and predictive state can still specialize into
+  weakly coupled representations.
+- **Decision:** Fail the H009 development gate. Do not open seeds
+  `260927..260929`, do not open any test split and do not promote checkpoints.
+- **Status:** H009 remains `not_run`; these are development diagnostics, not a
+  registered transfer result.
+- **Boundary:** Simulator-only evidence; no causal-discovery, business-utility,
+  language-independence or production claim.
