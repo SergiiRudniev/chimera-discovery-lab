@@ -14,4 +14,7 @@ metrics are opened.
 `world_h011_development_consistency.yaml` and its matched control freeze the
 direct paired-response objective before H011 development execution.
 
+`world_generators_h012.yaml` and `world_h012_suite.yaml` freeze the WG3 seeds,
+five comparison arms, sealed-test policy and primary transfer gate.
+
 No configuration in this directory may reuse Venture graph semantics implicitly.

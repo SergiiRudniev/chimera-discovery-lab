@@ -1,5 +1,55 @@
 # Research Journal
 
+## 2026-07-16 — CHM-W-H012 development preflight
+
+- **Scope:** Development seed `260938`, four trainable arms, 1000 optimizer
+  steps each, plus deterministic legal-random regret. Only `train` and
+  `validation` were opened; frozen validation seeds and all test splits stayed
+  sealed.
+- **Aligned cross-world:** Effect NRMSE `0.749912`, rollout NRMSE `0.453476`,
+  retrieval `0.484375`.
+- **No-alignment cross-world:** Effect NRMSE `0.742323`, rollout NRMSE
+  `0.451357`, retrieval `0.265625`.
+- **Target-family-only:** Effect NRMSE `1.402974`, rollout NRMSE `0.471859`.
+  The arm used actual held-family train sampling and selected step `400`.
+- **Temporal baseline:** Effect NRMSE `0.948956`, rollout NRMSE `0.457700`.
+- **Random baseline:** All actions were legal; mean sampled intervention regret
+  was `0.025495` across four states and eight candidates per state.
+- **Controlled result:** Alignment increased retrieval by `0.218750`, but its
+  effect and rollout ratios versus the matched no-alignment arm were `1.010223`
+  and `1.004695`. The preregistered `0.90`/`0.90` development gate failed.
+- **Diagnostic:** Cross-world relational pretraining without alignment beat the
+  temporal baseline on effect (`0.782253x`) and slightly on rollout
+  (`0.986142x`). Generator diversity is useful in validation; the global
+  mechanism-alignment objective remains the conflicting component.
+- **Decision:** Do not open H012 frozen validation or test, do not promote any
+  checkpoint and leave `research/results/CHM-W-H012.json` as `not_run`.
+- **Next action:** Complete the already preregistered H011 direct paired-response
+  consistency experiment, which supervises predictions rather than global
+  embedding similarity.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  transfer, causal discovery, business utility, language independence or
+  production claim.
+
+## 2026-07-16 — CHM-W-H012 registration
+
+- **Question:** Does generator-first cross-world pretraining improve numerical
+  intervention and rollout prediction on held world-family mappings?
+- **Foundation:** Reuse the H002/H009 `MechanismGenerator`, `WorldGenerator`
+  and `ObservationRenderer` contracts instead of creating a parallel simulator
+  API. Training data remain online and evaluation data remain fixed by SHA-256.
+- **Controlled comparison:** Aligned cross-world, unaligned cross-world,
+  target-family-only and non-relational temporal models use matched data and
+  optimization budgets. Legal random intervention is a regret-only baseline.
+- **Primary gate:** On `test_world_transfer`, aligned cross-world effect and
+  four-step rollout NRMSE must each be at most `0.90` of the strongest eligible
+  predictive baseline, with paired 90% bootstrap ratio bounds below `1.00`.
+- **Isolation:** All generator provenance remains evaluator-only. Test stays
+  sealed until all arms, checkpoints and validation decisions are frozen.
+- **Status:** `not_run`; no H012 metric, checkpoint or transfer claim exists.
+- **Claim boundary:** Numerical simulator evidence only; no real-world causal,
+  business-profitability, language-independence or production claim.
+
 ## 2026-07-15 — CHM-W-H005 registration
 
 - **Question:** Can a 50:50 probe/random curriculum retain H004's

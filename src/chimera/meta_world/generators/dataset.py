@@ -21,6 +21,7 @@ from chimera.meta_world.generators.contracts import (
     DatasetSplitConfig,
     GeneratedWorldBatch,
     SplitName,
+    TrainingFamilyPolicy,
     TrajectoryMetadata,
     ViewCoupling,
     WorldActionPolicy,
@@ -241,9 +242,12 @@ class WorldGenerationPipeline:
         self,
         config: GeneratedWorldDatasetConfig,
         action_policy: WorldActionPolicy | None = None,
+        *,
+        training_family_policy: TrainingFamilyPolicy = TrainingFamilyPolicy.CROSS_WORLD,
     ) -> None:
         self.config = config
         self.action_policy = action_policy
+        self.training_family_policy = training_family_policy
         if (
             config.view_coupling is ViewCoupling.PAIRED_WORLD_RENDERERS
             and action_policy is not None
@@ -363,6 +367,13 @@ class WorldGenerationPipeline:
         view: int,
     ) -> WorldFamily:
         held = self.config.held_family_by_template.get(template_id)
+        if (
+            split is SplitName.TRAIN
+            and self.training_family_policy is TrainingFamilyPolicy.HELD_TARGET
+        ):
+            if held is None:
+                raise ValueError("target-family training requires a held family")
+            return WorldFamily(held)
         if split is SplitName.TEST_WORLD_TRANSFER:
             if held is None:
                 raise ValueError("world-transfer templates require a held family")
