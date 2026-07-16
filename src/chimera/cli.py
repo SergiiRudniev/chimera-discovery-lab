@@ -39,6 +39,10 @@ from chimera.meta_world.h012 import build_h012_smoke_dataset, run_h012_preflight
 from chimera.meta_world.h013 import run_h013_development_suite, run_h013_preflight
 from chimera.meta_world.h013.dataset import build_h013_smoke_dataset
 from chimera.meta_world.h014 import run_h014_development_suite, run_h014_preflight
+from chimera.meta_world.h015 import (
+    run_h015_backbone_preflight,
+    run_h015_development_suite,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -457,6 +461,48 @@ def _h014_preflight(arguments: argparse.Namespace) -> int:
 
 def _h014_suite(arguments: argparse.Namespace) -> int:
     result = run_h014_development_suite(
+        arguments.config,
+        arguments.output,
+        arguments.report,
+    )
+    print(
+        json.dumps(
+            {
+                "preflight_id": result["preflight_id"],
+                "status": result["status"],
+                "decision": result["decision"],
+                "passed": result["development_gate"]["passed"],
+                "report": str(arguments.report),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h015_backbone(arguments: argparse.Namespace) -> int:
+    result = run_h015_backbone_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "response_source": result["response_source"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h015_suite(arguments: argparse.Namespace) -> int:
+    result = run_h015_development_suite(
         arguments.config,
         arguments.output,
         arguments.report,
@@ -1249,6 +1295,33 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/preflights/CHM-W-H014-development.json"),
     )
+    h015_backbone_parser = subparsers.add_parser("meta-world-h015-backbone")
+    h015_backbone_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h015_development_backbone.yaml"),
+    )
+    h015_backbone_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h015_development_backbone"),
+    )
+    h015_suite_parser = subparsers.add_parser("meta-world-h015-suite")
+    h015_suite_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h015_suite.yaml"),
+    )
+    h015_suite_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h015_development"),
+    )
+    h015_suite_parser.add_argument(
+        "--report",
+        type=Path,
+        default=Path("research/preflights/CHM-W-H015-development.json"),
+    )
     return parser
 
 
@@ -1326,6 +1399,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h014_preflight(arguments)
     if arguments.command == "meta-world-h014-suite":
         return _h014_suite(arguments)
+    if arguments.command == "meta-world-h015-backbone":
+        return _h015_backbone(arguments)
+    if arguments.command == "meta-world-h015-suite":
+        return _h015_suite(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

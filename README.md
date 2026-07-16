@@ -176,6 +176,20 @@ worsened effect and rollout versus the matched factual-residual control. Paired
 no-op supervision remains an auxiliary dynamics signal; the next program stage
 moves from head arithmetic to equal-budget numerical intervention search.
 
+## Numerical Intervention Search H015
+
+H015 is the first candidate-generation gate. Chimera searches legal numerical
+source/target/magnitude/control vectors with uncertainty-aware
+quality-diversity, then the procedural simulator measures realized regret under
+the same execution budget as random and mean-only controls. See the
+[H015 intervention-search contract](docs/INTERVENTION_SEARCH_H015.md).
+
+The development gate was negative: uncertainty-aware regret was `0.969786x`
+legal random and `1.056837x` mean-only search. Exact budgets, legality, replay
+and leakage guards passed, but pointwise effect predictions did not rank actions
+within a state. The next hypothesis replaces the pointwise search critic with
+multi-action ranking supervision from generated worlds.
+
 ## Numerical Output
 
 ```text
