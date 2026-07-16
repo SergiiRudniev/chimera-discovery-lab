@@ -1,0 +1,103 @@
+id: CHM-W-H012
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  Online pretraining across FlowWorld, CompetitionWorld and FunnelWorld with
+  evaluator-only mechanism alignment reduces both intervention-effect NRMSE
+  and four-step rollout NRMSE by at least 10% on held world-family mappings
+  compared with every eligible preregistered predictive baseline.
+scope: generator_first_cross_world_pretraining_qualification
+parent: CHM-W-H009
+rationale:
+  inherited_foundation: CHM-W-H002
+  diagnostic: research/preflights/CHM-W-H009-development.json
+  observation: >-
+    H002 established the programmatic world-generator contracts and H009 added
+    exact paired renderer views, but H009 evaluated only a development subset
+    of the registered arms and did not qualify the generator-first approach.
+    H012 freezes one end-to-end five-arm protocol before any new test access.
+data:
+  dataset_id: CHM-W-WG3
+  generator_config: configs/meta_world/world_generators_h012.yaml
+  source: seeded_programmatic_dynamic_worlds
+  world_families: [flow, competition, funnel]
+  generation_modes: [online_cpu_training, fixed_sha256_evaluation]
+  model_input_language: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+  split_isolation:
+    - mechanism_id
+    - world_instance_id
+    - generation_seed
+    - exact_mechanism_configuration
+    - exact_world_configuration
+    - exact_renderer_configuration
+method:
+  model: relational_sequence_world_model
+  temporal_context_steps: 4
+  rollout_horizon: 4
+  online_training_generation: true
+  fixed_validation_and_test_manifests: true
+  mechanism_alignment_labels_available_to_loss_only: true
+  mechanism_alignment_labels_passed_to_model_forward: false
+  frozen_numeric_hypothesis_output: >-
+    Ranked legal intervention vectors, predicted outcome distributions,
+    uncertainty and evaluator provenance; language interpretation is external.
+protocol:
+  trial_id: CHM-W-T012
+  status: not_run
+  development_seed: 260938
+  frozen_validation_seeds: [260939, 260940, 260941]
+  comparison_arms:
+    - cross_world_pretraining_with_mechanism_alignment
+    - cross_world_pretraining_without_mechanism_alignment
+    - target_family_only_training
+    - temporal_predictor_without_relational_world_state
+    - legal_random_intervention_baseline
+  random_baseline_scope: intervention_regret_only
+  primary_predictive_baselines:
+    - cross_world_pretraining_without_mechanism_alignment
+    - target_family_only_training
+    - temporal_predictor_without_relational_world_state
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  checkpoint_selection: >-
+    Freeze each trainable arm at the minimum unweighted mean of validation
+    intervention-effect NRMSE and four-step rollout NRMSE. Test remains sealed
+    until all arms, checkpoints and validation decisions are frozen.
+  development_gate:
+    aligned_intervention_effect_ratio_vs_best_predictive_baseline_maximum: 0.90
+    aligned_four_step_rollout_ratio_vs_best_predictive_baseline_maximum: 0.90
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    each_primary_error_ratio_vs_best_predictive_baseline_maximum: 0.90
+    each_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_prediction_error
+    - zero_shot_world_transfer_error
+    - uncertainty_calibration
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - mechanism_retrieval_accuracy
+    - deterministic_replay_rate
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports transfer only inside the registered simulator
+    distribution. It is not evidence of real-world causal discovery, safe
+    intervention, profitable business ideas, language-independent thought or
+    production readiness.
+result: research/results/CHM-W-H012.json

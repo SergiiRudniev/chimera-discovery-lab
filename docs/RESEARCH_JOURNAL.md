@@ -1,5 +1,24 @@
 # Research Journal
 
+## 2026-07-16 — CHM-W-H012 registration
+
+- **Question:** Does generator-first cross-world pretraining improve numerical
+  intervention and rollout prediction on held world-family mappings?
+- **Foundation:** Reuse the H002/H009 `MechanismGenerator`, `WorldGenerator`
+  and `ObservationRenderer` contracts instead of creating a parallel simulator
+  API. Training data remain online and evaluation data remain fixed by SHA-256.
+- **Controlled comparison:** Aligned cross-world, unaligned cross-world,
+  target-family-only and non-relational temporal models use matched data and
+  optimization budgets. Legal random intervention is a regret-only baseline.
+- **Primary gate:** On `test_world_transfer`, aligned cross-world effect and
+  four-step rollout NRMSE must each be at most `0.90` of the strongest eligible
+  predictive baseline, with paired 90% bootstrap ratio bounds below `1.00`.
+- **Isolation:** All generator provenance remains evaluator-only. Test stays
+  sealed until all arms, checkpoints and validation decisions are frozen.
+- **Status:** `not_run`; no H012 metric, checkpoint or transfer claim exists.
+- **Claim boundary:** Numerical simulator evidence only; no real-world causal,
+  business-profitability, language-independence or production claim.
+
 ## 2026-07-15 — CHM-W-H005 registration
 
 - **Question:** Can a 50:50 probe/random curriculum retain H004's
