@@ -257,6 +257,11 @@ def test_h015_suite_generates_candidates_without_revalidating_wg4(
     )
     monkeypatch.setattr(
         h015_suite_module,
+        "resolve_device",
+        lambda requested: torch.device("cpu"),
+    )
+    monkeypatch.setattr(
+        h015_suite_module,
         "realized_candidate_effect",
         lambda config, trajectory, *, prediction_step, candidate: candidate.magnitude,
     )
