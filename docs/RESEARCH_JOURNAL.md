@@ -1,5 +1,28 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H017 registration
+
+- **Question:** Does a support-preserving finite candidate generator let the
+  improved H016 rank signal survive model-guided selection?
+- **Diagnosis:** H016 improved fixed-pool Spearman and NDCG, but adaptive CEM
+  collapsed to magnitude zero and worsened realized regret.
+- **Controlled change:** Retrain the exact H016 critic under seed `260954` and
+  share its weights between arms. Change only adaptive resampling versus
+  one-pass finite-pool reranking.
+- **Generator:** 256 candidates with balanced ordered slot pairs and seeded
+  independent Latin-hypercube magnitude/control values strictly inside legal
+  support. No outcome label guides generation.
+- **Selection:** One score per candidate, one best candidate per QD archive
+  cell, then eight executions. Adaptive H016 CEM receives the same 256 scores
+  and eight executions; random receives eight from the same support pool.
+- **Primary gate:** Regret ratio at most `0.75` versus random and `0.85` versus
+  adaptive CEM, plus exact replay, zero boundaries, unique vectors, pair
+  balance, legality, budgets, zero leakage and sealed test metrics.
+- **Data reuse:** WG4 evidence is reused without revalidation.
+- **Status:** `not_run`; no H017 candidate metric or checkpoint exists.
+- **Claim boundary:** Generated-world candidate evidence only; no real-world
+  causal, creative, business, language-independence or production claim.
+
 ## 2026-07-16 - CHM-W-H016 development preflight
 
 - **Scope:** Development seed `260954`; the 66,283,046-parameter H015 backbone
