@@ -7,12 +7,15 @@ import json
 import platform
 import subprocess
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
 import torch
 from torch import nn
 
+from chimera.meta_world.batch import MetaWorldBatch
+from chimera.meta_world.config import MetaWorldTrainingConfig
 from chimera.meta_world.generators import (
     GeneratedWorldDatasetConfig,
     SplitName,
@@ -26,6 +29,7 @@ from chimera.meta_world.h002.model import (
 )
 from chimera.meta_world.h002.trainer import H002Trainer
 from chimera.meta_world.h002.windows import (
+    GeneratedSequenceSample,
     make_transition_window,
     materialize_sequence_sample,
 )
@@ -75,30 +79,56 @@ def _selection_score(metrics: dict[str, float]) -> float:
 def _execute_h002_preflight(
     config_path: str | Path,
     output_dir: str | Path,
+    *,
+    hypothesis_id: str = "CHM-W-H002",
+    run_config: H002RunConfig | None = None,
+    model_factory: Callable[[H002RunConfig], nn.Module] | None = None,
+    trainer_factory: Callable[
+        [nn.Module, MetaWorldTrainingConfig], H002Trainer
+    ]
+    | None = None,
+    window_factory: Callable[
+        [GeneratedSequenceSample, int, int], MetaWorldBatch
+    ]
+    | None = None,
+    training_pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
+    allow_target_family_only: bool = False,
 ) -> dict[str, Any]:
     """Train on online train worlds and select only against frozen validation worlds."""
 
     config_file = Path(config_path)
-    config = H002RunConfig.from_yaml(config_file)
+    config = run_config or H002RunConfig.from_yaml(config_file)
     if config.mode != "preflight":
         raise ValueError("run_h002_preflight only accepts mode=preflight")
-    if config.arm is H002Arm.TARGET_FAMILY_ONLY:
+    if config.arm is H002Arm.TARGET_FAMILY_ONLY and not allow_target_family_only:
         raise ValueError("target-family sampling is reserved for the frozen trial runner")
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError("preflight output directory must be empty")
     output.mkdir(parents=True, exist_ok=True)
     generator_config = GeneratedWorldDatasetConfig.from_yaml(config.generator_config)
-    pipeline = WorldGenerationPipeline(generator_config)
+    validation_pipeline = WorldGenerationPipeline(generator_config)
+    training_pipeline = (
+        WorldGenerationPipeline(generator_config)
+        if training_pipeline_factory is None
+        else training_pipeline_factory(generator_config)
+    )
     validation_sample = materialize_sequence_sample(
-        pipeline,
+        validation_pipeline,
         SplitName.VALIDATION,
         start_index=0,
         batch_size=config.evaluation.validation_trajectories,
     )
-    model = _model(config)
+    model = _model(config) if model_factory is None else model_factory(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
-    trainer = H002Trainer(model, config.training)
+    trainer = (
+        H002Trainer(model, config.training)
+        if trainer_factory is None
+        else trainer_factory(model, config.training)
+    )
     started = time.perf_counter()
     initial_evaluation = evaluate_h002_model(
         trainer,
@@ -135,15 +165,24 @@ def _execute_h002_preflight(
     prediction_count = generator_config.trajectory_steps - 1
     for step in range(1, config.training.steps + 1):
         train_sample = materialize_sequence_sample(
-            pipeline,
+            training_pipeline,
             SplitName.TRAIN,
             start_index=(step - 1) * config.training.batch_size,
             batch_size=config.training.batch_size,
         )
-        window = make_transition_window(
-            train_sample,
-            prediction_step=(step - 1) % prediction_count,
-            context_steps=config.model.context_steps,
+        prediction_step = (step - 1) % prediction_count
+        window = (
+            make_transition_window(
+                train_sample,
+                prediction_step=prediction_step,
+                context_steps=config.model.context_steps,
+            )
+            if window_factory is None
+            else window_factory(
+                train_sample,
+                prediction_step,
+                config.model.context_steps,
+            )
         )
         training_metrics = trainer.train_step(window)
         if first_training is None:
@@ -211,7 +250,7 @@ def _execute_h002_preflight(
     runtime_seconds = time.perf_counter() - started
     result: dict[str, Any] = {
         "run_id": config.run_id,
-        "hypothesis_id": "CHM-W-H002",
+        "hypothesis_id": hypothesis_id,
         "status": "completed_preflight",
         "decision": "engineering_only",
         "arm": config.arm.value,
@@ -261,8 +300,48 @@ def run_h002_preflight(
 ) -> dict[str, Any]:
     """Run the preflight and persist unexpected execution failures before re-raising."""
 
+    return run_generated_world_preflight(
+        config_path,
+        output_dir,
+        hypothesis_id="CHM-W-H002",
+    )
+
+
+def run_generated_world_preflight(
+    config_path: str | Path,
+    output_dir: str | Path,
+    *,
+    hypothesis_id: str,
+    run_config: H002RunConfig | None = None,
+    model_factory: Callable[[H002RunConfig], nn.Module] | None = None,
+    trainer_factory: Callable[
+        [nn.Module, MetaWorldTrainingConfig], H002Trainer
+    ]
+    | None = None,
+    window_factory: Callable[
+        [GeneratedSequenceSample, int, int], MetaWorldBatch
+    ]
+    | None = None,
+    training_pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
+    allow_target_family_only: bool = False,
+) -> dict[str, Any]:
+    """Run the shared generated-world preflight under an explicit hypothesis ID."""
+
     try:
-        return _execute_h002_preflight(config_path, output_dir)
+        return _execute_h002_preflight(
+            config_path,
+            output_dir,
+            hypothesis_id=hypothesis_id,
+            run_config=run_config,
+            model_factory=model_factory,
+            trainer_factory=trainer_factory,
+            window_factory=window_factory,
+            training_pipeline_factory=training_pipeline_factory,
+            allow_target_family_only=allow_target_family_only,
+        )
     except Exception as error:
         output = Path(output_dir)
         output.mkdir(parents=True, exist_ok=True)
@@ -270,14 +349,18 @@ def run_h002_preflight(
         if not result_path.exists():
             run_id: str | None = None
             try:
-                run_id = H002RunConfig.from_yaml(config_path).run_id
+                run_id = (
+                    run_config.run_id
+                    if run_config is not None
+                    else H002RunConfig.from_yaml(config_path).run_id
+                )
             except Exception:
                 run_id = None
             _write_json(
                 result_path,
                 {
                     "run_id": run_id,
-                    "hypothesis_id": "CHM-W-H002",
+                    "hypothesis_id": hypothesis_id,
                     "status": "execution_failed",
                     "decision": "engineering_failure",
                     "test_metrics_opened": False,

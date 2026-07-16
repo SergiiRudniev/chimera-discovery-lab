@@ -24,6 +24,10 @@ def test_research_registry_is_valid() -> None:
         "CHM-W-H006",
         "CHM-W-H007",
         "CHM-W-H008",
+        "CHM-W-H009",
+        "CHM-W-H010",
+        "CHM-W-H011",
+        "CHM-W-H012",
     ]
 
 
@@ -227,4 +231,138 @@ def test_h008_is_registered_before_metrics_are_opened() -> None:
     assert result["trial_id"] == "CHM-W-T008"
     assert result["status"] == "not_run"
     assert result["decision"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h009_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H009.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H009"
+    assert result["trial_id"] == "CHM-W-T009"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h009_development_failure_keeps_validation_and_test_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H009-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H009.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H009_frozen_validation"
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h010_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H010.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H010"
+    assert result["trial_id"] == "CHM-W-T010"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h010_development_failure_keeps_validation_and_test_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H010-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H010.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H010_frozen_validation"
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h011_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H011.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H011"
+    assert result["trial_id"] == "CHM-W-T011"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h011_development_failure_keeps_validation_and_test_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H011-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H011.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H011_frozen_validation"
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    treatment = preflight["arms"]["paired_response_consistency"]["metrics"]
+    control = preflight["arms"]["matched_without_response_consistency"]["metrics"]
+    comparison = preflight["comparisons"]["consistency_vs_control"]
+    assert comparison["intervention_effect_nrmse_ratio"] == pytest.approx(
+        treatment["intervention_effect_nrmse"] / control["intervention_effect_nrmse"]
+    )
+    assert comparison["paired_effect_mean_disagreement_ratio"] == pytest.approx(
+        treatment["paired_effect_mean_disagreement"]
+        / control["paired_effect_mean_disagreement"]
+    )
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h012_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H012.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H012"
+    assert result["trial_id"] == "CHM-W-T012"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h012_development_failure_keeps_validation_and_test_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H012-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H012.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H012_frozen_validation"
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert preflight["fixed_dataset_integrity"]["checks_passed"] == 16
+    aligned = preflight["arms"][
+        "cross_world_pretraining_with_mechanism_alignment"
+    ]["metrics"]
+    no_alignment = preflight["arms"][
+        "cross_world_pretraining_without_mechanism_alignment"
+    ]["metrics"]
+    comparison = preflight["comparisons"]["aligned_vs_no_alignment"]
+    assert comparison["intervention_effect_nrmse_ratio"] == pytest.approx(
+        aligned["intervention_effect_nrmse"]
+        / no_alignment["intervention_effect_nrmse"]
+    )
+    assert comparison["four_step_rollout_nrmse_ratio"] == pytest.approx(
+        aligned["four_step_rollout_nrmse"]
+        / no_alignment["four_step_rollout_nrmse"]
+    )
+    assert result["status"] == "not_run"
     assert result["metrics"] is None

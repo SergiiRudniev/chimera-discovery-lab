@@ -78,3 +78,27 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H008.yaml
     result: research/results/CHM-W-H008.json
+  - id: CHM-W-H009
+    title: Paired-renderer generated-world mechanism transfer
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H009.yaml
+    result: research/results/CHM-W-H009.json
+  - id: CHM-W-H010
+    title: Shared aligned predictive mechanism bottleneck
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H010.yaml
+    result: research/results/CHM-W-H010.json
+  - id: CHM-W-H011
+    title: Paired counterfactual response consistency
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H011.yaml
+    result: research/results/CHM-W-H011.json
+  - id: CHM-W-H012
+    title: Generator-first cross-world pretraining qualification
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H012.yaml
+    result: research/results/CHM-W-H012.json

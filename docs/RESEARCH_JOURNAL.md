@@ -1,5 +1,55 @@
 # Research Journal
 
+## 2026-07-16 — CHM-W-H012 development preflight
+
+- **Scope:** Development seed `260938`, four trainable arms, 1000 optimizer
+  steps each, plus deterministic legal-random regret. Only `train` and
+  `validation` were opened; frozen validation seeds and all test splits stayed
+  sealed.
+- **Aligned cross-world:** Effect NRMSE `0.749912`, rollout NRMSE `0.453476`,
+  retrieval `0.484375`.
+- **No-alignment cross-world:** Effect NRMSE `0.742323`, rollout NRMSE
+  `0.451357`, retrieval `0.265625`.
+- **Target-family-only:** Effect NRMSE `1.402974`, rollout NRMSE `0.471859`.
+  The arm used actual held-family train sampling and selected step `400`.
+- **Temporal baseline:** Effect NRMSE `0.948956`, rollout NRMSE `0.457700`.
+- **Random baseline:** All actions were legal; mean sampled intervention regret
+  was `0.025495` across four states and eight candidates per state.
+- **Controlled result:** Alignment increased retrieval by `0.218750`, but its
+  effect and rollout ratios versus the matched no-alignment arm were `1.010223`
+  and `1.004695`. The preregistered `0.90`/`0.90` development gate failed.
+- **Diagnostic:** Cross-world relational pretraining without alignment beat the
+  temporal baseline on effect (`0.782253x`) and slightly on rollout
+  (`0.986142x`). Generator diversity is useful in validation; the global
+  mechanism-alignment objective remains the conflicting component.
+- **Decision:** Do not open H012 frozen validation or test, do not promote any
+  checkpoint and leave `research/results/CHM-W-H012.json` as `not_run`.
+- **Next action:** Complete the already preregistered H011 direct paired-response
+  consistency experiment, which supervises predictions rather than global
+  embedding similarity.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  transfer, causal discovery, business utility, language independence or
+  production claim.
+
+## 2026-07-16 — CHM-W-H012 registration
+
+- **Question:** Does generator-first cross-world pretraining improve numerical
+  intervention and rollout prediction on held world-family mappings?
+- **Foundation:** Reuse the H002/H009 `MechanismGenerator`, `WorldGenerator`
+  and `ObservationRenderer` contracts instead of creating a parallel simulator
+  API. Training data remain online and evaluation data remain fixed by SHA-256.
+- **Controlled comparison:** Aligned cross-world, unaligned cross-world,
+  target-family-only and non-relational temporal models use matched data and
+  optimization budgets. Legal random intervention is a regret-only baseline.
+- **Primary gate:** On `test_world_transfer`, aligned cross-world effect and
+  four-step rollout NRMSE must each be at most `0.90` of the strongest eligible
+  predictive baseline, with paired 90% bootstrap ratio bounds below `1.00`.
+- **Isolation:** All generator provenance remains evaluator-only. Test stays
+  sealed until all arms, checkpoints and validation decisions are frozen.
+- **Status:** `not_run`; no H012 metric, checkpoint or transfer claim exists.
+- **Claim boundary:** Numerical simulator evidence only; no real-world causal,
+  business-profitability, language-independence or production claim.
+
 ## 2026-07-15 — CHM-W-H005 registration
 
 - **Question:** Can a 50:50 probe/random curriculum retain H004's
@@ -594,4 +644,140 @@
   constraint upstream into learned transition factors so the decomposition can
   affect state rollout rather than only the terminal outcome head.
 - **Boundary:** Development simulator evidence only; no real-world causal,
+  business-utility, language-independence or production claim.
+
+## 2026-07-15 — CHM-W-H009 registration
+
+- **Question:** Does cross-world pretraining transfer mechanisms when alignment
+  positives include two renderer views of the exact same hidden trajectory?
+- **Predecessor:** H002 generic alignment was worse than no alignment on
+  validation: effect ratio `1.04459`, rollout ratio `1.00767`; its test stayed
+  sealed.
+- **Change:** For each mechanism, sample two world-family realizations and two
+  renderer views per world. Renderer and dynamics RNG streams are independent;
+  paired views share latent actions, exogenous events and numerical outcomes.
+- **Controls:** Matched no-alignment, target-family-only, non-relational temporal
+  and legal-random baselines remain required.
+- **Primary test:** Intervention-effect NRMSE and four-step rollout NRMSE in
+  `test_world_transfer`, opened only after validation selection is frozen.
+- **Acceptance:** Both errors must be at most `0.90` of the strongest baseline,
+  with paired 90% bootstrap ratio upper bounds below `1.00`.
+- **Status:** `not_run`; no H009 metric, checkpoint or transfer claim exists.
+- **Boundary:** Simulator transfer evidence only; no causal-discovery,
+  business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H009 development preflight
+
+- **Protocol:** Seed `260926`, 1,000 BF16 steps per arm on RTX 5070. Only
+  generated `train` and checkpoint-selection `validation` were opened.
+- **Aligned:** Effect NRMSE `0.89387`, rollout NRMSE `0.44715`, retrieval
+  accuracy `0.45312` and effect coverage `0.97321`.
+- **No alignment:** Effect `0.89338`, rollout `0.44775`, retrieval `0.29688`.
+  Aligned/no-alignment ratios were `1.00056` and `0.99866`.
+- **Temporal control:** Effect `0.99010`, rollout `0.46294`. Relational state
+  remains useful, but the paired alignment objective does not improve its
+  prediction heads over the matched relational control.
+- **Diagnosis:** Exact renderer pairs make mechanism identity easier to
+  retrieve (`+0.15625`) without improving intervention or rollout prediction.
+  The alignment embedding and predictive state can still specialize into
+  weakly coupled representations.
+- **Decision:** Fail the H009 development gate. Do not open seeds
+  `260927..260929`, do not open any test split and do not promote checkpoints.
+- **Status:** H009 remains `not_run`; these are development diagnostics, not a
+  registered transfer result.
+- **Boundary:** Simulator-only evidence; no causal-discovery, business-utility,
+  language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H010 registration
+
+- **Diagnosis:** H009 alignment increased mechanism retrieval by `0.15625`, but
+  aligned/no-alignment effect and rollout ratios stayed at `1.00056` and
+  `0.99866`.
+- **Mechanism:** Prediction consumes raw `mechanism_state`, while alignment can
+  be satisfied inside a separate projection. Retrieval can improve without
+  changing the state used by transition and effect heads.
+- **Change:** Use `mechanism_projection(mechanism_state)` as one shared
+  bottleneck for both predictive conditioning and normalized alignment.
+- **Controls:** Cross alignment and bottleneck presence in a matched 2×2 design:
+  shared/separate projection × alignment on/off. Architecture size, data,
+  optimizer and evaluator remain fixed.
+- **Development gate:** Seed `260930`; require effect ratio ≤ `0.90`, rollout
+  ratio ≤ `1.00`, effect coverage ≥ `0.85` and structural path audits.
+- **Validation discipline:** Seeds `260931..260933` and all test splits remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H010 metric or checkpoint exists.
+- **Boundary:** Simulator representation evidence only; no real-world,
+  business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H010 development preflight
+
+- **Protocol:** Four matched 1,000-step BF16 arms on seed `260930`; train and
+  checkpoint-selection validation only.
+- **Shared + alignment:** Effect NRMSE `0.89336`, rollout `0.44687`, retrieval
+  `0.56250`; projection prediction delta `4.44e-4`.
+- **Separate + alignment:** Effect `0.91784`, rollout `0.44753`, retrieval
+  `0.39062`; structural delta exactly `0`.
+- **Shared without alignment:** Effect `0.90643`, rollout `0.44759`.
+- **Separate without alignment:** Best effect `0.88980`, rollout `0.44818`.
+- **Factor diagnosis:** Sharing the path made alignment directionally useful
+  versus both aligned and shared-path controls, but shared+aligned remained
+  `1.00400×` the strongest effect baseline. Retrieval improvement still does
+  not imply superior intervention prediction.
+- **Decision:** Fail H010; do not open seeds `260931..260933`, do not open test
+  and do not promote any checkpoint.
+- **Status:** H010 remains `not_run`; no registered transfer result exists.
+- **Boundary:** Simulator-only evidence; no real-world, business-utility,
+  language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H011 registration
+
+- **Diagnosis:** H010 made alignment structurally predictive, yet its best
+  effect ratio was `1.00400`. Global embedding similarity remains an indirect
+  objective.
+- **Change:** For two renderer views of the exact same hidden trajectory,
+  directly match predicted primary effect mean and log variance. Pair keys are
+  evaluator-only and are never passed to model forward.
+- **Controls:** Identical relational model with consistency weight on/off; the
+  mechanism-alignment objective is disabled in both arms.
+- **Development gate:** Seed `260934`; require effect ratio ≤ `0.90`, rollout
+  ratio ≤ `1.00`, coverage ≥ `0.85` and pair disagreement ratio ≤ `0.80`.
+- **Validation discipline:** Seeds `260935..260937` and every test split remain
+  sealed until development passes.
+- **Status:** `not_run`; no H011 metric or checkpoint exists.
+- **Boundary:** Simulator response-function evidence only; no real-world,
+  business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H011 implementation
+
+- **Pairing:** Added stable evaluator-only world-instance keys. Each key groups
+  two renderer views with identical latent dynamics, interventions and outcomes.
+- **Objective:** Added direct Smooth L1 consistency for primary intervention
+  effect mean and log variance. Global mechanism alignment stays disabled.
+- **Isolation:** Pair keys are created after the language-free generated batch,
+  are consumed only by the trainer/evaluator and are not read by model forward.
+- **Controls:** Treatment and control share model parameters, generator, seed,
+  optimizer, train budget and validation checkpoint selector.
+- **Status:** Engineering implementation only; development metrics are not yet
+  recorded and `research/results/CHM-W-H011.json` remains `not_run`.
+
+## 2026-07-16 — CHM-W-H011 development preflight
+
+- **Scope:** Two matched 1,000-step BF16 arms on development seed `260934`;
+  only `train` and `validation` were opened.
+- **Response consistency:** Effect NRMSE `0.907379`, rollout NRMSE `0.447798`,
+  coverage `0.973214`, paired mean disagreement `0.002203`.
+- **Matched control:** Effect NRMSE `0.903804`, rollout NRMSE `0.447938`,
+  coverage `0.973214`, paired mean disagreement `0.002498`.
+- **Controlled result:** Consistency reduced paired mean disagreement by
+  `11.81%` and kept rollout non-inferior (`0.999689x`), but effect ratio was
+  `1.003955` and disagreement ratio `0.881922`. The registered `0.90` effect
+  and `0.80` disagreement gates both failed.
+- **Decision:** Do not open seeds `260935..260937`, do not open test and do not
+  promote either checkpoint. H011 remains `not_run`.
+- **Diagnosis:** Making two renderer views agree is not sufficient to make the
+  shared response numerically correct. The next structural experiment should
+  constrain the counterfactual quantity itself against factual/no-op utility.
+- **Next action:** Implement the already preregistered H008 counterfactual
+  outcome-head decomposition before registering another alignment variant.
+- **Boundary:** Development simulator evidence only; no real-world, causal,
   business-utility, language-independence or production claim.

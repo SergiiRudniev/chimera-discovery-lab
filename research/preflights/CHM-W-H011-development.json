@@ -1,0 +1,108 @@
+{
+  "arms": {
+    "matched_without_response_consistency": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "e19750d4aae1b4158de581569c0169ba9521d3b4eb811d70a28f26962bd6adc7",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h011_development_control.yaml",
+      "config_sha256": "d58f124d415553766d6d7104fad0b8de233614348aa2ce12cfd167261781cd75",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4479377269744873,
+        "intervention_effect_90_coverage": 0.9732142857142857,
+        "intervention_effect_nll": -2.8116328716278076,
+        "intervention_effect_nrmse": 0.9038044013842793,
+        "intervention_effect_rmse": 0.03098757493548175,
+        "mechanism_retrieval_accuracy": 0.25,
+        "one_step_prediction_rmse": 0.10192540811311185,
+        "paired_effect_mean_disagreement": 0.002498477231711149,
+        "paired_effect_uncertainty_disagreement": 0.009379176422953606
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650906112,
+      "response_consistency_weight": 0.0,
+      "run_id": "H011-DEVELOPMENT-CONTROL-S260934",
+      "runtime_seconds": 103.89516050001839,
+      "selected_step": 1000
+    },
+    "paired_response_consistency": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "c7ffc43c21c668cc0c84c997c3439409a13d5ec35c4498b9741d53f861161d6e",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h011_development_consistency.yaml",
+      "config_sha256": "6c238b8ca7f2bf85a70e6690bafc4d54b0bdc9b210cc272cc8fdd1d8239cbc76",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4477982819080353,
+        "intervention_effect_90_coverage": 0.9732142857142857,
+        "intervention_effect_nll": -2.8093183040618896,
+        "intervention_effect_nrmse": 0.9073786349261285,
+        "intervention_effect_rmse": 0.031110120067531704,
+        "mechanism_retrieval_accuracy": 0.328125,
+        "one_step_prediction_rmse": 0.10177631681770781,
+        "paired_effect_mean_disagreement": 0.002203462179750204,
+        "paired_effect_uncertainty_disagreement": 0.009044451639056206
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650906112,
+      "response_consistency_weight": 1.0,
+      "run_id": "H011-DEVELOPMENT-CONSISTENCY-S260934",
+      "runtime_seconds": 102.08101979998173,
+      "selected_step": 1000
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only simulator evidence. Direct paired-response consistency reduced renderer-pair disagreement and preserved rollout, but did not improve intervention-effect prediction. Frozen validation seeds and every test split remained sealed; no real-world, causal, business-utility, language-independence or production claim is supported.",
+  "comparisons": {
+    "consistency_vs_control": {
+      "four_step_rollout_nrmse_ratio": 0.9996886954189059,
+      "intervention_effect_nrmse_ratio": 1.0039546538348063,
+      "mechanism_retrieval_accuracy_delta": 0.078125,
+      "paired_effect_mean_disagreement_ratio": 0.8819220570767835,
+      "paired_effect_uncertainty_disagreement_ratio": 0.9643119215586744
+    }
+  },
+  "decision": "do_not_open_H011_frozen_validation",
+  "development_gate": {
+    "all_metrics_finite": true,
+    "deterministic_replay_rate": 1.0,
+    "four_step_rollout_nrmse_ratio": 0.9996886954189059,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_90_coverage": 0.9732142857142857,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "intervention_effect_nrmse_ratio": 1.0039546538348063,
+    "intervention_effect_nrmse_ratio_maximum": 0.9,
+    "paired_prediction_disagreement_ratio": 0.8819220570767835,
+    "paired_prediction_disagreement_ratio_maximum": 0.8,
+    "passed": false,
+    "split_leakage_findings": 0,
+    "test_metrics_opened": false
+  },
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "a533f6df5805c4908f544d6a98310901de367fcf",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "generator_config": "configs/meta_world/world_generators_h009.yaml",
+  "generator_config_sha256": "dabc4ed478372c1a3362b73806f284125ec5457b9ea343bbdefdadd1124baadb",
+  "hypothesis_id": "CHM-W-H011",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H011-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260934,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false
+}

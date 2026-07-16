@@ -1,4 +1,4 @@
-"""Programmatic dynamic-world generators for Meta-World H002."""
+"""Programmatic dynamic-world generators for Meta-World experiments."""
 
 from chimera.meta_world.generators.contracts import (
     DatasetSplitConfig,
@@ -7,7 +7,9 @@ from chimera.meta_world.generators.contracts import (
     MechanismConfig,
     RendererConfig,
     SplitName,
+    TrainingFamilyPolicy,
     TrajectoryMetadata,
+    ViewCoupling,
     WorldAction,
     WorldConfig,
     WorldDatasetManifest,
@@ -45,7 +47,9 @@ __all__ = [
     "ObservationRenderer",
     "RendererConfig",
     "SplitName",
+    "TrainingFamilyPolicy",
     "TrajectoryMetadata",
+    "ViewCoupling",
     "WorldAction",
     "WorldConfig",
     "WorldDatasetManifest",

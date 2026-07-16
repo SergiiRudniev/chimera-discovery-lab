@@ -1,0 +1,131 @@
+{
+  "arms": {
+    "paired_renderer_cross_world_pretraining_with_mechanism_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "0a5f02e0f6dc85f70dbe0dfbfa4b7b4929a0912a56139515117c132aaba5126a",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h009_development_aligned.yaml",
+      "config_sha256": "d983c186296dbab8259b21f0bda2548ef26b784330f42236afeb531bf091a2c7",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4471530318260193,
+        "intervention_effect_90_coverage": 0.9732142857142857,
+        "intervention_effect_nll": -2.8099045072283064,
+        "intervention_effect_nrmse": 0.8938736112648071,
+        "intervention_effect_rmse": 0.030647090752704637,
+        "mechanism_retrieval_accuracy": 0.453125,
+        "one_step_prediction_rmse": 0.10181099433832236
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H009-DEVELOPMENT-ALIGNED-S260926",
+      "runtime_seconds": 96.24410460004583,
+      "selected_step": 1000
+    },
+    "paired_renderer_cross_world_pretraining_without_mechanism_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "c5bf1992e21a895c2a836f1019af95363821f6eb6ccb1ef39b092e30bdd3c762",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h009_development_no_alignment.yaml",
+      "config_sha256": "f848fc1fc5b6a16de34748c859380a01979adee912209e2d321223f9f1b73247",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.44775259494781494,
+        "intervention_effect_90_coverage": 0.9732142857142857,
+        "intervention_effect_nll": -2.8161326476505826,
+        "intervention_effect_nrmse": 0.8933751939492331,
+        "intervention_effect_rmse": 0.030630002161531774,
+        "mechanism_retrieval_accuracy": 0.296875,
+        "one_step_prediction_rmse": 0.10188010077460438
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H009-DEVELOPMENT-NOALIGN-S260926",
+      "runtime_seconds": 95.56477669999003,
+      "selected_step": 1000
+    },
+    "temporal_predictor_without_relational_world_state": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "d8bbae03fc57d51f600590599d7ae63d374e6db98d3819a0266d979550dc92b3",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h009_development_temporal.yaml",
+      "config_sha256": "4e9cf0960a061cc69a169845af2425f6d44756aaf1f93627a0823d8f2a4dd780",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4629403352737427,
+        "intervention_effect_90_coverage": 0.9709821428571429,
+        "intervention_effect_nll": -2.7675530910491943,
+        "intervention_effect_nrmse": 0.9901029939172126,
+        "intervention_effect_rmse": 0.03394638338877658,
+        "mechanism_retrieval_accuracy": 0.546875,
+        "one_step_prediction_rmse": 0.10451901529913316
+      },
+      "model_class": "chimera.meta_world.h002.model.TemporalWorldBaseline",
+      "parameters": 13686296,
+      "peak_memory_bytes": 446811648,
+      "run_id": "H009-DEVELOPMENT-TEMPORAL-S260926",
+      "runtime_seconds": 52.375760500028264,
+      "selected_step": 1000
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only simulator evidence. Paired renderer alignment improved mechanism retrieval but did not improve intervention-effect or rollout prediction over the matched no-alignment relational model. Frozen validation seeds and every test split remained sealed; no causal, business-utility, language-independence or production claim is supported.",
+  "comparisons": {
+    "aligned_vs_no_alignment": {
+      "four_step_rollout_nrmse_ratio": 0.9986609499787141,
+      "intervention_effect_nrmse_ratio": 1.0005579036881143,
+      "mechanism_retrieval_accuracy_delta": 0.15625
+    },
+    "aligned_vs_temporal": {
+      "four_step_rollout_nrmse_ratio": 0.9658977577782498,
+      "intervention_effect_nrmse_ratio": 0.9028087146048448
+    },
+    "no_alignment_vs_temporal": {
+      "four_step_rollout_nrmse_ratio": 0.9671928774213484,
+      "intervention_effect_nrmse_ratio": 0.9023053151417222
+    }
+  },
+  "decision": "do_not_open_H009_frozen_validation",
+  "development_gate": {
+    "aligned_four_step_rollout_ratio_vs_best_baseline_maximum": 0.9,
+    "aligned_intervention_effect_ratio_vs_best_baseline_maximum": 0.9,
+    "all_metrics_finite": true,
+    "deterministic_replay_rate": 1.0,
+    "paired_renderer_outcome_mismatches": 0,
+    "passed": false,
+    "split_leakage_findings": 0
+  },
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "d9ffbeae687bbf4b15b26e5558870180d99c22aa",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "generator_config": "configs/meta_world/world_generators_h009.yaml",
+  "generator_config_sha256": "dabc4ed478372c1a3362b73806f284125ec5457b9ea343bbdefdadd1124baadb",
+  "git_commit": "d9ffbeae687bbf4b15b26e5558870180d99c22aa",
+  "hypothesis_id": "CHM-W-H009",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H009-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "reserved_arms_not_run": [
+    "target_family_only_training",
+    "legal_random_intervention_baseline"
+  ],
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260926,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false
+}

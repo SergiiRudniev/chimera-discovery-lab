@@ -1,4 +1,4 @@
-"""Online generation and fixed SHA-256 datasets for Meta-World H002."""
+"""Online generation and fixed SHA-256 datasets for Meta-World experiments."""
 
 from __future__ import annotations
 
@@ -21,7 +21,9 @@ from chimera.meta_world.generators.contracts import (
     DatasetSplitConfig,
     GeneratedWorldBatch,
     SplitName,
+    TrainingFamilyPolicy,
     TrajectoryMetadata,
+    ViewCoupling,
     WorldActionPolicy,
     WorldDatasetManifest,
     WorldFamily,
@@ -71,7 +73,7 @@ def _as_mapping(value: object, name: str) -> Mapping[str, Any]:
 
 @dataclass(frozen=True)
 class GeneratedWorldDatasetConfig:
-    """Executable generator settings loaded from the immutable H002 YAML."""
+    """Executable settings for one immutable generated-world schema."""
 
     hypothesis_id: str
     dataset_id: str
@@ -86,6 +88,8 @@ class GeneratedWorldDatasetConfig:
     action_features: int
     outcome_features: int
     views_per_mechanism: int
+    render_views_per_world: int
+    view_coupling: ViewCoupling
     fixed_trajectories_per_split: int
     split_configs: tuple[DatasetSplitConfig, ...]
     held_family_by_template: dict[int, int]
@@ -94,7 +98,7 @@ class GeneratedWorldDatasetConfig:
         if (
             re.fullmatch(r"CHM-W-H\d{3}", self.hypothesis_id) is None
             or re.fullmatch(r"CHM-W-WG\d+", self.dataset_id) is None
-            or self.schema_version != 1
+            or self.schema_version not in {1, 2}
         ):
             raise ValueError("unexpected generated-world identity or schema")
         if self.base_seed < 0 or self.trajectory_steps <= 1:
@@ -108,9 +112,20 @@ class GeneratedWorldDatasetConfig:
             or self.action_features != 2
             or self.outcome_features != 4
         ):
-            raise ValueError("H002 tensor dimensions do not match the generator laws")
+            raise ValueError("tensor dimensions do not match the generator laws")
         if self.views_per_mechanism < 2:
             raise ValueError("mechanism alignment requires at least two views")
+        if self.view_coupling is ViewCoupling.MECHANISM_ONLY:
+            if self.render_views_per_world != 1:
+                raise ValueError("mechanism-only views require one renderer per world")
+        elif (
+            self.schema_version < 2
+            or self.render_views_per_world < 2
+            or self.views_per_mechanism % self.render_views_per_world
+        ):
+            raise ValueError(
+                "paired renderer views require schema v2 and complete renderer groups"
+            )
         if self.fixed_trajectories_per_split % self.views_per_mechanism:
             raise ValueError("fixed split size must be divisible by views_per_mechanism")
         names = [item.name for item in self.split_configs]
@@ -163,6 +178,10 @@ class GeneratedWorldDatasetConfig:
             action_features=int(generation["action_features"]),
             outcome_features=int(generation["outcome_features"]),
             views_per_mechanism=int(generation["views_per_mechanism"]),
+            render_views_per_world=int(generation.get("render_views_per_world", 1)),
+            view_coupling=ViewCoupling(
+                str(generation.get("view_coupling", ViewCoupling.MECHANISM_ONLY.value))
+            ),
             fixed_trajectories_per_split=int(
                 generation["fixed_trajectories_per_split"]
             ),
@@ -177,7 +196,7 @@ class GeneratedWorldDatasetConfig:
         return cls.from_mapping(_as_mapping(values, "generated-world config"))
 
     def to_dict(self) -> dict[str, object]:
-        return {
+        result: dict[str, object] = {
             "hypothesis_id": self.hypothesis_id,
             "dataset_id": self.dataset_id,
             "schema_version": self.schema_version,
@@ -209,6 +228,11 @@ class GeneratedWorldDatasetConfig:
                 }
             },
         }
+        if self.schema_version >= 2:
+            generation = cast(dict[str, object], result["generation"])
+            generation["render_views_per_world"] = self.render_views_per_world
+            generation["view_coupling"] = self.view_coupling.value
+        return result
 
 
 class WorldGenerationPipeline:
@@ -218,9 +242,19 @@ class WorldGenerationPipeline:
         self,
         config: GeneratedWorldDatasetConfig,
         action_policy: WorldActionPolicy | None = None,
+        *,
+        training_family_policy: TrainingFamilyPolicy = TrainingFamilyPolicy.CROSS_WORLD,
     ) -> None:
         self.config = config
         self.action_policy = action_policy
+        self.training_family_policy = training_family_policy
+        if (
+            config.view_coupling is ViewCoupling.PAIRED_WORLD_RENDERERS
+            and action_policy is not None
+        ):
+            raise ValueError(
+                "paired renderer views require the canonical latent action policy"
+            )
         self.mechanisms = MechanismGenerator()
         self.worlds = WorldGenerator(
             min_objects=config.min_objects,
@@ -235,32 +269,56 @@ class WorldGenerationPipeline:
         spec = self.config.split(split)
         group = index // self.config.views_per_mechanism
         view = index % self.config.views_per_mechanism
+        paired_renderers = (
+            self.config.view_coupling is ViewCoupling.PAIRED_WORLD_RENDERERS
+        )
+        if paired_renderers:
+            world_view = view // self.config.render_views_per_world
+            renderer_view = view % self.config.render_views_per_world
+            worlds_per_mechanism = (
+                self.config.views_per_mechanism
+                // self.config.render_views_per_world
+            )
+            world_index = group * worlds_per_mechanism + world_view
+        else:
+            world_view = view
+            renderer_view = view
+            world_index = index
         template_id = spec.mechanism_template_ids[group % len(spec.mechanism_template_ids)]
         prefix = (self.config.base_seed + spec.seed_offset) * 1_000_000
         mechanism_seed = prefix + group * 16 + 1
-        world_seed = prefix + 100_000_000 + index * 16 + 2
+        world_seed = prefix + 100_000_000 + world_index * 16 + 2
         renderer_seed = prefix + 200_000_000 + index * 16 + 3
-        generation_seed = prefix + 300_000_000 + index * 16 + 4
+        generation_seed = prefix + 300_000_000 + world_index * 16 + 4
         mechanism = self.mechanisms.generate(template_id, mechanism_seed)
-        family_id = self._family(split, template_id, group, view)
-        renderer_profile = spec.renderer_profiles[view % len(spec.renderer_profiles)]
+        family_id = self._family(split, template_id, group, world_view)
+        renderer_profile = spec.renderer_profiles[
+            renderer_view % len(spec.renderer_profiles)
+        ]
         world = self.worlds.generate(
             mechanism,
             family_id,
             world_seed=world_seed,
             renderer_seed=renderer_seed,
             renderer_profile=renderer_profile,
+            independent_renderer_rng=paired_renderers,
         )
         initial = world.reset(generation_seed)
         action_rng = np.random.default_rng(generation_seed + 1)
-        transitions = tuple(
-            world.step(
-                world.sample_action(action_rng)
-                if self.action_policy is None
-                else self.action_policy.sample_action(world, action_rng, step)
+        if paired_renderers:
+            transitions = tuple(
+                world.step(world.render_action(world.sample_latent_action(action_rng)))
+                for _ in range(self.config.trajectory_steps)
             )
-            for step in range(self.config.trajectory_steps)
-        )
+        else:
+            transitions = tuple(
+                world.step(
+                    world.sample_action(action_rng)
+                    if self.action_policy is None
+                    else self.action_policy.sample_action(world, action_rng, step)
+                )
+                for step in range(self.config.trajectory_steps)
+            )
         metadata = TrajectoryMetadata(
             split=split,
             world_family_id=int(family_id),
@@ -309,6 +367,13 @@ class WorldGenerationPipeline:
         view: int,
     ) -> WorldFamily:
         held = self.config.held_family_by_template.get(template_id)
+        if (
+            split is SplitName.TRAIN
+            and self.training_family_policy is TrainingFamilyPolicy.HELD_TARGET
+        ):
+            if held is None:
+                raise ValueError("target-family training requires a held family")
+            return WorldFamily(held)
         if split is SplitName.TEST_WORLD_TRANSFER:
             if held is None:
                 raise ValueError("world-transfer templates require a held family")
@@ -324,7 +389,7 @@ def collate_trajectories(
     *,
     max_objects: int,
 ) -> GeneratedWorldBatch:
-    """Pad variable worlds into the H002 language-free tensor contract."""
+    """Pad variable worlds into the language-free generated-world contract."""
 
     if not trajectories:
         raise ValueError("at least one trajectory is required")
@@ -482,7 +547,7 @@ def build_generated_world_dataset(
     additional_source_hashes: Mapping[str, str] | None = None,
     claim_boundary: str | None = None,
 ) -> dict[str, object]:
-    """Build a small fixed H002 dataset; online training uses the same pipeline."""
+    """Build a small fixed dataset; online training uses the same pipeline."""
 
     output = Path(output_dir)
     output.mkdir(parents=True, exist_ok=True)
@@ -549,6 +614,8 @@ def build_generated_world_dataset(
         "unseen_renderer_profiles": list(
             config.split(SplitName.TEST_RENDERER).renderer_profiles
         ),
+        "view_coupling": config.view_coupling.value,
+        "render_views_per_world": config.render_views_per_world,
         "exact_isolation": [
             "mechanism_id",
             "world_instance_id",
@@ -586,7 +653,8 @@ def build_generated_world_dataset(
         source_hashes=source_hashes,
         claim_boundary=claim_boundary
         or (
-            "Generated numerical simulator data for H002 transfer evaluation; "
+            f"Generated numerical simulator data for {config.hypothesis_id} transfer "
+            "evaluation; "
             "not evidence of real-world causality, business utility or profitable ideas."
         ),
     )
@@ -602,6 +670,43 @@ def _pairwise_disjoint(values: Mapping[str, set[object]]) -> bool:
         for left in range(len(names))
         for right in range(left + 1, len(names))
     )
+
+
+def _paired_views_consistent(
+    config: GeneratedWorldDatasetConfig,
+    *,
+    count: int,
+    mechanism_ids: NDArray[np.generic],
+    world_instance_ids: NDArray[np.generic],
+    world_config_hashes: NDArray[np.generic],
+    generation_seeds: NDArray[np.generic],
+    renderer_ids: NDArray[np.generic],
+    outcomes: NDArray[np.generic],
+) -> bool:
+    if config.view_coupling is ViewCoupling.MECHANISM_ONLY:
+        return True
+    if count % config.views_per_mechanism:
+        return False
+    render_views = config.render_views_per_world
+    for group_start in range(0, count, config.views_per_mechanism):
+        group_stop = group_start + config.views_per_mechanism
+        for pair_start in range(group_start, group_stop, render_views):
+            pair = slice(pair_start, pair_start + render_views)
+            if (
+                len(set(mechanism_ids[pair].tolist())) != 1
+                or len(set(world_instance_ids[pair].tolist())) != 1
+                or len(set(world_config_hashes[pair].tolist())) != 1
+                or len(set(generation_seeds[pair].tolist())) != 1
+                or len(set(renderer_ids[pair].tolist())) != render_views
+            ):
+                return False
+            reference = outcomes[pair_start]
+            if not all(
+                np.array_equal(reference, outcomes[index])
+                for index in range(pair_start + 1, pair_start + render_views)
+            ):
+                return False
+    return True
 
 
 def validate_generated_world_dataset(
@@ -628,6 +733,7 @@ def validate_generated_world_dataset(
     shape_validity = True
     tensors_finite = True
     replay_exact = True
+    paired_view_consistency = True
     counts_valid = True
     metadata_sets: dict[str, dict[str, set[object]]] = {
         field: {} for field in METADATA_FIELDS
@@ -663,6 +769,16 @@ def validate_generated_world_dataset(
             )
             count = int(arrays["mechanism_ids"].shape[0])
             counts_valid = counts_valid and count == int(shard["trajectories"])
+            paired_view_consistency = paired_view_consistency and _paired_views_consistent(
+                config,
+                count=count,
+                mechanism_ids=np.asarray(arrays["mechanism_ids"]),
+                world_instance_ids=np.asarray(arrays["world_instance_ids"]),
+                world_config_hashes=np.asarray(arrays["world_config_sha256"]),
+                generation_seeds=np.asarray(arrays["generation_seeds"]),
+                renderer_ids=np.asarray(arrays["renderer_ids"]),
+                outcomes=np.asarray(arrays["outcomes"]),
+            )
             trajectories = [pipeline.materialize(split, index) for index in range(count)]
             expected = {
                 **_batch_arrays(
@@ -734,6 +850,7 @@ def validate_generated_world_dataset(
         "tensor_shapes": shape_validity,
         "tensors_finite": tensors_finite,
         "deterministic_replay": replay_exact,
+        "paired_renderer_trajectory_consistency": paired_view_consistency,
         "mechanism_id_isolation": mechanism_isolation,
         "world_instance_isolation": world_isolation,
         "seed_isolation": seed_isolation,

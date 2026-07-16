@@ -1,0 +1,103 @@
+id: CHM-W-H009
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  Cross-world pretraining on procedurally generated dynamic worlds, using
+  mechanism alignment across two renderer views of the same hidden trajectory
+  and across two world-family realizations, reduces both intervention-effect
+  prediction error and four-step rollout error by at least 10% in unseen
+  world-family mappings compared with every preregistered baseline.
+scope: paired_renderer_cross_world_mechanism_transfer
+parent: CHM-W-H008
+rationale:
+  predecessor: CHM-W-H002
+  observation: >-
+    H002 validation found that generic mechanism alignment was worse than the
+    matched no-alignment arm: intervention-effect NRMSE ratio 1.045 and rollout
+    NRMSE ratio 1.008. H009 isolates representation changes from hidden
+    dynamics by pairing renderer views of exactly the same latent trajectory.
+data:
+  dataset_id: CHM-W-WG2
+  generator_config: configs/meta_world/world_generators_h009.yaml
+  source: programmatic_dynamic_world_generators
+  schema_version: 2
+  world_families: [flow, competition, funnel]
+  generation_modes: [online_cpu_training, fixed_sha256_evaluation]
+  paired_view_design:
+    worlds_per_mechanism: 2
+    renderer_views_per_world: 2
+    hidden_trajectory_shared_within_renderer_pair: true
+    renderer_random_stream_independent_from_dynamics: true
+  language_input: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+  split_isolation:
+    - concrete_mechanism_id
+    - world_instance_id
+    - generation_seed
+    - exact_world_configuration
+    - exact_renderer_configuration
+method:
+  model: relational_sequence_world_model
+  temporal_context_steps: 4
+  rollout_horizon: 4
+  alignment_positive_pairs:
+    - same_world_same_trajectory_different_renderer
+    - same_mechanism_different_world_family
+  alignment_labels_available_to_loss_only: true
+  alignment_labels_passed_to_model_forward: false
+  checkpoint_selection: >-
+    Minimize the unweighted mean of validation intervention-effect NRMSE and
+    four-step rollout NRMSE. Every test split remains closed until the complete
+    arm set, hyperparameters and selected checkpoint step are frozen.
+protocol:
+  trial_id: CHM-W-T009
+  status: not_run
+  development_seed: 260926
+  frozen_validation_seeds: [260927, 260928, 260929]
+  comparison_arms:
+    - paired_renderer_cross_world_pretraining_with_mechanism_alignment
+    - paired_renderer_cross_world_pretraining_without_mechanism_alignment
+    - target_family_only_training
+    - temporal_predictor_without_relational_world_state
+    - legal_random_intervention_baseline
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  validation_gate:
+    aligned_intervention_effect_ratio_vs_best_baseline_maximum: 0.90
+    aligned_four_step_rollout_ratio_vs_best_baseline_maximum: 0.90
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    paired_renderer_outcome_mismatches: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    each_primary_error_ratio_vs_best_baseline_maximum: 0.90
+    each_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    paired_renderer_outcome_mismatches: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_prediction_error
+    - zero_shot_world_transfer_error
+    - uncertainty_calibration
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - mechanism_retrieval_accuracy
+    - deterministic_replay_rate
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports mechanism transfer only within the registered
+    simulator distribution. It is not evidence of real-world causal discovery,
+    safe real-world intervention, profitable business ideas,
+    language-independent thought or production readiness.
+result: research/results/CHM-W-H009.json

@@ -108,6 +108,19 @@ remain outside the model boundary.
 The hypothesis, split isolation and acceptance rule were frozen before target
 metrics. See the [generated-world contract](docs/WORLD_GENERATORS_H002.md).
 
+H009 adds paired renderer views of the same hidden trajectory so representation
+alignment can be tested without changing the underlying dynamics. See the
+[paired generated-world contract](docs/WORLD_GENERATORS_H009.md).
+
+H011 replaces global embedding similarity with direct agreement between the
+predicted intervention-effect distributions of paired renderer views. See the
+[paired response-consistency contract](docs/RESPONSE_CONSISTENCY_H011.md).
+
+H012 freezes the complete generator-first comparison: aligned and unaligned
+cross-world pretraining, target-family-only training, a temporal predictor and
+legal random intervention regret. See the
+[procedural pretraining contract](docs/PROCEDURAL_PRETRAINING_H012.md).
+
 ## Closed-Loop Training H003
 
 H002 validation showed that relational state improved intervention-effect
@@ -232,6 +245,8 @@ datasets and research identifiers.
 
 - [Meta-World W0 design contract](docs/META_WORLD_W0.md)
 - [Generated Worlds H002](docs/WORLD_GENERATORS_H002.md)
+- [Paired Generated Worlds H009](docs/WORLD_GENERATORS_H009.md)
+- [Shared Mechanism Bottleneck H010](docs/SHARED_BOTTLENECK_H010.md)
 - [Closed-Loop Training H003](docs/CLOSED_LOOP_H003.md)
 - [System-Identification Probes H004](docs/WORLD_PROBES_H004.md)
 - [Counterfactual Outcome Head H008](docs/COUNTERFACTUAL_HEAD_H008.md)

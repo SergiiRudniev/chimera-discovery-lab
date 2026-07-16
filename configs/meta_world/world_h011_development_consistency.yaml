@@ -1,0 +1,5 @@
+run_id: H011-DEVELOPMENT-CONSISTENCY-S260934
+base_config: configs/meta_world/world_h010_development_separate_no_alignment.yaml
+training_seed: 260934
+response_consistency_weight: 1.0
+uncertainty_consistency_fraction: 0.1
