@@ -95,6 +95,10 @@ def _execute_h002_preflight(
         [GeneratedWorldDatasetConfig], WorldGenerationPipeline
     ]
     | None = None,
+    validation_pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
     allow_target_family_only: bool = False,
 ) -> dict[str, Any]:
     """Train on online train worlds and select only against frozen validation worlds."""
@@ -110,7 +114,11 @@ def _execute_h002_preflight(
         raise FileExistsError("preflight output directory must be empty")
     output.mkdir(parents=True, exist_ok=True)
     generator_config = GeneratedWorldDatasetConfig.from_yaml(config.generator_config)
-    validation_pipeline = WorldGenerationPipeline(generator_config)
+    validation_pipeline = (
+        WorldGenerationPipeline(generator_config)
+        if validation_pipeline_factory is None
+        else validation_pipeline_factory(generator_config)
+    )
     training_pipeline = (
         WorldGenerationPipeline(generator_config)
         if training_pipeline_factory is None
@@ -326,6 +334,10 @@ def run_generated_world_preflight(
         [GeneratedWorldDatasetConfig], WorldGenerationPipeline
     ]
     | None = None,
+    validation_pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
     allow_target_family_only: bool = False,
 ) -> dict[str, Any]:
     """Run the shared generated-world preflight under an explicit hypothesis ID."""
@@ -340,6 +352,7 @@ def run_generated_world_preflight(
             trainer_factory=trainer_factory,
             window_factory=window_factory,
             training_pipeline_factory=training_pipeline_factory,
+            validation_pipeline_factory=validation_pipeline_factory,
             allow_target_family_only=allow_target_family_only,
         )
     except Exception as error:

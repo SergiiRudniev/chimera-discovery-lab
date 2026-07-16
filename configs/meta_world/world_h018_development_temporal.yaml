@@ -1,0 +1,45 @@
+run_id: H018-DEVELOPMENT-TEMPORAL-S260962
+mode: preflight
+arm: temporal_predictor_without_relational_state
+generator_config: configs/meta_world/world_generators_h018.yaml
+model:
+  observation_features: 8
+  relation_features: 4
+  intervention_types: 1
+  intervention_parameters: 3
+  effect_dimensions: 4
+  domain_count: 1
+  mechanism_count: 12
+  hidden_dim: 512
+  num_heads: 8
+  spatial_layers: 8
+  temporal_layers: 6
+  transition_layers: 6
+  feedforward_multiplier: 4
+  max_slots: 10
+  context_steps: 4
+  dropout: 0.1
+  log_variance_min: -6.0
+  log_variance_max: 2.0
+training:
+  seed: 260962
+  batch_size: 24
+  active_slots: 4
+  steps: 600
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  next_state_weight: 1.0
+  effect_weight: 1.0
+  alignment_weight: 0.0
+  variance_weight: 0.01
+  alignment_margin: 0.2
+  primary_effect_weight: 4.0
+  ema_decay: 0.995
+  device: cuda
+  precision: bfloat16
+evaluation:
+  evaluation_interval: 100
+  validation_trajectories: 48
+  rollout_horizon: 4
+

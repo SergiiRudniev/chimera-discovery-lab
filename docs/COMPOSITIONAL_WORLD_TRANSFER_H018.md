@@ -80,6 +80,29 @@ The model freezes a numerical intervention hypothesis before any external
 language interpretation. A language model may describe it afterward but may
 not change its action, predicted effect, uncertainty or provenance.
 
+## Commands
+
+```powershell
+chimera meta-world-h018-smoke-dataset `
+  --output artifacts/meta_world_h018_smoke
+
+chimera meta-world-h018-preflight `
+  --config configs/meta_world/world_h018_development_smoke.yaml `
+  --output runs/h018_development_smoke
+
+chimera meta-world-h018-suite `
+  --config configs/meta_world/world_h018_suite.yaml `
+  --output runs/h018_development `
+  --report research/preflights/CHM-W-H018-development.json
+
+pytest
+ruff check .
+mypy src
+```
+
+Smoke and development commands cannot update the registered result or promote
+a checkpoint.
+
 ## Known limitations
 
 - The operator vocabulary and priors are human-designed.
