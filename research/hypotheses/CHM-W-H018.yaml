@@ -1,0 +1,121 @@
+id: CHM-W-H018
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  Cross-world pretraining with evaluator-only mechanism alignment over
+  procedurally generated compositions of hidden dynamic operators reduces
+  both intervention-effect NRMSE and four-step rollout NRMSE by at least 10%
+  on previously unseen operator compositions realized in held world-family
+  mappings, compared with every eligible preregistered predictive baseline.
+scope: compositional_mechanism_program_world_transfer
+parent: CHM-W-H012
+rationale:
+  inherited_foundation: [CHM-W-H002, CHM-W-H009, CHM-W-H012]
+  observation: >-
+    H002, H009 and H012 established the generator, paired-renderer and five-arm
+    contracts, but their world-transfer split reuses mechanism templates seen
+    in training. H018 changes the transfer problem: primitive dynamic
+    operators are known, while their exact compositions and held-family
+    realizations are unseen.
+data:
+  dataset_id: CHM-W-WG5
+  generator_config: configs/meta_world/world_generators_h018.yaml
+  source: seeded_compositional_dynamic_world_programs
+  schema_version: 4
+  world_families: [flow, competition, funnel]
+  generation_modes: [online_cpu_training, fixed_sha256_evaluation]
+  mechanism_programs:
+    primitive_operator_count: 7
+    train_two_operator_program_ids: [0, 1, 2, 3, 4, 5]
+    held_out_two_operator_transfer_program_ids: [6, 7, 8]
+    held_out_three_operator_test_program_ids: [9, 10]
+    exact_program_overlap_between_train_and_transfer: 0
+    transfer_primitives_individually_seen_in_train: true
+  model_input_language: false
+  generator_output_language: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - mechanism_program_id
+    - mechanism_operator_ids
+    - renderer_id
+    - generation_seed
+  split_isolation:
+    - mechanism_id
+    - mechanism_program_id_between_train_and_transfer
+    - world_instance_id
+    - generation_seed
+    - exact_mechanism_configuration
+    - exact_world_configuration
+    - exact_renderer_configuration
+method:
+  generator_layers:
+    - MechanismProgramGenerator
+    - WorldGenerator
+    - ObservationRenderer
+  model: relational_sequence_world_model
+  temporal_context_steps: 4
+  rollout_horizon: 4
+  online_training_generation: true
+  fixed_validation_and_test_manifests: true
+  mechanism_alignment_labels_available_to_loss_only: true
+  mechanism_alignment_labels_passed_to_model_forward: false
+  frozen_numeric_hypothesis_output: >-
+    Ranked legal intervention vectors, predicted outcome distributions,
+    uncertainty and evaluator provenance; language interpretation is external.
+protocol:
+  trial_id: CHM-W-T018
+  status: not_run
+  development_seed: 260962
+  frozen_validation_seeds: [260963, 260964, 260965]
+  comparison_arms:
+    - compositional_cross_world_pretraining_with_mechanism_alignment
+    - compositional_cross_world_pretraining_without_mechanism_alignment
+    - compositional_target_family_only_training
+    - temporal_predictor_without_relational_world_state
+    - legal_random_intervention_baseline
+  random_baseline_scope: intervention_regret_only
+  primary_predictive_baselines:
+    - compositional_cross_world_pretraining_without_mechanism_alignment
+    - compositional_target_family_only_training
+    - temporal_predictor_without_relational_world_state
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  checkpoint_selection: >-
+    Freeze each trainable arm at the minimum unweighted mean of validation
+    intervention-effect NRMSE and four-step rollout NRMSE. The compositional
+    transfer split remains sealed until every arm and checkpoint is frozen.
+  development_gate:
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    exact_train_transfer_program_overlap: 0
+    all_transfer_primitives_seen_in_train: true
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    each_primary_error_ratio_vs_best_predictive_baseline_maximum: 0.90
+    each_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    exact_train_transfer_program_overlap: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_prediction_error
+    - zero_shot_world_transfer_error
+    - uncertainty_calibration
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - mechanism_retrieval_accuracy
+    - deterministic_replay_rate
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports compositional mechanism transfer only inside the
+    registered programmatic simulator distribution. It is not evidence of
+    real-world causal discovery, safe real-world intervention, profitable
+    business ideas, language-independent thought or production readiness.
+result: research/results/CHM-W-H018.json

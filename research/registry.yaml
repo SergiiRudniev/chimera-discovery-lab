@@ -132,3 +132,9 @@ hypotheses:
     registered_at: 2026-07-16
     config: research/hypotheses/CHM-W-H017.yaml
     result: research/results/CHM-W-H017.json
+  - id: CHM-W-H018
+    title: Compositional mechanism-program world transfer
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H018.yaml
+    result: research/results/CHM-W-H018.json
