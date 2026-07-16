@@ -8,8 +8,8 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.4%2B-EE4C2C?logo=pytorch&logoColor=white)](https://pytorch.org/)
 [![CI](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml/badge.svg?branch=chimera-meta-world)](https://github.com/SergiiRudniev/chimera-discovery-lab/actions/workflows/ci.yml?query=branch%3Achimera-meta-world)
 [![Model](https://img.shields.io/badge/model-Meta--World%20W0-7B5CFA)](#chimera-meta-world-w0)
-[![Parameters](https://img.shields.io/badge/target-~64M%20parameters-2E8B57)](#hardware-envelope)
-[![Status](https://img.shields.io/badge/status-registered%20design-F0B429)](#current-status)
+[![Parameters](https://img.shields.io/badge/parameters-65.214M-2E8B57)](#hardware-envelope)
+[![Status](https://img.shields.io/badge/status-engineering%20qualified-F0B429)](#current-status)
 [![License](https://img.shields.io/badge/license-Apache--2.0-4C566A)](LICENSE)
 
 </div>
@@ -20,9 +20,9 @@ systems, discover mechanisms across domains and propose interventions before
 language grounding.
 
 > [!IMPORTANT]
-> W0 is a registered architecture, not a trained model release. This branch
-> contains no Meta-World checkpoint and no empirical evidence for causal
-> discovery, cross-domain transfer or idea quality.
+> W0 has passed a fixed-batch engineering qualification, not a model release.
+> This branch contains no promoted Meta-World checkpoint and no evidence for
+> causal discovery, cross-domain transfer or idea quality.
 
 ## Chimera Meta-World W0
 
@@ -97,6 +97,43 @@ flowchart TB
 The detailed boundary and qualification requirements are frozen in the
 [W0 design contract](docs/META_WORLD_W0.md).
 
+## Generated Worlds H002
+
+H002 replaces static trajectory enumeration with seed-addressable mathematical
+world generators. `FlowWorld`, `CompetitionWorld` and `FunnelWorld` share hidden
+mechanisms while independent renderers change objects, channels, units, time,
+noise and visibility. Model batches contain only numeric tensors; generator IDs
+remain outside the model boundary.
+
+The hypothesis, split isolation and acceptance rule were frozen before target
+metrics. See the [generated-world contract](docs/WORLD_GENERATORS_H002.md).
+
+H009 adds paired renderer views of the same hidden trajectory so representation
+alignment can be tested without changing the underlying dynamics. See the
+[paired generated-world contract](docs/WORLD_GENERATORS_H009.md).
+
+## Closed-Loop Training H003
+
+H002 validation showed that relational state improved intervention-effect
+prediction over a temporal baseline, while its in-batch alignment objective did
+not beat the same relational architecture without alignment. H003 therefore
+trains four autoregressive steps through model-generated states and expands the
+hard-negative pool with a detached cross-batch mechanism queue.
+
+Stable mechanism fingerprints are evaluator-only labels. They pair losses and
+never enter the model forward contract. The registered test splits remain
+sealed. See the [H003 training contract](docs/CLOSED_LOOP_H003.md).
+
+## Active Identification H004
+
+H004 replaces passive random-action pretraining with controlled numerical
+system-identification probes. WG1 applies zero baselines, low/high impulses,
+control polarity, reversals and recovery across generated worlds, then evaluates
+every arm on the same short probe prefix followed by seeded random actions.
+
+The action policy is evaluator metadata, not a model feature. See the
+[H004 probe contract](docs/WORLD_PROBES_H004.md).
+
 ## Numerical Output
 
 ```text
@@ -146,13 +183,11 @@ arrive through linear, squash-merged pull requests with both Python CI jobs.
 
 ## Hardware Envelope
 
-W0 targets approximately **64M trainable parameters** for local mixed-precision
+The current relational W0 candidate contains **65,213,950 trainable parameters**
+for local mixed-precision
 training on an NVIDIA GeForce RTX 5070 with 12,227 MiB VRAM. Gradient
 accumulation and activation checkpointing remain available if the final temporal
 context exceeds the initial memory budget.
-
-The exact parameter count is not published until the executable W0
-configuration exists and `chimera inspect` can derive it from code.
 
 ## Current Status
 
@@ -162,10 +197,14 @@ configuration exists and `chimera inspect` can derive it from code.
 | Protected family branch | Active |
 | W0 design contract | Registered |
 | Numerical output boundary | Registered |
-| Architecture implementation | Not started |
-| First cross-domain corpus | Not built |
-| W0 configuration | Not created |
-| Trained checkpoint | None |
+| Architecture implementation | Implemented |
+| BF16 CUDA engineering gate | Accepted: H001/T001 |
+| Generated-world corpus | Implemented and validated |
+| H002 | Validation preflight negative; test sealed; result `not_run` |
+| H003 | Exploratory validation negative; test sealed; result `not_run` |
+| H004 | Preregistered; WG1 implemented and validated |
+| W0 configuration | `meta_world_w0_t1.yaml` |
+| Promoted checkpoint | None |
 | Empirical claims | None |
 
 ## Repository Scope
@@ -187,6 +226,10 @@ datasets and research identifiers.
 ## Documentation
 
 - [Meta-World W0 design contract](docs/META_WORLD_W0.md)
+- [Generated Worlds H002](docs/WORLD_GENERATORS_H002.md)
+- [Paired Generated Worlds H009](docs/WORLD_GENERATORS_H009.md)
+- [Closed-Loop Training H003](docs/CLOSED_LOOP_H003.md)
+- [System-Identification Probes H004](docs/WORLD_PROBES_H004.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)

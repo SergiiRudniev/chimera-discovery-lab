@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "diagnostic_id": "CHM-W-H007-GRADIENT-CONFLICT-001",
+  "scope": "train-only post-H006 diagnosis",
+  "source_hypothesis": "CHM-W-H006",
+  "source_worktree_commit": "c26865b78c1b421474aa1d74d1f5759c90ac01d4",
+  "config": "configs/meta_world/world_h006_development_shared.yaml",
+  "config_sha256": "88b50d3d7b9d6e602b2d06c5622077f4821d52153a255a122ab1a5105a464dd7",
+  "checkpoint_sha256": "c836e98c6c0bd795628a7e1ff322996633b226edfaf97c8111968e12e3fc09fb",
+  "weights_kind": "ema",
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 5070",
+  "precision": "bfloat16",
+  "batches": 32,
+  "batch_size": 16,
+  "gradient_cosine": {
+    "mean": -0.04748291317728406,
+    "median": -0.0424229301632211,
+    "p10": -0.14605093385505089,
+    "p90": 0.027152294287920122,
+    "minimum": -0.21062278233058435,
+    "maximum": 0.10458295848164843,
+    "negative_fraction": 0.625
+  },
+  "gradient_norm": {
+    "state_median": 1.4614069099481244,
+    "effect_median": 1.3815064699213147,
+    "effect_to_state_median_ratio": 0.9654382550623998
+  },
+  "shared_parameter_tensor_count": 263,
+  "frozen_validation_seeds_opened": false,
+  "test_metrics_opened": false,
+  "interpretation": "State-rollout and intervention-effect objectives frequently push the shared transition representation in opposing directions with comparable magnitude. H007 will test a frozen symmetric conflict projection rather than removing either supervision source.",
+  "claim_boundary": "Train-only gradient geometry; no validation, test-transfer, causal, business-utility or production claim."
+}

@@ -1,5 +1,244 @@
 # Research Journal
 
+## 2026-07-15 — CHM-W-H005 registration
+
+- **Question:** Can a 50:50 probe/random curriculum retain H004's
+  intervention-effect gain without increasing four-step rollout error?
+- **Diagnosis inherited from H004:** Probe training improved effect prediction
+  materially. Probe-only distribution shift and instance discrimination damaged
+  rollout, while removing discrimination almost restored the random baseline.
+- **Change:** Pair the same generated mechanisms/worlds under probe and random
+  action policies in each train batch. Disable mechanism-discrimination loss.
+- **Controlled comparison:** Mixed, random-only and probe-only arms share model,
+  optimizer, seed, number of trajectories, closed-loop objective and hybrid
+  evaluator. Only train policy mixture differs.
+- **Development gate:** On seed `260910`, require effect ratio at most `0.90`
+  and rollout ratio at most `1.00` versus random-only before freezing any
+  validation configuration.
+- **Validation discipline:** Hyperparameters freeze before seeds
+  `260911..260913`; test remains sealed until their aggregate gate passes.
+- **Status:** `not_run`; no H005 model metric or checkpoint exists.
+- **Claim boundary:** Simulator curriculum evidence only; no real-world
+  causality, probe safety, business utility or production claim.
+
+## 2026-07-15 — CHM-W-H004 development preflight
+
+- **Scope:** Development seed `260906`, 300 steps, `train` and `validation`
+  only. Frozen validation seeds and every test split remained unopened.
+- **Matched probe arm:** Effect NRMSE `0.883479`, rollout NRMSE `0.501839`,
+  coverage `0.991667`, retrieval `0.0`.
+- **Matched random arm:** Effect NRMSE `1.000466`, rollout NRMSE `0.474423`,
+  coverage `0.983333`, retrieval `0.0`.
+- **Controlled policy effect:** Probe/random ratios were `0.883068` for
+  intervention effect and `1.057790` for rollout. Probes improved effect by
+  `11.69%` but worsened rollout by `5.78%`.
+- **No-discrimination diagnostic:** Probe closed-loop training without the
+  mechanism loss reached effect `0.857156` and rollout `0.477443`. This suggests
+  that probes are useful while instance discrimination conflicts with dynamics.
+- **Decision:** Do not run seeds `260907..260909`, do not freeze `CHM-W-T004`,
+  do not open test and do not promote checkpoints. The full arm failed rollout
+  and retrieval gates despite its effect improvement.
+- **Next action:** Register a mixed probe/random curriculum without instance
+  discrimination, preserving active-identification effect gains while enforcing
+  rollout non-inferiority against a matched random-only arm.
+- **Claim boundary:** Development validation engineering evidence only. H004
+  remains `not_run`; no test-world transfer or production claim exists.
+
+## 2026-07-15 — CHM-W-H004 WG1 implementation
+
+- **Dataset:** Implemented `CHM-W-WG1` with 16-step trajectories, deterministic
+  system-identification train probes and a shared four-probe-plus-random
+  evaluator policy.
+- **Boundary:** Policy IDs remain manifest metadata. Model batches contain only
+  numeric observations, masks, relations, actions, time and outcomes.
+- **Fixed smoke:** 16 trajectories per split, 80 total; manifest SHA-256
+  `cc0305bd99f05cf5d528f045dd494652d377be2c5836d5922d589eb6d3b96461`.
+- **Integrity:** 20/20 gates passed, including exact replay, source/shard hashes,
+  tensor shape and finite checks, all split-isolation policies and registered
+  probe-prefix coverage.
+- **Excitation diagnostic:** Between/within paired response separation was
+  `1.235036`. This confirms non-zero numeric response diversity only.
+- **Status:** Data pipeline ready for a validation-only model preflight. H004
+  remains `not_run`; no model metric or checkpoint was produced.
+
+## 2026-07-15 — CHM-W-H004 registration
+
+- **Question:** Do controlled numeric system-identification probes improve
+  mechanism retrieval and unseen-world prediction over random-action training?
+- **Diagnosis inherited from H003:** Hard-negative pressure made embeddings
+  more similar across views but could not rank a true pair above the closest
+  distinct mechanism. The short passive trajectory was not sufficiently
+  identifying.
+- **Change:** Expand trajectories to 16 steps. Train on deterministic zero,
+  impulse, magnitude, control-polarity, reversal and recovery probes. Evaluate
+  every arm on the same four-probe prefix followed by seeded random actions.
+- **Controlled comparison:** The full and random-curriculum arms share model,
+  optimizer, loss, mechanism queue, splits and evaluator; only the train action
+  policy differs.
+- **Isolation:** Probe type and all generator provenance remain evaluator-only.
+  Model inputs contain only observations, masks, relations, time and actions.
+- **Validation discipline:** Seed `260906` is development-only. Hyperparameters
+  must freeze before seeds `260907..260909`; test remains sealed until the
+  registered validation gate passes.
+- **Status:** `not_run`; WG1, model metrics and checkpoints do not exist yet.
+- **Claim boundary:** Simulator-only active identification; no real-world
+  causality, experiment safety, business utility or production claim.
+
+## 2026-07-15 — CHM-W-H003 exploratory validation preflight
+
+- **Scope:** Single-seed (`260903`), 300-step exploratory comparison on
+  `train` and `validation`; all test splits remained sealed.
+- **Full arm:** With alignment weight `1.0`, intervention-effect NRMSE reached
+  `0.829864`, four-step rollout NRMSE `0.432069`, effect coverage `0.988839`
+  and mechanism retrieval `0.0`.
+- **Matched one-step baseline:** Effect NRMSE `0.857798` and rollout NRMSE
+  `0.445780`. Full-arm ratios were `0.967435` and `0.969244` respectively.
+- **Ablations:** Closed-loop without discrimination reached effect `0.836194`
+  and rollout `0.441474`. Alignment weight `0.2` reached effect `0.852021`
+  and rollout `0.432761`.
+- **Embedding diagnosis:** Same-mechanism validation cosine reached `0.984971`,
+  but the mean hardest distinct-mechanism cosine was still `0.994591`; nearest
+  neighbour retrieval therefore remained zero.
+- **Decision:** Do not run the remaining registered seeds, do not freeze
+  `CHM-W-T003`, do not open test and do not promote a checkpoint. The full arm
+  missed both `0.95` primary-error ratios and the `0.10` retrieval gate.
+- **Next action:** Change the data-identification signal. Add controlled numeric
+  system-identification probes instead of applying more weight or search to the
+  same instance-discrimination loss.
+- **Claim boundary:** Exploratory validation engineering evidence only. H003
+  remains `not_run`; no test-world transfer or production claim exists.
+
+## 2026-07-15 — CHM-W-H003 registration
+
+- **Question:** Does four-step closed-loop training plus a cross-batch
+  hard-negative queue improve unseen-world intervention-effect and rollout
+  prediction over every matched baseline?
+- **Diagnosis inherited from H002:** Relational state improved intervention
+  prediction over the temporal baseline, but in-batch mechanism alignment hurt
+  both primary validation metrics relative to the same unaligned architecture.
+- **Change:** Train autoregressively for four steps and contrast mechanisms
+  against `256..2048` detached embeddings retained across batches.
+- **Isolation:** Hidden IDs may pair examples for the training loss, but never
+  enter the model forward contract. H002 split isolation and generator SHA-256
+  remain frozen.
+- **Validation gate:** Across seeds `260903..260905`, both primary median errors
+  must be no more than `0.95` times the strongest learned baseline, mechanism
+  retrieval must reach `0.10`, and effect coverage must remain at least `0.85`.
+- **Status:** `not_run`; test metrics remain sealed and no checkpoint exists.
+- **Claim boundary:** Simulator-distribution transfer only; no real-world
+  causality, business utility, language-independent thought or production claim.
+
+## 2026-07-15 — CHM-W-H002 validation-only model preflight
+
+- **Scope:** Matched single-seed engineering preflight on `train` and
+  `validation` only. Every H002 test split remained sealed.
+- **Runtime:** NVIDIA GeForce RTX 5070, CUDA BF16, EMA weights, 1,000 optimizer
+  steps per arm, seed `260902`, Git commit `7cf8931`.
+- **Metric correction:** State and rollout targets now contain only the four
+  dynamic signal channels. Independently resampled renderer nuisance channels
+  remain visible inputs but are not treated as predictable future state.
+- **Aligned relational:** Intervention-effect NRMSE `0.693132`, four-step
+  rollout NRMSE `0.416371`, mechanism retrieval `0.03125`.
+- **Unaligned relational:** Intervention-effect NRMSE `0.663543`, four-step
+  rollout NRMSE `0.413200`, mechanism retrieval `0.0`.
+- **Temporal baseline:** Intervention-effect NRMSE `0.955519`, four-step
+  rollout NRMSE `0.417827`, mechanism retrieval `0.0`.
+- **Comparison:** The aligned relational arm reduced effect error by `27.46%`
+  versus the temporal baseline, but was `4.46%` worse than the same relational
+  architecture without alignment. Its rollout error was `0.77%` worse than the
+  unaligned relational arm.
+- **Decision:** Do not freeze `CHM-W-T002`; do not open test metrics and do not
+  promote any preflight checkpoint. The H002 result remains `not_run` because
+  the aligned arm did not plausibly satisfy the registered requirement to beat
+  the strongest baseline on both primary metrics.
+- **Next action:** Register a new immutable hypothesis for multi-step
+  closed-loop training and stronger cross-batch mechanism discrimination;
+  preserve H002 as an append-only negative validation diagnosis.
+- **Claim boundary:** Validation-only simulator engineering evidence. It does
+  not establish test-world transfer, causal discovery, business utility or
+  production readiness.
+
+## 2026-07-15 — CHM-W-H002 generator implementation
+
+- **Architecture:** Implemented independent `MechanismGenerator`,
+  `WorldGenerator` and `ObservationRenderer` layers with `FlowWorld`,
+  `CompetitionWorld` and `FunnelWorld`.
+- **Modes:** CPU online generation and fixed object-free NPZ evaluation shards
+  use the same seed-addressable trajectory pipeline.
+- **Smoke artifact:** Five splits with 12 trajectories each; manifest SHA-256 is
+  `eda799f1f499078491269724e0ac58839e0b14f23676dafe80d522a52c75d657`.
+- **Integrity:** 15/15 gates passed, including exact replay, source and shard
+  hashes, tensor shapes, finite values, concrete mechanism/world/seed/config
+  isolation and held mechanism/family/renderer policies.
+- **Software validation:** Ruff and strict mypy passed; 62 tests passed with
+  82.40% branch coverage.
+- **Decision:** Engineering pipeline ready for an evidence-bearing trial.
+  `CHM-W-H002` remains `not_run`; no target metrics or checkpoint were created.
+
+## 2026-07-15 — CHM-W-H002 registration
+
+- **Question:** Does cross-world pretraining with mechanism alignment improve
+  intervention-effect prediction and four-step rollout prediction in held-out
+  world-family mappings?
+- **Worlds:** Programmatic numerical `FlowWorld`, `CompetitionWorld` and
+  `FunnelWorld`; no language is accepted by the model input contract.
+- **Representation:** Hidden mechanisms are rendered through independently
+  sampled object, feature, unit, time, noise and visibility transforms.
+- **Isolation:** Concrete mechanisms, world instances, seeds, world configs and
+  renderer configs cannot cross dataset splits. Mechanism templates may repeat
+  where the registered transfer question requires a known law in a new world
+  family or rendering.
+- **Primary gate:** On `test_world_transfer`, both intervention-effect RMSE and
+  four-step rollout NRMSE must be at most 0.90 times the strongest baseline,
+  and each paired 90% bootstrap ratio upper bound must be below 1.00.
+- **Comparators:** No-alignment, target-family-only, temporal-without-relations
+  and legal-random-intervention baselines.
+- **Status:** `not_run`; no target metrics or checkpoints have been opened.
+- **Claim boundary:** Simulator-distribution mechanism transfer only; no claim
+  of real-world causal discovery, profitable ideas or production readiness.
+
+## 2026-07-15 — Meta-World failure artifact policy
+
+- **Finding:** T000 failed before the trial runner created its normal result
+  files, so the rejection had to be recorded manually.
+- **Change:** The Meta-World runner now writes an `execution_failed` result with
+  exception type, environment, Git commit and config hash before re-raising.
+- **Protection:** A regression test injects an optimizer-step failure and verifies
+  both the trial-local and public research result artifacts.
+- **Boundary:** The policy records failures; it does not convert them into valid
+  model evidence or permit reuse of a failed trial ID.
+
+## 2026-07-15 — Meta-World H001 result
+
+- **Protocol:** `CHM-W-T001`, frozen at commit `a437d3e`; architecture,
+  fixed batch, seed, optimizer and gates were unchanged from rejected T000.
+- **Correction:** Replaced FP32 indexed assignment with dtype-preserving
+  selection across domain-adapter outputs and added a BF16 autocast regression test.
+- **Runtime:** 61,854,120 parameters; 20 BF16 CUDA steps in 1.37 seconds on the
+  RTX 5070; peak allocated VRAM was 1,902,361,600 bytes.
+- **Optimization:** Fixed-batch loss moved from 0.110891 to -1.892130; all
+  recorded metrics and gradients were finite.
+- **Determinism:** Maximum evaluation replay delta was exactly 0 before and
+  after training.
+- **Decision:** Accept H001 as W0 core engineering qualification. Do not publish
+  a checkpoint from this overfit smoke trial.
+- **Next action:** Build time-isolated mechanistic trajectories and evaluate
+  held-out next-state accuracy, uncertainty calibration and cross-domain transfer.
+- **Claim boundary:** No real-world causality, semantic grounding, idea quality
+  or production-readiness evidence exists.
+
+## 2026-07-15 — Meta-World H000 result
+
+- **Protocol:** `CHM-W-T000`, frozen at commit `42f016c` before CUDA execution.
+- **Architecture:** Full 61,854,120-parameter Meta-World W0; 16 fixed systems,
+  four mechanism families, four domain transforms and eight interventions.
+- **Failure:** The first BF16 forward pass stopped in domain-adapter selection:
+  indexed assignment attempted to write a BF16 adapter result into an FP32 buffer.
+- **Boundary:** No complete forward pass, optimizer step, target loss metric or
+  checkpoint was produced.
+- **Decision:** Reject H000. Correct dtype propagation under a new immutable
+  hypothesis and trial ID; do not rerun T000.
+
 ## 2026-07-15 — Chimera Meta-World W0 registration
 
 - **Decision:** Name the new causal world-model family `Chimera Meta-World` and
@@ -175,3 +414,179 @@
 - **Registration:** Complete.
 - **Result:** `not_run`.
 - **Decision:** Deferred until real transition data is split and frozen.
+## 2026-07-15 — Meta-World H005 development gate
+
+- **Hypothesis:** `CHM-W-H005`; a paired 50:50 probe/random curriculum without
+  mechanism-discrimination loss versus a matched paired random-only curriculum.
+- **Fairness correction:** Both primary arms saw the same mechanisms and number
+  of unique worlds; each world contributed two action-policy trajectories.
+- **Runtime:** Three 300-step, 65,213,950-parameter BF16 runs on the NVIDIA
+  GeForce RTX 5070; peak allocated memory was 2,165,645,312 bytes.
+- **Primary development comparison:** Mixed/random intervention-effect NRMSE
+  ratio was 0.89223 and four-step rollout NRMSE ratio was 0.94626.
+- **Diagnostic:** Probe-only improved rollout but worsened intervention-effect
+  error, supporting a mixture rather than deterministic probes alone.
+- **Decision:** Development gate passed. Freeze architecture, optimizer,
+  checkpoint step 300 and seeds 260911–260913 before opening validation.
+- **Boundary:** Development evidence only. Frozen validation and every test split
+  remained unopened; no checkpoint was promoted.
+## 2026-07-15 — Meta-World H005 frozen validation
+
+- **Protocol:** `CHM-W-H005`, frozen at commit `5b6fa44`; checkpoint step 300
+  and seeds 260911–260913 were fixed before metrics were opened.
+- **Result:** Median mixed/random intervention-effect NRMSE ratio was 1.03230
+  versus the registered maximum 0.90. The primary gate failed.
+- **Rollout:** Median four-step ratio was 0.98968 and the worst seed was 1.00936,
+  both within their guardrails. Mixed training helped dynamics but did not
+  improve intervention-effect transfer.
+- **Calibration:** Minimum mixed-arm 90% interval coverage was 0.97813; all
+  metrics were finite and WG1 replay/leakage checks remained clean.
+- **Decision:** Do not open `CHM-W-T005` test and do not promote a checkpoint.
+- **Next diagnosis:** Separate effect learning from passive rollout learning;
+  the shared objective appears to convert probe coverage into state prediction
+  without a seed-stable intervention-effect advantage.
+- **Boundary:** Frozen-validation evidence only; no test, real-world or
+  production claim.
+
+## 2026-07-15 — CHM-W-H006 registration
+
+- **Question:** Can probes improve latent dynamics while continuous random
+  interventions alone supervise the intervention-effect likelihood?
+- **Diagnosis:** In a 256-trajectory train-only audit, probe actions had three
+  magnitudes and 39.4% exact-zero effects; random actions had 3,840 magnitudes
+  and 16.2% exact-zero effects. H005's shared loss improved rollout but failed
+  its effect-transfer validation gate.
+- **Change:** Retain paired 50:50 trajectories. Apply state and variance losses
+  to both halves, but apply effect NLL only to the random half. The binary route
+  stays in the trainer and never enters model forward.
+- **Controls:** Routed mixed, shared-loss mixed and matched random-only arms use
+  the same model, worlds, trajectory count, optimizer and evaluator.
+- **Development gate:** Seed `260914`; require effect ratio at most `0.90` and
+  rollout ratio at most `1.00` versus random-only before freezing validation.
+- **Validation discipline:** Seeds `260915..260917` and test remain sealed.
+- **Status:** `not_run`; no H006 metric or checkpoint exists.
+- **Boundary:** Simulator objective-routing evidence only; no real-world,
+  business-utility or production claim.
+
+## 2026-07-15 — CHM-W-H006 development preflight
+
+- **Protocol:** Seed `260914`, 300 steps, paired WG1 worlds and the frozen
+  hybrid evaluator. Frozen validation and test remained sealed.
+- **Routed arm:** Effect NRMSE `1.07551`, rollout NRMSE `0.47489` and effect
+  coverage `0.98229`.
+- **Matched random:** Effect NRMSE `1.01771` and rollout NRMSE `0.48781`.
+  Routed/random ratios were `1.05679` and `0.97350`; the primary effect gate
+  failed even though rollout improved.
+- **Shared-loss control:** Effect NRMSE `0.81285`, rollout `0.46926`; ratios
+  versus random were `0.79871` and `0.96196`. Removing probe effect supervision
+  caused a 32.31% effect-error increase versus shared mixed training.
+- **Decision:** Reject H006 routing, do not open seeds `260915..260917`, do not
+  open test and do not promote any checkpoint.
+- **Diagnosis:** Probe outcomes contain useful effect supervision; the remaining
+  issue is seed instability of shared multi-objective optimization, not simply
+  a zero-heavy probe label distribution.
+- **Boundary:** Development evidence only; no transfer or production claim.
+
+## 2026-07-15 — CHM-W-H007 registration
+
+- **Question:** Can conflict-projected state/effect gradients stabilize the
+  shared mixed curriculum without discarding probe effect supervision?
+- **Gradient audit:** Across 32 train-only batches, cosine was negative in
+  62.5%, with median `-0.04242` and effect/state norm ratio `0.96544`.
+- **Change:** When the two weighted task gradients conflict, symmetrically
+  remove each component opposing the other. Add auxiliary gradients afterward,
+  then apply the existing global norm clip.
+- **Controls:** PCGrad mixed, standard mixed and matched random-only use the same
+  model, data, actions, optimizer settings, seed and evaluator.
+- **Development gate:** Seed `260918`; require effect ratio at most `0.90`,
+  rollout ratio at most `1.00` and observed conflict fraction at least `0.10`.
+- **Validation discipline:** Seeds `260919..260921` and every test split remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H007 metric or checkpoint exists.
+- **Boundary:** Simulator optimizer evidence only; no real-world, business or
+  production claim.
+
+## 2026-07-15 — CHM-W-H007 development preflight
+
+- **Protocol:** Seed `260918`, 300 steps, paired WG1 trajectories and identical
+  hybrid evaluator; frozen validation and test remained sealed.
+- **PCGrad behavior:** Conflict projection activated on 54.33% of steps. Mean
+  cosine was `0.02828`, with range `[-0.84141, 0.87488]`.
+- **Failure:** The selected checkpoint stayed at untrained step 0. By step 300,
+  rollout reached `0.49750`, but effect NRMSE diverged to `12.60578` and 90%
+  coverage collapsed to `0.0`.
+- **Controls:** Standard mixed trained normally to effect `0.81995`, rollout
+  `0.47587`; matched random reached `0.84268`, `0.48917`.
+- **Decision:** Reject symmetric PCGrad, do not open seeds `260919..260921`, do
+  not open test and do not promote any checkpoint.
+- **Diagnosis:** Conflict is real, but global symmetric projection overcorrects
+  the heteroscedastic effect task. The standard mixed model remains seed
+  sensitive; stability should be addressed at prediction aggregation rather
+  than by altering shared training gradients.
+- **Boundary:** Development optimizer evidence only; no transfer or production
+  claim.
+
+## 2026-07-15 — CHM-W-H008 registration
+
+- **Ensemble audit:** Four matched 3-member windows and one 6-member ensemble
+  were evaluated only on already-opened validation. Six-member effect NRMSE was
+  `0.82647` mixed versus `0.82491` random; ratio `1.00190`.
+- **Decision:** Do not spend production inference compute on ensembling a policy
+  advantage that disappears after aggregation.
+- **Question:** Does enforcing effect as factual utility minus no-op utility
+  improve intervention prediction over an unconstrained direct-effect head?
+- **Change:** Reinterpret the fourth head channel as no-op utility. Emit effect
+  mean by exact subtraction and effect variance as the sum of factual/no-op
+  variances. Head width and parameter count remain matched.
+- **Controls:** Counterfactual/direct heads under both mixed and random policies;
+  all other architecture, optimizer, data and evaluator settings are identical.
+- **Development gate:** Seed `260922`; require effect ratio at most `0.90`,
+  rollout ratio at most `1.00` versus direct mixed, and exact identity residual
+  below `1e-6`.
+- **Validation discipline:** Seeds `260923..260925` and every test split remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H008 metric or checkpoint exists.
+- **Boundary:** Simulator outcome-head evidence only; no real-world, business or
+  production claim.
+
+## 2026-07-15 — CHM-W-H009 registration
+
+- **Question:** Does cross-world pretraining transfer mechanisms when alignment
+  positives include two renderer views of the exact same hidden trajectory?
+- **Predecessor:** H002 generic alignment was worse than no alignment on
+  validation: effect ratio `1.04459`, rollout ratio `1.00767`; its test stayed
+  sealed.
+- **Change:** For each mechanism, sample two world-family realizations and two
+  renderer views per world. Renderer and dynamics RNG streams are independent;
+  paired views share latent actions, exogenous events and numerical outcomes.
+- **Controls:** Matched no-alignment, target-family-only, non-relational temporal
+  and legal-random baselines remain required.
+- **Primary test:** Intervention-effect NRMSE and four-step rollout NRMSE in
+  `test_world_transfer`, opened only after validation selection is frozen.
+- **Acceptance:** Both errors must be at most `0.90` of the strongest baseline,
+  with paired 90% bootstrap ratio upper bounds below `1.00`.
+- **Status:** `not_run`; no H009 metric, checkpoint or transfer claim exists.
+- **Boundary:** Simulator transfer evidence only; no causal-discovery,
+  business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H009 development preflight
+
+- **Protocol:** Seed `260926`, 1,000 BF16 steps per arm on RTX 5070. Only
+  generated `train` and checkpoint-selection `validation` were opened.
+- **Aligned:** Effect NRMSE `0.89387`, rollout NRMSE `0.44715`, retrieval
+  accuracy `0.45312` and effect coverage `0.97321`.
+- **No alignment:** Effect `0.89338`, rollout `0.44775`, retrieval `0.29688`.
+  Aligned/no-alignment ratios were `1.00056` and `0.99866`.
+- **Temporal control:** Effect `0.99010`, rollout `0.46294`. Relational state
+  remains useful, but the paired alignment objective does not improve its
+  prediction heads over the matched relational control.
+- **Diagnosis:** Exact renderer pairs make mechanism identity easier to
+  retrieve (`+0.15625`) without improving intervention or rollout prediction.
+  The alignment embedding and predictive state can still specialize into
+  weakly coupled representations.
+- **Decision:** Fail the H009 development gate. Do not open seeds
+  `260927..260929`, do not open any test split and do not promote checkpoints.
+- **Status:** H009 remains `not_run`; these are development diagnostics, not a
+  registered transfer result.
+- **Boundary:** Simulator-only evidence; no causal-discovery, business-utility,
+  language-independence or production claim.

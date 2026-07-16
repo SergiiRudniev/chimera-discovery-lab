@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "preflight_id": "CHM-W-H006-DEVELOPMENT-001",
+  "hypothesis_id": "CHM-W-H006",
+  "status": "completed_development_preflight",
+  "scientific_result": false,
+  "registered_trial_executed": false,
+  "seed": 260914,
+  "git_commit": "47127b13de33c235e1c2c243f8fe2b1ced7b5b0f",
+  "dataset_config_sha256": "0b3e06e1c3b0969471e05751d8825101f711bc1c419d272c5ff9c6e555e05b45",
+  "arms": {
+    "routed_mixed_closed_loop_without_discrimination": {
+      "run_id": "H006-DEVELOPMENT-ROUTED-A",
+      "config": "configs/meta_world/world_h006_development_routed.yaml",
+      "config_sha256": "5e5e2c1737f35a4c9f19865cbd7ef4ff0dae076710d62d42f857aa85e46dbe62",
+      "selected_step": 300,
+      "objective_routing": {
+        "state_supervision": "all",
+        "effect_supervision": "random_half",
+        "route_passed_to_model": false
+      },
+      "metrics": {
+        "intervention_effect_nrmse": 1.0755110036398912,
+        "four_step_rollout_nrmse": 0.4748864471912384,
+        "one_step_prediction_rmse": 0.08275391233891662,
+        "intervention_effect_90_coverage": 0.9822916666666667,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "checkpoint": {
+        "sha256": "800b34bc8b5bd60c94504743541ff0eb715475b4cae71129b5e209cf2e9cd151",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 82.48292670003138,
+      "peak_memory_bytes": 2165645824
+    },
+    "shared_loss_mixed_closed_loop_without_discrimination": {
+      "run_id": "H006-DEVELOPMENT-SHARED-A",
+      "config": "configs/meta_world/world_h006_development_shared.yaml",
+      "config_sha256": "88b50d3d7b9d6e602b2d06c5622077f4821d52153a255a122ab1a5105a464dd7",
+      "selected_step": 300,
+      "objective_routing": {
+        "state_supervision": "all",
+        "effect_supervision": "all",
+        "route_passed_to_model": false
+      },
+      "metrics": {
+        "intervention_effect_nrmse": 0.8128536557339403,
+        "four_step_rollout_nrmse": 0.46925684809684753,
+        "one_step_prediction_rmse": 0.08181913230265417,
+        "intervention_effect_90_coverage": 0.984375,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "checkpoint": {
+        "sha256": "c836e98c6c0bd795628a7e1ff322996633b226edfaf97c8111968e12e3fc09fb",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 82.164287600026,
+      "peak_memory_bytes": 2165645312
+    },
+    "matched_random_only_closed_loop_without_discrimination": {
+      "run_id": "H006-DEVELOPMENT-RANDOM-A",
+      "config": "configs/meta_world/world_h006_development_random.yaml",
+      "config_sha256": "1048777f8b3238bb6e81e70e75bc8378250c2d15016531b04ec6fd60a1e68fd3",
+      "selected_step": 300,
+      "objective_routing": {
+        "state_supervision": "all",
+        "effect_supervision": "all",
+        "route_passed_to_model": false
+      },
+      "metrics": {
+        "intervention_effect_nrmse": 1.0177101741465535,
+        "four_step_rollout_nrmse": 0.4878130257129669,
+        "one_step_prediction_rmse": 0.08392796655727765,
+        "intervention_effect_90_coverage": 0.984375,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "checkpoint": {
+        "sha256": "1c936122717fca6a1de2fdb01eaa4ef782cc904707f7ee8241269a66de2b5131",
+        "weights_kind": "ema",
+        "promoted": false
+      },
+      "runtime_seconds": 82.68515879998449,
+      "peak_memory_bytes": 2165645312
+    }
+  },
+  "comparisons": {
+    "routed_vs_random": {
+      "intervention_effect_nrmse_ratio": 1.0567949804980667,
+      "four_step_rollout_nrmse_ratio": 0.9735009566363351,
+      "one_step_prediction_rmse_ratio": 0.9860111680704217
+    },
+    "shared_vs_random_diagnostic": {
+      "intervention_effect_nrmse_ratio": 0.7987083910363726,
+      "four_step_rollout_nrmse_ratio": 0.9619604712502327,
+      "one_step_prediction_rmse_ratio": 0.9748732831125573
+    },
+    "routed_vs_shared": {
+      "intervention_effect_nrmse_ratio": 1.3231299337256381,
+      "four_step_rollout_nrmse_ratio": 1.0119968395074523,
+      "one_step_prediction_rmse_ratio": 1.0114249566080051
+    }
+  },
+  "development_gate": {
+    "intervention_effect_nrmse_ratio_maximum": 0.9,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "all_metrics_finite": true,
+    "passed": false
+  },
+  "decision": "do_not_open_H006_frozen_validation",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "frozen_validation_seeds_opened": false,
+  "test_metrics_opened": false,
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only objective-routing evidence. The H006 routed arm failed its effect gate; frozen validation and every test split remained sealed, and no real-world or production claim is supported."
+}

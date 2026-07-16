@@ -1,0 +1,89 @@
+id: CHM-W-H003
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  Four-step closed-loop training combined with cross-batch hard-negative
+  mechanism discrimination reduces both intervention-effect prediction error
+  and four-step rollout error in previously unseen world-family mappings,
+  compared with every registered baseline under paired evaluation episodes.
+scope: closed_loop_cross_world_mechanism_transfer
+parent: CHM-W-H002
+config: configs/meta_world/world_generators_h002.yaml
+data:
+  source: programmatic_dynamic_world_generators
+  generator_config_sha256: 329a847ff888c659161d6ea4c4191c902bc66332698f7aa17607da53499ad446
+  world_families:
+    - flow
+    - competition
+    - funnel
+  language_input: false
+  reuse_h002_split_contract: true
+  test_splits_sealed_during_preflight:
+    - test_world_transfer
+    - test_mechanism
+    - test_renderer
+method:
+  rollout_horizon: 4
+  rollout_mode: autoregressive_closed_loop
+  nuisance_channels_as_inputs_only: true
+  mechanism_objective: cross_batch_hard_negative_ranking
+  mechanism_queue:
+    minimum_entries: 256
+    maximum_entries: 2048
+    model_gradient_through_stored_entries: false
+    evaluator_metadata_used_only_for_loss_pairing: true
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+protocol:
+  trial_id: CHM-W-T003
+  status: not_run
+  training_seeds:
+    - 260903
+    - 260904
+    - 260905
+  comparison_arms:
+    - closed_loop_with_cross_batch_mechanism_discrimination
+    - closed_loop_without_mechanism_discrimination
+    - h002_one_step_relational_without_alignment
+    - temporal_predictor_without_relational_state
+    - legal_random_intervention
+  validation_preflight:
+    selection_metric: >-
+      Unweighted mean of validation intervention-effect NRMSE and four-step
+      rollout NRMSE, aggregated by median across the three registered seeds.
+    freeze_trial_only_if:
+      each_primary_error_ratio_vs_strongest_learned_baseline_maximum: 0.95
+      median_mechanism_retrieval_accuracy_minimum: 0.10
+      intervention_effect_90_coverage_minimum: 0.85
+      deterministic_replay_rate: 1.00
+      split_leakage_findings: 0
+      all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    each_primary_error_ratio_vs_strongest_baseline_maximum: 0.90
+    each_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - mechanism_retrieval_accuracy
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports transfer within the frozen generator distribution
+    only. It is not evidence of real-world causal discovery, profitable business
+    ideas, language-independent thought or production readiness.
+result: research/results/CHM-W-H003.json

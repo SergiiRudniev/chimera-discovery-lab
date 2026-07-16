@@ -24,3 +24,63 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-V-H003.yaml
     result: research/results/CHM-V-H003.json
+  - id: CHM-W-H000
+    title: Meta-World W0 numerical dynamics engineering qualification
+    status: rejected
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H000.yaml
+    result: research/results/CHM-W-H000.json
+  - id: CHM-W-H001
+    title: Meta-World W0 BF16 corrective engineering qualification
+    status: accepted
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H001.yaml
+    result: research/results/CHM-W-H001.json
+  - id: CHM-W-H002
+    title: Cross-world generator pretraining and mechanism transfer
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H002.yaml
+    result: research/results/CHM-W-H002.json
+  - id: CHM-W-H003
+    title: Closed-loop world rollout and cross-batch mechanism discrimination
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H003.yaml
+    result: research/results/CHM-W-H003.json
+  - id: CHM-W-H004
+    title: Controlled system-identification probe curriculum
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H004.yaml
+    result: research/results/CHM-W-H004.json
+  - id: CHM-W-H005
+    title: Mixed probe-random dynamics curriculum
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H005.yaml
+    result: research/results/CHM-W-H005.json
+  - id: CHM-W-H006
+    title: Policy-selective intervention-effect supervision
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H006.yaml
+    result: research/results/CHM-W-H006.json
+  - id: CHM-W-H007
+    title: Symmetric state-effect gradient conflict projection
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H007.yaml
+    result: research/results/CHM-W-H007.json
+  - id: CHM-W-H008
+    title: Counterfactual outcome-head decomposition
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H008.yaml
+    result: research/results/CHM-W-H008.json
+  - id: CHM-W-H009
+    title: Paired-renderer generated-world mechanism transfer
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H009.yaml
+    result: research/results/CHM-W-H009.json

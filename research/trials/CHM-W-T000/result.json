@@ -1,0 +1,18 @@
+{
+  "checks": {
+    "cuda_available": true,
+    "full_forward_pass": false,
+    "optimizer_step": false,
+    "target_metrics_opened": false
+  },
+  "decision": "rejected",
+  "error": {
+    "location": "chimera.meta_world.model.ChimeraMetaWorld._apply_domain_modules",
+    "message": "Index put requires the source and destination dtypes match, got Float for the destination and BFloat16 for the source.",
+    "type": "RuntimeError"
+  },
+  "id": "CHM-W-H000",
+  "metrics": null,
+  "status": "execution_failed",
+  "trial_id": "CHM-W-T000"
+}

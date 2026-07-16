@@ -1,0 +1,95 @@
+{
+  "arms": {
+    "probe_curriculum_closed_loop_with_mechanism_discrimination": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "d21f990d693bfbbcf557904677731cacb64cf4eb27486492070609435e3aa548",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h004_preflight_probe.yaml",
+      "config_sha256": "4b7a7c926be5c56087bac029756c0aa21513672e16ef97ca5b8c74ad49dad6b5",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.5018394589424133,
+        "intervention_effect_90_coverage": 0.9916666666666668,
+        "intervention_effect_nrmse": 0.8834791108614831,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 2165645312,
+      "run_id": "H004-DEVELOPMENT-PROBE-A",
+      "runtime_seconds": 75.61599980003666,
+      "selected_step": 300
+    },
+    "random_curriculum_closed_loop_with_mechanism_discrimination": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "ac48abac65fc7c6e2cef684058613ebed0b86de5a6db40f12d84154724b8c585",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h004_preflight_random.yaml",
+      "config_sha256": "3738ec15e875c0e86201bfab6697263aa40c311191b44cb87b749d284c2a8b6a",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4744226634502411,
+        "intervention_effect_90_coverage": 0.9833333333333332,
+        "intervention_effect_nrmse": 1.0004655078617906,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 2165645312,
+      "run_id": "H004-DEVELOPMENT-RANDOM-A",
+      "runtime_seconds": 75.88765809999313,
+      "selected_step": 300
+    },
+    "probe_curriculum_closed_loop_without_mechanism_discrimination": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "11e2d3a89ce3423f303f678177c1c62ec9fbf1594375c32ea004ee92c75013aa",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h004_preflight_probe_no_alignment.yaml",
+      "config_sha256": "91359719bbfe8319a3f1f8190f8cdce231adb037c2925807bcac682be83632ae",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.47744277119636536,
+        "intervention_effect_90_coverage": 0.9885416666666668,
+        "intervention_effect_nrmse": 0.8571562955843439,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 2165645312,
+      "run_id": "H004-DEVELOPMENT-PROBE-NOALIGN-A",
+      "runtime_seconds": 75.09358709998196,
+      "selected_step": 300
+    }
+  },
+  "claim_boundary": "Development validation-only engineering evidence; no frozen validation, test-world transfer, causal discovery, real-world probe safety, business utility or production checkpoint claim.",
+  "comparisons": {
+    "matched_probe_vs_random": {
+      "four_step_rollout_nrmse_ratio": 1.0577898098138556,
+      "intervention_effect_nrmse_ratio": 0.8830680357483464
+    },
+    "probe_no_alignment_vs_random_aligned_diagnostic": {
+      "four_step_rollout_nrmse_ratio": 1.0063658589245306,
+      "intervention_effect_nrmse_ratio": 0.8567574682472271
+    }
+  },
+  "dataset_config_sha256": "0b3e06e1c3b0969471e05751d8825101f711bc1c419d272c5ff9c6e555e05b45",
+  "decision": "do_not_freeze_T004",
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "cb8ea16f0f164f8a75a8cdf4961953184a1cd8af",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "hypothesis_id": "CHM-W-H004",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H004-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260906,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false
+}

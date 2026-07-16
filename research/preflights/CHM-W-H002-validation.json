@@ -1,0 +1,113 @@
+{
+  "arms": {
+    "cross_world_pretraining_with_mechanism_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "033f9cf31f13186c4fffa456f7b80dfec4da15634b8511ea2330c35be0db9746",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h002_preflight_relational_q.yaml",
+      "config_sha256": "d121de4471bd990e28f304697414479773408ed2cf30d0e821df6708cf28bfbf",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.41637086868286133,
+        "intervention_effect_90_coverage": 0.9754464285714286,
+        "intervention_effect_nll": -2.8423443181174144,
+        "intervention_effect_nrmse": 0.6931324093958903,
+        "intervention_effect_rmse": 0.028348689106233504,
+        "mechanism_retrieval_accuracy": 0.03125,
+        "one_step_prediction_rmse": 0.0966455880728596
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H002-PREFLIGHT-RELATIONAL-Q",
+      "runtime_seconds": 95.42068340000696,
+      "selected_step": 1000
+    },
+    "cross_world_pretraining_without_mechanism_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "61dcfd9f195cd62ce822b0336e6aa581fc4b604910052dac43bbb4275cd399a3",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h002_preflight_relational_no_alignment_r.yaml",
+      "config_sha256": "f4e3a406bd996a6adc4205572cdf1a4c1f01e63fe9afdac08889fee1476a3e98",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.41319993138313293,
+        "intervention_effect_90_coverage": 0.9821428571428571,
+        "intervention_effect_nll": -2.8552533217838834,
+        "intervention_effect_nrmse": 0.6635429250043892,
+        "intervention_effect_rmse": 0.02713849739905377,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.09624160228123349
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H002-PREFLIGHT-RELATIONAL-NOALIGN-R",
+      "runtime_seconds": 95.7617881000042,
+      "selected_step": 1000
+    },
+    "temporal_predictor_without_relational_state": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "36be01fe8cc15200f41734316c1f998c9118b17527a330ce0d16f37c1bd5ff9d",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h002_preflight_temporal_d.yaml",
+      "config_sha256": "1939e03a7dca20def3b10abbc196ead2290b63ecc738e0afde1a6a7d243e2ea3",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.41782674193382263,
+        "intervention_effect_90_coverage": 0.9375,
+        "intervention_effect_nll": -2.691929987498692,
+        "intervention_effect_nrmse": 0.9555194155152773,
+        "intervention_effect_rmse": 0.039080156227323505,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.09818343072305778
+      },
+      "model_class": "chimera.meta_world.h002.model.TemporalWorldBaseline",
+      "parameters": 13686296,
+      "peak_memory_bytes": 446811648,
+      "run_id": "H002-PREFLIGHT-TEMPORAL-D",
+      "runtime_seconds": 50.578278100001626,
+      "selected_step": 1000
+    }
+  },
+  "claim_boundary": "Validation-only engineering evidence; no test-world transfer, causal discovery, business utility or production checkpoint claim.",
+  "comparisons": {
+    "aligned_vs_no_alignment": {
+      "four_step_rollout_nrmse_ratio": 1.00767409928921,
+      "intervention_effect_nrmse_ratio": 1.04459317291539
+    },
+    "aligned_vs_temporal": {
+      "four_step_rollout_nrmse_ratio": 0.996515605381735,
+      "intervention_effect_nrmse_ratio": 0.725398561390936
+    },
+    "no_alignment_vs_temporal": {
+      "four_step_rollout_nrmse_ratio": 0.988926485343481,
+      "intervention_effect_nrmse_ratio": 0.694431650712785
+    }
+  },
+  "decision": "do_not_freeze_T002",
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "7cf8931ffc6a60da7714dcec163ea54392234923",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "generator_config_sha256": "329a847ff888c659161d6ea4c4191c902bc66332698f7aa17607da53499ad446",
+  "hypothesis_id": "CHM-W-H002",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H002-PREFLIGHT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260902,
+  "status": "completed_validation_preflight",
+  "test_metrics_opened": false
+}

@@ -1,0 +1,43 @@
+experiment_id: CHM-W-H001
+trial_id: CHM-W-T001
+model:
+  observation_features: 12
+  relation_features: 4
+  intervention_types: 8
+  intervention_parameters: 8
+  effect_dimensions: 4
+  domain_count: 4
+  mechanism_count: 4
+  hidden_dim: 512
+  num_heads: 8
+  spatial_layers: 8
+  temporal_layers: 6
+  transition_layers: 6
+  feedforward_multiplier: 4
+  max_slots: 32
+  context_steps: 8
+  dropout: 0.1
+  log_variance_min: -6.0
+  log_variance_max: 2.0
+training:
+  seed: 260715
+  batch_size: 16
+  active_slots: 8
+  steps: 20
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  next_state_weight: 1.0
+  effect_weight: 0.25
+  alignment_weight: 0.1
+  variance_weight: 0.01
+  alignment_margin: 0.2
+  device: cuda
+  precision: bfloat16
+qualification:
+  minimum_parameters: 50000000
+  maximum_parameters: 80000000
+  minimum_loss_reduction_fraction: 0.10
+  maximum_replay_delta: 0.0
+  require_cuda: true
+  require_all_finite: true

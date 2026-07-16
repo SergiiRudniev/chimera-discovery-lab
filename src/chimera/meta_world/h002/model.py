@@ -1,0 +1,593 @@
+"""Relational sequence model and matched temporal baseline for H002."""
+
+from __future__ import annotations
+
+from typing import cast
+
+import torch
+import torch.nn.functional as F
+from torch import Tensor, nn
+
+from chimera.meta_world.batch import MetaWorldBatch
+from chimera.meta_world.config import MetaWorldModelConfig
+from chimera.meta_world.model import MetaWorldOutput, SpatialBlock, TransitionBlock
+
+
+class InvariantMechanismEncoder(nn.Module):
+    """Encode renderer-invariant graph and response statistics without IDs."""
+
+    def __init__(self, config: MetaWorldModelConfig) -> None:
+        super().__init__()
+        relation_pairs = config.relation_features * (config.relation_features - 1) // 2
+        signature_features = (
+            config.relation_features * 5
+            + relation_pairs * 3
+            + config.observation_features * 3
+        )
+        self.encoder = nn.Sequential(
+            nn.LayerNorm(signature_features),
+            nn.Linear(signature_features, config.hidden_dim),
+            nn.SiLU(),
+            nn.Linear(config.hidden_dim, config.hidden_dim),
+            nn.LayerNorm(config.hidden_dim),
+        )
+
+    @staticmethod
+    def _sorted(values: Tensor) -> Tensor:
+        return torch.sort(values, dim=-1).values
+
+    def forward(self, batch: MetaWorldBatch) -> Tensor:
+        if batch.action_history is None or batch.action_target_history is None:
+            raise ValueError("mechanism encoder requires causal action histories")
+        relations = batch.relations.float()
+        pair_mask = batch.slot_mask[:, :, :, None] & batch.slot_mask[:, :, None, :]
+        relation_weight = pair_mask.unsqueeze(-1).to(relations.dtype)
+        relation_count = relation_weight.sum(dim=(1, 2, 3)).clamp_min(1)
+        relation_mean = (relations * relation_weight).sum(dim=(1, 2, 3)) / relation_count
+        relation_absolute_mean = (
+            relations.abs() * relation_weight
+        ).sum(dim=(1, 2, 3)) / relation_count
+        relation_second_moment = (
+            relations.square() * relation_weight
+        ).sum(dim=(1, 2, 3)) / relation_count
+        relation_std = (
+            relation_second_moment - relation_mean.square()
+        ).clamp_min(0).sqrt()
+        relation_density = (
+            relations.abs().gt(1e-8).to(relations.dtype) * relation_weight
+        ).sum(dim=(1, 2, 3)) / relation_count
+        relation_maximum = relations.abs().masked_fill(
+            ~pair_mask.unsqueeze(-1),
+            0.0,
+        ).amax(dim=(1, 2, 3))
+        flattened_relations = (relations * relation_weight).reshape(
+            relations.shape[0],
+            -1,
+            relations.shape[-1],
+        )
+        relation_gram = torch.einsum(
+            "bnr,bns->brs",
+            flattened_relations,
+            flattened_relations,
+        )
+        relation_norm = relation_gram.diagonal(dim1=-2, dim2=-1).clamp_min(1e-8).sqrt()
+        relation_cosine = relation_gram / (
+            relation_norm[:, :, None] * relation_norm[:, None, :]
+        ).clamp_min(1e-8)
+        norm_minimum = torch.minimum(
+            relation_norm[:, :, None],
+            relation_norm[:, None, :],
+        )
+        norm_maximum = torch.maximum(
+            relation_norm[:, :, None],
+            relation_norm[:, None, :],
+        ).clamp_min(1e-8)
+        relation_scale_ratio = norm_minimum / norm_maximum
+        pair_indices = torch.triu_indices(
+            relations.shape[-1],
+            relations.shape[-1],
+            offset=1,
+            device=relations.device,
+        )
+        pair_cosine = relation_cosine[:, pair_indices[0], pair_indices[1]]
+        pair_scale_ratio = relation_scale_ratio[:, pair_indices[0], pair_indices[1]]
+        pair_proportionality = pair_cosine.abs() * pair_scale_ratio
+
+        observations = batch.observations.float()
+        observation_weight = batch.observation_mask.to(observations.dtype)
+        observation_count = observation_weight.sum(dim=(1, 2)).clamp_min(1)
+        observation_mean = (observations * observation_weight).sum(
+            dim=(1, 2)
+        ) / observation_count
+        centered = (observations - observation_mean[:, None, None, :]) * observation_weight
+        observation_std = (
+            centered.square().sum(dim=(1, 2)) / observation_count
+        ).clamp_min(1e-6).sqrt()
+        normalized = centered / observation_std[:, None, None, :]
+        difference_mask = batch.observation_mask[:, 1:] & batch.observation_mask[:, :-1]
+        difference_weight = difference_mask.to(normalized.dtype)
+        difference = normalized[:, 1:] - normalized[:, :-1]
+        difference_count = difference_weight.sum(dim=(1, 2)).clamp_min(1)
+        difference_absolute_mean = (
+            difference.abs() * difference_weight
+        ).sum(dim=(1, 2)) / difference_count
+        lag_product = normalized[:, 1:] * normalized[:, :-1]
+        lag_correlation = (lag_product * difference_weight).sum(
+            dim=(1, 2)
+        ) / difference_count
+        action_targets = batch.action_target_history[:, 1:, :, None].to(
+            difference.dtype
+        )
+        action_strength = batch.action_history[:, 1:].float().square().sum(
+            dim=-1
+        ).sqrt()[:, :, None, None]
+        action_response = (
+            difference * action_targets * action_strength * difference_weight
+        ).sum(dim=(1, 2)) / difference_count
+
+        signature = torch.cat(
+            [
+                self._sorted(relation_mean),
+                self._sorted(relation_absolute_mean),
+                self._sorted(relation_std),
+                self._sorted(relation_density),
+                self._sorted(relation_maximum),
+                self._sorted(pair_cosine),
+                self._sorted(pair_scale_ratio),
+                self._sorted(pair_proportionality),
+                self._sorted(difference_absolute_mean),
+                self._sorted(lag_correlation),
+                self._sorted(action_response),
+            ],
+            dim=-1,
+        )
+        return cast(Tensor, self.encoder(signature))
+
+
+class RelationalSequenceWorldModel(nn.Module):
+    """Track object states through time before applying a relational intervention."""
+
+    def __init__(self, config: MetaWorldModelConfig) -> None:
+        super().__init__()
+        self.config = config
+        hidden = config.hidden_dim
+        self.slot_encoder = nn.Sequential(
+            nn.Linear(config.observation_features * 2, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.history_action_encoder = nn.Sequential(
+            nn.Linear(config.intervention_parameters + 1, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.graph_temporal_encoder = nn.GRU(
+            input_size=hidden,
+            hidden_size=hidden,
+            num_layers=max(config.temporal_layers, 1),
+            dropout=config.dropout if config.temporal_layers > 1 else 0.0,
+            batch_first=True,
+        )
+        self.spatial_blocks = nn.ModuleList(
+            [SpatialBlock(config) for _ in range(config.spatial_layers)]
+        )
+        self.spatial_norm = nn.LayerNorm(hidden)
+        self.slot_temporal_encoder = nn.GRU(
+            input_size=hidden,
+            hidden_size=hidden,
+            num_layers=max(config.temporal_layers, 1),
+            dropout=config.dropout if config.temporal_layers > 1 else 0.0,
+            batch_first=True,
+        )
+        self.relational_graph_projection = nn.Linear(hidden, hidden)
+        self.relational_gate_logit = nn.Parameter(torch.tensor(-2.0))
+        self.mechanism_encoder = InvariantMechanismEncoder(config)
+        self.mechanism_condition = nn.Linear(hidden, hidden)
+        self.intervention_type_embedding = nn.Embedding(
+            config.intervention_types,
+            hidden,
+        )
+        self.intervention_parameter_encoder = nn.Sequential(
+            nn.Linear(config.intervention_parameters, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.intervention_relation_encoder = nn.Sequential(
+            nn.Linear(config.relation_features * 2, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.intervention_fusion = nn.Sequential(
+            nn.LayerNorm(hidden * 5),
+            nn.Linear(hidden * 5, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.transition_input = nn.Sequential(
+            nn.LayerNorm(hidden * 2),
+            nn.Linear(hidden * 2, hidden),
+        )
+        self.transition_blocks = nn.ModuleList(
+            [TransitionBlock(config) for _ in range(config.transition_layers)]
+        )
+        self.transition_norm = nn.LayerNorm(hidden)
+        self.role_encoder = nn.Sequential(
+            nn.Linear(2, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.global_condition = nn.Linear(hidden, hidden)
+        self.intervention_spatial = SpatialBlock(config)
+        self.intervention_spatial_scale = nn.Parameter(torch.zeros(()))
+        self.slot_output_norm = nn.LayerNorm(hidden)
+        self.state_head = nn.Sequential(
+            nn.Linear(hidden, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, config.observation_features * 2),
+        )
+        self.effect_head = nn.Sequential(
+            nn.Linear(hidden, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, config.effect_dimensions * 2),
+        )
+        self.mechanism_projection = nn.Linear(hidden, hidden)
+
+    @staticmethod
+    def _gather_time(values: Tensor, steps: Tensor) -> Tensor:
+        index = steps.view(steps.shape[0], 1, *([1] * (values.ndim - 2)))
+        index = index.expand(steps.shape[0], 1, *values.shape[2:])
+        return values.gather(1, index).squeeze(1)
+
+    @staticmethod
+    def _gather_slots(values: Tensor, pointers: Tensor) -> Tensor:
+        index = pointers[:, None, None].expand(values.shape[0], 1, values.shape[-1])
+        return values.gather(1, index).squeeze(1)
+
+    @staticmethod
+    def _gather_relation_pairs(
+        relations: Tensor,
+        source_slots: Tensor,
+        target_slots: Tensor,
+    ) -> Tensor:
+        batch_indices = torch.arange(relations.shape[0], device=relations.device)
+        forward = relations[batch_indices, source_slots, target_slots]
+        reverse = relations[batch_indices, target_slots, source_slots]
+        return torch.cat([forward, reverse], dim=-1)
+
+    def _validate_contract(self, batch: MetaWorldBatch) -> None:
+        config = self.config
+        if batch.observations.shape[1:] != (
+            config.context_steps,
+            config.max_slots,
+            config.observation_features,
+        ):
+            raise ValueError("batch observations do not match the H002 relational model")
+        if batch.relations.shape[-1] != config.relation_features:
+            raise ValueError("batch relation feature count does not match the model")
+        if batch.intervention_parameters.shape[-1] != config.intervention_parameters:
+            raise ValueError("batch intervention parameter count does not match the model")
+        if torch.any(batch.domain_ids != 0):
+            raise ValueError("H002 relational model forbids service-domain IDs")
+        if batch.action_history is None or batch.action_target_history is None:
+            raise ValueError("H002 relational model requires causal action histories")
+        if batch.action_history.shape[-1] != config.intervention_parameters:
+            raise ValueError("action history parameter count does not match the model")
+
+    def forward(self, batch: MetaWorldBatch) -> MetaWorldOutput:
+        batch.validate()
+        self._validate_contract(batch)
+        config = self.config
+        batch_size = batch.batch_size
+        slot_input = torch.cat(
+            [batch.observations, batch.observation_mask.to(batch.observations.dtype)],
+            dim=-1,
+        )
+        slot_states = self.slot_encoder(slot_input)
+        assert batch.action_history is not None
+        assert batch.action_target_history is not None
+        history_parameters = batch.action_history[:, :, None, :].expand(
+            -1,
+            -1,
+            config.max_slots,
+            -1,
+        )
+        history_context = torch.cat(
+            [history_parameters, batch.action_target_history.unsqueeze(-1)],
+            dim=-1,
+        )
+        slot_states = slot_states + self.history_action_encoder(history_context)
+        slot_states = slot_states * batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
+        slot_weight = batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
+        graph_states = (slot_states * slot_weight).sum(dim=2) / slot_weight.sum(
+            dim=2
+        ).clamp_min(1)
+        graph_states = graph_states * batch.time_mask.unsqueeze(-1).to(
+            graph_states.dtype
+        )
+        baseline_temporal_states, _ = self.graph_temporal_encoder(graph_states)
+        flat_states = slot_states.reshape(
+            batch_size * config.context_steps,
+            config.max_slots,
+            config.hidden_dim,
+        )
+        flat_relations = batch.relations.reshape(
+            batch_size * config.context_steps,
+            config.max_slots,
+            config.max_slots,
+            config.relation_features,
+        )
+        flat_mask = batch.slot_mask.reshape(
+            batch_size * config.context_steps,
+            config.max_slots,
+        )
+        for block in self.spatial_blocks:
+            flat_states = block(flat_states, flat_relations, flat_mask)
+        spatial_states = self.spatial_norm(flat_states).reshape(
+            batch_size,
+            config.context_steps,
+            config.max_slots,
+            config.hidden_dim,
+        )
+        active = batch.slot_mask.unsqueeze(-1).to(spatial_states.dtype)
+        spatial_states = spatial_states * active
+        temporal_input = spatial_states.permute(0, 2, 1, 3).reshape(
+            batch_size * config.max_slots,
+            config.context_steps,
+            config.hidden_dim,
+        )
+        temporal_delta, _ = self.slot_temporal_encoder(temporal_input)
+        temporal_delta = temporal_delta.reshape(
+            batch_size,
+            config.max_slots,
+            config.context_steps,
+            config.hidden_dim,
+        )
+        temporal_states = (
+            temporal_delta.permute(0, 2, 1, 3) + spatial_states
+        ) * active
+        final_steps = batch.time_mask.sum(dim=1) - 1
+        baseline_final_graph = self._gather_time(
+            baseline_temporal_states,
+            final_steps,
+        )
+        baseline_final_slots = self._gather_time(slot_states, final_steps)
+        relational_final_slots = self._gather_time(temporal_states, final_steps)
+        final_slot_mask = self._gather_time(batch.slot_mask, final_steps)
+        final_relations = self._gather_time(batch.relations, final_steps)
+        final_observations = self._gather_time(batch.observations, final_steps)
+        relational_gate = torch.sigmoid(self.relational_gate_logit)
+        final_slots = baseline_final_slots + relational_gate * (
+            relational_final_slots - baseline_final_slots
+        )
+        final_slot_weight = final_slot_mask.unsqueeze(-1).to(final_slots.dtype)
+        relational_final_graph = (
+            relational_final_slots * final_slot_weight
+        ).sum(dim=1) / final_slot_weight.sum(
+            dim=1
+        ).clamp_min(1)
+        mechanism_state = self.mechanism_encoder(batch)
+        final_graph = (
+            baseline_final_graph
+            + relational_gate * self.relational_graph_projection(relational_final_graph)
+            + self.mechanism_condition(mechanism_state)
+        )
+
+        source = self._gather_slots(final_slots, batch.source_slots)
+        target = self._gather_slots(final_slots, batch.target_slots)
+        intervention_relations = self._gather_relation_pairs(
+            final_relations,
+            batch.source_slots,
+            batch.target_slots,
+        )
+        intervention = self.intervention_fusion(
+            torch.cat(
+                [
+                    self.intervention_type_embedding(batch.intervention_types),
+                    source,
+                    target,
+                    self.intervention_parameter_encoder(
+                        batch.intervention_parameters
+                    ),
+                    self.intervention_relation_encoder(intervention_relations),
+                ],
+                dim=-1,
+            )
+        )
+        transition = self.transition_input(
+            torch.cat([final_graph, intervention], dim=-1)
+        )
+        for block in self.transition_blocks:
+            transition = block(transition)
+        transition = self.transition_norm(transition)
+
+        slot_indices = torch.arange(config.max_slots, device=final_slots.device)[None]
+        roles = torch.stack(
+            [
+                slot_indices == batch.source_slots[:, None],
+                slot_indices == batch.target_slots[:, None],
+            ],
+            dim=-1,
+        ).to(final_slots.dtype)
+        conditioned_slots = (
+            final_slots
+            + self.role_encoder(roles)
+            + self.global_condition(transition).unsqueeze(1)
+        )
+        propagated_slots = self.intervention_spatial(
+            conditioned_slots,
+            final_relations,
+            final_slot_mask,
+        )
+        conditioned_slots = conditioned_slots + torch.tanh(
+            self.intervention_spatial_scale
+        ) * (propagated_slots - conditioned_slots)
+        conditioned_slots = self.slot_output_norm(conditioned_slots)
+        decoded = self.state_head(conditioned_slots)
+        delta_mean, raw_state_log_variance = decoded.chunk(2, dim=-1)
+        final_mask = final_slot_mask.unsqueeze(-1).to(delta_mean.dtype)
+        next_state_mean = (final_observations + delta_mean) * final_mask
+        next_state_log_variance = raw_state_log_variance.clamp(
+            min=config.log_variance_min,
+            max=config.log_variance_max,
+        ) * final_mask
+        raw_effect = self.effect_head(transition)
+        effect_mean, raw_effect_log_variance = raw_effect.chunk(2, dim=-1)
+        return MetaWorldOutput(
+            next_state_mean=next_state_mean,
+            next_state_log_variance=next_state_log_variance,
+            effect_mean=effect_mean,
+            effect_log_variance=raw_effect_log_variance.clamp(
+                min=config.log_variance_min,
+                max=config.log_variance_max,
+            ),
+            proposal_embedding=F.normalize(
+                self.mechanism_projection(mechanism_state),
+                dim=-1,
+            ),
+            final_slot_states=final_slots,
+            transition_state=cast(Tensor, transition),
+        )
+
+    def trainable_parameter_count(self) -> int:
+        return sum(parameter.numel() for parameter in self.parameters() if parameter.requires_grad)
+
+
+class TemporalWorldBaseline(nn.Module):
+    """Predict dynamics from pooled temporal states without reading relations."""
+
+    def __init__(self, config: MetaWorldModelConfig) -> None:
+        super().__init__()
+        self.config = config
+        hidden = config.hidden_dim
+        self.slot_encoder = nn.Sequential(
+            nn.Linear(config.observation_features * 2, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.history_action_encoder = nn.Sequential(
+            nn.Linear(config.intervention_parameters + 1, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.temporal = nn.GRU(
+            input_size=hidden,
+            hidden_size=hidden,
+            num_layers=max(config.temporal_layers, 1),
+            dropout=config.dropout if config.temporal_layers > 1 else 0.0,
+            batch_first=True,
+        )
+        self.action_encoder = nn.Sequential(
+            nn.Linear(config.intervention_parameters, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, hidden),
+        )
+        self.transition = nn.Sequential(
+            nn.LayerNorm(hidden * 4),
+            nn.Linear(hidden * 4, hidden * 2),
+            nn.SiLU(),
+            nn.Dropout(config.dropout),
+            nn.Linear(hidden * 2, hidden),
+            nn.LayerNorm(hidden),
+        )
+        self.slot_condition = nn.Linear(hidden, hidden)
+        self.state_head = nn.Sequential(
+            nn.LayerNorm(hidden),
+            nn.Linear(hidden, config.observation_features * 2),
+        )
+        self.effect_head = nn.Sequential(
+            nn.Linear(hidden, hidden),
+            nn.SiLU(),
+            nn.Linear(hidden, config.effect_dimensions * 2),
+        )
+        self.proposal_projection = nn.Linear(hidden, hidden)
+
+    @staticmethod
+    def _gather_time(values: Tensor, steps: Tensor) -> Tensor:
+        index = steps.view(steps.shape[0], 1, *([1] * (values.ndim - 2)))
+        index = index.expand(steps.shape[0], 1, *values.shape[2:])
+        return values.gather(1, index).squeeze(1)
+
+    @staticmethod
+    def _gather_slots(values: Tensor, pointers: Tensor) -> Tensor:
+        index = pointers[:, None, None].expand(values.shape[0], 1, values.shape[-1])
+        return values.gather(1, index).squeeze(1)
+
+    def forward(self, batch: MetaWorldBatch) -> MetaWorldOutput:
+        batch.validate()
+        config = self.config
+        if batch.observations.shape[1:] != (
+            config.context_steps,
+            config.max_slots,
+            config.observation_features,
+        ):
+            raise ValueError("batch observations do not match the temporal baseline")
+        if batch.action_history is None or batch.action_target_history is None:
+            raise ValueError("temporal baseline requires causal action histories")
+        adapter_input = torch.cat(
+            [batch.observations, batch.observation_mask.to(batch.observations.dtype)],
+            dim=-1,
+        )
+        slot_states = self.slot_encoder(adapter_input)
+        history_parameters = batch.action_history[:, :, None, :].expand(
+            -1,
+            -1,
+            config.max_slots,
+            -1,
+        )
+        history_context = torch.cat(
+            [history_parameters, batch.action_target_history.unsqueeze(-1)],
+            dim=-1,
+        )
+        slot_states = slot_states + self.history_action_encoder(history_context)
+        slot_states = slot_states * batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
+        weights = batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
+        graph_states = (slot_states * weights).sum(dim=2) / weights.sum(dim=2).clamp_min(1)
+        graph_states = graph_states * batch.time_mask.unsqueeze(-1).to(graph_states.dtype)
+        temporal_states, _ = self.temporal(graph_states)
+        final_steps = batch.time_mask.sum(dim=1) - 1
+        final_graph = self._gather_time(temporal_states, final_steps)
+        final_slots = self._gather_time(slot_states, final_steps)
+        final_slot_mask = self._gather_time(batch.slot_mask, final_steps)
+        final_observations = self._gather_time(batch.observations, final_steps)
+        source = self._gather_slots(final_slots, batch.source_slots)
+        target = self._gather_slots(final_slots, batch.target_slots)
+        transition = self.transition(
+            torch.cat(
+                [
+                    final_graph,
+                    source,
+                    target,
+                    self.action_encoder(batch.intervention_parameters),
+                ],
+                dim=-1,
+            )
+        )
+        conditioned = final_slots + self.slot_condition(transition).unsqueeze(1)
+        decoded = self.state_head(conditioned)
+        delta_mean, raw_state_log_variance = decoded.chunk(2, dim=-1)
+        mask = final_slot_mask.unsqueeze(-1).to(delta_mean.dtype)
+        next_state_mean = (final_observations + delta_mean) * mask
+        next_state_log_variance = raw_state_log_variance.clamp(
+            min=config.log_variance_min,
+            max=config.log_variance_max,
+        ) * mask
+        raw_effect = self.effect_head(transition)
+        effect_mean, raw_effect_log_variance = raw_effect.chunk(2, dim=-1)
+        return MetaWorldOutput(
+            next_state_mean=next_state_mean,
+            next_state_log_variance=next_state_log_variance,
+            effect_mean=effect_mean,
+            effect_log_variance=raw_effect_log_variance.clamp(
+                min=config.log_variance_min,
+                max=config.log_variance_max,
+            ),
+            proposal_embedding=F.normalize(
+                self.proposal_projection(transition),
+                dim=-1,
+            ),
+            final_slot_states=final_slots,
+            transition_state=cast(Tensor, transition),
+        )
+
+    def trainable_parameter_count(self) -> int:
+        return sum(parameter.numel() for parameter in self.parameters() if parameter.requires_grad)

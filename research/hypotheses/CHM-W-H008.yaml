@@ -1,0 +1,123 @@
+id: CHM-W-H008
+registered_at: 2026-07-15
+status: registered
+hypothesis: >-
+  A counterfactual outcome head that represents intervention effect as the
+  exact difference between predicted factual utility and predicted no-op
+  utility reduces intervention-effect prediction error by at least 10% without
+  increasing four-step rollout error in unseen world-family mappings compared
+  with the matched direct-effect head under the same mixed curriculum.
+scope: counterfactual_outcome_decomposition
+parent: CHM-W-H007
+rationale:
+  diagnostic: research/diagnostics/CHM-W-H008-ensemble.json
+  observation: >-
+    Six-member ensembles reduced absolute effect NRMSE to approximately 0.825
+    for both mixed and random policies, leaving a mixed/random ratio of 1.002.
+    Seed aggregation does not fix the representation ceiling.
+data:
+  dataset_id: CHM-W-WG1
+  generator_config: configs/meta_world/world_generators_h004.yaml
+  factual_utility_target: outcomes[0]
+  intervention_effect_target: outcomes[3]
+  derived_no_op_utility_target: outcomes[0] - outcomes[3]
+  derived_target_passed_to_model: false
+  training_policies:
+    deterministic_system_identification_probe_v1: 0.50
+    seeded_random: 0.50
+  evaluation_policy: probe_prefix_4_then_seeded_random_v1
+  paired_worlds_across_training_policies: true
+  language_input: false
+  hidden_metadata_excluded_from_model_forward:
+    - no_op_utility_target
+    - action_policy_id
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  shared_model: relational_sequence_world_model
+  rollout_horizon: 4
+  rollout_mode: autoregressive_closed_loop
+  mechanism_discrimination_weight: 0.0
+  counterfactual_head:
+    raw_mean_channels:
+      - factual_utility
+      - throughput
+      - constraint
+      - no_op_utility
+    output_effect_mean: factual_utility - no_op_utility
+    output_effect_variance: factual_utility_variance + no_op_utility_variance
+    factual_no_op_covariance_assumption: 0.0
+    exact_identity: >-
+      output_factual_utility - output_intervention_effect == output_no_op_utility
+    parameter_count_matched_to_direct_head: true
+  controlled_variable: outcome_head_semantics
+  evaluator_policy_identical_across_arms: true
+protocol:
+  trial_id: CHM-W-T008
+  status: not_run
+  development_seed: 260922
+  frozen_validation_seeds:
+    - 260923
+    - 260924
+    - 260925
+  comparison_arms:
+    - counterfactual_head_mixed_closed_loop
+    - direct_head_mixed_closed_loop
+    - counterfactual_head_random_closed_loop
+    - direct_head_random_closed_loop
+    - one_step_relational_without_discrimination
+    - temporal_predictor_without_relational_state
+    - legal_random_intervention
+  development_gate:
+    intervention_effect_nrmse_ratio_vs_direct_mixed_maximum: 0.90
+    four_step_rollout_nrmse_ratio_vs_direct_mixed_maximum: 1.00
+    intervention_effect_90_coverage_minimum: 0.85
+    counterfactual_identity_maximum_absolute_residual: 0.000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  validation_preflight:
+    hyperparameters_and_checkpoint_step_frozen_before_validation_seeds: true
+    freeze_trial_only_if:
+      median_intervention_effect_nrmse_ratio_vs_direct_mixed_maximum: 0.90
+      median_four_step_rollout_nrmse_ratio_vs_direct_mixed_maximum: 1.00
+      each_seed_four_step_rollout_nrmse_ratio_vs_direct_mixed_maximum: 1.05
+      intervention_effect_90_coverage_minimum: 0.85
+      counterfactual_identity_maximum_absolute_residual: 0.000001
+      deterministic_replay_rate: 1.00
+      split_leakage_findings: 0
+      all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    intervention_effect_nrmse_ratio_vs_direct_mixed_maximum: 0.90
+    intervention_effect_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_direct_mixed_maximum: 1.00
+    four_step_rollout_paired_bootstrap_90_percent_ratio_upper_bound_maximum: 1.05
+    counterfactual_identity_maximum_absolute_residual: 0.000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - no_op_utility_nrmse
+    - counterfactual_random_vs_direct_random_effect_ratio
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports an algebraically constrained outcome head in
+    generated simulators only. It is not evidence of real-world causal
+    discovery, safe real-world experimentation, profitable business ideas,
+    language-independent thought or production readiness.
+result: research/results/CHM-W-H008.json

@@ -1,0 +1,12 @@
+{
+  "config_sha256": "52bfd7dd8ce1a5779ec6d1a0b729a95a852748a281176eccaac34b96fd790caf",
+  "device": "cuda",
+  "device_memory_mib": 12227,
+  "device_name": "NVIDIA GeForce RTX 5070",
+  "driver": "610.62",
+  "git_commit": "42f016c",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "precision": "bfloat16",
+  "python": "3.12.13",
+  "torch": "2.13.0+cu132"
+}

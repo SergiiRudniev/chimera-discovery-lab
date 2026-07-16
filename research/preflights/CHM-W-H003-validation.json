@@ -1,0 +1,117 @@
+{
+  "arms": {
+    "closed_loop_alignment_weight_0_2": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "aa9e4c4f3928b750725ea92fef2005a82b91f39acafb84875d8b73a499303eaf",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h003_preflight_closed_loop.yaml",
+      "config_sha256": "6d31b1eb70830fe43d1ea5decc1f2f0937df360b6b203679b1470d8fe3e4159d",
+      "git_commit": "f968fc13aa8dc579658def5c65c25670dcfae17a",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4327611029148102,
+        "intervention_effect_90_coverage": 0.984375,
+        "intervention_effect_nrmse": 0.8520210710525987,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 2165213184,
+      "run_id": "H003-PREFLIGHT-CLOSED-LOOP-A",
+      "runtime_seconds": 67.30598699999973,
+      "selected_step": 300
+    },
+    "closed_loop_alignment_weight_1_0": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "c518516b27067cf92698cb40c10f475b9a5b5dec32e94cc3c243bd0f3b604f23",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h003_preflight_closed_loop_strong_alignment.yaml",
+      "config_sha256": "3e50b1085c378db13af929f6a3928d7ce7c4ea44c000eb48c26ab2561b64605e",
+      "git_commit": "f829f333a2f5208d03d31ce816abbe01cd068f8a",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.43206918239593506,
+        "intervention_effect_90_coverage": 0.9888392857142856,
+        "intervention_effect_nrmse": 0.8298640149434869,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 2165213184,
+      "run_id": "H003-PREFLIGHT-CLOSED-LOOP-STRONG-ALIGNMENT-B",
+      "runtime_seconds": 67.48817079997389,
+      "selected_step": 300
+    },
+    "closed_loop_without_mechanism_discrimination": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "ded5d882e2b7a9c2557e651ec1c3865ef1c1399b6299c6d2605a4e6c961e1ca4",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h003_preflight_closed_loop_no_alignment.yaml",
+      "config_sha256": "8aa03680dc2f0f782d97370eff3c2b9bd49c903a6fc3452ea567188fa0abd85e",
+      "git_commit": "f968fc13aa8dc579658def5c65c25670dcfae17a",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4414742887020111,
+        "intervention_effect_90_coverage": 0.9866071428571428,
+        "intervention_effect_nrmse": 0.8361944936633283,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 2165213184,
+      "run_id": "H003-PREFLIGHT-CLOSED-LOOP-NOALIGN-A",
+      "runtime_seconds": 66.92570789996535,
+      "selected_step": 300
+    },
+    "h002_one_step_relational_without_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "d4540a3a7356f42c7fe94c3d91211f3d7ab307262a60d959f27b2170983889cf",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h003_preflight_one_step.yaml",
+      "config_sha256": "21b73f09bfc1ec8ababd40c67b68bec76e1f264f9144cacb016d29e6a4a5b7b3",
+      "git_commit": "f968fc13aa8dc579658def5c65c25670dcfae17a",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.44577962160110474,
+        "intervention_effect_90_coverage": 0.9933035714285714,
+        "intervention_effect_nrmse": 0.8577977842158345,
+        "mechanism_retrieval_accuracy": 0.0
+      },
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H003-PREFLIGHT-ONE-STEP-A",
+      "runtime_seconds": 29.92443039995851,
+      "selected_step": 300
+    }
+  },
+  "claim_boundary": "Exploratory validation-only engineering evidence; no test-world transfer, causal discovery, business utility or production checkpoint claim.",
+  "comparisons": {
+    "strong_alignment_vs_one_step": {
+      "four_step_rollout_nrmse_ratio": 0.9692439076601888,
+      "intervention_effect_nrmse_ratio": 0.9674354844622459
+    }
+  },
+  "decision": "do_not_freeze_T003",
+  "embedding_diagnosis": {
+    "validation_hardest_negative_cosine_mean": 0.994590699672699,
+    "validation_positive_cosine_mean": 0.9849708080291748
+  },
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "generator_config_sha256": "329a847ff888c659161d6ea4c4191c902bc66332698f7aa17607da53499ad446",
+  "hypothesis_id": "CHM-W-H003",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H003-PREFLIGHT-001",
+  "registered_trial_executed": false,
+  "remaining_registered_seeds_run": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260903,
+  "status": "completed_exploratory_validation_preflight",
+  "test_metrics_opened": false
+}
