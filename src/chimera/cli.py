@@ -43,6 +43,11 @@ from chimera.meta_world.h015 import (
     run_h015_backbone_preflight,
     run_h015_development_suite,
 )
+from chimera.meta_world.h016 import (
+    run_h016_backbone_preflight,
+    run_h016_development_suite,
+    run_h016_engineering_smoke,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -503,6 +508,57 @@ def _h015_backbone(arguments: argparse.Namespace) -> int:
 
 def _h015_suite(arguments: argparse.Namespace) -> int:
     result = run_h015_development_suite(
+        arguments.config,
+        arguments.output,
+        arguments.report,
+    )
+    print(
+        json.dumps(
+            {
+                "preflight_id": result["preflight_id"],
+                "status": result["status"],
+                "decision": result["decision"],
+                "passed": result["development_gate"]["passed"],
+                "report": str(arguments.report),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h016_backbone(arguments: argparse.Namespace) -> int:
+    result = run_h016_backbone_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h016_smoke(arguments: argparse.Namespace) -> int:
+    result = run_h016_engineering_smoke(
+        arguments.backbone_config,
+        arguments.suite_config,
+        arguments.output,
+    )
+    print(json.dumps(result, sort_keys=True))
+    return 0
+
+
+def _h016_suite(arguments: argparse.Namespace) -> int:
+    result = run_h016_development_suite(
         arguments.config,
         arguments.output,
         arguments.report,
@@ -1322,6 +1378,51 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/preflights/CHM-W-H015-development.json"),
     )
+    h016_backbone_parser = subparsers.add_parser("meta-world-h016-backbone")
+    h016_backbone_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h016_development_backbone.yaml"),
+    )
+    h016_backbone_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h016_development_backbone"),
+    )
+    h016_smoke_parser = subparsers.add_parser("meta-world-h016-smoke")
+    h016_smoke_parser.add_argument(
+        "--backbone-config",
+        type=Path,
+        default=Path(
+            "configs/meta_world/world_h016_development_smoke_backbone.yaml"
+        ),
+    )
+    h016_smoke_parser.add_argument(
+        "--suite-config",
+        type=Path,
+        default=Path("configs/meta_world/world_h016_suite.yaml"),
+    )
+    h016_smoke_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h016_engineering_smoke"),
+    )
+    h016_suite_parser = subparsers.add_parser("meta-world-h016-suite")
+    h016_suite_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h016_suite.yaml"),
+    )
+    h016_suite_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h016_development"),
+    )
+    h016_suite_parser.add_argument(
+        "--report",
+        type=Path,
+        default=Path("research/preflights/CHM-W-H016-development.json"),
+    )
     return parser
 
 
@@ -1403,6 +1504,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h015_backbone(arguments)
     if arguments.command == "meta-world-h015-suite":
         return _h015_suite(arguments)
+    if arguments.command == "meta-world-h016-backbone":
+        return _h016_backbone(arguments)
+    if arguments.command == "meta-world-h016-smoke":
+        return _h016_smoke(arguments)
+    if arguments.command == "meta-world-h016-suite":
+        return _h016_suite(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)
