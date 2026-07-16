@@ -13,6 +13,15 @@ from chimera.meta_world.config import MetaWorldModelConfig
 from chimera.meta_world.model import MetaWorldOutput, SpatialBlock, TransitionBlock
 
 
+def _cudnn_gru_enabled(values: Tensor) -> bool:
+    """Avoid the cuDNN GRU teardown abort observed on compute capability 12.x."""
+
+    return not (
+        values.is_cuda
+        and torch.cuda.get_device_capability(values.device) >= (12, 0)
+    )
+
+
 class InvariantMechanismEncoder(nn.Module):
     """Encode renderer-invariant graph and response statistics without IDs."""
 
@@ -309,7 +318,8 @@ class RelationalSequenceWorldModel(nn.Module):
         graph_states = graph_states * batch.time_mask.unsqueeze(-1).to(
             graph_states.dtype
         )
-        baseline_temporal_states, _ = self.graph_temporal_encoder(graph_states)
+        with torch.backends.cudnn.flags(enabled=_cudnn_gru_enabled(graph_states)):
+            baseline_temporal_states, _ = self.graph_temporal_encoder(graph_states)
         flat_states = slot_states.reshape(
             batch_size * config.context_steps,
             config.max_slots,
@@ -340,7 +350,8 @@ class RelationalSequenceWorldModel(nn.Module):
             config.context_steps,
             config.hidden_dim,
         )
-        temporal_delta, _ = self.slot_temporal_encoder(temporal_input)
+        with torch.backends.cudnn.flags(enabled=_cudnn_gru_enabled(temporal_input)):
+            temporal_delta, _ = self.slot_temporal_encoder(temporal_input)
         temporal_delta = temporal_delta.reshape(
             batch_size,
             config.max_slots,
@@ -551,7 +562,8 @@ class TemporalWorldBaseline(nn.Module):
         weights = batch.slot_mask.unsqueeze(-1).to(slot_states.dtype)
         graph_states = (slot_states * weights).sum(dim=2) / weights.sum(dim=2).clamp_min(1)
         graph_states = graph_states * batch.time_mask.unsqueeze(-1).to(graph_states.dtype)
-        temporal_states, _ = self.temporal(graph_states)
+        with torch.backends.cudnn.flags(enabled=_cudnn_gru_enabled(graph_states)):
+            temporal_states, _ = self.temporal(graph_states)
         final_steps = batch.time_mask.sum(dim=1) - 1
         final_graph = self._gather_time(temporal_states, final_steps)
         final_slots = self._gather_time(slot_states, final_steps)

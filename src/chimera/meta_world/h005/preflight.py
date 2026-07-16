@@ -155,6 +155,7 @@ def execute_policy_curriculum_run(
     effect_supervision: Literal["all", "random_half"],
     result_metadata: Mapping[str, object] | None = None,
     trainer_factory: Callable[[nn.Module, H005RunConfig], H002Trainer] | None = None,
+    model_factory: Callable[[H005RunConfig], nn.Module] | None = None,
 ) -> dict[str, Any]:
     if config.mode != expected_mode:
         raise ValueError(f"policy curriculum runner expected mode={expected_mode}")
@@ -182,7 +183,10 @@ def execute_policy_curriculum_run(
         start_index=0,
         batch_size=config.evaluation.validation_trajectories,
     )
-    model = _model(config)
+    torch.manual_seed(config.training.seed)
+    if config.training.device == "cuda":
+        torch.cuda.manual_seed_all(config.training.seed)
+    model = model_factory(config) if model_factory is not None else _model(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
     trainer = (
         trainer_factory(model, config)

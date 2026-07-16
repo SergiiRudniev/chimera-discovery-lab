@@ -1,0 +1,21 @@
+hypothesis_id: CHM-W-H008
+trial_id: CHM-W-T008
+seed: 260922
+generator_config: configs/meta_world/world_generators_h004.yaml
+dataset_integrity_report: research/preflights/CHM-W-H005-development.json
+arms:
+  counterfactual_head_mixed_closed_loop: configs/meta_world/world_h008_development_counterfactual_mixed.yaml
+  direct_head_mixed_closed_loop: configs/meta_world/world_h008_development_direct_mixed.yaml
+  counterfactual_head_random_closed_loop: configs/meta_world/world_h008_development_counterfactual_random.yaml
+  direct_head_random_closed_loop: configs/meta_world/world_h008_development_direct_random.yaml
+  one_step_relational_without_discrimination: configs/meta_world/world_h008_development_one_step.yaml
+  temporal_predictor_without_relational_state: configs/meta_world/world_h008_development_temporal.yaml
+legal_random_intervention:
+  samples: 64
+  candidates_per_sample: 8
+development_gate:
+  intervention_effect_nrmse_ratio_maximum: 0.90
+  four_step_rollout_nrmse_ratio_maximum: 1.00
+  intervention_effect_90_coverage_minimum: 0.85
+  counterfactual_identity_maximum_absolute_residual: 0.000001
+test_access: sealed_until_development_gate_passes

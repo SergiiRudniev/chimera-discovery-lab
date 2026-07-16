@@ -11,6 +11,10 @@ H001 retry after H000 exposed a BF16 domain-selection failure.
 split boundaries, comparison arms and acceptance thresholds before H002 target
 metrics are opened.
 
+`world_h008_development_suite.yaml` freezes the six trainable outcome-head
+comparison arms, legal-random baseline, reused WG1 integrity evidence and the
+development gate for CHM-W-H008.
+
 `world_h011_development_consistency.yaml` and its matched control freeze the
 direct paired-response objective before H011 development execution.
 
