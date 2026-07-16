@@ -548,3 +548,23 @@
 - **Status:** `not_run`; no H008 metric or checkpoint exists.
 - **Boundary:** Simulator outcome-head evidence only; no real-world, business or
   production claim.
+
+## 2026-07-15 — CHM-W-H009 registration
+
+- **Question:** Does cross-world pretraining transfer mechanisms when alignment
+  positives include two renderer views of the exact same hidden trajectory?
+- **Predecessor:** H002 generic alignment was worse than no alignment on
+  validation: effect ratio `1.04459`, rollout ratio `1.00767`; its test stayed
+  sealed.
+- **Change:** For each mechanism, sample two world-family realizations and two
+  renderer views per world. Renderer and dynamics RNG streams are independent;
+  paired views share latent actions, exogenous events and numerical outcomes.
+- **Controls:** Matched no-alignment, target-family-only, non-relational temporal
+  and legal-random baselines remain required.
+- **Primary test:** Intervention-effect NRMSE and four-step rollout NRMSE in
+  `test_world_transfer`, opened only after validation selection is frozen.
+- **Acceptance:** Both errors must be at most `0.90` of the strongest baseline,
+  with paired 90% bootstrap ratio upper bounds below `1.00`.
+- **Status:** `not_run`; no H009 metric, checkpoint or transfer claim exists.
+- **Boundary:** Simulator transfer evidence only; no causal-discovery,
+  business-utility, language-independence or production claim.

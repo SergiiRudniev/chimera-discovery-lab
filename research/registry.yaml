@@ -78,3 +78,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H008.yaml
     result: research/results/CHM-W-H008.json
+  - id: CHM-W-H009
+    title: Paired-renderer generated-world mechanism transfer
+    status: registered
+    registered_at: 2026-07-15
+    config: research/hypotheses/CHM-W-H009.yaml
+    result: research/results/CHM-W-H009.json
