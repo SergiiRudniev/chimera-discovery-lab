@@ -1,0 +1,131 @@
+{
+  "arms": {
+    "factual_residual_conditioned_effect_control": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "0ecdc0b5aacea119cf89679aa81cd125294d12c4b653cdd17b3cdf01f824ae9e",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h014_development_control.yaml",
+      "config_sha256": "5f5f96f238c5faf55d6d3653579d5a9945ac6dd5c80d29d092ade2870a31c802",
+      "metrics": {
+        "factorized_identity_maximum_absolute_residual": 0.0,
+        "four_step_rollout_nrmse": 0.4621656835079193,
+        "intervention_effect_90_coverage": 0.9955357142857143,
+        "intervention_effect_nll": -2.313571180616106,
+        "intervention_effect_nrmse": 0.8960908244841546,
+        "intervention_effect_rmse": 0.04371291093868372,
+        "intervention_state_delta_nrmse": 0.9812746723937802,
+        "mechanism_retrieval_accuracy": 0.15625,
+        "no_op_state_nrmse": 0.15690814600180156,
+        "one_step_prediction_rmse": 0.10380703757502388,
+        "outcome_counterfactual_identity_maximum_absolute_residual": 0.0
+      },
+      "model_class": "chimera.meta_world.h014.model.ResponseConditionedEffectWorldModel",
+      "parameters": 66283046,
+      "peak_memory_bytes": 1674730496,
+      "response_source": "predicted_factual_minus_final_observation",
+      "run_id": "H014-DEVELOPMENT-CONTROL-S260946",
+      "runtime_seconds": 73.53565400000662,
+      "selected_step": 600
+    },
+    "no_op_subtracted_response_conditioned_effect": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "b6e617becfb7709e6a1bd55dfb30b068dc17e49ffa81905f1408a9c9c15bc5ed",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h014_development_response.yaml",
+      "config_sha256": "d2e7903f923007cfe401c9c31a952a48fdc4cdff49920c1cb38520ace8efe169",
+      "metrics": {
+        "factorized_identity_maximum_absolute_residual": 0.0,
+        "four_step_rollout_nrmse": 0.4639788866043091,
+        "intervention_effect_90_coverage": 0.9955357142857143,
+        "intervention_effect_nll": -2.1828737258911133,
+        "intervention_effect_nrmse": 0.9448378669560404,
+        "intervention_effect_rmse": 0.04609087873823623,
+        "intervention_state_delta_nrmse": 0.9745993575662412,
+        "mechanism_retrieval_accuracy": 0.140625,
+        "no_op_state_nrmse": 0.15642199381554162,
+        "one_step_prediction_rmse": 0.10395134468497956,
+        "outcome_counterfactual_identity_maximum_absolute_residual": 0.0
+      },
+      "model_class": "chimera.meta_world.h014.model.ResponseConditionedEffectWorldModel",
+      "parameters": 66283046,
+      "peak_memory_bytes": 1677351936,
+      "response_source": "predicted_factual_minus_predicted_no_op",
+      "run_id": "H014-DEVELOPMENT-RESPONSE-S260946",
+      "runtime_seconds": 72.57137499999953,
+      "selected_step": 600
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only simulator evidence; frozen validation and all model test metrics remain sealed.",
+  "comparison": {
+    "four_step_rollout_nrmse_ratio": 1.0039232750528495,
+    "intervention_effect_nrmse_ratio": 1.054399667020302,
+    "intervention_state_delta_nrmse_ratio": 0.9931973024318921,
+    "no_op_state_nrmse_ratio": 0.9969016765627047
+  },
+  "dataset_integrity": {
+    "deterministic_replay_rate": 1.0,
+    "paired_counterfactual_transition_present": true,
+    "revalidated": false,
+    "source": "research/preflights/CHM-W-H013-WG4-integrity.json",
+    "source_sha256": "a2611ce413202e34da1689c7745b501a9d2028e4b2eae1bc304b3f8ee49b7f8f",
+    "split_leakage_findings": 0
+  },
+  "decision": "do_not_open_H014_frozen_validation",
+  "development_gate": {
+    "all_metrics_finite": true,
+    "deterministic_replay_rate": 1.0,
+    "four_step_rollout_nrmse_ratio": 1.0039232750528495,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_90_coverage": 0.9955357142857143,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "intervention_effect_nrmse_ratio": 1.054399667020302,
+    "intervention_effect_nrmse_ratio_maximum": 0.9,
+    "intervention_state_delta_nrmse_ratio": 0.9931973024318921,
+    "intervention_state_delta_nrmse_ratio_maximum": 1.0,
+    "no_op_state_nrmse_ratio": 0.9969016765627047,
+    "no_op_state_nrmse_ratio_maximum": 1.0,
+    "outcome_counterfactual_identity_maximum_absolute_residual": 0.0,
+    "outcome_counterfactual_identity_maximum_absolute_residual_maximum": 1e-06,
+    "parameter_count_matched": true,
+    "passed": false,
+    "split_leakage_findings": 0,
+    "test_metrics_opened": false
+  },
+  "environment": {
+    "config_sha256": "d2e7903f923007cfe401c9c31a952a48fdc4cdff49920c1cb38520ace8efe169",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "generator_config_sha256": "a946f649ae5202c342a89ff4d26c0311388a16006f34498077b3ce9cab4c2c8d",
+    "git_commit": "fadaa2ce21fa2b26cf745c78c87fd6c8f5de579d",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "hypothesis_id": "CHM-W-H014",
+  "legal_random_intervention": {
+    "candidates_per_sample": 8,
+    "legal_action_rate": 1.0,
+    "mean_best_candidate_effect": 0.020982947200536728,
+    "mean_intervention_regret": 0.03416565805673599,
+    "mean_selected_effect": -0.013182710856199265,
+    "samples": 4
+  },
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H014-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260946,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false,
+  "trial_id": "CHM-W-T014"
+}

@@ -1,0 +1,101 @@
+id: CHM-W-H014
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  Conditioning the intervention-effect head on the model's predicted
+  no-op-subtracted state response reduces intervention-effect NRMSE by at least
+  10% without increasing factual four-step rollout, intervention-state-delta
+  or no-op-state NRMSE compared with a parameter-matched head conditioned on
+  the predicted factual state residual.
+scope: predicted_response_conditioned_intervention_effect
+parent: CHM-W-H013
+rationale:
+  diagnostic: research/preflights/CHM-W-H013-development.json
+  observation: >-
+    H013 paired factual/no-op supervision reduced state-delta error to 0.726176
+    of the factual-only reference with rollout ratio 0.999838, while additive
+    decoding did not beat the matched direct transition and effect error did
+    not improve. H014 tests whether the learned response must explicitly
+    condition the effect head.
+data:
+  dataset_id: CHM-W-WG4
+  generator_config: configs/meta_world/world_generators_h013.yaml
+  integrity_evidence: research/preflights/CHM-W-H013-WG4-integrity.json
+  integrity_evidence_revalidated: false
+  source: seeded_programmatic_dynamic_worlds_with_paired_no_op_transitions
+  world_families: [flow, competition, funnel]
+  model_input_language: false
+  counterfactual_targets_passed_as_model_features: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  shared_transition: matched_direct_factual_no_op_transition
+  shared_outcome_semantics: factual_no_op_difference_v1
+  rollout_horizon: 4
+  response_pooling:
+    features: [masked_slot_mean, masked_slot_standard_deviation]
+    state_channels: 4
+  experimental_condition: >-
+    effect head receives pooled predicted factual next state minus predicted
+    no-op next state
+  matched_control_condition: >-
+    effect head receives pooled predicted factual next state minus final
+    observed state
+  predicted_tensors_only: true
+  response_targets_passed_to_effect_head: false
+  parameter_count_matched: true
+  controlled_variable: response_source_for_effect_head
+protocol:
+  trial_id: CHM-W-T014
+  status: not_run
+  development_seed: 260946
+  frozen_validation_seeds: [260947, 260948, 260949]
+  comparison_arms:
+    - no_op_subtracted_response_conditioned_effect
+    - factual_residual_conditioned_effect_control
+    - legal_random_intervention_baseline
+  primary_split: test_world_transfer
+  primary_metric: intervention_effect_nrmse
+  checkpoint_selection: >-
+    Freeze each trainable arm at minimum validation intervention-effect NRMSE.
+    Test remains sealed until both checkpoints and validation decisions freeze.
+  development_gate:
+    intervention_effect_nrmse_ratio_vs_matched_control_maximum: 0.90
+    four_step_rollout_nrmse_ratio_vs_matched_control_maximum: 1.00
+    intervention_state_delta_nrmse_ratio_vs_matched_control_maximum: 1.00
+    no_op_state_nrmse_ratio_vs_matched_control_maximum: 1.00
+    intervention_effect_90_coverage_minimum: 0.85
+    outcome_counterfactual_identity_maximum_absolute_residual: 0.000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    intervention_effect_nrmse_ratio_vs_matched_control_maximum: 0.90
+    intervention_effect_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_matched_control_maximum: 1.00
+    intervention_state_delta_nrmse_ratio_vs_matched_control_maximum: 1.00
+    no_op_state_nrmse_ratio_vs_matched_control_maximum: 1.00
+    intervention_effect_90_coverage_minimum: 0.85
+    outcome_counterfactual_identity_maximum_absolute_residual: 0.000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - intervention_effect_nll
+    - one_step_prediction_rmse
+    - mechanism_retrieval_accuracy
+    - intervention_regret
+    - object_permutation_invariance
+    - channel_permutation_invariance
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports predicted-response conditioning only inside the
+    registered simulator distribution. It is not evidence of real-world causal
+    discovery, safe intervention, profitable business ideas,
+    language-independent thought or production readiness.
+result: research/results/CHM-W-H014.json

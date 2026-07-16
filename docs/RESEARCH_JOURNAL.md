@@ -1,5 +1,73 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H014 development preflight
+
+- **Scope:** Development seed `260946`; response and matched control arms each
+  trained for 600 steps. Only `train` and ordinary `validation` opened. WG4
+  integrity evidence was reused without revalidation; frozen validation and all
+  model test metrics stayed sealed.
+- **Response arm:** Effect NRMSE `0.944838`, rollout `0.463979`, delta-state
+  `0.974599`, no-op-state `0.156422`, coverage `0.995536`.
+- **Factual-residual control:** Effect NRMSE `0.896091`, rollout `0.462166`,
+  delta-state `0.981275`, no-op-state `0.156908`. Both models contained exactly
+  `66,283,046` trainable parameters.
+- **Controlled result:** Response/control ratios were `1.054400` for effect,
+  `1.003923` for rollout, `0.993197` for delta state and `0.996902` for no-op
+  state. The registered `0.90/1.00/1.00/1.00` gate failed.
+- **Hard guards:** Outcome counterfactual identity residual `0.0`, deterministic
+  dataset replay `1.0`, zero leakage, finite metrics, coverage above threshold
+  and legal random-action rate `1.0`.
+- **Decision:** Do not open H014 frozen validation, do not promote a checkpoint
+  and leave `research/results/CHM-W-H014.json` as `not_run`.
+- **Interpretation:** Paired no-op supervision remains useful as an auxiliary
+  dynamics target, but directly conditioning the outcome head on the predicted
+  no-op-subtracted response is harmful.
+- **Next action:** Stop iterating on terminal-head arithmetic. Register an
+  equal-budget numerical intervention-search hypothesis that compares
+  model-guided candidate generation with legal random and uncertainty-ablated
+  controls inside generated worlds.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  causal, business, language-independence or production claim.
+
+## 2026-07-16 - CHM-W-H014 implementation
+
+- **Architecture:** Both arms retain H013 direct factual/no-op transitions and
+  add an identical 8-value masked response adapter plus effect-fusion head.
+  Only the predicted response source differs.
+- **Parameters:** Response and control models each contain `66,283,046`
+  trainable parameters and accept the same numerical batch contract.
+- **Leakage boundary:** Effect conditioning reads predicted tensors only. No
+  factual, no-op, delta or effect target enters the effect-head forward path.
+- **GPU smoke:** RTX 5070 BF16 training completed cleanly at about 1.56 GiB peak
+  allocated memory. Factual/no-op outcome identity residual was exactly `0.0`.
+- **Data:** Existing WG4 integrity evidence is reused by SHA with
+  `revalidated: false`; the dataset was not validated again for H014.
+- **Status:** Implementation-qualified only. The registered development suite
+  has not run and `research/results/CHM-W-H014.json` remains `not_run`.
+- **Claim boundary:** Engineering evidence only; no transfer, causal, business,
+  language-independence or production claim.
+
+## 2026-07-16 - CHM-W-H014 registration
+
+- **Question:** Can the predicted factual-minus-no-op state response improve
+  intervention-effect prediction when it explicitly conditions the effect head?
+- **Diagnosis:** H013 paired no-op supervision reduced delta-state error by
+  about 27% versus factual-only with unchanged rollout, but additive state
+  decoding did not beat its matched direct control and effect error did not gain.
+- **Controlled comparison:** Both H014 arms use direct dual transitions,
+  identical paired losses, optimizer, data and effect-head capacity. Only the
+  response source differs: factual-minus-no-op versus factual-minus-current.
+- **Data reuse:** WG4 and its existing integrity SHA are reused with
+  `revalidated: false`; no dataset validation is repeated.
+- **Primary gate:** Effect NRMSE must improve by at least 10% while rollout,
+  delta-state and no-op-state NRMSE do not increase. Coverage and exact outcome
+  identity remain hard guards.
+- **Isolation:** Development opens train and validation only. Frozen validation
+  and all model test metrics remain sealed until the gate passes.
+- **Status:** `not_run`; no H014 metric or checkpoint exists.
+- **Claim boundary:** Simulator representation evidence only; no real-world
+  causal, business, language-independence or production claim.
+
 ## 2026-07-16 - CHM-W-H013 development preflight
 
 - **Scope:** Development seed `260942`; factorized, matched direct and

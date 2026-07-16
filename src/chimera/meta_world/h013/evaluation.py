@@ -54,6 +54,7 @@ def evaluate_h013_model(
     no_op_targets: list[Tensor] = []
     delta_targets: list[Tensor] = []
     identity_residual = 0.0
+    outcome_identity_residual = 0.0
     explicit_transition = False
     for prediction_step in range(generated.observations.shape[1] - 1):
         window = make_transition_window(
@@ -62,6 +63,16 @@ def evaluate_h013_model(
             context_steps=context_steps,
         )
         output = trainer.predict(window)
+        if output.counterfactual_no_op_mean is not None:
+            outcome_identity = (
+                output.effect_mean[:, :1].float()
+                - output.effect_mean[:, 3:4].float()
+                - output.counterfactual_no_op_mean.float()
+            )
+            outcome_identity_residual = max(
+                outcome_identity_residual,
+                float(outcome_identity.abs().max().cpu()),
+            )
         no_op_target = window.counterfactual_no_op_observations
         if no_op_target is None:
             raise RuntimeError("H013 window lost its paired no-op target")
@@ -102,6 +113,9 @@ def evaluate_h013_model(
             ),
             "factorized_identity_maximum_absolute_residual": (
                 identity_residual if explicit_transition else None
+            ),
+            "outcome_counterfactual_identity_maximum_absolute_residual": (
+                outcome_identity_residual
             ),
         }
     )

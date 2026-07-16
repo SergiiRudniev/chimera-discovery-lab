@@ -108,3 +108,9 @@ hypotheses:
     registered_at: 2026-07-16
     config: research/hypotheses/CHM-W-H013.yaml
     result: research/results/CHM-W-H013.json
+  - id: CHM-W-H014
+    title: Predicted-response-conditioned intervention effect
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H014.yaml
+    result: research/results/CHM-W-H014.json
