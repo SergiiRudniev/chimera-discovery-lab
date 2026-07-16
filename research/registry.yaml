@@ -84,3 +84,9 @@ hypotheses:
     registered_at: 2026-07-15
     config: research/hypotheses/CHM-W-H009.yaml
     result: research/results/CHM-W-H009.json
+  - id: CHM-W-H010
+    title: Shared aligned predictive mechanism bottleneck
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H010.yaml
+    result: research/results/CHM-W-H010.json

@@ -590,3 +590,24 @@
   registered transfer result.
 - **Boundary:** Simulator-only evidence; no causal-discovery, business-utility,
   language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H010 registration
+
+- **Diagnosis:** H009 alignment increased mechanism retrieval by `0.15625`, but
+  aligned/no-alignment effect and rollout ratios stayed at `1.00056` and
+  `0.99866`.
+- **Mechanism:** Prediction consumes raw `mechanism_state`, while alignment can
+  be satisfied inside a separate projection. Retrieval can improve without
+  changing the state used by transition and effect heads.
+- **Change:** Use `mechanism_projection(mechanism_state)` as one shared
+  bottleneck for both predictive conditioning and normalized alignment.
+- **Controls:** Cross alignment and bottleneck presence in a matched 2×2 design:
+  shared/separate projection × alignment on/off. Architecture size, data,
+  optimizer and evaluator remain fixed.
+- **Development gate:** Seed `260930`; require effect ratio ≤ `0.90`, rollout
+  ratio ≤ `1.00`, effect coverage ≥ `0.85` and structural path audits.
+- **Validation discipline:** Seeds `260931..260933` and all test splits remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H010 metric or checkpoint exists.
+- **Boundary:** Simulator representation evidence only; no real-world,
+  business-utility, language-independence or production claim.

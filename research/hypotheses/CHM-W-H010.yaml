@@ -1,0 +1,101 @@
+id: CHM-W-H010
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  A shared aligned mechanism bottleneck, used by both the mechanism-alignment
+  objective and the predictive transition path, reduces intervention-effect
+  NRMSE by at least 10% without increasing four-step rollout NRMSE compared
+  with the matched separate-projection architecture on paired generated worlds.
+scope: shared_aligned_predictive_mechanism_bottleneck
+parent: CHM-W-H009
+rationale:
+  diagnostic: research/preflights/CHM-W-H009-development.json
+  observation: >-
+    H009 paired alignment increased mechanism retrieval accuracy by 0.15625 but
+    produced effect and rollout ratios of 1.00056 and 0.99866 versus no
+    alignment. The aligned projection can therefore specialize for retrieval
+    while prediction continues to consume the unprojected mechanism state.
+data:
+  dataset_id: CHM-W-WG2
+  generator_config: configs/meta_world/world_generators_h009.yaml
+  view_coupling: paired_world_renderers
+  language_input: false
+  opened_for_development: [train, validation]
+  frozen_until_gate_passes:
+    - validation_seed_260931
+    - validation_seed_260932
+    - validation_seed_260933
+    - test_world_transfer
+    - test_mechanism
+    - test_renderer
+method:
+  base_model: relational_sequence_world_model
+  shared_bottleneck:
+    value: mechanism_projection(mechanism_state)
+    predictive_condition: mechanism_condition(value)
+    alignment_embedding: normalize(value)
+  separate_projection_control:
+    predictive_condition: mechanism_condition(mechanism_state)
+    alignment_embedding: normalize(mechanism_projection(mechanism_state))
+  parameter_count_matched: true
+  generator_and_evaluator_identical_across_arms: true
+  rollout_horizon: 4
+protocol:
+  trial_id: CHM-W-T010
+  status: not_run
+  development_seed: 260930
+  frozen_validation_seeds: [260931, 260932, 260933]
+  comparison_arms:
+    - shared_bottleneck_with_alignment
+    - separate_projection_with_alignment
+    - shared_bottleneck_without_alignment
+    - separate_projection_without_alignment
+    - temporal_predictor_without_relational_world_state
+    - legal_random_intervention_baseline
+  development_gate:
+    intervention_effect_nrmse_ratio_vs_best_matched_control_maximum: 0.90
+    four_step_rollout_nrmse_ratio_vs_best_matched_control_maximum: 1.00
+    intervention_effect_90_coverage_minimum: 0.85
+    shared_projection_prediction_delta_minimum: 0.000001
+    separate_projection_prediction_delta_maximum: 0.0000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  validation_preflight:
+    freeze_trial_only_if:
+      median_intervention_effect_nrmse_ratio_vs_best_control_maximum: 0.90
+      median_four_step_rollout_nrmse_ratio_vs_best_control_maximum: 1.00
+      each_seed_four_step_rollout_nrmse_ratio_vs_best_control_maximum: 1.05
+      intervention_effect_90_coverage_minimum: 0.85
+      deterministic_replay_rate: 1.00
+      split_leakage_findings: 0
+      all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    intervention_effect_nrmse_ratio_vs_best_matched_control_maximum: 0.90
+    intervention_effect_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_best_matched_control_maximum: 1.00
+    four_step_rollout_paired_bootstrap_90_percent_ratio_upper_bound_maximum: 1.05
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - mechanism_retrieval_accuracy
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports a shared predictive mechanism bottleneck only in
+    the registered simulator distribution. It is not evidence of real-world
+    causal discovery, profitable ideas, language-independent thought or
+    production readiness.
+result: research/results/CHM-W-H010.json
