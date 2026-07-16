@@ -1,0 +1,23 @@
+hypothesis_id: CHM-W-H014
+trial_id: CHM-W-T014
+mode: development
+development_seed: 260946
+frozen_validation_seeds: [260947, 260948, 260949]
+test_access: sealed
+generator_config: configs/meta_world/world_generators_h013.yaml
+dataset_integrity_report: research/preflights/CHM-W-H013-WG4-integrity.json
+arms:
+  no_op_subtracted_response_conditioned_effect: configs/meta_world/world_h014_development_response.yaml
+  factual_residual_conditioned_effect_control: configs/meta_world/world_h014_development_control.yaml
+primary_metric: intervention_effect_nrmse
+development_gate:
+  intervention_effect_nrmse_ratio_vs_matched_control_maximum: 0.90
+  four_step_rollout_nrmse_ratio_vs_matched_control_maximum: 1.00
+  intervention_state_delta_nrmse_ratio_vs_matched_control_maximum: 1.00
+  no_op_state_nrmse_ratio_vs_matched_control_maximum: 1.00
+  intervention_effect_90_coverage_minimum: 0.85
+  outcome_counterfactual_identity_maximum_absolute_residual: 0.000001
+  deterministic_replay_rate: 1.00
+  split_leakage_findings: 0
+  all_metrics_finite: true
+  test_metrics_opened: false

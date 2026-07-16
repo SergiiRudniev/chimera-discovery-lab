@@ -164,6 +164,13 @@ beat the parameter-matched direct dual-transition model. Paired no-op
 supervision did materially improve state-delta prediction versus factual-only,
 so that representation signal is retained for the next registered hypothesis.
 
+## Response-Conditioned Effect H014
+
+H014 tests that retained signal directly. A new effect head receives either
+the predicted factual-minus-no-op state response or a parameter-matched factual
+residual control. WG4 integrity evidence is reused without revalidation. See the
+[H014 response-conditioned contract](docs/RESPONSE_CONDITIONED_EFFECT_H014.md).
+
 ## Numerical Output
 
 ```text

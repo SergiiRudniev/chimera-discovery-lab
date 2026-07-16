@@ -1,5 +1,26 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H014 registration
+
+- **Question:** Can the predicted factual-minus-no-op state response improve
+  intervention-effect prediction when it explicitly conditions the effect head?
+- **Diagnosis:** H013 paired no-op supervision reduced delta-state error by
+  about 27% versus factual-only with unchanged rollout, but additive state
+  decoding did not beat its matched direct control and effect error did not gain.
+- **Controlled comparison:** Both H014 arms use direct dual transitions,
+  identical paired losses, optimizer, data and effect-head capacity. Only the
+  response source differs: factual-minus-no-op versus factual-minus-current.
+- **Data reuse:** WG4 and its existing integrity SHA are reused with
+  `revalidated: false`; no dataset validation is repeated.
+- **Primary gate:** Effect NRMSE must improve by at least 10% while rollout,
+  delta-state and no-op-state NRMSE do not increase. Coverage and exact outcome
+  identity remain hard guards.
+- **Isolation:** Development opens train and validation only. Frozen validation
+  and all model test metrics remain sealed until the gate passes.
+- **Status:** `not_run`; no H014 metric or checkpoint exists.
+- **Claim boundary:** Simulator representation evidence only; no real-world
+  causal, business, language-independence or production claim.
+
 ## 2026-07-16 - CHM-W-H013 development preflight
 
 - **Scope:** Development seed `260942`; factorized, matched direct and
