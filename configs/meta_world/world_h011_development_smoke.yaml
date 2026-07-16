@@ -1,0 +1,5 @@
+run_id: H011-DEVELOPMENT-SMOKE
+base_config: configs/meta_world/world_h011_base_smoke.yaml
+training_seed: 260934
+response_consistency_weight: 1.0
+uncertainty_consistency_fraction: 0.1

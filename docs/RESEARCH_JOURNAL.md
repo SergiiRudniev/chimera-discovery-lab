@@ -649,3 +649,16 @@
 - **Status:** `not_run`; no H011 metric or checkpoint exists.
 - **Boundary:** Simulator response-function evidence only; no real-world,
   business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H011 implementation
+
+- **Pairing:** Added stable evaluator-only world-instance keys. Each key groups
+  two renderer views with identical latent dynamics, interventions and outcomes.
+- **Objective:** Added direct Smooth L1 consistency for primary intervention
+  effect mean and log variance. Global mechanism alignment stays disabled.
+- **Isolation:** Pair keys are created after the language-free generated batch,
+  are consumed only by the trainer/evaluator and are not read by model forward.
+- **Controls:** Treatment and control share model parameters, generator, seed,
+  optimizer, train budget and validation checkpoint selector.
+- **Status:** Engineering implementation only; development metrics are not yet
+  recorded and `research/results/CHM-W-H011.json` remains `not_run`.

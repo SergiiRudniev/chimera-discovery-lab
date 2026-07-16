@@ -112,6 +112,10 @@ H009 adds paired renderer views of the same hidden trajectory so representation
 alignment can be tested without changing the underlying dynamics. See the
 [paired generated-world contract](docs/WORLD_GENERATORS_H009.md).
 
+H011 replaces global embedding similarity with direct agreement between the
+predicted intervention-effect distributions of paired renderer views. See the
+[paired response-consistency contract](docs/RESPONSE_CONSISTENCY_H011.md).
+
 ## Closed-Loop Training H003
 
 H002 validation showed that relational state improved intervention-effect

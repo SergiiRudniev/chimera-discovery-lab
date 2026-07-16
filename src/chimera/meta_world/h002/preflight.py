@@ -14,6 +14,8 @@ from typing import Any
 import torch
 from torch import nn
 
+from chimera.meta_world.batch import MetaWorldBatch
+from chimera.meta_world.config import MetaWorldTrainingConfig
 from chimera.meta_world.generators import (
     GeneratedWorldDatasetConfig,
     SplitName,
@@ -27,6 +29,7 @@ from chimera.meta_world.h002.model import (
 )
 from chimera.meta_world.h002.trainer import H002Trainer
 from chimera.meta_world.h002.windows import (
+    GeneratedSequenceSample,
     make_transition_window,
     materialize_sequence_sample,
 )
@@ -80,6 +83,14 @@ def _execute_h002_preflight(
     hypothesis_id: str = "CHM-W-H002",
     run_config: H002RunConfig | None = None,
     model_factory: Callable[[H002RunConfig], nn.Module] | None = None,
+    trainer_factory: Callable[
+        [nn.Module, MetaWorldTrainingConfig], H002Trainer
+    ]
+    | None = None,
+    window_factory: Callable[
+        [GeneratedSequenceSample, int, int], MetaWorldBatch
+    ]
+    | None = None,
 ) -> dict[str, Any]:
     """Train on online train worlds and select only against frozen validation worlds."""
 
@@ -103,7 +114,11 @@ def _execute_h002_preflight(
     )
     model = _model(config) if model_factory is None else model_factory(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
-    trainer = H002Trainer(model, config.training)
+    trainer = (
+        H002Trainer(model, config.training)
+        if trainer_factory is None
+        else trainer_factory(model, config.training)
+    )
     started = time.perf_counter()
     initial_evaluation = evaluate_h002_model(
         trainer,
@@ -145,10 +160,19 @@ def _execute_h002_preflight(
             start_index=(step - 1) * config.training.batch_size,
             batch_size=config.training.batch_size,
         )
-        window = make_transition_window(
-            train_sample,
-            prediction_step=(step - 1) % prediction_count,
-            context_steps=config.model.context_steps,
+        prediction_step = (step - 1) % prediction_count
+        window = (
+            make_transition_window(
+                train_sample,
+                prediction_step=prediction_step,
+                context_steps=config.model.context_steps,
+            )
+            if window_factory is None
+            else window_factory(
+                train_sample,
+                prediction_step,
+                config.model.context_steps,
+            )
         )
         training_metrics = trainer.train_step(window)
         if first_training is None:
@@ -280,6 +304,14 @@ def run_generated_world_preflight(
     hypothesis_id: str,
     run_config: H002RunConfig | None = None,
     model_factory: Callable[[H002RunConfig], nn.Module] | None = None,
+    trainer_factory: Callable[
+        [nn.Module, MetaWorldTrainingConfig], H002Trainer
+    ]
+    | None = None,
+    window_factory: Callable[
+        [GeneratedSequenceSample, int, int], MetaWorldBatch
+    ]
+    | None = None,
 ) -> dict[str, Any]:
     """Run the shared generated-world preflight under an explicit hypothesis ID."""
 
@@ -290,6 +322,8 @@ def run_generated_world_preflight(
             hypothesis_id=hypothesis_id,
             run_config=run_config,
             model_factory=model_factory,
+            trainer_factory=trainer_factory,
+            window_factory=window_factory,
         )
     except Exception as error:
         output = Path(output_dir)
