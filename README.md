@@ -228,6 +228,7 @@ datasets and research identifiers.
 - [Meta-World W0 design contract](docs/META_WORLD_W0.md)
 - [Generated Worlds H002](docs/WORLD_GENERATORS_H002.md)
 - [Paired Generated Worlds H009](docs/WORLD_GENERATORS_H009.md)
+- [Shared Mechanism Bottleneck H010](docs/SHARED_BOTTLENECK_H010.md)
 - [Closed-Loop Training H003](docs/CLOSED_LOOP_H003.md)
 - [System-Identification Probes H004](docs/WORLD_PROBES_H004.md)
 - [Model registry](docs/MODEL_REGISTRY.md)

@@ -7,6 +7,7 @@ import json
 import platform
 import subprocess
 import time
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -77,11 +78,13 @@ def _execute_h002_preflight(
     output_dir: str | Path,
     *,
     hypothesis_id: str = "CHM-W-H002",
+    run_config: H002RunConfig | None = None,
+    model_factory: Callable[[H002RunConfig], nn.Module] | None = None,
 ) -> dict[str, Any]:
     """Train on online train worlds and select only against frozen validation worlds."""
 
     config_file = Path(config_path)
-    config = H002RunConfig.from_yaml(config_file)
+    config = run_config or H002RunConfig.from_yaml(config_file)
     if config.mode != "preflight":
         raise ValueError("run_h002_preflight only accepts mode=preflight")
     if config.arm is H002Arm.TARGET_FAMILY_ONLY:
@@ -98,7 +101,7 @@ def _execute_h002_preflight(
         start_index=0,
         batch_size=config.evaluation.validation_trajectories,
     )
-    model = _model(config)
+    model = _model(config) if model_factory is None else model_factory(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
     trainer = H002Trainer(model, config.training)
     started = time.perf_counter()
@@ -275,6 +278,8 @@ def run_generated_world_preflight(
     output_dir: str | Path,
     *,
     hypothesis_id: str,
+    run_config: H002RunConfig | None = None,
+    model_factory: Callable[[H002RunConfig], nn.Module] | None = None,
 ) -> dict[str, Any]:
     """Run the shared generated-world preflight under an explicit hypothesis ID."""
 
@@ -283,6 +288,8 @@ def run_generated_world_preflight(
             config_path,
             output_dir,
             hypothesis_id=hypothesis_id,
+            run_config=run_config,
+            model_factory=model_factory,
         )
     except Exception as error:
         output = Path(output_dir)
@@ -291,7 +298,11 @@ def run_generated_world_preflight(
         if not result_path.exists():
             run_id: str | None = None
             try:
-                run_id = H002RunConfig.from_yaml(config_path).run_id
+                run_id = (
+                    run_config.run_id
+                    if run_config is not None
+                    else H002RunConfig.from_yaml(config_path).run_id
+                )
             except Exception:
                 run_id = None
             _write_json(

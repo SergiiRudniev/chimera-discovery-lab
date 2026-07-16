@@ -232,6 +232,11 @@ class RelationalSequenceWorldModel(nn.Module):
         )
         self.mechanism_projection = nn.Linear(hidden, hidden)
 
+    def _mechanism_views(self, mechanism_state: Tensor) -> tuple[Tensor, Tensor]:
+        """Return predictive and alignment views without coupling them by default."""
+
+        return mechanism_state, self.mechanism_projection(mechanism_state)
+
     @staticmethod
     def _gather_time(values: Tensor, steps: Tensor) -> Tensor:
         index = steps.view(steps.shape[0], 1, *([1] * (values.ndim - 2)))
@@ -366,10 +371,13 @@ class RelationalSequenceWorldModel(nn.Module):
             dim=1
         ).clamp_min(1)
         mechanism_state = self.mechanism_encoder(batch)
+        predictive_mechanism, alignment_mechanism = self._mechanism_views(
+            mechanism_state
+        )
         final_graph = (
             baseline_final_graph
             + relational_gate * self.relational_graph_projection(relational_final_graph)
-            + self.mechanism_condition(mechanism_state)
+            + self.mechanism_condition(predictive_mechanism)
         )
 
         source = self._gather_slots(final_slots, batch.source_slots)
@@ -441,7 +449,7 @@ class RelationalSequenceWorldModel(nn.Module):
                 max=config.log_variance_max,
             ),
             proposal_embedding=F.normalize(
-                self.mechanism_projection(mechanism_state),
+                alignment_mechanism,
                 dim=-1,
             ),
             final_slot_states=final_slots,
