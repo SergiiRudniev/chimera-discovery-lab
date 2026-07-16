@@ -407,3 +407,29 @@ def test_h016_is_registered_before_metrics_are_opened() -> None:
     assert result["trial_id"] == "CHM-W-T016"
     assert result["status"] == "not_run"
     assert result["metrics"] is None
+
+
+def test_h016_development_failure_keeps_ranking_and_data_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H016-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H016.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H016_frozen_validation"
+    assert preflight["development_gate"]["backbone_unchanged_during_ranking"]
+    assert (
+        preflight["development_gate"][
+            "deterministic_training_candidate_replay_rate"
+        ]
+        == 1.0
+    )
+    assert preflight["development_gate"]["model_score_budget_match_rate"] == 1.0
+    assert preflight["dataset_integrity"]["revalidated"] is False
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None

@@ -198,6 +198,12 @@ candidate-conditioned transition states; a listwise and pairwise ranking head
 learns their relative realized effects. See the
 [H016 action-ranking contract](docs/ACTION_RANKING_H016.md).
 
+The development result separated critic quality from optimizer behavior:
+fixed-pool Spearman and NDCG improved, but adaptive CEM collapsed toward zero
+magnitude and produced `1.269622x` random regret. The next hypothesis preserves
+the ranking critic while replacing adaptive optimization with finite,
+support-preserving candidate generation and reranking.
+
 ## Numerical Output
 
 ```text

@@ -64,3 +64,23 @@ seeds and every model test split stay sealed until the development gate passes.
 A passing result demonstrates action ordering only in registered generated
 worlds. It does not establish real-world causality, business value, creativity,
 language-independent thought or production readiness.
+
+## Development result
+
+H016 did not pass the candidate-search gate. The ranking critic improved
+fixed-pool diagnostics: mean Spearman rose from `0.273540` to `0.371579`, and
+NDCG@8 rose from `0.782824` to `0.806729`. Nevertheless, realized search regret
+was `0.009730`, versus `0.008223` for the pointwise control and `0.007664` for
+legal random. Registered ratios were `1.183316` and `1.269622`.
+
+The failure is localized to adaptive optimization. CEM selected magnitude
+`0` for `32.42%` of ranking candidates and drove mean magnitude to `0.0587`,
+while the training and evaluator proposal distributions contained continuous
+interior samples. The search exploited an unsupported boundary of an otherwise
+better offline ranker.
+
+All frozen-backbone, exact-budget, legality, training/search/dataset replay,
+finite-metric and leakage guards passed. Frozen validation seeds and model test
+splits remained sealed, and no checkpoint was promoted. The next experiment
+must retain ranking supervision while making candidate generation preserve its
+training support.
