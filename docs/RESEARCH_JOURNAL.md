@@ -548,3 +548,22 @@
 - **Status:** `not_run`; no H008 metric or checkpoint exists.
 - **Boundary:** Simulator outcome-head evidence only; no real-world, business or
   production claim.
+
+## 2026-07-16 — CHM-W-H008 implementation
+
+- **Head:** Implemented a parameter-matched relational wrapper whose fourth raw
+  channel predicts no-op utility and whose public intervention effect is the
+  exact factual-minus-no-op difference.
+- **Uncertainty:** Effect variance is the sum of factual and no-op variances
+  under the preregistered zero-covariance assumption.
+- **Controls:** Added matched mixed-policy and random-policy direct heads,
+  one-step relational and temporal baselines, plus legal random intervention
+  regret.
+- **Integrity:** Reuse the already validated WG1 replay/leakage evidence only
+  after matching its generator-config SHA-256; the dataset is not revalidated.
+- **Execution:** Added a deterministic six-arm suite that writes one development
+  gate report while keeping frozen validation seeds and all test splits sealed.
+- **Status:** Engineering implementation pending smoke, GPU and full-suite
+  verification; no H008 model-quality result yet.
+- **Boundary:** Implementation evidence only; no transfer, causal, business or
+  production claim.

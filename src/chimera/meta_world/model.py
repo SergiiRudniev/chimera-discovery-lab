@@ -25,6 +25,8 @@ class MetaWorldOutput:
     proposal_embedding: Tensor
     final_slot_states: Tensor
     transition_state: Tensor
+    counterfactual_no_op_mean: Tensor | None = None
+    counterfactual_no_op_log_variance: Tensor | None = None
 
 
 class ContinuousRelationAttention(nn.Module):

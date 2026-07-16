@@ -130,6 +130,14 @@ every arm on the same short probe prefix followed by seeded random actions.
 The action policy is evaluator metadata, not a model feature. See the
 [H004 probe contract](docs/WORLD_PROBES_H004.md).
 
+## Counterfactual Outcome Head H008
+
+H008 tests an algebraically constrained outcome head: the model predicts
+factual and no-op utility internally, then emits intervention effect as their
+exact difference. Its direct-head controls have the same parameter count and
+receive the same data, actions, optimizer and evaluator. See the
+[H008 counterfactual-head contract](docs/COUNTERFACTUAL_HEAD_H008.md).
+
 ## Numerical Output
 
 ```text
@@ -199,6 +207,7 @@ context exceeds the initial memory budget.
 | H002 | Validation preflight negative; test sealed; result `not_run` |
 | H003 | Exploratory validation negative; test sealed; result `not_run` |
 | H004 | Preregistered; WG1 implemented and validated |
+| H008 | Implemented; development gate pending |
 | W0 configuration | `meta_world_w0_t1.yaml` |
 | Promoted checkpoint | None |
 | Empirical claims | None |
@@ -225,6 +234,7 @@ datasets and research identifiers.
 - [Generated Worlds H002](docs/WORLD_GENERATORS_H002.md)
 - [Closed-Loop Training H003](docs/CLOSED_LOOP_H003.md)
 - [System-Identification Probes H004](docs/WORLD_PROBES_H004.md)
+- [Counterfactual Outcome Head H008](docs/COUNTERFACTUAL_HEAD_H008.md)
 - [Model registry](docs/MODEL_REGISTRY.md)
 - [Repository governance](docs/GOVERNANCE.md)
 - [Research protocol](docs/RESEARCH_PROTOCOL.md)

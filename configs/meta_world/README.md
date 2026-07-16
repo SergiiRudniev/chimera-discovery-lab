@@ -11,4 +11,8 @@ H001 retry after H000 exposed a BF16 domain-selection failure.
 split boundaries, comparison arms and acceptance thresholds before H002 target
 metrics are opened.
 
+`world_h008_development_suite.yaml` freezes the six trainable outcome-head
+comparison arms, legal-random baseline, reused WG1 integrity evidence and the
+development gate for CHM-W-H008.
+
 No configuration in this directory may reuse Venture graph semantics implicitly.
