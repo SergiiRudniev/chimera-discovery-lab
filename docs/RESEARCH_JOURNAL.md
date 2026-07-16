@@ -662,3 +662,25 @@
   optimizer, train budget and validation checkpoint selector.
 - **Status:** Engineering implementation only; development metrics are not yet
   recorded and `research/results/CHM-W-H011.json` remains `not_run`.
+
+## 2026-07-16 — CHM-W-H011 development preflight
+
+- **Scope:** Two matched 1,000-step BF16 arms on development seed `260934`;
+  only `train` and `validation` were opened.
+- **Response consistency:** Effect NRMSE `0.907379`, rollout NRMSE `0.447798`,
+  coverage `0.973214`, paired mean disagreement `0.002203`.
+- **Matched control:** Effect NRMSE `0.903804`, rollout NRMSE `0.447938`,
+  coverage `0.973214`, paired mean disagreement `0.002498`.
+- **Controlled result:** Consistency reduced paired mean disagreement by
+  `11.81%` and kept rollout non-inferior (`0.999689x`), but effect ratio was
+  `1.003955` and disagreement ratio `0.881922`. The registered `0.90` effect
+  and `0.80` disagreement gates both failed.
+- **Decision:** Do not open seeds `260935..260937`, do not open test and do not
+  promote either checkpoint. H011 remains `not_run`.
+- **Diagnosis:** Making two renderer views agree is not sufficient to make the
+  shared response numerically correct. The next structural experiment should
+  constrain the counterfactual quantity itself against factual/no-op utility.
+- **Next action:** Implement the already preregistered H008 counterfactual
+  outcome-head decomposition before registering another alignment variant.
+- **Boundary:** Development simulator evidence only; no real-world, causal,
+  business-utility, language-independence or production claim.
