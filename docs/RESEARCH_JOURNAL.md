@@ -611,3 +611,23 @@
 - **Status:** `not_run`; no H010 metric or checkpoint exists.
 - **Boundary:** Simulator representation evidence only; no real-world,
   business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H010 development preflight
+
+- **Protocol:** Four matched 1,000-step BF16 arms on seed `260930`; train and
+  checkpoint-selection validation only.
+- **Shared + alignment:** Effect NRMSE `0.89336`, rollout `0.44687`, retrieval
+  `0.56250`; projection prediction delta `4.44e-4`.
+- **Separate + alignment:** Effect `0.91784`, rollout `0.44753`, retrieval
+  `0.39062`; structural delta exactly `0`.
+- **Shared without alignment:** Effect `0.90643`, rollout `0.44759`.
+- **Separate without alignment:** Best effect `0.88980`, rollout `0.44818`.
+- **Factor diagnosis:** Sharing the path made alignment directionally useful
+  versus both aligned and shared-path controls, but shared+aligned remained
+  `1.00400×` the strongest effect baseline. Retrieval improvement still does
+  not imply superior intervention prediction.
+- **Decision:** Fail H010; do not open seeds `260931..260933`, do not open test
+  and do not promote any checkpoint.
+- **Status:** H010 remains `not_run`; no registered transfer result exists.
+- **Boundary:** Simulator-only evidence; no real-world, business-utility,
+  language-independence or production claim.
