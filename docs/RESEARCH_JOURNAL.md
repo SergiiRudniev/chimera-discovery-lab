@@ -1,5 +1,27 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H015 registration
+
+- **Question:** Can Chimera generate legal numerical interventions whose
+  realized simulator effects beat equal-budget random and uncertainty-ablated
+  search?
+- **Program change:** H015 stops changing terminal-head arithmetic. Prediction
+  becomes a component of candidate search rather than the final research output.
+- **Candidate space:** Ordered source/target slots plus bounded magnitude and
+  control. No language or generator metadata enters the model or search vector.
+- **Budgets:** Both model-guided arms receive 256 model scores and eight
+  simulator executions per state. Random receives the same eight executions.
+  A fixed 256-action evaluator pool supplies regret only and cannot guide search.
+- **Controls:** Uncertainty-aware quality-diversity, mean-only matched search,
+  legal random selection and a finite-pool oracle evaluator.
+- **Primary gate:** Regret ratio at most `0.75` versus random and `0.90` versus
+  mean-only, with exact legality, deterministic replay and sealed model tests.
+- **Data reuse:** Existing WG4 integrity evidence is reused without validation.
+- **Status:** `not_run`; no H015 candidate metric or checkpoint exists.
+- **Claim boundary:** Simulator candidate-generation evidence only; no
+  real-world causal, creative, business, language-independence or production
+  claim.
+
 ## 2026-07-16 - CHM-W-H014 development preflight
 
 - **Scope:** Development seed `260946`; response and matched control arms each

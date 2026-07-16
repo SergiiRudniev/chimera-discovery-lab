@@ -1,0 +1,109 @@
+id: CHM-W-H015
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  Uncertainty-aware quality-diversity search over legal numerical interventions
+  reduces realized best-candidate simulator regret by at least 25% versus legal
+  random selection and by at least 10% versus an uncertainty-ablated matched
+  search under equal simulator-execution and model-scoring budgets.
+scope: numerical_intervention_candidate_generation
+parent: CHM-W-H014
+rationale:
+  diagnostic: research/preflights/CHM-W-H014-development.json
+  observation: >-
+    H013 established useful paired no-op state supervision, while H014 showed
+    that further terminal-head arithmetic did not improve effect prediction.
+    The program must now test the generative operation itself: proposing legal
+    interventions that outperform equal-budget controls when replayed in the
+    procedural worlds.
+data:
+  dataset_id: CHM-W-WG4
+  generator_config: configs/meta_world/world_generators_h013.yaml
+  integrity_evidence: research/preflights/CHM-W-H013-WG4-integrity.json
+  integrity_evidence_revalidated: false
+  source: seeded_programmatic_dynamic_worlds_with_paired_no_op_transitions
+  model_input_language: false
+  generator_output_language: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  backbone: factual_residual_conditioned_direct_dual_transition
+  backbone_training_steps: 600
+  backbone_checkpoint_selection: minimum_validation_intervention_effect_nrmse
+  intervention_vector:
+    discrete: [source_slot, target_slot]
+    continuous:
+      magnitude: [0.0, 1.0]
+      control: [-1.0, 1.0]
+  evaluator_oracle_pool:
+    candidates_per_state: 256
+    source: fixed_seeded_legal_pool
+    visible_to_model: false
+  model_search:
+    algorithm: cross_entropy_method_with_quality_diversity_archive
+    rounds: 4
+    candidates_per_round: 64
+    elite_candidates_per_round: 8
+    model_scoring_budget_per_state: 256
+    simulator_execution_budget_per_state: 8
+    archive_descriptor: [source_slot, target_slot, magnitude_quartile]
+  experimental_score: predicted_effect_mean - predicted_effect_standard_deviation
+  uncertainty_beta: 1.0
+  matched_mean_only_score: predicted_effect_mean
+  legal_random_execution_budget_per_state: 8
+  frozen_numeric_output: >-
+    Ranked legal intervention vectors, predicted effect distributions,
+    uncertainty, archive cell and evaluator provenance. Language grounding is
+    external and cannot alter ranking or vector values.
+protocol:
+  trial_id: CHM-W-T015
+  status: not_run
+  development_seed: 260950
+  frozen_validation_seeds: [260951, 260952, 260953]
+  evaluation_states: 32
+  comparison_arms:
+    - uncertainty_aware_quality_diversity_search
+    - mean_only_quality_diversity_search
+    - legal_random_intervention_selection
+    - fixed_pool_oracle_evaluator
+  primary_split: test_world_transfer
+  primary_metric: realized_best_candidate_regret
+  development_gate:
+    regret_ratio_vs_legal_random_maximum: 0.75
+    regret_ratio_vs_mean_only_search_maximum: 0.90
+    legal_action_rate: 1.00
+    simulator_executions_per_state_each_arm: 8
+    model_scores_per_state_each_search_arm: 256
+    deterministic_search_replay_rate: 1.00
+    deterministic_dataset_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    regret_ratio_vs_legal_random_maximum: 0.75
+    regret_ratio_vs_mean_only_search_maximum: 0.90
+    paired_bootstrap_90_percent_regret_ratio_upper_bound_below: 1.00
+    legal_action_rate: 1.00
+    deterministic_search_replay_rate: 1.00
+    deterministic_dataset_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - realized_best_candidate_effect
+    - mean_realized_candidate_effect
+    - archive_cell_coverage
+    - unique_source_target_pairs
+    - predicted_effect_calibration
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports numerical candidate search only inside the
+    registered simulator and fixed candidate distribution. It is not evidence
+    of real-world causal discovery, safe business intervention, profitable or
+    creative ideas, language-independent thought or production readiness.
+result: research/results/CHM-W-H015.json

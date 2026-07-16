@@ -114,3 +114,9 @@ hypotheses:
     registered_at: 2026-07-16
     config: research/hypotheses/CHM-W-H014.yaml
     result: research/results/CHM-W-H014.json
+  - id: CHM-W-H015
+    title: Uncertainty-aware numerical intervention search
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H015.yaml
+    result: research/results/CHM-W-H015.json
