@@ -102,3 +102,9 @@ hypotheses:
     registered_at: 2026-07-16
     config: research/hypotheses/CHM-W-H012.yaml
     result: research/results/CHM-W-H012.json
+  - id: CHM-W-H013
+    title: Factorized counterfactual transition dynamics
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H013.yaml
+    result: research/results/CHM-W-H013.json

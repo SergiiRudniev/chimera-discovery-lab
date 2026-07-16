@@ -28,6 +28,7 @@ class MetaWorldBatch:
     mechanism_ids: Tensor
     action_history: Tensor | None = None
     action_target_history: Tensor | None = None
+    counterfactual_no_op_observations: Tensor | None = None
 
     @property
     def batch_size(self) -> int:
@@ -63,6 +64,12 @@ class MetaWorldBatch:
             raise ValueError("intervention_parameters must have shape [batch, parameters]")
         if self.effect_targets.ndim != 2 or self.effect_targets.shape[0] != batch:
             raise ValueError("effect_targets must have shape [batch, effects]")
+        if self.counterfactual_no_op_observations is not None and tuple(
+            self.counterfactual_no_op_observations.shape
+        ) != (batch, slots, features):
+            raise ValueError(
+                "counterfactual_no_op_observations must match next observations"
+            )
         histories = (self.action_history, self.action_target_history)
         if any(value is None for value in histories) and not all(
             value is None for value in histories

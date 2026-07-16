@@ -1,0 +1,116 @@
+id: CHM-W-H013
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  An additive counterfactual transition that represents factual next state as
+  predicted no-op next state plus a predicted intervention delta reduces
+  intervention-state-delta NRMSE by at least 10% without increasing factual
+  four-step rollout, no-op-state or intervention-effect NRMSE compared with a
+  parameter-matched direct factual/no-op transition under the same generated
+  worlds, actions, external events and optimization budget.
+scope: factorized_counterfactual_transition_dynamics
+parent: CHM-W-H008
+rationale:
+  diagnostic: research/preflights/CHM-W-H008-development.json
+  observation: >-
+    H008 improved no-op utility prediction but missed its primary effect gate
+    because factual/no-op structure existed only in the terminal outcome head.
+    H013 moves the same exact difference constraint upstream into state
+    dynamics and supplies paired factual/no-op transitions from the simulator.
+data:
+  dataset_id: CHM-W-WG4
+  generator_config: configs/meta_world/world_generators_h013.yaml
+  source: seeded_programmatic_dynamic_worlds_with_paired_no_op_transitions
+  world_families: [flow, competition, funnel]
+  generation_modes: [online_cpu_training, fixed_sha256_evaluation]
+  paired_transition_contract:
+    factual_and_no_op_start_from_identical_state: true
+    factual_and_no_op_share_external_event: true
+    factual_and_no_op_share_renderer_noise: true
+    no_op_action: [0.0, 0.0]
+  model_input_language: false
+  counterfactual_target_passed_as_model_feature: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+  split_isolation:
+    - mechanism_id
+    - world_instance_id
+    - generation_seed
+    - exact_mechanism_configuration
+    - exact_world_configuration
+    - exact_renderer_configuration
+method:
+  shared_model: relational_sequence_world_model
+  shared_outcome_semantics: factual_no_op_difference_v1
+  temporal_context_steps: 4
+  rollout_horizon: 4
+  controlled_variable: state_transition_semantics
+  factorized_transition:
+    predicted_factual_next_state: >-
+      predicted_no_op_next_state + predicted_intervention_state_delta
+    exact_identity: >-
+      predicted_factual_next_state - predicted_no_op_next_state ==
+      predicted_intervention_state_delta
+  matched_direct_transition:
+    factual_next_state_predicted_directly: true
+    no_op_next_state_predicted_by_matched_auxiliary_head: true
+  parameter_count_matched: true
+protocol:
+  trial_id: CHM-W-T013
+  status: not_run
+  development_seed: 260942
+  frozen_validation_seeds: [260943, 260944, 260945]
+  comparison_arms:
+    - factorized_counterfactual_transition
+    - matched_direct_factual_no_op_transition
+    - factual_only_relational_reference
+    - legal_random_intervention_baseline
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_state_delta_nrmse
+    - four_step_rollout_nrmse
+  checkpoint_selection: >-
+    Freeze each trainable arm at the minimum unweighted mean of validation
+    intervention-state-delta NRMSE and factual four-step rollout NRMSE. Test
+    remains sealed until all arms, checkpoints and validation decisions freeze.
+  development_gate:
+    intervention_state_delta_nrmse_ratio_vs_matched_direct_maximum: 0.90
+    four_step_rollout_nrmse_ratio_vs_matched_direct_maximum: 1.00
+    no_op_state_nrmse_ratio_vs_matched_direct_maximum: 1.00
+    intervention_effect_nrmse_ratio_vs_matched_direct_maximum: 1.00
+    factorized_identity_maximum_absolute_residual: 0.000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    intervention_state_delta_nrmse_ratio_vs_matched_direct_maximum: 0.90
+    intervention_state_delta_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_matched_direct_maximum: 1.00
+    four_step_rollout_paired_bootstrap_90_percent_ratio_upper_bound_maximum: 1.05
+    no_op_state_nrmse_ratio_vs_matched_direct_maximum: 1.00
+    intervention_effect_nrmse_ratio_vs_matched_direct_maximum: 1.00
+    factorized_identity_maximum_absolute_residual: 0.000001
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - one_step_factual_state_rmse
+    - no_op_state_nrmse
+    - intervention_effect_nrmse
+    - intervention_effect_90_coverage
+    - mechanism_retrieval_accuracy
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports additive counterfactual dynamics only inside the
+    registered simulator distribution. It is not evidence of real-world causal
+    discovery, safe intervention, profitable business ideas,
+    language-independent thought or production readiness.
+result: research/results/CHM-W-H013.json

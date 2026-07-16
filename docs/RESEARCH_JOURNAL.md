@@ -1,5 +1,75 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H013 development preflight
+
+- **Scope:** Development seed `260942`; factorized, matched direct and
+  factual-only relational arms trained for 600 steps. Only `train` and ordinary
+  `validation` opened. Frozen validation seeds and model test splits stayed
+  sealed.
+- **Factorized:** Delta-state NRMSE `0.977598`, rollout `0.463770`, no-op-state
+  `0.155275`, intervention-effect `0.920395`; identity residual `1.19e-7`.
+- **Matched direct:** Delta-state NRMSE `0.983878`, rollout `0.460857`, no-op
+  `0.155086`, effect `0.910811`. Both primary models had exactly `65,484,814`
+  trainable parameters.
+- **Primary comparison:** Factorized/direct ratios were `0.993617` for delta,
+  `1.006321` for rollout, `1.001217` for no-op state and `1.010522` for effect.
+  The registered `0.90/1.00/1.00/1.00` gate failed.
+- **Reference diagnostic:** Factorized delta-state error was `0.726176x` the
+  factual-only reference while rollout was `0.999838x`. Explicit paired no-op
+  supervision is useful; additive factual-state arithmetic is not the source
+  of that gain. Effect NRMSE did not improve over factual-only.
+- **Integrity:** Deterministic dataset replay `1.0`, zero split leakage, finite
+  metrics, legal random-action rate `1.0`, and no model test metrics opened.
+- **Decision:** Do not open H013 frozen validation, do not promote a checkpoint
+  and leave `research/results/CHM-W-H013.json` as `not_run`.
+- **Next action:** Preserve paired factual/no-op transition supervision without
+  forced additive factual decoding. Test whether an explicit learned response
+  representation can improve intervention ranking/effect prediction rather
+  than only reconstructing state deltas.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  causal, business, language-independence or production claim.
+
+## 2026-07-16 - CHM-W-H013 implementation and WG4 integrity
+
+- **Implementation:** WG4 now emits factual and no-op next observations from
+  identical simulator state, event and renderer-noise state. Only the factual
+  branch advances the trajectory.
+- **Leakage guard:** The no-op tensor is a target field. A model-invariance test
+  replaces it with arbitrary values and confirms unchanged forward outputs.
+- **Matched architecture:** Factorized and direct dual-transition models each
+  contain `65,484,814` trainable parameters. Both retain H008 factual/no-op
+  utility semantics and receive identical factual, no-op and delta losses.
+- **WG4 integrity:** All fixed-shard hashes, tensor shapes, finite checks,
+  deterministic replay, paired-renderer consistency, mechanism/world/seed and
+  exact-configuration isolation checks passed across 80 trajectories. No model
+  test metric was opened and no human or LLM judgment was used.
+- **GPU smoke:** RTX 5070 BF16 training completed cleanly at about 1.54 GiB peak
+  allocated memory. The additive identity residual was `2.98e-8`, below `1e-6`.
+- **Status:** Implementation-qualified only. The registered development suite
+  has not run; `research/results/CHM-W-H013.json` remains `not_run`.
+- **Claim boundary:** Engineering evidence only; no transfer, causal, business,
+  language-independence or production claim.
+
+## 2026-07-16 - CHM-W-H013 registration
+
+- **Question:** Does exact additive factorization of state dynamics improve
+  prediction of intervention-induced state change without harming factual
+  rollout, no-op-state or intervention-effect prediction?
+- **Data change:** WG4 adds a simulator-derived no-op next-state target paired
+  with every factual transition under identical state, external event and
+  renderer noise. The target never enters the model as a feature.
+- **Controlled comparison:** Factorized and direct dual-transition models have
+  identical parameter counts, encoder, outcome semantics, data, actions,
+  optimizer, seed and training budget. Only state-transition arithmetic differs.
+- **Primary gate:** Delta-state NRMSE must improve by at least 10% versus the
+  matched direct control while factual rollout, no-op-state and effect NRMSE do
+  not increase. The additive identity residual must be at most `1e-6`.
+- **Isolation:** Development opens train and validation only. Frozen validation
+  seeds and every test split stay sealed until the development gate passes.
+- **Status:** `not_run`; no H013 metric or checkpoint exists.
+- **Claim boundary:** Simulator representation evidence only; no real-world
+  causal, business-profitability, language-independence or production claim.
+
 ## 2026-07-16 — CHM-W-H012 development preflight
 
 - **Scope:** Development seed `260938`, four trainable arms, 1000 optimizer

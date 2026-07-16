@@ -201,6 +201,7 @@ class WorldTransition:
     action: WorldAction
     observation: WorldObservation
     outcome: FloatArray
+    counterfactual_no_op_observation: WorldObservation | None = None
 
     def __post_init__(self) -> None:
         if self.outcome.ndim != 1:
@@ -287,6 +288,7 @@ class GeneratedWorldBatch:
     delta_time: Tensor
     outcomes: Tensor
     sequence_mask: Tensor
+    counterfactual_no_op_observations: Tensor | None = None
 
     @property
     def batch_size(self) -> int:
@@ -319,6 +321,12 @@ class GeneratedWorldBatch:
             raise ValueError("actions must have shape [batch, time, features]")
         if self.outcomes.ndim != 3 or tuple(self.outcomes.shape[:2]) != (batch, time):
             raise ValueError("outcomes must have shape [batch, time, features]")
+        if self.counterfactual_no_op_observations is not None and tuple(
+            self.counterfactual_no_op_observations.shape
+        ) != tuple(self.observations.shape):
+            raise ValueError(
+                "counterfactual_no_op_observations must match observations"
+            )
         for name in ("object_mask", "relation_mask", "sequence_mask"):
             if getattr(self, name).dtype != torch.bool:
                 raise TypeError(f"{name} must be boolean")
@@ -332,9 +340,21 @@ class GeneratedWorldBatch:
             self.outcomes
         ).all():
             raise ValueError("generated batch tensors must be finite")
+        if (
+            self.counterfactual_no_op_observations is not None
+            and not torch.isfinite(self.counterfactual_no_op_observations).all()
+        ):
+            raise ValueError("counterfactual no-op tensors must be finite")
 
     def to(self, device: torch.device | str) -> GeneratedWorldBatch:
-        values = {item.name: getattr(self, item.name).to(device) for item in fields(self)}
+        values = {
+            item.name: (
+                value.to(device)
+                if isinstance(value := getattr(self, item.name), Tensor)
+                else value
+            )
+            for item in fields(self)
+        }
         return GeneratedWorldBatch(**values)
 
 
