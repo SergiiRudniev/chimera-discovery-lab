@@ -32,6 +32,7 @@ from chimera.meta_world.h005 import run_h005_preflight, run_h005_validation
 from chimera.meta_world.h006 import run_h006_preflight
 from chimera.meta_world.h007 import run_h007_preflight
 from chimera.meta_world.h009 import run_h009_preflight
+from chimera.meta_world.h010 import run_h010_preflight
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -256,6 +257,30 @@ def _h009_preflight(arguments: argparse.Namespace) -> int:
                 "hypothesis_id": result["hypothesis_id"],
                 "status": result["status"],
                 "arm": result["arm"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h010_preflight(arguments: argparse.Namespace) -> int:
+    result = run_h010_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "hypothesis_id": result["hypothesis_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "model_variant": result["model_variant"],
+                "projection_prediction_delta": result[
+                    "projection_prediction_delta"
+                ],
                 "parameters": result["parameters"],
                 "best_step": result["best_step"],
                 "output": str(arguments.output),
@@ -837,6 +862,19 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("runs/h009_development_aligned"),
     )
+    h010_preflight_parser = subparsers.add_parser("meta-world-h010-preflight")
+    h010_preflight_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path(
+            "configs/meta_world/world_h010_development_shared_aligned.yaml"
+        ),
+    )
+    h010_preflight_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h010_development_shared_aligned"),
+    )
     return parser
 
 
@@ -892,6 +930,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h007_preflight(arguments)
     if arguments.command == "meta-world-h009-preflight":
         return _h009_preflight(arguments)
+    if arguments.command == "meta-world-h010-preflight":
+        return _h010_preflight(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

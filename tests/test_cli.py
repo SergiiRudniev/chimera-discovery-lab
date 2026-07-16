@@ -18,7 +18,7 @@ def test_inspect_cli_reports_registered_model(capsys: object) -> None:
 def test_research_cli_validates_registry(capsys: object) -> None:
     assert main(["validate-research", "--registry", "research/registry.yaml"]) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
-    assert json.loads(captured.out) == {"validated_hypotheses": 14}
+    assert json.loads(captured.out) == {"validated_hypotheses": 15}
 
 
 def test_corpus_cli_validates_dataset(capsys: object) -> None:
@@ -113,6 +113,24 @@ def test_h009_smoke_dataset_cli(tmp_path: Path, capsys: object) -> None:
     assert payload["status"] == "passed"
     assert payload["scientific_result"] is False
     assert payload["checks"]["paired_renderer_trajectory_consistency"] is True
+
+
+def test_h010_preflight_cli_reports_shared_path(tmp_path: Path, capsys: object) -> None:
+    assert main(
+        [
+            "meta-world-h010-preflight",
+            "--config",
+            "configs/meta_world/world_h010_development_smoke.yaml",
+            "--output",
+            str(tmp_path),
+        ]
+    ) == 0
+    payload = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+
+    assert payload["hypothesis_id"] == "CHM-W-H010"
+    assert payload["model_variant"] == "shared_aligned_bottleneck"
+    assert payload["projection_prediction_delta"] > 1e-6
+    assert payload["test_metrics_opened"] is False
 
 
 def test_world_probe_fixed_dataset_cli(tmp_path: Path, capsys: object) -> None:

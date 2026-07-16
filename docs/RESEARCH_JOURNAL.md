@@ -590,3 +590,44 @@
   registered transfer result.
 - **Boundary:** Simulator-only evidence; no causal-discovery, business-utility,
   language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H010 registration
+
+- **Diagnosis:** H009 alignment increased mechanism retrieval by `0.15625`, but
+  aligned/no-alignment effect and rollout ratios stayed at `1.00056` and
+  `0.99866`.
+- **Mechanism:** Prediction consumes raw `mechanism_state`, while alignment can
+  be satisfied inside a separate projection. Retrieval can improve without
+  changing the state used by transition and effect heads.
+- **Change:** Use `mechanism_projection(mechanism_state)` as one shared
+  bottleneck for both predictive conditioning and normalized alignment.
+- **Controls:** Cross alignment and bottleneck presence in a matched 2×2 design:
+  shared/separate projection × alignment on/off. Architecture size, data,
+  optimizer and evaluator remain fixed.
+- **Development gate:** Seed `260930`; require effect ratio ≤ `0.90`, rollout
+  ratio ≤ `1.00`, effect coverage ≥ `0.85` and structural path audits.
+- **Validation discipline:** Seeds `260931..260933` and all test splits remain
+  sealed until the development gate passes.
+- **Status:** `not_run`; no H010 metric or checkpoint exists.
+- **Boundary:** Simulator representation evidence only; no real-world,
+  business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H010 development preflight
+
+- **Protocol:** Four matched 1,000-step BF16 arms on seed `260930`; train and
+  checkpoint-selection validation only.
+- **Shared + alignment:** Effect NRMSE `0.89336`, rollout `0.44687`, retrieval
+  `0.56250`; projection prediction delta `4.44e-4`.
+- **Separate + alignment:** Effect `0.91784`, rollout `0.44753`, retrieval
+  `0.39062`; structural delta exactly `0`.
+- **Shared without alignment:** Effect `0.90643`, rollout `0.44759`.
+- **Separate without alignment:** Best effect `0.88980`, rollout `0.44818`.
+- **Factor diagnosis:** Sharing the path made alignment directionally useful
+  versus both aligned and shared-path controls, but shared+aligned remained
+  `1.00400×` the strongest effect baseline. Retrieval improvement still does
+  not imply superior intervention prediction.
+- **Decision:** Fail H010; do not open seeds `260931..260933`, do not open test
+  and do not promote any checkpoint.
+- **Status:** H010 remains `not_run`; no registered transfer result exists.
+- **Boundary:** Simulator-only evidence; no real-world, business-utility,
+  language-independence or production claim.

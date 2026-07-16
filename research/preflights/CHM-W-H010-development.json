@@ -1,0 +1,120 @@
+{
+  "arms": {
+    "separate_projection_with_alignment": {
+      "checkpoint_sha256": "c838eb2dd34dc68f971682b9494fad9f3e3b952f85c8c843e04c55a4319c914f",
+      "config": "configs/meta_world/world_h010_development_separate_aligned.yaml",
+      "config_sha256": "ece586b3b761f36a911766b85b2452f2d510def91be424d19d8d6a76f4ac8a58",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.44753482937812805,
+        "intervention_effect_90_coverage": 0.96875,
+        "intervention_effect_nrmse": 0.9178444516136295,
+        "mechanism_retrieval_accuracy": 0.390625,
+        "one_step_prediction_rmse": 0.10177833287215952
+      },
+      "parameters": 65213950,
+      "projection_prediction_delta": 0.0,
+      "runtime_seconds": 94.71110350004165,
+      "selected_step": 1000
+    },
+    "separate_projection_without_alignment": {
+      "checkpoint_sha256": "116afdb2be867d75a67b3e88aec86e28fd115a1364a2e16cffe795a8c0818dca",
+      "config": "configs/meta_world/world_h010_development_separate_no_alignment.yaml",
+      "config_sha256": "a039854f7d755691f667a9d19a772b23078a92f38e7c73a10033bac778b94598",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.44818195700645447,
+        "intervention_effect_90_coverage": 0.9732142857142857,
+        "intervention_effect_nrmse": 0.8897970086745783,
+        "mechanism_retrieval_accuracy": 0.296875,
+        "one_step_prediction_rmse": 0.10188576445269357
+      },
+      "parameters": 65213950,
+      "projection_prediction_delta": 0.0,
+      "runtime_seconds": 97.41364839999005,
+      "selected_step": 1000
+    },
+    "shared_bottleneck_with_alignment": {
+      "checkpoint_sha256": "e590808a098ae6854f1d3ee61bf2bc6c06113717cfbb406cb3c70d84864e9e57",
+      "config": "configs/meta_world/world_h010_development_shared_aligned.yaml",
+      "config_sha256": "d749d2286d8b827c520b389391c8d995b9031608d545b3850af2f57a37d8fabe",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4468659460544586,
+        "intervention_effect_90_coverage": 0.9732142857142857,
+        "intervention_effect_nrmse": 0.8933575442909903,
+        "mechanism_retrieval_accuracy": 0.5625,
+        "one_step_prediction_rmse": 0.10196078476790726
+      },
+      "parameters": 65213950,
+      "projection_prediction_delta": 0.0004439353942871094,
+      "runtime_seconds": 96.41377370001283,
+      "selected_step": 1000
+    },
+    "shared_bottleneck_without_alignment": {
+      "checkpoint_sha256": "c2faf4308945704df2714b29932d8c608d9b142e042cf4f47f70b16707538153",
+      "config": "configs/meta_world/world_h010_development_shared_no_alignment.yaml",
+      "config_sha256": "99639c4dd451c226214dda897f52854e07a8bf620259169f104d3fd1d390170f",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.44758665561676025,
+        "intervention_effect_90_coverage": 0.9709821428571429,
+        "intervention_effect_nrmse": 0.9064304384311366,
+        "mechanism_retrieval_accuracy": 0.390625,
+        "one_step_prediction_rmse": 0.10193497098366176
+      },
+      "parameters": 65213950,
+      "projection_prediction_delta": 0.001796722412109375,
+      "runtime_seconds": 97.92465070000617,
+      "selected_step": 1000
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only simulator evidence. Sharing the aligned mechanism bottleneck changed the predictive path and improved retrieval, but did not beat the strongest matched prediction control. Frozen validation and test remained sealed; no real-world, business-utility, language-independence or production claim is supported.",
+  "comparisons": {
+    "shared_aligned_vs_separate_aligned": {
+      "four_step_rollout_nrmse_ratio": 0.9985054049880344,
+      "intervention_effect_nrmse_ratio": 0.97332128850418,
+      "mechanism_retrieval_accuracy_delta": 0.171875
+    },
+    "shared_aligned_vs_separate_no_alignment": {
+      "four_step_rollout_nrmse_ratio": 0.997063668156599,
+      "intervention_effect_nrmse_ratio": 1.0040015144821803,
+      "mechanism_retrieval_accuracy_delta": 0.265625
+    },
+    "shared_aligned_vs_shared_no_alignment": {
+      "four_step_rollout_nrmse_ratio": 0.9983897876461296,
+      "intervention_effect_nrmse_ratio": 0.9855776090631146,
+      "mechanism_retrieval_accuracy_delta": 0.171875
+    }
+  },
+  "decision": "do_not_open_H010_frozen_validation",
+  "development_gate": {
+    "all_metrics_finite": true,
+    "four_step_rollout_nrmse_ratio_vs_best_matched_control": 0.997063668156599,
+    "four_step_rollout_nrmse_ratio_vs_best_matched_control_maximum": 1.0,
+    "intervention_effect_90_coverage": 0.9732142857142857,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "intervention_effect_nrmse_ratio_vs_best_matched_control": 1.0040015144821803,
+    "intervention_effect_nrmse_ratio_vs_best_matched_control_maximum": 0.9,
+    "passed": false,
+    "separate_projection_prediction_delta": 0.0,
+    "separate_projection_prediction_delta_maximum": 1e-07,
+    "shared_projection_prediction_delta": 0.0004439353942871094,
+    "shared_projection_prediction_delta_minimum": 1e-06
+  },
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "f942c91c65971d24c315d0da4adead644fe249aa",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "hypothesis_id": "CHM-W-H010",
+  "opened_splits": ["train", "validation"],
+  "preflight_id": "CHM-W-H010-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260930,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false
+}
