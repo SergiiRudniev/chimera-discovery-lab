@@ -48,6 +48,11 @@ under BF16 autocast so the registered algebraic residual is not dominated by
 reduced-precision subtraction. Every arm reseeds model initialization before
 parameters are created, so matched arms begin from identical underlying weights.
 
+On compute capability 12.x GPUs, GRU execution uses PyTorch's native CUDA path.
+The installed cuDNN 9/CUDA 13 stack completes the forward pass but aborts the
+Windows process during teardown; the native path preserves a clean process exit
+and is applied identically to every H008 arm.
+
 ## Data boundary
 
 H008 reuses validated `CHM-W-WG1` generator evidence from H005. It does not
