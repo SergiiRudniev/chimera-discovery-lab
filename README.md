@@ -184,6 +184,12 @@ quality-diversity, then the procedural simulator measures realized regret under
 the same execution budget as random and mean-only controls. See the
 [H015 intervention-search contract](docs/INTERVENTION_SEARCH_H015.md).
 
+The development gate was negative: uncertainty-aware regret was `0.969786x`
+legal random and `1.056837x` mean-only search. Exact budgets, legality, replay
+and leakage guards passed, but pointwise effect predictions did not rank actions
+within a state. The next hypothesis replaces the pointwise search critic with
+multi-action ranking supervision from generated worlds.
+
 ## Numerical Output
 
 ```text

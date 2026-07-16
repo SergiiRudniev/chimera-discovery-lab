@@ -369,3 +369,26 @@ def test_h012_development_failure_keeps_validation_and_test_sealed() -> None:
     )
     assert result["status"] == "not_run"
     assert result["metrics"] is None
+
+
+def test_h015_development_failure_keeps_budgets_and_data_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H015-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H015.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H015_frozen_validation"
+    assert preflight["development_gate"]["model_score_budget_match_rate"] == 1.0
+    assert (
+        preflight["development_gate"]["simulator_execution_budget_match_rate"]
+        == 1.0
+    )
+    assert preflight["dataset_integrity"]["revalidated"] is False
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None

@@ -57,3 +57,20 @@ A passing result demonstrates candidate search only within the registered
 procedural worlds and finite action pools. It does not demonstrate real-world
 causality, safe business action, profitable or creative ideas,
 language-independent thought or production readiness.
+
+## Development result
+
+H015 did not pass. Mean realized regret was `0.008411` for uncertainty-aware
+search, `0.007959` for mean-only search and `0.008673` for legal random. The
+uncertainty-aware ratios were `0.969786` versus random and `1.056837` versus
+mean-only, missing the preregistered `0.75` and `0.90` gates.
+
+All legality, exact budget, deterministic search replay, deterministic dataset
+replay, finite-metric and leakage guards passed. Frozen validation seeds and
+model test splits remained sealed, and no checkpoint was promoted.
+
+The selected-candidate prediction/realization correlations were approximately
+zero. The result rejects pointwise effect NLL plus raw predicted standard
+deviation as the H015 search critic; it does not reject numerical intervention
+search itself. The next experiment must train within-state action ordering from
+multiple exact simulator interventions per state.
