@@ -631,3 +631,21 @@
 - **Status:** H010 remains `not_run`; no registered transfer result exists.
 - **Boundary:** Simulator-only evidence; no real-world, business-utility,
   language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H011 registration
+
+- **Diagnosis:** H010 made alignment structurally predictive, yet its best
+  effect ratio was `1.00400`. Global embedding similarity remains an indirect
+  objective.
+- **Change:** For two renderer views of the exact same hidden trajectory,
+  directly match predicted primary effect mean and log variance. Pair keys are
+  evaluator-only and are never passed to model forward.
+- **Controls:** Identical relational model with consistency weight on/off; the
+  mechanism-alignment objective is disabled in both arms.
+- **Development gate:** Seed `260934`; require effect ratio ≤ `0.90`, rollout
+  ratio ≤ `1.00`, coverage ≥ `0.85` and pair disagreement ratio ≤ `0.80`.
+- **Validation discipline:** Seeds `260935..260937` and every test split remain
+  sealed until development passes.
+- **Status:** `not_run`; no H011 metric or checkpoint exists.
+- **Boundary:** Simulator response-function evidence only; no real-world,
+  business-utility, language-independence or production claim.
