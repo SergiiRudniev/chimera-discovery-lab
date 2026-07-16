@@ -90,3 +90,9 @@ hypotheses:
     registered_at: 2026-07-16
     config: research/hypotheses/CHM-W-H010.yaml
     result: research/results/CHM-W-H010.json
+  - id: CHM-W-H011
+    title: Paired counterfactual response consistency
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H011.yaml
+    result: research/results/CHM-W-H011.json

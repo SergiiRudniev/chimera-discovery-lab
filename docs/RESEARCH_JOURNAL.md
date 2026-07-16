@@ -631,3 +631,56 @@
 - **Status:** H010 remains `not_run`; no registered transfer result exists.
 - **Boundary:** Simulator-only evidence; no real-world, business-utility,
   language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H011 registration
+
+- **Diagnosis:** H010 made alignment structurally predictive, yet its best
+  effect ratio was `1.00400`. Global embedding similarity remains an indirect
+  objective.
+- **Change:** For two renderer views of the exact same hidden trajectory,
+  directly match predicted primary effect mean and log variance. Pair keys are
+  evaluator-only and are never passed to model forward.
+- **Controls:** Identical relational model with consistency weight on/off; the
+  mechanism-alignment objective is disabled in both arms.
+- **Development gate:** Seed `260934`; require effect ratio ≤ `0.90`, rollout
+  ratio ≤ `1.00`, coverage ≥ `0.85` and pair disagreement ratio ≤ `0.80`.
+- **Validation discipline:** Seeds `260935..260937` and every test split remain
+  sealed until development passes.
+- **Status:** `not_run`; no H011 metric or checkpoint exists.
+- **Boundary:** Simulator response-function evidence only; no real-world,
+  business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H011 implementation
+
+- **Pairing:** Added stable evaluator-only world-instance keys. Each key groups
+  two renderer views with identical latent dynamics, interventions and outcomes.
+- **Objective:** Added direct Smooth L1 consistency for primary intervention
+  effect mean and log variance. Global mechanism alignment stays disabled.
+- **Isolation:** Pair keys are created after the language-free generated batch,
+  are consumed only by the trainer/evaluator and are not read by model forward.
+- **Controls:** Treatment and control share model parameters, generator, seed,
+  optimizer, train budget and validation checkpoint selector.
+- **Status:** Engineering implementation only; development metrics are not yet
+  recorded and `research/results/CHM-W-H011.json` remains `not_run`.
+
+## 2026-07-16 — CHM-W-H011 development preflight
+
+- **Scope:** Two matched 1,000-step BF16 arms on development seed `260934`;
+  only `train` and `validation` were opened.
+- **Response consistency:** Effect NRMSE `0.907379`, rollout NRMSE `0.447798`,
+  coverage `0.973214`, paired mean disagreement `0.002203`.
+- **Matched control:** Effect NRMSE `0.903804`, rollout NRMSE `0.447938`,
+  coverage `0.973214`, paired mean disagreement `0.002498`.
+- **Controlled result:** Consistency reduced paired mean disagreement by
+  `11.81%` and kept rollout non-inferior (`0.999689x`), but effect ratio was
+  `1.003955` and disagreement ratio `0.881922`. The registered `0.90` effect
+  and `0.80` disagreement gates both failed.
+- **Decision:** Do not open seeds `260935..260937`, do not open test and do not
+  promote either checkpoint. H011 remains `not_run`.
+- **Diagnosis:** Making two renderer views agree is not sufficient to make the
+  shared response numerically correct. The next structural experiment should
+  constrain the counterfactual quantity itself against factual/no-op utility.
+- **Next action:** Implement the already preregistered H008 counterfactual
+  outcome-head decomposition before registering another alignment variant.
+- **Boundary:** Development simulator evidence only; no real-world, causal,
+  business-utility, language-independence or production claim.

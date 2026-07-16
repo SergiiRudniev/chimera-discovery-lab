@@ -24,6 +24,7 @@ class GeneratedSequenceSample:
     batch: GeneratedWorldBatch
     mechanism_ids: Tensor
     mechanism_keys: Tensor
+    world_instance_keys: Tensor
     world_family_ids: Tensor
     renderer_profile_ids: Tensor
     trajectory_indices: Tensor
@@ -34,6 +35,7 @@ class GeneratedSequenceSample:
         for name in (
             "mechanism_ids",
             "mechanism_keys",
+            "world_instance_keys",
             "world_family_ids",
             "renderer_profile_ids",
             "trajectory_indices",
@@ -67,6 +69,7 @@ def materialize_sequence_sample(
     mechanism_lookup: dict[str, int] = {}
     mechanism_values: list[int] = []
     mechanism_keys: list[int] = []
+    world_instance_keys: list[int] = []
     for trajectory in trajectories:
         mechanism_id = trajectory.metadata.mechanism_id
         if mechanism_id not in mechanism_lookup:
@@ -74,10 +77,17 @@ def materialize_sequence_sample(
         mechanism_values.append(mechanism_lookup[mechanism_id])
         digest = hashlib.sha256(mechanism_id.encode("utf-8")).digest()
         mechanism_keys.append(int.from_bytes(digest[:8], "big") & ((1 << 63) - 1))
+        world_digest = hashlib.sha256(
+            trajectory.metadata.world_instance_id.encode("utf-8")
+        ).digest()
+        world_instance_keys.append(
+            int.from_bytes(world_digest[:8], "big") & ((1 << 63) - 1)
+        )
     return GeneratedSequenceSample(
         batch=sequence_batch,
         mechanism_ids=torch.tensor(mechanism_values, dtype=torch.long),
         mechanism_keys=torch.tensor(mechanism_keys, dtype=torch.long),
+        world_instance_keys=torch.tensor(world_instance_keys, dtype=torch.long),
         world_family_ids=torch.tensor(
             [trajectory.metadata.world_family_id for trajectory in trajectories],
             dtype=torch.long,
@@ -114,6 +124,9 @@ def concatenate_sequence_samples(
         batch=combined_batch,
         mechanism_ids=torch.cat([sample.mechanism_ids for sample in samples]),
         mechanism_keys=torch.cat([sample.mechanism_keys for sample in samples]),
+        world_instance_keys=torch.cat(
+            [sample.world_instance_keys for sample in samples]
+        ),
         world_family_ids=torch.cat([sample.world_family_ids for sample in samples]),
         renderer_profile_ids=torch.cat(
             [sample.renderer_profile_ids for sample in samples]

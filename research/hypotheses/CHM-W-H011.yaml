@@ -1,0 +1,85 @@
+id: CHM-W-H011
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  Direct consistency supervision on the predicted intervention-effect
+  distribution across paired renderer views reduces intervention-effect NRMSE
+  by at least 10% without increasing four-step rollout NRMSE compared with the
+  matched model trained without response consistency.
+scope: paired_counterfactual_response_consistency
+parent: CHM-W-H010
+rationale:
+  diagnostic: research/preflights/CHM-W-H010-development.json
+  observation: >-
+    H010 successfully coupled alignment to prediction and improved mechanism
+    retrieval, but shared aligned effect NRMSE remained 1.004 times the best
+    control. Global representation similarity is therefore not a sufficient
+    proxy for accurate counterfactual response.
+data:
+  dataset_id: CHM-W-WG2
+  generator_config: configs/meta_world/world_generators_h009.yaml
+  paired_target: outcomes[-1]
+  pairing_key: evaluator_only_world_instance_key
+  pairing_key_passed_to_model_forward: false
+  paired_views_share:
+    - hidden_world
+    - latent_actions
+    - exogenous_events
+    - numerical_outcomes
+  language_input: false
+method:
+  model: separate_projection_relational_sequence_world_model
+  mechanism_alignment_weight: 0.0
+  response_consistency:
+    mean_loss: smooth_l1_between_pair_effect_means
+    uncertainty_loss: smooth_l1_between_pair_effect_log_variances
+    uncertainty_fraction: 0.1
+    primary_effect_dimension_only: true
+  controlled_variable: response_consistency_weight
+  parameter_count_matched: true
+protocol:
+  trial_id: CHM-W-T011
+  status: not_run
+  development_seed: 260934
+  frozen_validation_seeds: [260935, 260936, 260937]
+  comparison_arms:
+    - paired_response_consistency
+    - matched_without_response_consistency
+    - temporal_predictor_without_relational_world_state
+    - legal_random_intervention_baseline
+  development_gate:
+    intervention_effect_nrmse_ratio_vs_matched_control_maximum: 0.90
+    four_step_rollout_nrmse_ratio_vs_matched_control_maximum: 1.00
+    intervention_effect_90_coverage_minimum: 0.85
+    paired_prediction_disagreement_ratio_maximum: 0.80
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  primary_split: test_world_transfer
+  primary_metrics:
+    - intervention_effect_nrmse
+    - four_step_rollout_nrmse
+  pass_if:
+    intervention_effect_nrmse_ratio_vs_matched_control_maximum: 0.90
+    intervention_effect_paired_bootstrap_90_percent_ratio_upper_bound_below: 1.00
+    four_step_rollout_nrmse_ratio_vs_matched_control_maximum: 1.00
+    four_step_rollout_paired_bootstrap_90_percent_ratio_upper_bound_maximum: 1.05
+    deterministic_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - paired_effect_mean_disagreement
+    - paired_effect_uncertainty_disagreement
+    - one_step_prediction_rmse
+    - intervention_effect_90_coverage
+    - object_permutation_invariance
+    - channel_permutation_invariance
+    - out_of_distribution_detection
+    - intervention_regret
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports response consistency inside registered numerical
+    simulators only. It is not evidence of real-world causal discovery,
+    profitable ideas, language-independent thought or production readiness.
+result: research/results/CHM-W-H011.json

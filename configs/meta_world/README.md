@@ -11,4 +11,7 @@ H001 retry after H000 exposed a BF16 domain-selection failure.
 split boundaries, comparison arms and acceptance thresholds before H002 target
 metrics are opened.
 
+`world_h011_development_consistency.yaml` and its matched control freeze the
+direct paired-response objective before H011 development execution.
+
 No configuration in this directory may reuse Venture graph semantics implicitly.

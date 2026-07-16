@@ -1,0 +1,45 @@
+run_id: H011-BASE-SMOKE
+mode: preflight
+model_variant: separate_alignment_projection
+arm: cross_world_pretraining_without_mechanism_alignment
+generator_config: configs/meta_world/world_generators_h009.yaml
+model:
+  observation_features: 8
+  relation_features: 4
+  intervention_types: 1
+  intervention_parameters: 3
+  effect_dimensions: 4
+  domain_count: 1
+  mechanism_count: 4
+  hidden_dim: 32
+  num_heads: 4
+  spatial_layers: 1
+  temporal_layers: 1
+  transition_layers: 1
+  feedforward_multiplier: 2
+  max_slots: 10
+  context_steps: 4
+  dropout: 0.0
+  log_variance_min: -6.0
+  log_variance_max: 2.0
+training:
+  seed: 260934
+  batch_size: 4
+  active_slots: 4
+  steps: 2
+  learning_rate: 0.001
+  weight_decay: 0.0
+  max_grad_norm: 1.0
+  next_state_weight: 1.0
+  effect_weight: 1.0
+  alignment_weight: 0.0
+  variance_weight: 0.01
+  alignment_margin: 0.2
+  primary_effect_weight: 4.0
+  ema_decay: 0.9
+  device: cpu
+  precision: float32
+evaluation:
+  evaluation_interval: 1
+  validation_trajectories: 4
+  rollout_horizon: 4
