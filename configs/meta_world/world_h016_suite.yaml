@@ -1,0 +1,60 @@
+hypothesis_id: CHM-W-H016
+trial_id: CHM-W-T016
+mode: development
+development_seed: 260954
+frozen_validation_seeds: [260955, 260956, 260957]
+test_access: sealed
+generator_config: configs/meta_world/world_generators_h013.yaml
+dataset_integrity_report: research/preflights/CHM-W-H013-WG4-integrity.json
+backbone_config: configs/meta_world/world_h016_development_backbone.yaml
+backbone_training_steps: 600
+ranking_training:
+  steps: 600
+  states_per_step: 2
+  candidates_per_state: 16
+  context_steps: 4
+  prediction_step: 3
+  state_view_rule: sequential_mechanism_groups_cyclic_renderer_view
+  candidate_seed_offset: 101
+  candidate_seed_stride: 1000003
+  candidate_sampler: deterministic_uniform_legal
+  shared_state_event_and_renderer_noise: true
+  backbone_trainable: false
+  target_normalization: within_state_mean_standard_deviation
+  listnet_target_temperature: 0.50
+  pairwise_weight: 0.50
+  pairwise_logit_temperature: 0.25
+  minimum_effect_separation: 0.00001
+  learning_rate: 0.0003
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+evaluation_states: 32
+oracle_pool_candidates_per_state: 256
+search:
+  rounds: 4
+  candidates_per_round: 64
+  elite_candidates_per_round: 8
+  simulator_executions_per_state: 8
+  archive_descriptor: [source_slot, target_slot, magnitude_quartile]
+arms:
+  listwise_ranking_critic_search:
+    score: learned_within_state_rank_logit
+  H015_pointwise_mean_only_search:
+    score: predicted_effect_mean
+  legal_random_intervention_selection:
+    candidates_per_state: 8
+  fixed_pool_oracle_evaluator:
+    candidates_per_state: 256
+primary_metric: realized_best_candidate_regret
+development_gate:
+  regret_ratio_vs_legal_random_maximum: 0.75
+  regret_ratio_vs_H015_pointwise_maximum: 0.85
+  legal_action_rate: 1.00
+  simulator_executions_per_state_each_arm: 8
+  model_scores_per_state_each_search_arm: 256
+  deterministic_training_candidate_replay_rate: 1.00
+  deterministic_search_replay_rate: 1.00
+  deterministic_dataset_replay_rate: 1.00
+  split_leakage_findings: 0
+  all_metrics_finite: true
+  test_metrics_opened: false

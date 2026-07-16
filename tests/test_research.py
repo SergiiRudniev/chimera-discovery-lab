@@ -31,6 +31,7 @@ def test_research_registry_is_valid() -> None:
         "CHM-W-H013",
         "CHM-W-H014",
         "CHM-W-H015",
+        "CHM-W-H016",
     ]
 
 
@@ -390,5 +391,19 @@ def test_h015_development_failure_keeps_budgets_and_data_sealed() -> None:
     assert preflight["frozen_validation_seeds_opened"] is False
     assert preflight["test_metrics_opened"] is False
     assert preflight["checkpoint_promoted"] is False
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h016_is_registered_before_metrics_are_opened() -> None:
+    hypothesis = Path("research/hypotheses/CHM-W-H016.yaml").read_text(
+        encoding="utf-8"
+    )
+    result = json.loads(Path("research/results/CHM-W-H016.json").read_text(encoding="utf-8"))
+
+    assert "ranking_targets_enter_model_forward: false" in hypothesis
+    assert "test_metrics_opened: false" in hypothesis
+    assert result["id"] == "CHM-W-H016"
+    assert result["trial_id"] == "CHM-W-T016"
     assert result["status"] == "not_run"
     assert result["metrics"] is None

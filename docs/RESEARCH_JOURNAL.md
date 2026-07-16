@@ -1,5 +1,31 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H016 registration
+
+- **Question:** Can direct within-state action-ranking supervision turn the
+  generated numerical candidates into better realized interventions?
+- **Diagnosis:** H015 candidate infrastructure passed every hard control, but
+  selected-action prediction/realization correlation was approximately zero.
+  The pointwise critic never received multiple alternatives from one state.
+- **Generated supervision:** Each train group replays 16 legal interventions
+  from the identical numeric state under the identical external event and
+  renderer-noise state. Only the action changes; labels remain evaluator-only.
+- **Architecture:** Retrain the 66.283M H015 backbone at seed `260954`, freeze
+  it, and train a `LayerNorm(512) -> Linear(256) -> SiLU -> Linear(1)` ranking
+  head for 600 steps.
+- **Objective:** Within-state standardized ListNet targets at temperature
+  `0.50` plus a `0.50`-weighted signed pairwise logistic term.
+- **Controls:** Unchanged H015 QD search driven by rank logits, the same search
+  driven by the H015 pointwise mean, legal random and an evaluator-only oracle.
+- **Primary gate:** Regret ratio at most `0.75` versus random and `0.85` versus
+  pointwise, with exact budgets, legality, training/search/dataset replay, zero
+  leakage, finite metrics and sealed model tests.
+- **Data reuse:** WG4 integrity evidence is reused without revalidation.
+- **Status:** `not_run`; no H016 metric or checkpoint exists.
+- **Claim boundary:** Generated-world action-ranking evidence only; no
+  real-world causal, creative, business, language-independence or production
+  claim.
+
 ## 2026-07-16 - CHM-W-H015 development preflight
 
 - **Scope:** Development seed `260950`; the 66,283,046-parameter factual-residual

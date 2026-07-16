@@ -120,3 +120,9 @@ hypotheses:
     registered_at: 2026-07-16
     config: research/hypotheses/CHM-W-H015.yaml
     result: research/results/CHM-W-H015.json
+  - id: CHM-W-H016
+    title: Within-state listwise intervention ranking
+    status: registered
+    registered_at: 2026-07-16
+    config: research/hypotheses/CHM-W-H016.yaml
+    result: research/results/CHM-W-H016.json

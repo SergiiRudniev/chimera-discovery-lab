@@ -1,0 +1,131 @@
+id: CHM-W-H016
+registered_at: 2026-07-16
+status: registered
+hypothesis: >-
+  A critic trained to rank multiple exact shared-event interventions within the
+  same numerical state reduces realized best-candidate simulator regret by at
+  least 25% versus legal random selection and by at least 15% versus the H015
+  pointwise mean-only critic under equal search and execution budgets.
+scope: within_state_numerical_intervention_ranking
+parent: CHM-W-H015
+rationale:
+  diagnostic: research/preflights/CHM-W-H015-development.json
+  observation: >-
+    H015 search, legality, replay and budget controls passed, but selected-action
+    predicted effects had approximately zero correlation with realized effects.
+    Pointwise NLL supervision observes one action per state and does not directly
+    train the within-state ordering consumed by candidate search.
+data:
+  dataset_id: CHM-W-WG4
+  generator_config: configs/meta_world/world_generators_h013.yaml
+  integrity_evidence: research/preflights/CHM-W-H013-WG4-integrity.json
+  integrity_evidence_revalidated: false
+  state_source: seeded_programmatic_dynamic_worlds
+  ranking_label_source: exact_same_state_same_event_simulator_replay
+  training_split: train
+  development_split: validation
+  model_input_language: false
+  generator_output_language: false
+  ranking_targets_enter_model_forward: false
+  hidden_metadata_excluded_from_model_forward:
+    - world_family_id
+    - world_instance_id
+    - mechanism_id
+    - renderer_id
+    - generation_seed
+method:
+  backbone: H015_factual_residual_direct_dual_transition
+  backbone_training_steps: 600
+  backbone_training_seed: 260954
+  backbone_state_during_ranking: frozen
+  ranking_head:
+    input: candidate_conditioned_transition_state
+    architecture: layer_norm_512_linear_256_silu_linear_1
+  training_groups:
+    steps: 600
+    states_per_step: 2
+    candidates_per_state: 16
+    context_steps: 4
+    prediction_step: 3
+    state_view_rule: sequential_mechanism_groups_cyclic_renderer_view
+    candidate_seed_rule: development_seed_plus_state_ordinal_times_1000003_plus_101
+    sampler: deterministic_uniform_legal
+    shared_state_event_and_renderer_noise: true
+  target_normalization: within_state_mean_standard_deviation
+  listwise_objective:
+    kind: ListNet_cross_entropy
+    target_temperature: 0.50
+  pairwise_objective:
+    kind: signed_logistic
+    weight: 0.50
+    logit_temperature: 0.25
+    minimum_effect_separation: 0.00001
+  optimizer:
+    name: AdamW
+    learning_rate: 0.0003
+    weight_decay: 0.01
+    max_grad_norm: 1.0
+  evaluator_oracle_pool:
+    candidates_per_state: 256
+    source: fixed_seeded_legal_pool
+    visible_to_model: false
+  search:
+    algorithm: H015_cross_entropy_method_with_quality_diversity_archive
+    rounds: 4
+    candidates_per_round: 64
+    elite_candidates_per_round: 8
+    model_scoring_budget_per_state: 256
+    simulator_execution_budget_per_state: 8
+    archive_descriptor: [source_slot, target_slot, magnitude_quartile]
+  experimental_score: learned_within_state_rank_logit
+  matched_control_score: H015_pointwise_predicted_effect_mean
+protocol:
+  trial_id: CHM-W-T016
+  status: not_run
+  development_seed: 260954
+  frozen_validation_seeds: [260955, 260956, 260957]
+  evaluation_states: 32
+  comparison_arms:
+    - listwise_ranking_critic_search
+    - H015_pointwise_mean_only_search
+    - legal_random_intervention_selection
+    - fixed_pool_oracle_evaluator
+  primary_split: test_world_transfer
+  primary_metric: realized_best_candidate_regret
+  development_gate:
+    regret_ratio_vs_legal_random_maximum: 0.75
+    regret_ratio_vs_H015_pointwise_maximum: 0.85
+    legal_action_rate: 1.00
+    simulator_executions_per_state_each_arm: 8
+    model_scores_per_state_each_search_arm: 256
+    deterministic_training_candidate_replay_rate: 1.00
+    deterministic_search_replay_rate: 1.00
+    deterministic_dataset_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+    test_metrics_opened: false
+  pass_if:
+    regret_ratio_vs_legal_random_maximum: 0.75
+    regret_ratio_vs_H015_pointwise_maximum: 0.85
+    paired_bootstrap_90_percent_regret_ratio_upper_bound_below: 1.00
+    legal_action_rate: 1.00
+    deterministic_training_candidate_replay_rate: 1.00
+    deterministic_search_replay_rate: 1.00
+    deterministic_dataset_replay_rate: 1.00
+    split_leakage_findings: 0
+    all_metrics_finite: true
+  secondary_metrics:
+    - within_state_spearman_rank_correlation
+    - within_state_ndcg_at_8
+    - realized_best_candidate_effect
+    - mean_realized_candidate_effect
+    - archive_cell_coverage
+    - unique_source_target_pairs
+  human_or_llm_judging_in_primary_experiment: false
+  claim_boundary: >-
+    A passing result supports numerical action ranking only inside the
+    registered procedural simulator and candidate distribution. It is not
+    evidence of real-world causal discovery, safe business intervention,
+    profitable or creative ideas, language-independent thought or production
+    readiness.
+result: research/results/CHM-W-H016.json
