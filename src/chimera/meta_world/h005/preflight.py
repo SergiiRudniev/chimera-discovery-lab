@@ -183,6 +183,9 @@ def execute_policy_curriculum_run(
         start_index=0,
         batch_size=config.evaluation.validation_trajectories,
     )
+    torch.manual_seed(config.training.seed)
+    if config.training.device == "cuda":
+        torch.cuda.manual_seed_all(config.training.seed)
     model = model_factory(config) if model_factory is not None else _model(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
     trainer = (

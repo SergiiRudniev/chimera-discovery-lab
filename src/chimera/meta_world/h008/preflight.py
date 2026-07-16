@@ -14,7 +14,6 @@ from torch import nn
 from chimera.meta_world.batch import MetaWorldBatch
 from chimera.meta_world.generators import SplitName, WorldGenerationPipeline
 from chimera.meta_world.h002 import (
-    RelationalSequenceWorldModel,
     TemporalWorldBaseline,
     materialize_sequence_sample,
 )
@@ -22,7 +21,10 @@ from chimera.meta_world.h005 import H005Arm, H005RunConfig
 from chimera.meta_world.h005.preflight import execute_policy_curriculum_run
 from chimera.meta_world.h008.config import H008RunConfig
 from chimera.meta_world.h008.evaluation import evaluate_counterfactual_structure
-from chimera.meta_world.h008.model import CounterfactualRelationalWorldModel
+from chimera.meta_world.h008.model import (
+    CounterfactualRelationalWorldModel,
+    DirectOutcomeRelationalWorldModel,
+)
 from chimera.meta_world.model import MetaWorldOutput
 
 
@@ -42,6 +44,10 @@ def _write_json(path: Path, payload: dict[str, Any]) -> None:
 
 def _counterfactual_model(config: H005RunConfig) -> nn.Module:
     return CounterfactualRelationalWorldModel(config.model)
+
+
+def _direct_relational_model(config: H005RunConfig) -> nn.Module:
+    return DirectOutcomeRelationalWorldModel(config.model)
 
 
 @dataclass
@@ -72,7 +78,7 @@ def _audit_selected_checkpoint(
     elif runtime.arm is H005Arm.TEMPORAL:
         model = TemporalWorldBaseline(runtime.model)
     else:
-        model = RelationalSequenceWorldModel(runtime.model)
+        model = DirectOutcomeRelationalWorldModel(runtime.model)
     checkpoint = torch.load(
         output_dir / "checkpoint.pt",
         map_location="cpu",
@@ -126,7 +132,13 @@ def run_h008_preflight(
                 "derived_no_op_target_passed_to_model": False,
             },
             model_factory=(
-                _counterfactual_model if config.is_counterfactual else None
+                _counterfactual_model
+                if config.is_counterfactual
+                else (
+                    _direct_relational_model
+                    if config.runtime.arm is not H005Arm.TEMPORAL
+                    else None
+                )
             ),
         )
         result["counterfactual_audit"] = _audit_selected_checkpoint(config, output)

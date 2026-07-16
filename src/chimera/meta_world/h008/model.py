@@ -12,7 +12,19 @@ from chimera.meta_world.h002 import RelationalSequenceWorldModel
 from chimera.meta_world.model import MetaWorldOutput
 
 
-class CounterfactualRelationalWorldModel(RelationalSequenceWorldModel):
+class DirectOutcomeRelationalWorldModel(RelationalSequenceWorldModel):
+    """Keep matched outcome arithmetic in FP32 under BF16 model autocast."""
+
+    def forward(self, batch: MetaWorldBatch) -> MetaWorldOutput:
+        raw = super().forward(batch)
+        return replace(
+            raw,
+            effect_mean=raw.effect_mean.float(),
+            effect_log_variance=raw.effect_log_variance.float(),
+        )
+
+
+class CounterfactualRelationalWorldModel(DirectOutcomeRelationalWorldModel):
     """Interpret the fourth raw outcome channel as no-op utility."""
 
     def __init__(self, config: MetaWorldModelConfig) -> None:

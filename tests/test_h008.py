@@ -12,13 +12,14 @@ import yaml
 from chimera.meta_world.config import MetaWorldModelConfig, MetaWorldTrainingConfig
 from chimera.meta_world.generators import SplitName, WorldGenerationPipeline
 from chimera.meta_world.h002 import (
-    RelationalSequenceWorldModel,
     make_transition_window,
     materialize_sequence_sample,
 )
 from chimera.meta_world.h004 import H004DatasetConfig
+from chimera.meta_world.h005.preflight import execute_policy_curriculum_run
 from chimera.meta_world.h008 import (
     CounterfactualRelationalWorldModel,
+    DirectOutcomeRelationalWorldModel,
     H008Arm,
     H008RunConfig,
     H008SuiteConfig,
@@ -111,7 +112,7 @@ def test_counterfactual_head_is_exact_and_parameter_matched() -> None:
         batch_size=4,
     )
     window = make_transition_window(sample, prediction_step=3, context_steps=4)
-    direct = RelationalSequenceWorldModel(_model_config()).eval()
+    direct = DirectOutcomeRelationalWorldModel(_model_config()).eval()
     counterfactual = CounterfactualRelationalWorldModel(_model_config()).eval()
     counterfactual.load_state_dict(direct.state_dict(), strict=True)
 
@@ -261,3 +262,36 @@ def test_h008_suite_runs_all_arms_and_keeps_test_sealed(tmp_path: Path) -> None:
         ]["counterfactual_identity_maximum_absolute_residual"]
         <= 0.000001
     )
+
+
+def test_policy_runner_reseeds_model_initialization(tmp_path: Path) -> None:
+    arm = H008Arm.DIRECT_MIXED
+    config_path = tmp_path / "direct.yaml"
+    config_path.write_text(
+        yaml.safe_dump(_payload(arm), sort_keys=False),
+        encoding="utf-8",
+    )
+    config = H008RunConfig.from_yaml(config_path)
+
+    first = execute_policy_curriculum_run(
+        config_path,
+        config.runtime,
+        tmp_path / "first",
+        expected_mode="preflight",
+        hypothesis_id="CHM-W-H008",
+        reported_arm=arm.value,
+        effect_supervision="all",
+    )
+    torch.manual_seed(999_999)
+    second = execute_policy_curriculum_run(
+        config_path,
+        config.runtime,
+        tmp_path / "second",
+        expected_mode="preflight",
+        hypothesis_id="CHM-W-H008",
+        reported_arm=arm.value,
+        effect_supervision="all",
+    )
+
+    assert first["initial_validation"] == second["initial_validation"]
+    assert first["best_validation"] == second["best_validation"]

@@ -43,7 +43,10 @@ The suite runs six trainable arms and one evaluator-only baseline:
 
 Counterfactual and direct relational heads have identical trainable parameter
 counts. The only controlled change in the primary comparison is the semantics
-of the fourth raw outcome channel.
+of the fourth raw outcome channel. Both perform outcome-head arithmetic in FP32
+under BF16 autocast so the registered algebraic residual is not dominated by
+reduced-precision subtraction. Every arm reseeds model initialization before
+parameters are created, so matched arms begin from identical underlying weights.
 
 ## Data boundary
 
