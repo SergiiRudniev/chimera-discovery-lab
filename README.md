@@ -190,6 +190,20 @@ and leakage guards passed, but pointwise effect predictions did not rank actions
 within a state. The next hypothesis replaces the pointwise search critic with
 multi-action ranking supervision from generated worlds.
 
+## Within-State Action Ranking H016
+
+H016 trains the search critic on 16 alternative numerical interventions replayed
+from the same generated state and event. A frozen H015 backbone supplies
+candidate-conditioned transition states; a listwise and pairwise ranking head
+learns their relative realized effects. See the
+[H016 action-ranking contract](docs/ACTION_RANKING_H016.md).
+
+The development result separated critic quality from optimizer behavior:
+fixed-pool Spearman and NDCG improved, but adaptive CEM collapsed toward zero
+magnitude and produced `1.269622x` random regret. The next hypothesis preserves
+the ranking critic while replacing adaptive optimization with finite,
+support-preserving candidate generation and reranking.
+
 ## Numerical Output
 
 ```text

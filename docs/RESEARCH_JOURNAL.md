@@ -1,5 +1,83 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H016 development preflight
+
+- **Scope:** Development seed `260954`; the 66,283,046-parameter H015 backbone
+  trained for 600 BF16 steps, then remained byte-exactly frozen while a
+  132,609-parameter ranking head trained for 600 steps on RTX 5070. Only train
+  and ordinary validation were opened.
+- **Generated supervision:** 1,200 state groups produced 19,200 candidate
+  labels and 38,400 exact simulator executions including replay audit. Training
+  candidate replay was `1.0`; backbone SHA before and after ranking was equal.
+- **Offline ranking:** Mean validation Spearman improved from `0.273540` for
+  the H015 pointwise critic to `0.371579`; NDCG@8 improved from `0.782824` to
+  `0.806729`. The ranking objective learned useful relative signal.
+- **Search result:** Ranking-critic regret was `0.009730`, versus `0.008223` for
+  pointwise and `0.007664` for legal random. Ratios were `1.183316` versus
+  pointwise and `1.269622` versus random, failing the registered `0.85/0.75`
+  gate.
+- **Optimizer diagnosis:** Adaptive CEM collapsed the ranking arm toward the
+  magnitude boundary: selected magnitude averaged `0.0587`, with `32.42%`
+  exactly at `0` and median best realized effect `0.0`. Uniform random magnitude
+  averaged `0.5144` with no boundary values. The critic ranked a fixed pool
+  better, but iterative optimization exploited unsupported boundary behavior.
+- **Hard guards:** Legal-action, search-score budget, simulator budget,
+  train/search/dataset replay rates were all `1.0`; leakage was zero, metrics
+  finite and WG4 was not revalidated. Frozen validation seeds and model tests
+  remained sealed.
+- **Decision:** Do not open H016 frozen validation, do not promote either
+  checkpoint and leave `research/results/CHM-W-H016.json` as `not_run`.
+- **Next action:** Preserve the learned rank signal but replace adaptive CEM
+  with a preregistered support-preserving, low-discrepancy candidate pool and
+  finite quality-diversity reranking.
+- **Claim boundary:** Development generated-world evidence only; no real-world
+  causal, creative, business, language-independence or production claim.
+
+## 2026-07-16 - CHM-W-H016 implementation
+
+- **Architecture:** A frozen factual-residual backbone feeds
+  `LayerNorm(512) -> Linear(256) -> SiLU -> Linear(1)`. Total parameters are
+  `66,415,655`; exactly `132,609` are trainable during ranking.
+- **Leakage boundary:** Candidate consequences and realized effects stay in
+  evaluator objects. Replacing every consequence target leaves rank logits
+  unchanged in tests.
+- **Training:** ListNet over within-state standardized effects is combined with
+  a signed pairwise logistic loss. Every group shares state, external event and
+  renderer-noise state across 16 interventions.
+- **GPU reproducibility:** Two postcommit RTX 5070 BF16 smokes produced the
+  identical rank-head checkpoint SHA-256
+  `5d76116b5becb4f02b3464afe731d1561c83b3512799fc4a44d5c7510926da29`,
+  identical metrics and 1,676,404,736-byte peak allocated memory.
+- **Quality gate:** Ruff and mypy passed; 171 tests passed with 80.28% coverage.
+- **Data:** WG4 evidence is reused with `revalidated: false`; it was not
+  validated again.
+
+## 2026-07-16 - CHM-W-H016 registration
+
+- **Question:** Can direct within-state action-ranking supervision turn the
+  generated numerical candidates into better realized interventions?
+- **Diagnosis:** H015 candidate infrastructure passed every hard control, but
+  selected-action prediction/realization correlation was approximately zero.
+  The pointwise critic never received multiple alternatives from one state.
+- **Generated supervision:** Each train group replays 16 legal interventions
+  from the identical numeric state under the identical external event and
+  renderer-noise state. Only the action changes; labels remain evaluator-only.
+- **Architecture:** Retrain the 66.283M H015 backbone at seed `260954`, freeze
+  it, and train a `LayerNorm(512) -> Linear(256) -> SiLU -> Linear(1)` ranking
+  head for 600 steps.
+- **Objective:** Within-state standardized ListNet targets at temperature
+  `0.50` plus a `0.50`-weighted signed pairwise logistic term.
+- **Controls:** Unchanged H015 QD search driven by rank logits, the same search
+  driven by the H015 pointwise mean, legal random and an evaluator-only oracle.
+- **Primary gate:** Regret ratio at most `0.75` versus random and `0.85` versus
+  pointwise, with exact budgets, legality, training/search/dataset replay, zero
+  leakage, finite metrics and sealed model tests.
+- **Data reuse:** WG4 integrity evidence is reused without revalidation.
+- **Status:** `not_run`; no H016 metric or checkpoint exists.
+- **Claim boundary:** Generated-world action-ranking evidence only; no
+  real-world causal, creative, business, language-independence or production
+  claim.
+
 ## 2026-07-16 - CHM-W-H015 development preflight
 
 - **Scope:** Development seed `260950`; the 66,283,046-parameter factual-residual
