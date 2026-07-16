@@ -1,5 +1,36 @@
 # Research Journal
 
+## 2026-07-16 — CHM-W-H012 development preflight
+
+- **Scope:** Development seed `260938`, four trainable arms, 1000 optimizer
+  steps each, plus deterministic legal-random regret. Only `train` and
+  `validation` were opened; frozen validation seeds and all test splits stayed
+  sealed.
+- **Aligned cross-world:** Effect NRMSE `0.749912`, rollout NRMSE `0.453476`,
+  retrieval `0.484375`.
+- **No-alignment cross-world:** Effect NRMSE `0.742323`, rollout NRMSE
+  `0.451357`, retrieval `0.265625`.
+- **Target-family-only:** Effect NRMSE `1.402974`, rollout NRMSE `0.471859`.
+  The arm used actual held-family train sampling and selected step `400`.
+- **Temporal baseline:** Effect NRMSE `0.948956`, rollout NRMSE `0.457700`.
+- **Random baseline:** All actions were legal; mean sampled intervention regret
+  was `0.025495` across four states and eight candidates per state.
+- **Controlled result:** Alignment increased retrieval by `0.218750`, but its
+  effect and rollout ratios versus the matched no-alignment arm were `1.010223`
+  and `1.004695`. The preregistered `0.90`/`0.90` development gate failed.
+- **Diagnostic:** Cross-world relational pretraining without alignment beat the
+  temporal baseline on effect (`0.782253x`) and slightly on rollout
+  (`0.986142x`). Generator diversity is useful in validation; the global
+  mechanism-alignment objective remains the conflicting component.
+- **Decision:** Do not open H012 frozen validation or test, do not promote any
+  checkpoint and leave `research/results/CHM-W-H012.json` as `not_run`.
+- **Next action:** Complete the already preregistered H011 direct paired-response
+  consistency experiment, which supervises predictions rather than global
+  embedding similarity.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  transfer, causal discovery, business utility, language independence or
+  production claim.
+
 ## 2026-07-16 — CHM-W-H012 registration
 
 - **Question:** Does generator-first cross-world pretraining improve numerical

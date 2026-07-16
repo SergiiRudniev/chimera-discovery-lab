@@ -333,3 +333,36 @@ def test_h012_is_registered_before_metrics_are_opened() -> None:
     assert result["status"] == "not_run"
     assert result["decision"] == "not_run"
     assert result["metrics"] is None
+
+
+def test_h012_development_failure_keeps_validation_and_test_sealed() -> None:
+    preflight = json.loads(
+        Path("research/preflights/CHM-W-H012-development.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    result = json.loads(Path("research/results/CHM-W-H012.json").read_text(encoding="utf-8"))
+
+    assert preflight["development_gate"]["passed"] is False
+    assert preflight["decision"] == "do_not_open_H012_frozen_validation"
+    assert preflight["frozen_validation_seeds_opened"] is False
+    assert preflight["test_metrics_opened"] is False
+    assert preflight["checkpoint_promoted"] is False
+    assert preflight["fixed_dataset_integrity"]["checks_passed"] == 16
+    aligned = preflight["arms"][
+        "cross_world_pretraining_with_mechanism_alignment"
+    ]["metrics"]
+    no_alignment = preflight["arms"][
+        "cross_world_pretraining_without_mechanism_alignment"
+    ]["metrics"]
+    comparison = preflight["comparisons"]["aligned_vs_no_alignment"]
+    assert comparison["intervention_effect_nrmse_ratio"] == pytest.approx(
+        aligned["intervention_effect_nrmse"]
+        / no_alignment["intervention_effect_nrmse"]
+    )
+    assert comparison["four_step_rollout_nrmse_ratio"] == pytest.approx(
+        aligned["four_step_rollout_nrmse"]
+        / no_alignment["four_step_rollout_nrmse"]
+    )
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None

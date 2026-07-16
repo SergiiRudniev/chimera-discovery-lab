@@ -1,0 +1,177 @@
+{
+  "arms": {
+    "cross_world_pretraining_with_mechanism_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "f58e1479cb0ce9b55b72c86207a269d3bce1f3eb4029d7ef02d4559a3dee4ab7",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h012_development_aligned.yaml",
+      "config_sha256": "cdd7af102338e803d40adf10617f7cfaad9479c47de2acd3dcc455b27dbd76be",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.45347586274147034,
+        "intervention_effect_90_coverage": 0.9888392857142857,
+        "intervention_effect_nll": -2.886549098151071,
+        "intervention_effect_nrmse": 0.7499122284598883,
+        "intervention_effect_rmse": 0.023182348904024312,
+        "mechanism_retrieval_accuracy": 0.484375,
+        "one_step_prediction_rmse": 0.10291753370286073
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H012-DEVELOPMENT-ALIGNED-S260938",
+      "runtime_seconds": 96.45415880001383,
+      "selected_step": 1000,
+      "training_family_policy": "cross_world"
+    },
+    "cross_world_pretraining_without_mechanism_alignment": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "a0b7985d50563e612f94381b739f5d63eec0233b2416e9ba76ac1ecdd8a57658",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h012_development_no_alignment.yaml",
+      "config_sha256": "31930ad715ae0ba2d3cc50d8cae55db336c5747ff3019faf7708a9383be3ab14",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4513567090034485,
+        "intervention_effect_90_coverage": 0.9888392857142857,
+        "intervention_effect_nll": -2.8843274457114085,
+        "intervention_effect_nrmse": 0.7423233306247425,
+        "intervention_effect_rmse": 0.022947750146016792,
+        "mechanism_retrieval_accuracy": 0.265625,
+        "one_step_prediction_rmse": 0.10266199423667148
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H012-DEVELOPMENT-NOALIGN-S260938",
+      "runtime_seconds": 96.54961250000633,
+      "selected_step": 1000,
+      "training_family_policy": "cross_world"
+    },
+    "target_family_only_training": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "67d4971ca714df5d889be72724506d5f10360ee176f8323f4ded12431ffe4e76",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h012_development_target_family.yaml",
+      "config_sha256": "dff4cb40bb5d05de9e50ebc8454e466f097f1d33518e2fc10d105e111dd9a62d",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4718592166900635,
+        "intervention_effect_90_coverage": 0.9955357142857143,
+        "intervention_effect_nll": -2.486325434276036,
+        "intervention_effect_nrmse": 1.4029736842806764,
+        "intervention_effect_rmse": 0.043370709554843276,
+        "mechanism_retrieval_accuracy": 0.5625,
+        "one_step_prediction_rmse": 0.10489979905586039
+      },
+      "model_class": "chimera.meta_world.h002.model.RelationalSequenceWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1650904576,
+      "run_id": "H012-DEVELOPMENT-TARGET-S260938",
+      "runtime_seconds": 98.62783749995288,
+      "selected_step": 400,
+      "training_family_policy": "held_target"
+    },
+    "temporal_predictor_without_relational_world_state": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "c7a1675854cd1c7d32c722f1fce92f41f4d4a13b72961741f623dd5a2b2fc3b3",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h012_development_temporal.yaml",
+      "config_sha256": "a5eefbcdcb6e16d6474507a34133b2138a8c07775282c4debd41661dba696d74",
+      "metrics": {
+        "four_step_rollout_nrmse": 0.45769962668418884,
+        "intervention_effect_90_coverage": 0.9866071428571429,
+        "intervention_effect_nll": -2.8264107363564626,
+        "intervention_effect_nrmse": 0.9489558103917686,
+        "intervention_effect_rmse": 0.029335466013380013,
+        "mechanism_retrieval_accuracy": 0.578125,
+        "one_step_prediction_rmse": 0.10599487338213678
+      },
+      "model_class": "chimera.meta_world.h002.model.TemporalWorldBaseline",
+      "parameters": 13686296,
+      "peak_memory_bytes": 446811648,
+      "run_id": "H012-DEVELOPMENT-TEMPORAL-S260938",
+      "runtime_seconds": 51.027925800008234,
+      "selected_step": 1000,
+      "training_family_policy": "cross_world"
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only simulator evidence. Cross-world relational pretraining without alignment was the strongest predictive arm, while mechanism alignment improved retrieval but degraded both primary errors. Frozen validation seeds and every test split remained sealed; no real-world, causal, business-utility, language-independence or production claim is supported.",
+  "comparisons": {
+    "aligned_vs_best_predictive_baseline": {
+      "best_effect_baseline": "cross_world_pretraining_without_mechanism_alignment",
+      "best_rollout_baseline": "cross_world_pretraining_without_mechanism_alignment",
+      "four_step_rollout_nrmse_ratio": 1.0046950753046315,
+      "intervention_effect_nrmse_ratio": 1.0102231703114584
+    },
+    "aligned_vs_no_alignment": {
+      "four_step_rollout_nrmse_ratio": 1.0046950753046315,
+      "intervention_effect_nrmse_ratio": 1.0102231703114584,
+      "mechanism_retrieval_accuracy_delta": 0.21875
+    },
+    "no_alignment_vs_target_family": {
+      "four_step_rollout_nrmse_ratio": 0.9565495237532218,
+      "intervention_effect_nrmse_ratio": 0.5291070951236991
+    },
+    "no_alignment_vs_temporal": {
+      "four_step_rollout_nrmse_ratio": 0.9861417460033959,
+      "intervention_effect_nrmse_ratio": 0.7822527903783849
+    }
+  },
+  "decision": "do_not_open_H012_frozen_validation",
+  "development_gate": {
+    "aligned_four_step_rollout_ratio_vs_best_predictive_baseline": 1.0046950753046315,
+    "aligned_four_step_rollout_ratio_vs_best_predictive_baseline_maximum": 0.9,
+    "aligned_intervention_effect_ratio_vs_best_predictive_baseline": 1.0102231703114584,
+    "aligned_intervention_effect_ratio_vs_best_predictive_baseline_maximum": 0.9,
+    "all_metrics_finite": true,
+    "deterministic_replay_rate": 1.0,
+    "passed": false,
+    "split_leakage_findings": 0,
+    "test_metrics_opened": false
+  },
+  "environment": {
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "891d209deb6bfc12ebc282a2c36b4ce1aff73848",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "fixed_dataset_integrity": {
+    "checks_passed": 16,
+    "checks_total": 16,
+    "manifest_sha256": "1cac279cc09ba2a766260d4e802c19b613f850fa90d660c49c70191f1ee831de",
+    "status": "passed",
+    "trajectories": 80
+  },
+  "frozen_validation_seeds_opened": false,
+  "generator_config": "configs/meta_world/world_generators_h012.yaml",
+  "generator_config_sha256": "d4711ea5e421e745c8d7c21627312a1d3c9c5c287fe73956a186671863824786",
+  "hypothesis_id": "CHM-W-H012",
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H012-DEVELOPMENT-001",
+  "random_intervention_baseline": {
+    "candidates_per_sample": 8,
+    "legal_action_rate": 1.0,
+    "mean_best_candidate_effect": 0.01988009549677372,
+    "mean_intervention_regret": 0.02549490239471197,
+    "mean_selected_effect": -0.0056148068979382515,
+    "samples": 4
+  },
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260938,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false
+}
