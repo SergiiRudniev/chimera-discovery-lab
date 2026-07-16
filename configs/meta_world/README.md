@@ -28,5 +28,7 @@ direct and factual-only development arms; the smoke config is engineering-only.
 
 `world_h014_suite.yaml` reuses WG4 integrity evidence and freezes the
 parameter-matched predicted-response versus factual-residual effect-head test.
+The two `world_h014_development_*.yaml` files hold its matched arms; the smoke
+config is engineering-only.
 
 No configuration in this directory may reuse Venture graph semantics implicitly.

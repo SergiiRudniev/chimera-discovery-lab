@@ -54,6 +54,16 @@ arm must achieve:
 
 Failure keeps frozen validation and test sealed and promotes no checkpoint.
 
+## Commands
+
+```powershell
+python -m chimera.cli meta-world-h014-preflight `
+  --config configs/meta_world/world_h014_development_response.yaml `
+  --output runs/h014_development_response
+
+python -m chimera.cli meta-world-h014-suite
+```
+
 ## Claim boundary
 
 This protocol can establish a simulator representation result only. It cannot

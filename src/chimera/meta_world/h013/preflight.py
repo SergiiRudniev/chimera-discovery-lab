@@ -7,6 +7,7 @@ import json
 import platform
 import subprocess
 import time
+from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 
@@ -61,30 +62,45 @@ def _make_model(config: H013RunConfig) -> nn.Module:
     return CounterfactualRelationalWorldModel(model_config)
 
 
-def _selection_score(metrics: dict[str, Any]) -> float:
-    delta = metrics["intervention_state_delta_nrmse"]
-    if delta is None:
-        raise RuntimeError("H013 selection requires intervention delta metrics")
-    return 0.5 * (float(delta) + float(metrics["four_step_rollout_nrmse"]))
+def _selection_score(
+    metrics: dict[str, Any],
+    names: tuple[str, ...],
+) -> float:
+    values = [metrics[name] for name in names]
+    if not values or any(value is None for value in values):
+        raise RuntimeError("paired-transition selection metric is unavailable")
+    return sum(float(value) for value in values) / len(values)
 
 
-def _execute_h013_preflight(
+def execute_paired_transition_preflight(
     config_path: str | Path,
     output_dir: str | Path,
+    *,
+    run_config: H013RunConfig | None = None,
+    hypothesis_id: str = "CHM-W-H013",
+    reported_arm: str | None = None,
+    model_factory: Callable[[H013RunConfig], nn.Module] | None = None,
+    selection_metrics: tuple[str, ...] = (
+        "intervention_state_delta_nrmse",
+        "four_step_rollout_nrmse",
+    ),
+    result_metadata: Mapping[str, object] | None = None,
 ) -> dict[str, Any]:
     config_file = Path(config_path)
-    config = H013RunConfig.from_yaml(config_file)
+    config = run_config or H013RunConfig.from_yaml(config_file)
     runtime = config.runtime
+    arm = reported_arm or config.arm.value
+    metadata = dict(result_metadata or {})
     generator = GeneratedWorldDatasetConfig.from_yaml(runtime.generator_config)
     if (
         generator.hypothesis_id != "CHM-W-H013"
         or generator.dataset_id != "CHM-W-WG4"
         or not generator.paired_counterfactual_transitions
     ):
-        raise ValueError("H013 requires paired WG4 transitions")
+        raise ValueError("paired-transition preflight requires WG4")
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
-        raise FileExistsError("H013 preflight output directory must be empty")
+        raise FileExistsError("paired-transition preflight output must be empty")
     output.mkdir(parents=True, exist_ok=True)
     validation_pipeline = WorldGenerationPipeline(generator)
     training_pipeline = WorldGenerationPipeline(generator)
@@ -97,7 +113,7 @@ def _execute_h013_preflight(
     torch.manual_seed(runtime.training.seed)
     if torch.cuda.is_available():
         torch.cuda.manual_seed_all(runtime.training.seed)
-    model = _make_model(config)
+    model = _make_model(config) if model_factory is None else model_factory(config)
     model_class = f"{type(model).__module__}.{type(model).__qualname__}"
     trainer = H013Trainer(
         model,
@@ -113,7 +129,7 @@ def _execute_h013_preflight(
         rollout_horizon=runtime.evaluation.rollout_horizon,
     )
     best_metrics = initial
-    best_score = _selection_score(initial)
+    best_score = _selection_score(initial, selection_metrics)
     best_step = 0
     checkpoint_path = output / "checkpoint.pt"
 
@@ -121,13 +137,14 @@ def _execute_h013_preflight(
         torch.save(
             {
                 "run_id": runtime.run_id,
-                "arm": config.arm.value,
+                "arm": arm,
                 "transition_semantics": config.transition_semantics,
                 "model_class": model_class,
                 "step": step,
                 "model": trainer.evaluation_state_dict(),
                 "weights_kind": trainer.evaluation_weights_kind,
                 "model_config": runtime.to_dict()["model"],
+                **metadata,
             },
             checkpoint_path,
         )
@@ -166,7 +183,7 @@ def _execute_h013_preflight(
                 context_steps=runtime.model.context_steps,
                 rollout_horizon=runtime.evaluation.rollout_horizon,
             )
-            score = _selection_score(evaluation)
+            score = _selection_score(evaluation, selection_metrics)
             metric_rows.append(
                 {
                     "phase": "validation",
@@ -188,28 +205,28 @@ def _execute_h013_preflight(
     )
     manifest = {
         "run_id": runtime.run_id,
-        "arm": config.arm.value,
+        "arm": arm,
         "transition_semantics": config.transition_semantics,
         "weights_kind": trainer.evaluation_weights_kind,
         "checkpoint": checkpoint_path.name,
         "checkpoint_sha256": _sha256(checkpoint_path),
         "selected_step": best_step,
-        "selection_metric": (
-            "mean(validation intervention_state_delta_nrmse, "
-            "validation four_step_rollout_nrmse)"
-        ),
+        "selection_metric": "mean(" + ", ".join(
+            f"validation {name}" for name in selection_metrics
+        ) + ")",
         "selection_score": best_score,
         "promoted": False,
         "scope": "development-only validation preflight",
         "opened_splits": ["train", "validation"],
+        **metadata,
     }
     _write_json(output / "checkpoint_manifest.json", manifest)
     result: dict[str, Any] = {
         "run_id": runtime.run_id,
-        "hypothesis_id": "CHM-W-H013",
+        "hypothesis_id": hypothesis_id,
         "status": "completed_preflight",
         "decision": "engineering_only",
-        "arm": config.arm.value,
+        "arm": arm,
         "transition_semantics": config.transition_semantics,
         "model_class": model_class,
         "weights_kind": trainer.evaluation_weights_kind,
@@ -249,6 +266,7 @@ def _execute_h013_preflight(
             "Development-only simulator evidence; frozen validation and test "
             "remain sealed and no checkpoint is promoted."
         ),
+        **metadata,
     }
     _write_json(output / "result.json", result)
     return result
@@ -261,7 +279,7 @@ def run_h013_preflight(
     """Persist an auditable failure record if H013 execution stops."""
 
     try:
-        return _execute_h013_preflight(config_path, output_dir)
+        return execute_paired_transition_preflight(config_path, output_dir)
     except Exception as error:
         output = Path(output_dir)
         output.mkdir(parents=True, exist_ok=True)

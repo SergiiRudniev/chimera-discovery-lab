@@ -1,5 +1,23 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H014 implementation
+
+- **Architecture:** Both arms retain H013 direct factual/no-op transitions and
+  add an identical 8-value masked response adapter plus effect-fusion head.
+  Only the predicted response source differs.
+- **Parameters:** Response and control models each contain `66,283,046`
+  trainable parameters and accept the same numerical batch contract.
+- **Leakage boundary:** Effect conditioning reads predicted tensors only. No
+  factual, no-op, delta or effect target enters the effect-head forward path.
+- **GPU smoke:** RTX 5070 BF16 training completed cleanly at about 1.56 GiB peak
+  allocated memory. Factual/no-op outcome identity residual was exactly `0.0`.
+- **Data:** Existing WG4 integrity evidence is reused by SHA with
+  `revalidated: false`; the dataset was not validated again for H014.
+- **Status:** Implementation-qualified only. The registered development suite
+  has not run and `research/results/CHM-W-H014.json` remains `not_run`.
+- **Claim boundary:** Engineering evidence only; no transfer, causal, business,
+  language-independence or production claim.
+
 ## 2026-07-16 - CHM-W-H014 registration
 
 - **Question:** Can the predicted factual-minus-no-op state response improve
