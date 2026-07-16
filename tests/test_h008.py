@@ -256,6 +256,16 @@ def test_h008_suite_runs_all_arms_and_keeps_test_sealed(tmp_path: Path) -> None:
             "intervention_effect_nrmse_ratio"
         ]
     )
+    assert math.isfinite(
+        result["comparisons"]["counterfactual_vs_direct_mixed"][
+            "no_op_utility_nrmse_ratio"
+        ]
+    )
+    assert math.isfinite(
+        result["comparisons"]["counterfactual_mixed_vs_temporal"][
+            "four_step_rollout_nrmse_ratio"
+        ]
+    )
     assert (
         result["arms"][H008Arm.COUNTERFACTUAL_MIXED.value][
             "counterfactual_audit"

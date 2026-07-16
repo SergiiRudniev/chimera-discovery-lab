@@ -207,7 +207,7 @@ context exceeds the initial memory budget.
 | H002 | Validation preflight negative; test sealed; result `not_run` |
 | H003 | Exploratory validation negative; test sealed; result `not_run` |
 | H004 | Preregistered; WG1 implemented and validated |
-| H008 | Implemented; development gate pending |
+| H008 | Development negative; 3.2% effect gain below 10% gate; test sealed |
 | W0 configuration | `meta_world_w0_t1.yaml` |
 | Promoted checkpoint | None |
 | Empirical claims | None |

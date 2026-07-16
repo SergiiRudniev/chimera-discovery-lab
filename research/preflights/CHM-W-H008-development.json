@@ -1,0 +1,256 @@
+{
+  "arms": {
+    "counterfactual_head_mixed_closed_loop": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "ee6c5c88d26132619e1a1440b2545a110dc3c812b246cebaf75eccb86684dc5b",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h008_development_counterfactual_mixed.yaml",
+      "config_sha256": "3e9605eae4ad7b9d5b323bcfc3013ed36eb08c9fe7786ad2fdd0a76b632dd5b0",
+      "counterfactual_audit": {
+        "counterfactual_identity_maximum_absolute_residual": 0.0,
+        "no_op_utility_nrmse": 0.46471806859846215,
+        "no_op_utility_rmse": 0.1171100215955515
+      },
+      "metrics": {
+        "four_step_rollout_nrmse": 0.5096291303634644,
+        "intervention_effect_90_coverage": 1.0,
+        "intervention_effect_nll": -1.937695280710856,
+        "intervention_effect_nrmse": 1.0466944527921265,
+        "intervention_effect_rmse": 0.04229248637111075,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.08690648311243056
+      },
+      "model_class": "chimera.meta_world.h008.model.CounterfactualRelationalWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 2575085568,
+      "run_id": "H008-DEVELOPMENT-COUNTERFACTUAL-MIXED-A",
+      "runtime_seconds": 92.9211026999983,
+      "selected_step": 300
+    },
+    "counterfactual_head_random_closed_loop": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "4dd2e723400b31f5fd3686ce417dc2421ad6eb89165ac74bf6fe4f295f7c603c",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h008_development_counterfactual_random.yaml",
+      "config_sha256": "32dbb64f62064b628886565ae3351f5d82f7ca460a2c22034203d1c54a84ed7d",
+      "counterfactual_audit": {
+        "counterfactual_identity_maximum_absolute_residual": 0.0,
+        "no_op_utility_nrmse": 0.4698666256549241,
+        "no_op_utility_rmse": 0.11840746980944733
+      },
+      "metrics": {
+        "four_step_rollout_nrmse": 0.5114479660987854,
+        "intervention_effect_90_coverage": 1.0,
+        "intervention_effect_nll": -1.934753179550171,
+        "intervention_effect_nrmse": 1.007678135465961,
+        "intervention_effect_rmse": 0.04071600236055157,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.08672955679775973
+      },
+      "model_class": "chimera.meta_world.h008.model.CounterfactualRelationalWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 2573381632,
+      "run_id": "H008-DEVELOPMENT-COUNTERFACTUAL-RANDOM-A",
+      "runtime_seconds": 93.79124970000703,
+      "selected_step": 300
+    },
+    "direct_head_mixed_closed_loop": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "c50d0f78f4c9c656f5e5bb1266ba0465550154038dd28a7ccbde633c0989ee4e",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h008_development_direct_mixed.yaml",
+      "config_sha256": "075113d4a17e58cf16cf08316f06948e7c4d6e5f05cafea93f29582a178a4e9c",
+      "counterfactual_audit": {
+        "counterfactual_identity_maximum_absolute_residual": null,
+        "no_op_utility_nrmse": 0.5273264626383464,
+        "no_op_utility_rmse": 0.13288748081977825
+      },
+      "metrics": {
+        "four_step_rollout_nrmse": 0.5097939372062683,
+        "intervention_effect_90_coverage": 0.9927083333333333,
+        "intervention_effect_nll": -2.4163163820902507,
+        "intervention_effect_nrmse": 1.0812503685463468,
+        "intervention_effect_rmse": 0.04368874445978036,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.08661075076073058
+      },
+      "model_class": "chimera.meta_world.h008.model.DirectOutcomeRelationalWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 2573376000,
+      "run_id": "H008-DEVELOPMENT-DIRECT-MIXED-A",
+      "runtime_seconds": 91.38834299996961,
+      "selected_step": 300
+    },
+    "direct_head_random_closed_loop": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "ade577301cc147712bdfdf55aeb195704dfd3b947b4339ab5d9a81231b2e4295",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h008_development_direct_random.yaml",
+      "config_sha256": "cda330eddefef2e9dfb26d1c53aa101ccf0467749d2b5c31032036ff989049ce",
+      "counterfactual_audit": {
+        "counterfactual_identity_maximum_absolute_residual": null,
+        "no_op_utility_nrmse": 0.5162201264542831,
+        "no_op_utility_rmse": 0.13008865856979393
+      },
+      "metrics": {
+        "four_step_rollout_nrmse": 0.5076316595077515,
+        "intervention_effect_90_coverage": 0.9916666666666667,
+        "intervention_effect_nll": -2.3994107405344645,
+        "intervention_effect_nrmse": 1.076989376043772,
+        "intervention_effect_rmse": 0.04351657581317883,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.08588662388757463
+      },
+      "model_class": "chimera.meta_world.h008.model.DirectOutcomeRelationalWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 2573376000,
+      "run_id": "H008-DEVELOPMENT-DIRECT-RANDOM-A",
+      "runtime_seconds": 92.27171980001731,
+      "selected_step": 300
+    },
+    "one_step_relational_without_discrimination": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "54b04c5c24211a47bb37af51fae6198cea03675d937548f9ffa858db0fde2c42",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h008_development_one_step.yaml",
+      "config_sha256": "d370d9ff644c4c152e42f1fe00935739b66a8a8c3e85bdf8265c564b859a0f0d",
+      "counterfactual_audit": {
+        "counterfactual_identity_maximum_absolute_residual": null,
+        "no_op_utility_nrmse": 0.5908431097823953,
+        "no_op_utility_rmse": 0.14889382191417574
+      },
+      "metrics": {
+        "four_step_rollout_nrmse": 0.4732184410095215,
+        "intervention_effect_90_coverage": 0.9947916666666666,
+        "intervention_effect_nll": -2.3384363492329916,
+        "intervention_effect_nrmse": 1.2677762259873326,
+        "intervention_effect_rmse": 0.051225463759896235,
+        "mechanism_retrieval_accuracy": 0.0,
+        "one_step_prediction_rmse": 0.08239626173552429
+      },
+      "model_class": "chimera.meta_world.h008.model.DirectOutcomeRelationalWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1652645376,
+      "run_id": "H008-DEVELOPMENT-ONE-STEP-A",
+      "runtime_seconds": 40.342394799983595,
+      "selected_step": 300
+    },
+    "temporal_predictor_without_relational_state": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "1ce32c29ec520d1d8f0f60aa55a2ac9e8520d9f1fb70ad36befb8cb94fad7cbd",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h008_development_temporal.yaml",
+      "config_sha256": "eb94e7037e6a5db822d996b96a1caacab0098a02b6ad11dd54505c132af480ef",
+      "counterfactual_audit": {
+        "counterfactual_identity_maximum_absolute_residual": null,
+        "no_op_utility_nrmse": 1.1232778186251362,
+        "no_op_utility_rmse": 0.28306859252046096
+      },
+      "metrics": {
+        "four_step_rollout_nrmse": 0.6071234941482544,
+        "intervention_effect_90_coverage": 0.9864583333333333,
+        "intervention_effect_nll": -2.4043800195058185,
+        "intervention_effect_nrmse": 1.1089432999634674,
+        "intervention_effect_rmse": 0.0448076984404864,
+        "mechanism_retrieval_accuracy": 0.03125,
+        "one_step_prediction_rmse": 0.10215812415436527
+      },
+      "model_class": "chimera.meta_world.h002.model.TemporalWorldBaseline",
+      "parameters": 13686296,
+      "peak_memory_bytes": 402785792,
+      "run_id": "H008-DEVELOPMENT-TEMPORAL-A",
+      "runtime_seconds": 24.95189880003454,
+      "selected_step": 300
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only generated-simulator evidence. Frozen validation seeds and every test split remained sealed; no real-world causal, business-utility, language-independence or production claim.",
+  "comparisons": {
+    "counterfactual_vs_direct_mixed": {
+      "four_step_rollout_nrmse_ratio": 0.9996767187077447,
+      "intervention_effect_nrmse_ratio": 0.9680407824501572,
+      "no_op_utility_nrmse_ratio": 0.8812720421299574
+    },
+    "counterfactual_vs_direct_random": {
+      "intervention_effect_nrmse_ratio": 0.9356435243285128,
+      "no_op_utility_nrmse_ratio": 0.910205940404255
+    },
+    "counterfactual_mixed_vs_one_step_relational": {
+      "four_step_rollout_nrmse_ratio": 1.0769426679067442,
+      "intervention_effect_nrmse_ratio": 0.8256145140890068
+    },
+    "counterfactual_mixed_vs_temporal": {
+      "four_step_rollout_nrmse_ratio": 0.8394159265380319,
+      "intervention_effect_nrmse_ratio": 0.9438665194393693
+    }
+  },
+  "dataset_integrity": {
+    "deterministic_replay_rate": 1.0,
+    "generator_config_sha256": "0b3e06e1c3b0969471e05751d8825101f711bc1c419d272c5ff9c6e555e05b45",
+    "revalidated": false,
+    "source": "research/preflights/CHM-W-H005-development.json",
+    "source_sha256": "6a8a59af368561749d1ec665ffda6ebe0447733bd70c072d44e0f4513c183c08",
+    "split_leakage_findings": 0
+  },
+  "decision": "do_not_open_H008_frozen_validation",
+  "development_gate": {
+    "all_metrics_finite": true,
+    "counterfactual_identity_maximum_absolute_residual": 0.0,
+    "counterfactual_identity_maximum_absolute_residual_maximum": 1e-06,
+    "deterministic_replay_rate": 1.0,
+    "four_step_rollout_nrmse_ratio": 0.9996767187077447,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_90_coverage": 1.0,
+    "intervention_effect_90_coverage_minimum": 0.85,
+    "intervention_effect_nrmse_ratio": 0.9680407824501572,
+    "intervention_effect_nrmse_ratio_maximum": 0.9,
+    "parameter_count_matched": true,
+    "passed": false,
+    "split_leakage_findings": 0,
+    "test_metrics_opened": false
+  },
+  "environment": {
+    "config_sha256": "3e9605eae4ad7b9d5b323bcfc3013ed36eb08c9fe7786ad2fdd0a76b632dd5b0",
+    "dataset_config_sha256": "0b3e06e1c3b0969471e05751d8825101f711bc1c419d272c5ff9c6e555e05b45",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "git_commit": "28e26675f489a85a7a030f13679aeb875aef38a2",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "hypothesis_id": "CHM-W-H008",
+  "legal_random_intervention": {
+    "candidates_per_sample": 8,
+    "legal_action_rate": 1.0,
+    "mean_best_candidate_effect": 0.004203345160931349,
+    "mean_intervention_regret": 0.008307527285069227,
+    "mean_selected_effect": -0.004104182124137878,
+    "samples": 64
+  },
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H008-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260922,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false,
+  "trial_id": "CHM-W-T008"
+}

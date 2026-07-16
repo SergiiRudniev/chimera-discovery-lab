@@ -133,6 +133,13 @@ def _audit(result: Mapping[str, Any], name: str) -> float | None:
     return None if value is None else float(value)
 
 
+def _required_audit(result: Mapping[str, Any], name: str) -> float:
+    value = _audit(result, name)
+    if value is None:
+        raise RuntimeError(f"H008 arm did not expose required audit metric: {name}")
+    return value
+
+
 def _integrity_evidence(config: H008SuiteConfig) -> dict[str, object]:
     evidence = json.loads(config.dataset_integrity_report.read_text(encoding="utf-8"))
     expected_hash = _sha256(config.generator_config)
@@ -211,6 +218,17 @@ def run_h008_development_suite(
         results[H008Arm.COUNTERFACTUAL_RANDOM],
         "intervention_effect_nrmse",
     ) / _metric(results[H008Arm.DIRECT_RANDOM], "intervention_effect_nrmse")
+    mixed_no_op_ratio = _required_audit(
+        counterfactual,
+        "no_op_utility_nrmse",
+    ) / _required_audit(direct, "no_op_utility_nrmse")
+    random_no_op_ratio = _required_audit(
+        results[H008Arm.COUNTERFACTUAL_RANDOM],
+        "no_op_utility_nrmse",
+    ) / _required_audit(
+        results[H008Arm.DIRECT_RANDOM],
+        "no_op_utility_nrmse",
+    )
     identity_residual = _audit(
         counterfactual,
         "counterfactual_identity_maximum_absolute_residual",
@@ -231,6 +249,8 @@ def run_h008_development_suite(
         effect_ratio,
         rollout_ratio,
         random_effect_ratio,
+        mixed_no_op_ratio,
+        random_no_op_ratio,
         identity_residual,
         coverage,
     ]
@@ -268,9 +288,47 @@ def run_h008_development_suite(
             "counterfactual_vs_direct_mixed": {
                 "intervention_effect_nrmse_ratio": effect_ratio,
                 "four_step_rollout_nrmse_ratio": rollout_ratio,
+                "no_op_utility_nrmse_ratio": mixed_no_op_ratio,
             },
             "counterfactual_vs_direct_random": {
                 "intervention_effect_nrmse_ratio": random_effect_ratio,
+                "no_op_utility_nrmse_ratio": random_no_op_ratio,
+            },
+            "counterfactual_mixed_vs_one_step_relational": {
+                "intervention_effect_nrmse_ratio": _metric(
+                    counterfactual,
+                    "intervention_effect_nrmse",
+                )
+                / _metric(
+                    results[H008Arm.ONE_STEP],
+                    "intervention_effect_nrmse",
+                ),
+                "four_step_rollout_nrmse_ratio": _metric(
+                    counterfactual,
+                    "four_step_rollout_nrmse",
+                )
+                / _metric(
+                    results[H008Arm.ONE_STEP],
+                    "four_step_rollout_nrmse",
+                ),
+            },
+            "counterfactual_mixed_vs_temporal": {
+                "intervention_effect_nrmse_ratio": _metric(
+                    counterfactual,
+                    "intervention_effect_nrmse",
+                )
+                / _metric(
+                    results[H008Arm.TEMPORAL],
+                    "intervention_effect_nrmse",
+                ),
+                "four_step_rollout_nrmse_ratio": _metric(
+                    counterfactual,
+                    "four_step_rollout_nrmse",
+                )
+                / _metric(
+                    results[H008Arm.TEMPORAL],
+                    "four_step_rollout_nrmse",
+                ),
             },
         },
         "development_gate": {

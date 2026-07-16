@@ -567,3 +567,31 @@
   verification; no H008 model-quality result yet.
 - **Boundary:** Implementation evidence only; no transfer, causal, business or
   production claim.
+
+## 2026-07-16 — CHM-W-H008 development preflight
+
+- **Protocol:** Ran all six trainable arms for 300 steps with seed `260922` on
+  RTX 5070 BF16, plus 64 legal-random intervention samples. Reused the existing
+  WG1 replay/leakage evidence by matching generator SHA-256; did not revalidate
+  the dataset.
+- **Primary effect:** Counterfactual mixed NRMSE was `1.046694` versus
+  `1.081250` for the direct mixed head, ratio `0.968041`. This is a 3.2%
+  reduction, below the preregistered 10% requirement.
+- **Rollout:** Four-step NRMSE was `0.509629` versus `0.509794`, ratio
+  `0.999677`; the non-regression gate passed.
+- **Structure:** Identity residual was exactly `0.0`, coverage was `1.0`, and
+  matched relational arms each had `65,213,950` trainable parameters. Implied
+  no-op utility NRMSE improved by 11.9%, ratio `0.881272`.
+- **Robustness:** Under paired-random training, counterfactual/direct effect
+  ratio was `0.935644` and no-op ratio was `0.910206`. The gain is directionally
+  consistent but still below the primary effect threshold.
+- **Baselines:** Counterfactual mixed improved effect over one-step relational
+  by 17.4% but worsened rollout by 7.7%; it improved both effect and rollout
+  over the temporal baseline by 5.6% and 16.1%, respectively.
+- **Decision:** Development gate failed only on effect ratio. Do not open seeds
+  `260923..260925`, do not open any test split, and do not promote a checkpoint.
+- **Next action:** Preserve explicit factual/no-op semantics, but move the
+  constraint upstream into learned transition factors so the decomposition can
+  affect state rollout rather than only the terminal outcome head.
+- **Boundary:** Development simulator evidence only; no real-world causal,
+  business-utility, language-independence or production claim.
