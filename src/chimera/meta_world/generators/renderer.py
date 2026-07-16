@@ -142,6 +142,20 @@ class ObservationRenderer:
             control=action.control,
         )
 
+    def from_latent_action(self, action: WorldAction) -> WorldAction:
+        """Express one latent intervention in the renderer's object coordinates."""
+
+        objects = int(self.config.object_permutation.size)
+        if not 0 <= action.source < objects or not 0 <= action.target < objects:
+            raise ValueError("latent action object pointer is outside the world")
+        inverse = np.argsort(self.config.object_permutation)
+        return WorldAction(
+            source=int(inverse[action.source]),
+            target=int(inverse[action.target]),
+            magnitude=action.magnitude,
+            control=action.control,
+        )
+
     def action_targets(self, action: WorldAction) -> FloatArray:
         objects = int(self.config.object_permutation.size)
         targets = np.zeros(objects, dtype=np.float32)

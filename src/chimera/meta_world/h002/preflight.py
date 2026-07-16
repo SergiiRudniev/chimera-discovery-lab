@@ -75,6 +75,8 @@ def _selection_score(metrics: dict[str, float]) -> float:
 def _execute_h002_preflight(
     config_path: str | Path,
     output_dir: str | Path,
+    *,
+    hypothesis_id: str = "CHM-W-H002",
 ) -> dict[str, Any]:
     """Train on online train worlds and select only against frozen validation worlds."""
 
@@ -211,7 +213,7 @@ def _execute_h002_preflight(
     runtime_seconds = time.perf_counter() - started
     result: dict[str, Any] = {
         "run_id": config.run_id,
-        "hypothesis_id": "CHM-W-H002",
+        "hypothesis_id": hypothesis_id,
         "status": "completed_preflight",
         "decision": "engineering_only",
         "arm": config.arm.value,
@@ -261,8 +263,27 @@ def run_h002_preflight(
 ) -> dict[str, Any]:
     """Run the preflight and persist unexpected execution failures before re-raising."""
 
+    return run_generated_world_preflight(
+        config_path,
+        output_dir,
+        hypothesis_id="CHM-W-H002",
+    )
+
+
+def run_generated_world_preflight(
+    config_path: str | Path,
+    output_dir: str | Path,
+    *,
+    hypothesis_id: str,
+) -> dict[str, Any]:
+    """Run the shared generated-world preflight under an explicit hypothesis ID."""
+
     try:
-        return _execute_h002_preflight(config_path, output_dir)
+        return _execute_h002_preflight(
+            config_path,
+            output_dir,
+            hypothesis_id=hypothesis_id,
+        )
     except Exception as error:
         output = Path(output_dir)
         output.mkdir(parents=True, exist_ok=True)
@@ -277,7 +298,7 @@ def run_h002_preflight(
                 result_path,
                 {
                     "run_id": run_id,
-                    "hypothesis_id": "CHM-W-H002",
+                    "hypothesis_id": hypothesis_id,
                     "status": "execution_failed",
                     "decision": "engineering_failure",
                     "test_metrics_opened": False,

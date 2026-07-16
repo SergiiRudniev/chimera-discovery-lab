@@ -18,7 +18,7 @@ def test_inspect_cli_reports_registered_model(capsys: object) -> None:
 def test_research_cli_validates_registry(capsys: object) -> None:
     assert main(["validate-research", "--registry", "research/registry.yaml"]) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
-    assert json.loads(captured.out) == {"validated_hypotheses": 13}
+    assert json.loads(captured.out) == {"validated_hypotheses": 14}
 
 
 def test_corpus_cli_validates_dataset(capsys: object) -> None:
@@ -94,6 +94,25 @@ def test_world_generator_fixed_dataset_cli(tmp_path: Path, capsys: object) -> No
     ) == 0
     validate_payload = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
     assert validate_payload["status"] == "passed"
+
+
+def test_h009_smoke_dataset_cli(tmp_path: Path, capsys: object) -> None:
+    assert main(
+        [
+            "meta-world-h009-smoke-dataset",
+            "--output",
+            str(tmp_path),
+            "--trajectories-per-split",
+            "16",
+        ]
+    ) == 0
+    payload = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+
+    assert payload["dataset_id"] == "CHM-W-WG2"
+    assert payload["hypothesis_id"] == "CHM-W-H009"
+    assert payload["status"] == "passed"
+    assert payload["scientific_result"] is False
+    assert payload["checks"]["paired_renderer_trajectory_consistency"] is True
 
 
 def test_world_probe_fixed_dataset_cli(tmp_path: Path, capsys: object) -> None:

@@ -51,13 +51,17 @@ class _BaseWorld(ABC):
         mechanism: MechanismConfig,
         config: WorldConfig,
         renderer: ObservationRenderer,
+        *,
+        independent_renderer_rng: bool = False,
     ) -> None:
         self.mechanism = mechanism
         self.config = config
         self.renderer_config = renderer.config
         self._renderer = renderer
+        self._independent_renderer_rng = independent_renderer_rng
         self._state = config.initial_state.copy()
         self._rng: np.random.Generator | None = None
+        self._renderer_rng: np.random.Generator | None = None
         self._relations = self._make_relations()
 
     def _make_relations(self) -> FloatArray:
@@ -79,11 +83,16 @@ class _BaseWorld(ABC):
         if seed < 0:
             raise ValueError("seed must be non-negative")
         self._rng = np.random.default_rng(seed)
+        self._renderer_rng = (
+            np.random.default_rng(seed + 1_000_000_007)
+            if self._independent_renderer_rng
+            else self._rng
+        )
         jitter = self._rng.normal(0.0, 0.01, size=self.config.initial_state.shape).astype(
             np.float32
         )
         self._state = self._clip_state(self.config.initial_state + jitter)
-        return self._renderer.render(self._state, self._relations, self._rng)
+        return self._renderer.render(self._state, self._relations, self._renderer_rng)
 
     def sample_action(self, rng: np.random.Generator) -> WorldAction:
         objects = self.config.objects
@@ -98,8 +107,26 @@ class _BaseWorld(ABC):
             control=float(rng.uniform(-1.0, 1.0)),
         )
 
+    def sample_latent_action(self, rng: np.random.Generator) -> WorldAction:
+        """Sample a renderer-independent intervention in latent coordinates."""
+
+        objects = self.config.objects
+        source = int(rng.integers(0, objects))
+        target = int(rng.integers(0, objects - 1))
+        if target >= source:
+            target += 1
+        return WorldAction(
+            source=source,
+            target=target,
+            magnitude=float(rng.uniform(0.05, 1.0)),
+            control=float(rng.uniform(-1.0, 1.0)),
+        )
+
+    def render_action(self, action: WorldAction) -> WorldAction:
+        return self._renderer.from_latent_action(action)
+
     def step(self, action: WorldAction) -> WorldTransition:
-        if self._rng is None:
+        if self._rng is None or self._renderer_rng is None:
             raise RuntimeError("reset must be called before step")
         if action.source == action.target:
             raise ValueError("source and target must differ")
@@ -129,7 +156,7 @@ class _BaseWorld(ABC):
             observation=self._renderer.render(
                 self._state,
                 self._relations,
-                self._rng,
+                self._renderer_rng,
             ),
             outcome=outcome,
         )
@@ -353,7 +380,7 @@ class WorldGenerator:
         if min_objects <= 1 or max_objects < min_objects:
             raise ValueError("invalid world object range")
         if observation_features < 4 or relation_features != 4:
-            raise ValueError("H002 requires at least four observations and four relations")
+            raise ValueError("generated worlds require four state and relation channels")
         self.min_objects = min_objects
         self.max_objects = max_objects
         self.observation_features = observation_features
@@ -367,6 +394,7 @@ class WorldGenerator:
         world_seed: int,
         renderer_seed: int,
         renderer_profile: int,
+        independent_renderer_rng: bool = False,
     ) -> GeneratedWorld:
         if world_seed < 0 or renderer_seed < 0:
             raise ValueError("world and renderer seeds must be non-negative")
@@ -385,7 +413,12 @@ class WorldGenerator:
             WorldFamily.COMPETITION: CompetitionWorld,
             WorldFamily.FUNNEL: FunnelWorld,
         }
-        return world_types[family_id](mechanism, config, renderer)
+        return world_types[family_id](
+            mechanism,
+            config,
+            renderer,
+            independent_renderer_rng=independent_renderer_rng,
+        )
 
     def _world_config(
         self,

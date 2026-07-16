@@ -25,13 +25,20 @@ class WorldFamily(IntEnum):
 
 
 class SplitName(str, Enum):
-    """Registered H002 dataset partitions."""
+    """Registered generated-world dataset partitions."""
 
     TRAIN = "train"
     VALIDATION = "validation"
     TEST_WORLD_TRANSFER = "test_world_transfer"
     TEST_MECHANISM = "test_mechanism"
     TEST_RENDERER = "test_renderer"
+
+
+class ViewCoupling(str, Enum):
+    """How multiple observations of one sampled mechanism are coupled."""
+
+    MECHANISM_ONLY = "mechanism_only"
+    PAIRED_WORLD_RENDERERS = "paired_world_renderers"
 
 
 @dataclass(frozen=True)
@@ -338,6 +345,12 @@ class GeneratedWorld(Protocol):
         ...
 
     def sample_action(self, rng: np.random.Generator) -> WorldAction:
+        ...
+
+    def sample_latent_action(self, rng: np.random.Generator) -> WorldAction:
+        ...
+
+    def render_action(self, action: WorldAction) -> WorldAction:
         ...
 
 
