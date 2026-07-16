@@ -1090,3 +1090,24 @@
   outcome-head decomposition before registering another alignment variant.
 - **Boundary:** Development simulator evidence only; no real-world, causal,
   business-utility, language-independence or production claim.
+
+## 2026-07-16 — CHM-W-H018 registration
+
+- **Diagnosis:** H002/H009/H012 use programmatic worlds, but their primary
+  world-transfer mapping retains mechanism templates already seen in training.
+- **Change:** Hold out complete compositions of known dynamic operators while
+  also mapping each composition into a held `FlowWorld`, `CompetitionWorld` or
+  `FunnelWorld` family.
+- **Data:** `CHM-W-WG5`; six train two-operator programs, three unseen transfer
+  pairs and two unseen three-operator programs; online CPU train generation and
+  fixed SHA-256 evaluation shards.
+- **Comparison:** Alignment, matched no-alignment, target-family-only,
+  non-relational temporal and legal-random arms.
+- **Primary gate:** On sealed `test_world_transfer`, both aligned effect and
+  four-step rollout NRMSE must be at most `0.90x` the strongest eligible
+  baseline with paired 90% ratio upper bounds below `1.00`.
+- **Isolation:** Exact train/transfer program overlap `0`; generator identities,
+  programs, seeds and configurations remain outside model forward.
+- **Status:** `not_run`; no H018 metric or checkpoint exists.
+- **Boundary:** Simulator compositional-transfer evidence only; no real-world,
+  causal, business-utility, language-independence or production claim.

@@ -48,6 +48,13 @@ class TrainingFamilyPolicy(str, Enum):
     HELD_TARGET = "held_target"
 
 
+class TransferTemplatePolicy(str, Enum):
+    """Whether transfer reuses templates or holds out complete compositions."""
+
+    KNOWN = "known"
+    HELD_OUT_COMPOSITION = "held_out_composition"
+
+
 @dataclass(frozen=True)
 class MechanismConfig:
     """Hidden family-agnostic transition law sampled by MechanismGenerator."""
@@ -378,6 +385,13 @@ class GeneratedWorld(Protocol):
         ...
 
     def render_action(self, action: WorldAction) -> WorldAction:
+        ...
+
+
+class MechanismFactory(Protocol):
+    """Generator-side factory for one hidden numerical mechanism."""
+
+    def generate(self, template_id: int, seed: int) -> MechanismConfig:
         ...
 
 

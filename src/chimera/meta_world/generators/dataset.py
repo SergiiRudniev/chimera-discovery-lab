@@ -7,7 +7,7 @@ import io
 import json
 import re
 import zipfile
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, cast
@@ -20,9 +20,11 @@ from numpy.typing import NDArray
 from chimera.meta_world.generators.contracts import (
     DatasetSplitConfig,
     GeneratedWorldBatch,
+    MechanismFactory,
     SplitName,
     TrainingFamilyPolicy,
     TrajectoryMetadata,
+    TransferTemplatePolicy,
     ViewCoupling,
     WorldActionPolicy,
     WorldDatasetManifest,
@@ -94,6 +96,7 @@ class GeneratedWorldDatasetConfig:
     fixed_trajectories_per_split: int
     split_configs: tuple[DatasetSplitConfig, ...]
     held_family_by_template: dict[int, int]
+    transfer_template_policy: TransferTemplatePolicy = TransferTemplatePolicy.KNOWN
     paired_counterfactual_transitions: bool = False
     shared_external_event: bool = False
     shared_renderer_noise: bool = False
@@ -102,7 +105,7 @@ class GeneratedWorldDatasetConfig:
         if (
             re.fullmatch(r"CHM-W-H\d{3}", self.hypothesis_id) is None
             or re.fullmatch(r"CHM-W-WG\d+", self.dataset_id) is None
-            or self.schema_version not in {1, 2, 3}
+            or self.schema_version not in {1, 2, 3, 4}
         ):
             raise ValueError("unexpected generated-world identity or schema")
         counterfactual_flags = (
@@ -145,8 +148,28 @@ class GeneratedWorldDatasetConfig:
         if set(names) != set(SplitName) or len(names) != len(set(names)):
             raise ValueError("every registered split must appear exactly once")
         known_templates = set(self.split(SplitName.TRAIN).mechanism_template_ids)
-        if set(self.held_family_by_template) != known_templates:
-            raise ValueError("held family map must cover every known mechanism template")
+        transfer_templates = set(
+            self.split(SplitName.TEST_WORLD_TRANSFER).mechanism_template_ids
+        )
+        if self.schema_version < 4 and (
+            self.transfer_template_policy is not TransferTemplatePolicy.KNOWN
+        ):
+            raise ValueError("held-out transfer compositions require schema v4")
+        expected_held_templates = (
+            known_templates
+            if self.transfer_template_policy is TransferTemplatePolicy.KNOWN
+            else known_templates | transfer_templates
+        )
+        if set(self.held_family_by_template) != expected_held_templates:
+            raise ValueError(
+                "held family map does not cover the registered transfer policy"
+            )
+        if (
+            self.transfer_template_policy
+            is TransferTemplatePolicy.HELD_OUT_COMPOSITION
+            and not known_templates.isdisjoint(transfer_templates)
+        ):
+            raise ValueError("held-out transfer programs must be absent from train")
         if any(
             not 0 <= value < len(WorldFamily)
             for value in self.held_family_by_template.values()
@@ -200,6 +223,9 @@ class GeneratedWorldDatasetConfig:
             ),
             split_configs=tuple(split_configs),
             held_family_by_template={int(key): int(value) for key, value in held_raw.items()},
+            transfer_template_policy=TransferTemplatePolicy(
+                str(transfer.get("template_policy", TransferTemplatePolicy.KNOWN.value))
+            ),
             paired_counterfactual_transitions=bool(
                 generation.get("paired_counterfactual_transitions", False)
             ),
@@ -240,6 +266,7 @@ class GeneratedWorldDatasetConfig:
                 for item in self.split_configs
             },
             "transfer": {
+                "template_policy": self.transfer_template_policy.value,
                 "held_family_by_template": {
                     str(key): value
                     for key, value in sorted(self.held_family_by_template.items())
@@ -269,6 +296,7 @@ class WorldGenerationPipeline:
         action_policy: WorldActionPolicy | None = None,
         *,
         training_family_policy: TrainingFamilyPolicy = TrainingFamilyPolicy.CROSS_WORLD,
+        mechanism_generator: MechanismFactory | None = None,
     ) -> None:
         self.config = config
         self.action_policy = action_policy
@@ -280,7 +308,7 @@ class WorldGenerationPipeline:
             raise ValueError(
                 "paired renderer views require the canonical latent action policy"
             )
-        self.mechanisms = MechanismGenerator()
+        self.mechanisms: MechanismFactory = mechanism_generator or MechanismGenerator()
         self.worlds = WorldGenerator(
             min_objects=config.min_objects,
             max_objects=config.max_objects,
@@ -594,6 +622,10 @@ def build_generated_world_dataset(
     action_policy_ids: Mapping[SplitName, str] | None = None,
     additional_source_hashes: Mapping[str, str] | None = None,
     claim_boundary: str | None = None,
+    pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
 ) -> dict[str, object]:
     """Build a small fixed dataset; online training uses the same pipeline."""
 
@@ -613,10 +645,17 @@ def build_generated_world_dataset(
     shards: dict[str, dict[str, object]] = {}
     counts: dict[str, int] = {"total": 0}
     for split in SplitName:
-        pipeline = WorldGenerationPipeline(
-            config,
-            None if action_policies is None else action_policies.get(split),
-        )
+        if pipeline_factory is None:
+            pipeline = WorldGenerationPipeline(
+                config,
+                None if action_policies is None else action_policies.get(split),
+            )
+        else:
+            if action_policies is not None and action_policies.get(split) is not None:
+                raise ValueError(
+                    "custom pipeline factories cannot be combined with action policies"
+                )
+            pipeline = pipeline_factory(config)
         trajectories = [pipeline.materialize(split, index) for index in range(count)]
         batch = collate_trajectories(trajectories, max_objects=config.max_objects)
         arrays = {
@@ -662,6 +701,7 @@ def build_generated_world_dataset(
             str(key): value
             for key, value in sorted(config.held_family_by_template.items())
         },
+        "transfer_template_policy": config.transfer_template_policy.value,
         "known_renderer_profiles": list(
             config.split(SplitName.TRAIN).renderer_profiles
         ),
@@ -779,6 +819,10 @@ def validate_generated_world_dataset(
     manifest_path: str | Path,
     *,
     action_policies: Mapping[SplitName, WorldActionPolicy] | None = None,
+    pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
 ) -> dict[str, object]:
     """Validate files, tensor shapes, replay and all registered split boundaries."""
 
@@ -808,10 +852,17 @@ def validate_generated_world_dataset(
     family_pairs: dict[str, set[tuple[int, int]]] = {}
     renderer_profiles: dict[str, set[int]] = {}
     for split in SplitName:
-        pipeline = WorldGenerationPipeline(
-            config,
-            None if action_policies is None else action_policies.get(split),
-        )
+        if pipeline_factory is None:
+            pipeline = WorldGenerationPipeline(
+                config,
+                None if action_policies is None else action_policies.get(split),
+            )
+        else:
+            if action_policies is not None and action_policies.get(split) is not None:
+                raise ValueError(
+                    "custom pipeline factories cannot be combined with action policies"
+                )
+            pipeline = pipeline_factory(config)
         shard = manifest["shards"][split.value]
         path = root / shard["file"]
         file_integrity = file_integrity and path.is_file() and _sha256(path) == shard["sha256"]
@@ -899,13 +950,15 @@ def validate_generated_world_dataset(
         )
     )
     train_templates = template_sets[SplitName.TRAIN.value]
-    known_template_policy = all(
+    validation_known = all(
         template_sets[name.value] == train_templates
-        for name in (
-            SplitName.VALIDATION,
-            SplitName.TEST_WORLD_TRANSFER,
-            SplitName.TEST_RENDERER,
-        )
+        for name in (SplitName.VALIDATION, SplitName.TEST_RENDERER)
+    )
+    transfer_templates = template_sets[SplitName.TEST_WORLD_TRANSFER.value]
+    known_template_policy = validation_known and (
+        transfer_templates == train_templates
+        if config.transfer_template_policy is TransferTemplatePolicy.KNOWN
+        else transfer_templates.isdisjoint(train_templates)
     )
     unseen_mechanism_policy = template_sets[SplitName.TEST_MECHANISM.value].isdisjoint(
         train_templates
@@ -914,13 +967,17 @@ def validate_generated_world_dataset(
         renderer_profiles[SplitName.TRAIN.value]
     )
     held_pairs = {
-        (template, family)
-        for template, family in config.held_family_by_template.items()
+        (template, config.held_family_by_template[template])
+        for template in transfer_templates
+    }
+    train_held_pairs = {
+        (template, config.held_family_by_template[template])
+        for template in train_templates
     }
     transfer_policy = (
         family_pairs[SplitName.TEST_WORLD_TRANSFER.value] == held_pairs
-        and family_pairs[SplitName.TRAIN.value].isdisjoint(held_pairs)
-        and family_pairs[SplitName.VALIDATION.value].isdisjoint(held_pairs)
+        and family_pairs[SplitName.TRAIN.value].isdisjoint(train_held_pairs)
+        and family_pairs[SplitName.VALIDATION.value].isdisjoint(train_held_pairs)
     )
     checks = {
         "file_integrity": file_integrity,
@@ -935,6 +992,11 @@ def validate_generated_world_dataset(
         "seed_isolation": seed_isolation,
         "exact_configuration_isolation": configuration_isolation,
         "known_template_policy": known_template_policy,
+        "exact_train_transfer_program_isolation": train_templates.isdisjoint(
+            transfer_templates
+        )
+        if config.transfer_template_policy is TransferTemplatePolicy.HELD_OUT_COMPOSITION
+        else True,
         "unseen_mechanism_policy": unseen_mechanism_policy,
         "unseen_renderer_policy": renderer_policy,
         "held_world_family_policy": transfer_policy,

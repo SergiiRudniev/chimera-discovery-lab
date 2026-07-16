@@ -52,6 +52,11 @@ from chimera.meta_world.h017 import (
     run_h017_development_suite,
     run_h017_engineering_smoke,
 )
+from chimera.meta_world.h018 import (
+    build_h018_smoke_dataset,
+    run_h018_development_suite,
+    run_h018_preflight,
+)
 from chimera.meta_world.model import ChimeraMetaWorld
 from chimera.meta_world.trial import run_meta_world_trial
 from chimera.models.venture import ChimeraVenture
@@ -375,6 +380,74 @@ def _h012_preflight(arguments: argparse.Namespace) -> int:
                 "output": str(arguments.output),
                 "test_metrics_opened": result["test_metrics_opened"],
                 "scientific_result": result["scientific_result"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h018_generator_smoke(arguments: argparse.Namespace) -> int:
+    report = build_h018_smoke_dataset(
+        arguments.output,
+        arguments.config,
+        trajectories_per_split=arguments.trajectories_per_split,
+    )
+    print(
+        json.dumps(
+            {
+                "dataset_id": report["dataset_id"],
+                "hypothesis_id": report["hypothesis_id"],
+                "status": report["status"],
+                "manifest": str(arguments.output / "manifest.json"),
+                "counts": report["counts"],
+                "programs": report["programs"],
+                "checks": report["checks"],
+                "scientific_result": False,
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h018_preflight(arguments: argparse.Namespace) -> int:
+    result = run_h018_preflight(arguments.config, arguments.output)
+    print(
+        json.dumps(
+            {
+                "run_id": result["run_id"],
+                "hypothesis_id": result["hypothesis_id"],
+                "status": result["status"],
+                "arm": result["arm"],
+                "training_family_policy": result["training_family_policy"],
+                "parameters": result["parameters"],
+                "best_step": result["best_step"],
+                "output": str(arguments.output),
+                "test_metrics_opened": result["test_metrics_opened"],
+                "scientific_result": result["scientific_result"],
+            },
+            sort_keys=True,
+        )
+    )
+    return 0
+
+
+def _h018_suite(arguments: argparse.Namespace) -> int:
+    result = run_h018_development_suite(
+        arguments.config,
+        arguments.output,
+        arguments.report,
+    )
+    print(
+        json.dumps(
+            {
+                "hypothesis_id": result["hypothesis_id"],
+                "status": result["status"],
+                "decision": result["decision"],
+                "report": str(arguments.report),
+                "test_metrics_opened": result["test_metrics_opened"],
+                "checkpoint_promoted": result["checkpoint_promoted"],
             },
             sort_keys=True,
         )
@@ -1493,6 +1566,51 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         default=Path("research/preflights/CHM-W-H017-development.json"),
     )
+    h018_generator_smoke_parser = subparsers.add_parser(
+        "meta-world-h018-smoke-dataset"
+    )
+    h018_generator_smoke_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_generators_h018.yaml"),
+    )
+    h018_generator_smoke_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("artifacts/meta_world_h018_smoke"),
+    )
+    h018_generator_smoke_parser.add_argument(
+        "--trajectories-per-split",
+        type=int,
+        default=24,
+    )
+    h018_preflight_parser = subparsers.add_parser("meta-world-h018-preflight")
+    h018_preflight_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h018_development_smoke.yaml"),
+    )
+    h018_preflight_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h018_development_smoke"),
+    )
+    h018_suite_parser = subparsers.add_parser("meta-world-h018-suite")
+    h018_suite_parser.add_argument(
+        "--config",
+        type=Path,
+        default=Path("configs/meta_world/world_h018_suite.yaml"),
+    )
+    h018_suite_parser.add_argument(
+        "--output",
+        type=Path,
+        default=Path("runs/h018_development"),
+    )
+    h018_suite_parser.add_argument(
+        "--report",
+        type=Path,
+        default=Path("research/preflights/CHM-W-H018-development.json"),
+    )
     return parser
 
 
@@ -1584,6 +1702,12 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _h017_smoke(arguments)
     if arguments.command == "meta-world-h017-suite":
         return _h017_suite(arguments)
+    if arguments.command == "meta-world-h018-smoke-dataset":
+        return _h018_generator_smoke(arguments)
+    if arguments.command == "meta-world-h018-preflight":
+        return _h018_preflight(arguments)
+    if arguments.command == "meta-world-h018-suite":
+        return _h018_suite(arguments)
     config = ExperimentConfig.from_yaml(arguments.config)
     if arguments.command == "inspect":
         return _inspect(config)

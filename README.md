@@ -210,6 +210,12 @@ H017 keeps the H016 critic and replaces iterative CEM with 256 balanced,
 Latin-hypercube numerical interventions followed by one-pass quality-diversity
 reranking. See the [H017 support-pool contract](docs/SUPPORT_POOL_H017.md).
 
+## Compositional World Transfer H018
+
+H018 trains on programmatically composed numerical mechanisms and holds out
+complete operator compositions together with unseen world-family mappings. See
+the [H018 compositional-transfer contract](docs/COMPOSITIONAL_WORLD_TRANSFER_H018.md).
+
 ## Numerical Output
 
 ```text

@@ -1,0 +1,61 @@
+hypothesis_id: CHM-W-H018
+dataset_id: CHM-W-WG5
+schema_version: 4
+generation:
+  base_seed: 260962
+  trajectory_steps: 8
+  min_objects: 4
+  max_objects: 10
+  state_features: 4
+  observation_features: 8
+  relation_features: 4
+  action_features: 2
+  outcome_features: 4
+  views_per_mechanism: 4
+  render_views_per_world: 2
+  view_coupling: paired_world_renderers
+  fixed_trajectories_per_split: 24
+  paired_counterfactual_transitions: true
+  shared_external_event: true
+  shared_renderer_noise: true
+splits:
+  train:
+    seed_offset: 0
+    mechanism_template_ids: [0, 1, 2, 3, 4, 5]
+    renderer_profiles: [0, 1]
+  validation:
+    seed_offset: 1000000
+    mechanism_template_ids: [0, 1, 2, 3, 4, 5]
+    renderer_profiles: [0, 1]
+  test_world_transfer:
+    seed_offset: 2000000
+    mechanism_template_ids: [6, 7, 8]
+    renderer_profiles: [0, 1]
+  test_mechanism:
+    seed_offset: 3000000
+    mechanism_template_ids: [9, 10]
+    renderer_profiles: [0, 1]
+  test_renderer:
+    seed_offset: 4000000
+    mechanism_template_ids: [0, 1, 2, 3, 4, 5]
+    renderer_profiles: [2]
+transfer:
+  template_policy: held_out_composition
+  held_family_by_template:
+    0: 2
+    1: 0
+    2: 1
+    3: 2
+    4: 0
+    5: 1
+    6: 2
+    7: 0
+    8: 1
+evaluation:
+  development_seed: 260962
+  frozen_validation_seeds: [260963, 260964, 260965]
+  rollout_horizon: 4
+  bootstrap_confidence: 0.90
+  bootstrap_samples: 10000
+  maximum_primary_error_ratio: 0.90
+  maximum_primary_ratio_upper_bound: 1.00

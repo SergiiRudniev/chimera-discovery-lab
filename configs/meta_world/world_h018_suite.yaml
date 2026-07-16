@@ -1,0 +1,25 @@
+hypothesis_id: CHM-W-H018
+trial_id: CHM-W-T018
+generator_config: configs/meta_world/world_generators_h018.yaml
+development_seed: 260962
+frozen_validation_seeds: [260963, 260964, 260965]
+test_access: sealed_until_all_validation_decisions_are_frozen
+arms:
+  compositional_cross_world_pretraining_with_mechanism_alignment:
+    config: configs/meta_world/world_h018_development_aligned.yaml
+    primary_predictive_baseline: false
+  compositional_cross_world_pretraining_without_mechanism_alignment:
+    config: configs/meta_world/world_h018_development_no_alignment.yaml
+    primary_predictive_baseline: true
+  compositional_target_family_only_training:
+    config: configs/meta_world/world_h018_development_target_family.yaml
+    primary_predictive_baseline: true
+  temporal_predictor_without_relational_world_state:
+    config: configs/meta_world/world_h018_development_temporal.yaml
+    primary_predictive_baseline: true
+  legal_random_intervention_baseline:
+    config: null
+    primary_predictive_baseline: false
+    metric_scope: intervention_regret_only
+primary_split: test_world_transfer
+primary_metrics: [intervention_effect_nrmse, four_step_rollout_nrmse]

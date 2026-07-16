@@ -33,7 +33,20 @@ def test_research_registry_is_valid() -> None:
         "CHM-W-H015",
         "CHM-W-H016",
         "CHM-W-H017",
+        "CHM-W-H018",
     ]
+
+
+def test_h018_is_preregistered_without_a_claimed_result() -> None:
+    hypothesis = Path("research/hypotheses/CHM-W-H018.yaml").read_text(
+        encoding="utf-8"
+    )
+    result = json.loads(Path("research/results/CHM-W-H018.json").read_text(encoding="utf-8"))
+    assert "held_out_two_operator_transfer_program_ids: [6, 7, 8]" in hypothesis
+    assert "human_or_llm_judging_in_primary_experiment: false" in hypothesis
+    assert result["id"] == "CHM-W-H018"
+    assert result["status"] == "not_run"
+    assert result["metrics"] is None
 
 
 def test_duplicate_hypothesis_is_rejected(tmp_path: Path) -> None:
