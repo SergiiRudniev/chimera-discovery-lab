@@ -116,6 +116,11 @@ H011 replaces global embedding similarity with direct agreement between the
 predicted intervention-effect distributions of paired renderer views. See the
 [paired response-consistency contract](docs/RESPONSE_CONSISTENCY_H011.md).
 
+H012 freezes the complete generator-first comparison: aligned and unaligned
+cross-world pretraining, target-family-only training, a temporal predictor and
+legal random intervention regret. See the
+[procedural pretraining contract](docs/PROCEDURAL_PRETRAINING_H012.md).
+
 ## Closed-Loop Training H003
 
 H002 validation showed that relational state improved intervention-effect

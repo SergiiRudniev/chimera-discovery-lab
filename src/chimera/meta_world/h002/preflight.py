@@ -91,6 +91,11 @@ def _execute_h002_preflight(
         [GeneratedSequenceSample, int, int], MetaWorldBatch
     ]
     | None = None,
+    training_pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
+    allow_target_family_only: bool = False,
 ) -> dict[str, Any]:
     """Train on online train worlds and select only against frozen validation worlds."""
 
@@ -98,16 +103,21 @@ def _execute_h002_preflight(
     config = run_config or H002RunConfig.from_yaml(config_file)
     if config.mode != "preflight":
         raise ValueError("run_h002_preflight only accepts mode=preflight")
-    if config.arm is H002Arm.TARGET_FAMILY_ONLY:
+    if config.arm is H002Arm.TARGET_FAMILY_ONLY and not allow_target_family_only:
         raise ValueError("target-family sampling is reserved for the frozen trial runner")
     output = Path(output_dir)
     if output.exists() and any(output.iterdir()):
         raise FileExistsError("preflight output directory must be empty")
     output.mkdir(parents=True, exist_ok=True)
     generator_config = GeneratedWorldDatasetConfig.from_yaml(config.generator_config)
-    pipeline = WorldGenerationPipeline(generator_config)
+    validation_pipeline = WorldGenerationPipeline(generator_config)
+    training_pipeline = (
+        WorldGenerationPipeline(generator_config)
+        if training_pipeline_factory is None
+        else training_pipeline_factory(generator_config)
+    )
     validation_sample = materialize_sequence_sample(
-        pipeline,
+        validation_pipeline,
         SplitName.VALIDATION,
         start_index=0,
         batch_size=config.evaluation.validation_trajectories,
@@ -155,7 +165,7 @@ def _execute_h002_preflight(
     prediction_count = generator_config.trajectory_steps - 1
     for step in range(1, config.training.steps + 1):
         train_sample = materialize_sequence_sample(
-            pipeline,
+            training_pipeline,
             SplitName.TRAIN,
             start_index=(step - 1) * config.training.batch_size,
             batch_size=config.training.batch_size,
@@ -312,6 +322,11 @@ def run_generated_world_preflight(
         [GeneratedSequenceSample, int, int], MetaWorldBatch
     ]
     | None = None,
+    training_pipeline_factory: Callable[
+        [GeneratedWorldDatasetConfig], WorldGenerationPipeline
+    ]
+    | None = None,
+    allow_target_family_only: bool = False,
 ) -> dict[str, Any]:
     """Run the shared generated-world preflight under an explicit hypothesis ID."""
 
@@ -324,6 +339,8 @@ def run_generated_world_preflight(
             model_factory=model_factory,
             trainer_factory=trainer_factory,
             window_factory=window_factory,
+            training_pipeline_factory=training_pipeline_factory,
+            allow_target_family_only=allow_target_family_only,
         )
     except Exception as error:
         output = Path(output_dir)

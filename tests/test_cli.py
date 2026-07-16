@@ -18,7 +18,7 @@ def test_inspect_cli_reports_registered_model(capsys: object) -> None:
 def test_research_cli_validates_registry(capsys: object) -> None:
     assert main(["validate-research", "--registry", "research/registry.yaml"]) == 0
     captured = capsys.readouterr()  # type: ignore[attr-defined]
-    assert json.loads(captured.out) == {"validated_hypotheses": 16}
+    assert json.loads(captured.out) == {"validated_hypotheses": 17}
 
 
 def test_corpus_cli_validates_dataset(capsys: object) -> None:
@@ -113,6 +113,25 @@ def test_h009_smoke_dataset_cli(tmp_path: Path, capsys: object) -> None:
     assert payload["status"] == "passed"
     assert payload["scientific_result"] is False
     assert payload["checks"]["paired_renderer_trajectory_consistency"] is True
+
+
+def test_h012_smoke_dataset_cli(tmp_path: Path, capsys: object) -> None:
+    assert main(
+        [
+            "meta-world-h012-smoke-dataset",
+            "--output",
+            str(tmp_path),
+            "--trajectories-per-split",
+            "16",
+        ]
+    ) == 0
+    payload = json.loads(capsys.readouterr().out)  # type: ignore[attr-defined]
+
+    assert payload["dataset_id"] == "CHM-W-WG3"
+    assert payload["hypothesis_id"] == "CHM-W-H012"
+    assert payload["status"] == "passed"
+    assert payload["scientific_result"] is False
+    assert payload["checks"]["service_metadata_excluded_from_model_batch"] is True
 
 
 def test_h010_preflight_cli_reports_shared_path(tmp_path: Path, capsys: object) -> None:

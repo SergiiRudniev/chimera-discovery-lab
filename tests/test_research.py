@@ -27,6 +27,7 @@ def test_research_registry_is_valid() -> None:
         "CHM-W-H009",
         "CHM-W-H010",
         "CHM-W-H011",
+        "CHM-W-H012",
     ]
 
 
@@ -321,4 +322,14 @@ def test_h011_development_failure_keeps_validation_and_test_sealed() -> None:
         / control["paired_effect_mean_disagreement"]
     )
     assert result["status"] == "not_run"
+    assert result["metrics"] is None
+
+
+def test_h012_is_registered_before_metrics_are_opened() -> None:
+    result = json.loads(Path("research/results/CHM-W-H012.json").read_text(encoding="utf-8"))
+
+    assert result["id"] == "CHM-W-H012"
+    assert result["trial_id"] == "CHM-W-T012"
+    assert result["status"] == "not_run"
+    assert result["decision"] == "not_run"
     assert result["metrics"] is None

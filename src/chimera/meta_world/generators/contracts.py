@@ -41,6 +41,13 @@ class ViewCoupling(str, Enum):
     PAIRED_WORLD_RENDERERS = "paired_world_renderers"
 
 
+class TrainingFamilyPolicy(str, Enum):
+    """Evaluator-controlled family allocation for online training only."""
+
+    CROSS_WORLD = "cross_world"
+    HELD_TARGET = "held_target"
+
+
 @dataclass(frozen=True)
 class MechanismConfig:
     """Hidden family-agnostic transition law sampled by MechanismGenerator."""
