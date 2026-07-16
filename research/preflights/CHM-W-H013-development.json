@@ -1,0 +1,159 @@
+{
+  "arms": {
+    "factorized_counterfactual_transition": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "509a8ceda4a44a8d30baf1aeba5bffe333fda69263f64a1bd364fc4bbf772870",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h013_development_factorized.yaml",
+      "config_sha256": "bcf485eec93fd6bf1b32b41a6a161698385bb5fcdae449cb58f73d3771482ee1",
+      "metrics": {
+        "factorized_identity_maximum_absolute_residual": 1.1920928955078125e-07,
+        "four_step_rollout_nrmse": 0.4637702405452728,
+        "intervention_effect_90_coverage": 0.9955357142857143,
+        "intervention_effect_nll": -2.3034798077174594,
+        "intervention_effect_nrmse": 0.9203945808532615,
+        "intervention_effect_rmse": 0.04489849158364771,
+        "intervention_state_delta_nrmse": 0.9775975740028371,
+        "mechanism_retrieval_accuracy": 0.125,
+        "no_op_state_nrmse": 0.1552745439814541,
+        "one_step_prediction_rmse": 0.10389286484812653
+      },
+      "model_class": "chimera.meta_world.h013.model.FactorizedCounterfactualTransitionWorldModel",
+      "parameters": 65484814,
+      "peak_memory_bytes": 1657737216,
+      "run_id": "H013-DEVELOPMENT-FACTORIZED-S260942",
+      "runtime_seconds": 71.33170480001718,
+      "selected_step": 600
+    },
+    "factual_only_relational_reference": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "497cc4d56ca09057ba3e6d50c0f185f8e83e8f952ca6c0213140c30ea3e8389a",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h013_development_factual_only.yaml",
+      "config_sha256": "9af49373d1e37ae99acfde1c5c40312f43cbe18ec954c393af33a97c7187738d",
+      "metrics": {
+        "factorized_identity_maximum_absolute_residual": null,
+        "four_step_rollout_nrmse": 0.46384549140930176,
+        "intervention_effect_90_coverage": 0.9955357142857143,
+        "intervention_effect_nll": -2.3459178039005826,
+        "intervention_effect_nrmse": 0.879615937173885,
+        "intervention_effect_rmse": 0.04290923650966227,
+        "intervention_state_delta_nrmse": 1.3462262853690992,
+        "mechanism_retrieval_accuracy": 0.125,
+        "no_op_state_nrmse": null,
+        "one_step_prediction_rmse": 0.10364060761915787
+      },
+      "model_class": "chimera.meta_world.h008.model.CounterfactualRelationalWorldModel",
+      "parameters": 65213950,
+      "peak_memory_bytes": 1652652032,
+      "run_id": "H013-DEVELOPMENT-FACTUAL-ONLY-S260942",
+      "runtime_seconds": 70.21712690003915,
+      "selected_step": 600
+    },
+    "matched_direct_factual_no_op_transition": {
+      "checkpoint": {
+        "promoted": false,
+        "sha256": "c5795e66d209c4fb3ddbc2d6f4c1dd85f42fd97a4393851b1f2feeed2606a0f0",
+        "weights_kind": "ema"
+      },
+      "config": "configs/meta_world/world_h013_development_direct.yaml",
+      "config_sha256": "3d9d440b2ed80cc59db8a9984bd4b429fd654b7595ee557ceec25dfa243e58c2",
+      "metrics": {
+        "factorized_identity_maximum_absolute_residual": 0.0,
+        "four_step_rollout_nrmse": 0.46085718274116516,
+        "intervention_effect_90_coverage": 0.9955357142857143,
+        "intervention_effect_nll": -2.2799835545676097,
+        "intervention_effect_nrmse": 0.9108108111544302,
+        "intervention_effect_rmse": 0.044430978180033706,
+        "intervention_state_delta_nrmse": 0.9838776497822205,
+        "mechanism_retrieval_accuracy": 0.125,
+        "no_op_state_nrmse": 0.15508587588348896,
+        "one_step_prediction_rmse": 0.10385428100891211
+      },
+      "model_class": "chimera.meta_world.h013.model.DirectDualTransitionWorldModel",
+      "parameters": 65484814,
+      "peak_memory_bytes": 1659179008,
+      "run_id": "H013-DEVELOPMENT-DIRECT-S260942",
+      "runtime_seconds": 73.2536997999996,
+      "selected_step": 600
+    }
+  },
+  "checkpoint_promoted": false,
+  "claim_boundary": "Development-only generated-simulator evidence. Frozen validation and every test split remained sealed; no real-world causal, business, language-independence or production claim.",
+  "comparisons": {
+    "factorized_vs_factual_only_reference": {
+      "four_step_rollout_nrmse_ratio": 0.9998377673914641,
+      "intervention_state_delta_nrmse_ratio": 0.7261762636990898
+    },
+    "factorized_vs_matched_direct": {
+      "four_step_rollout_nrmse_ratio": 1.0063209556305077,
+      "intervention_effect_nrmse_ratio": 1.0105222397247176,
+      "intervention_state_delta_nrmse_ratio": 0.9936170155092217,
+      "no_op_state_nrmse_ratio": 1.001216539526184
+    }
+  },
+  "dataset_integrity": {
+    "deterministic_replay_rate": 1.0,
+    "manifest_sha256": "8319890ca3d48f53c1ffc6c22fc98b6cc1373b1d9d6c8d2342ddf9e0a1065965",
+    "paired_counterfactual_transition_present": true,
+    "revalidated": false,
+    "source": "research/preflights/CHM-W-H013-WG4-integrity.json",
+    "source_sha256": "a2611ce413202e34da1689c7745b501a9d2028e4b2eae1bc304b3f8ee49b7f8f",
+    "split_leakage_findings": 0
+  },
+  "decision": "do_not_open_H013_frozen_validation",
+  "development_gate": {
+    "all_metrics_finite": true,
+    "deterministic_replay_rate": 1.0,
+    "factorized_identity_maximum_absolute_residual": 1.1920928955078125e-07,
+    "factorized_identity_maximum_absolute_residual_maximum": 1e-06,
+    "four_step_rollout_nrmse_ratio": 1.0063209556305077,
+    "four_step_rollout_nrmse_ratio_maximum": 1.0,
+    "intervention_effect_nrmse_ratio": 1.0105222397247176,
+    "intervention_effect_nrmse_ratio_maximum": 1.0,
+    "intervention_state_delta_nrmse_ratio": 0.9936170155092217,
+    "intervention_state_delta_nrmse_ratio_maximum": 0.9,
+    "no_op_state_nrmse_ratio": 1.001216539526184,
+    "no_op_state_nrmse_ratio_maximum": 1.0,
+    "parameter_count_matched": true,
+    "passed": false,
+    "split_leakage_findings": 0,
+    "test_metrics_opened": false
+  },
+  "environment": {
+    "config_sha256": "bcf485eec93fd6bf1b32b41a6a161698385bb5fcdae449cb58f73d3771482ee1",
+    "device": "cuda",
+    "device_name": "NVIDIA GeForce RTX 5070",
+    "generator_config_sha256": "a946f649ae5202c342a89ff4d26c0311388a16006f34498077b3ce9cab4c2c8d",
+    "git_commit": "ce7fe7fbc4584c810c299da8e37d70ef20cd87b3",
+    "precision": "bfloat16",
+    "python": "3.12.13",
+    "torch": "2.13.0+cu132"
+  },
+  "frozen_validation_seeds_opened": false,
+  "hypothesis_id": "CHM-W-H013",
+  "legal_random_intervention": {
+    "candidates_per_sample": 8,
+    "legal_action_rate": 1.0,
+    "mean_best_candidate_effect": 0.020982947200536728,
+    "mean_intervention_regret": 0.03416565805673599,
+    "mean_selected_effect": -0.013182710856199265,
+    "samples": 4
+  },
+  "opened_splits": [
+    "train",
+    "validation"
+  ],
+  "preflight_id": "CHM-W-H013-DEVELOPMENT-001",
+  "registered_trial_executed": false,
+  "schema_version": 1,
+  "scientific_result": false,
+  "seed": 260942,
+  "status": "completed_development_preflight",
+  "test_metrics_opened": false,
+  "trial_id": "CHM-W-T013"
+}

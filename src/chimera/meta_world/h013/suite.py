@@ -354,8 +354,7 @@ def run_h013_development_suite(
     }
     report_file = Path(report_path)
     report_file.parent.mkdir(parents=True, exist_ok=True)
-    report_file.write_text(
-        json.dumps(report, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    report_file.write_bytes(
+        (json.dumps(report, indent=2, sort_keys=True) + "\n").encode("utf-8")
     )
     return report

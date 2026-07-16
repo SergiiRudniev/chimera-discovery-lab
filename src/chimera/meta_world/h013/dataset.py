@@ -63,8 +63,7 @@ def build_h013_smoke_dataset(
         raise RuntimeError("WG4 integrity validation failed")
     report = Path(report_path)
     report.parent.mkdir(parents=True, exist_ok=True)
-    report.write_text(
-        json.dumps(validation, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
+    report.write_bytes(
+        (json.dumps(validation, indent=2, sort_keys=True) + "\n").encode("utf-8")
     )
     return validation

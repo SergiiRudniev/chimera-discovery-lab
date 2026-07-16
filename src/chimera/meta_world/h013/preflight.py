@@ -47,7 +47,9 @@ def _git_commit() -> str | None:
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    path.write_bytes(
+        (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    )
 
 
 def _make_model(config: H013RunConfig) -> nn.Module:
@@ -179,9 +181,10 @@ def _execute_h013_preflight(
                 best_metrics = evaluation
                 save_checkpoint(step)
     metrics_path = output / "metrics.jsonl"
-    metrics_path.write_text(
-        "".join(json.dumps(row, sort_keys=True) + "\n" for row in metric_rows),
-        encoding="utf-8",
+    metrics_path.write_bytes(
+        "".join(json.dumps(row, sort_keys=True) + "\n" for row in metric_rows).encode(
+            "utf-8"
+        )
     )
     manifest = {
         "run_id": runtime.run_id,

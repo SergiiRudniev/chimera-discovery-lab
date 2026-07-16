@@ -159,6 +159,11 @@ renderer noise; the factorized model must reconstruct factual next state as
 no-op next state plus an intervention delta. See the
 [H013 factorized-transition contract](docs/FACTORIZED_TRANSITION_H013.md).
 
+The development gate was negative: additive factorization matched but did not
+beat the parameter-matched direct dual-transition model. Paired no-op
+supervision did materially improve state-delta prediction versus factual-only,
+so that representation signal is retained for the next registered hypothesis.
+
 ## Numerical Output
 
 ```text

@@ -1,5 +1,34 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H013 development preflight
+
+- **Scope:** Development seed `260942`; factorized, matched direct and
+  factual-only relational arms trained for 600 steps. Only `train` and ordinary
+  `validation` opened. Frozen validation seeds and model test splits stayed
+  sealed.
+- **Factorized:** Delta-state NRMSE `0.977598`, rollout `0.463770`, no-op-state
+  `0.155275`, intervention-effect `0.920395`; identity residual `1.19e-7`.
+- **Matched direct:** Delta-state NRMSE `0.983878`, rollout `0.460857`, no-op
+  `0.155086`, effect `0.910811`. Both primary models had exactly `65,484,814`
+  trainable parameters.
+- **Primary comparison:** Factorized/direct ratios were `0.993617` for delta,
+  `1.006321` for rollout, `1.001217` for no-op state and `1.010522` for effect.
+  The registered `0.90/1.00/1.00/1.00` gate failed.
+- **Reference diagnostic:** Factorized delta-state error was `0.726176x` the
+  factual-only reference while rollout was `0.999838x`. Explicit paired no-op
+  supervision is useful; additive factual-state arithmetic is not the source
+  of that gain. Effect NRMSE did not improve over factual-only.
+- **Integrity:** Deterministic dataset replay `1.0`, zero split leakage, finite
+  metrics, legal random-action rate `1.0`, and no model test metrics opened.
+- **Decision:** Do not open H013 frozen validation, do not promote a checkpoint
+  and leave `research/results/CHM-W-H013.json` as `not_run`.
+- **Next action:** Preserve paired factual/no-op transition supervision without
+  forced additive factual decoding. Test whether an explicit learned response
+  representation can improve intervention ranking/effect prediction rather
+  than only reconstructing state deltas.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  causal, business, language-independence or production claim.
+
 ## 2026-07-16 - CHM-W-H013 implementation and WG4 integrity
 
 - **Implementation:** WG4 now emits factual and no-op next observations from

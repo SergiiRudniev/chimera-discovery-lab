@@ -61,6 +61,18 @@ Versus the matched direct model, the factorized arm must achieve:
 
 Failure keeps frozen validation and test sealed and promotes no checkpoint.
 
+## Development result
+
+H013 did not pass. The factorized/direct ratios were `0.993617` for
+intervention-state-delta NRMSE, `1.006321` for factual rollout, `1.001217` for
+no-op-state NRMSE and `1.010522` for intervention-effect NRMSE. The exact
+identity residual passed at `1.19e-7`, but the predictive gate did not.
+
+The factorized arm did reduce delta-state error versus the factual-only
+reference to `0.726176x` with a rollout ratio of `0.999838`. This is diagnostic
+evidence for paired no-op supervision, not for additive factual decoding.
+Frozen validation and test remain sealed, and no checkpoint is promoted.
+
 ## Commands
 
 ```powershell
