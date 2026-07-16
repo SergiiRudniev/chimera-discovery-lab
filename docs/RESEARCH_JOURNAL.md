@@ -1,5 +1,34 @@
 # Research Journal
 
+## 2026-07-16 - CHM-W-H014 development preflight
+
+- **Scope:** Development seed `260946`; response and matched control arms each
+  trained for 600 steps. Only `train` and ordinary `validation` opened. WG4
+  integrity evidence was reused without revalidation; frozen validation and all
+  model test metrics stayed sealed.
+- **Response arm:** Effect NRMSE `0.944838`, rollout `0.463979`, delta-state
+  `0.974599`, no-op-state `0.156422`, coverage `0.995536`.
+- **Factual-residual control:** Effect NRMSE `0.896091`, rollout `0.462166`,
+  delta-state `0.981275`, no-op-state `0.156908`. Both models contained exactly
+  `66,283,046` trainable parameters.
+- **Controlled result:** Response/control ratios were `1.054400` for effect,
+  `1.003923` for rollout, `0.993197` for delta state and `0.996902` for no-op
+  state. The registered `0.90/1.00/1.00/1.00` gate failed.
+- **Hard guards:** Outcome counterfactual identity residual `0.0`, deterministic
+  dataset replay `1.0`, zero leakage, finite metrics, coverage above threshold
+  and legal random-action rate `1.0`.
+- **Decision:** Do not open H014 frozen validation, do not promote a checkpoint
+  and leave `research/results/CHM-W-H014.json` as `not_run`.
+- **Interpretation:** Paired no-op supervision remains useful as an auxiliary
+  dynamics target, but directly conditioning the outcome head on the predicted
+  no-op-subtracted response is harmful.
+- **Next action:** Stop iterating on terminal-head arithmetic. Register an
+  equal-budget numerical intervention-search hypothesis that compares
+  model-guided candidate generation with legal random and uncertainty-ablated
+  controls inside generated worlds.
+- **Claim boundary:** Development simulator evidence only; no real-world
+  causal, business, language-independence or production claim.
+
 ## 2026-07-16 - CHM-W-H014 implementation
 
 - **Architecture:** Both arms retain H013 direct factual/no-op transitions and

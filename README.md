@@ -171,6 +171,11 @@ the predicted factual-minus-no-op state response or a parameter-matched factual
 residual control. WG4 integrity evidence is reused without revalidation. See the
 [H014 response-conditioned contract](docs/RESPONSE_CONDITIONED_EFFECT_H014.md).
 
+The development result was negative: no-op-subtracted response conditioning
+worsened effect and rollout versus the matched factual-residual control. Paired
+no-op supervision remains an auxiliary dynamics signal; the next program stage
+moves from head arithmetic to equal-budget numerical intervention search.
+
 ## Numerical Output
 
 ```text

@@ -54,6 +54,16 @@ arm must achieve:
 
 Failure keeps frozen validation and test sealed and promotes no checkpoint.
 
+## Development result
+
+H014 did not pass. The no-op-subtracted response/control ratios were `1.054400`
+for effect NRMSE, `1.003923` for rollout, `0.993197` for state delta and
+`0.996902` for no-op state. Coverage passed at `0.995536`, the outcome identity
+residual was `0.0`, and parameter counts matched, but the primary response
+conditioning worsened effect prediction.
+
+Frozen validation and test remain sealed. No checkpoint is promoted.
+
 ## Commands
 
 ```powershell
