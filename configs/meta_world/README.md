@@ -23,5 +23,7 @@ five comparison arms, sealed-test policy and primary transfer gate.
 
 `world_generators_h013.yaml` and `world_h013_suite.yaml` freeze the WG4 paired
 factual/no-op transition contract and parameter-matched additive-dynamics gate.
+The three `world_h013_development_*.yaml` files hold the factorized, matched
+direct and factual-only development arms; the smoke config is engineering-only.
 
 No configuration in this directory may reuse Venture graph semantics implicitly.

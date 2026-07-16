@@ -27,6 +27,10 @@ class MetaWorldOutput:
     transition_state: Tensor
     counterfactual_no_op_mean: Tensor | None = None
     counterfactual_no_op_log_variance: Tensor | None = None
+    counterfactual_no_op_state_mean: Tensor | None = None
+    counterfactual_no_op_state_log_variance: Tensor | None = None
+    intervention_state_delta_mean: Tensor | None = None
+    intervention_state_delta_log_variance: Tensor | None = None
 
 
 class ContinuousRelationAttention(nn.Module):

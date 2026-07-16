@@ -5,6 +5,7 @@ development_seed: 260942
 frozen_validation_seeds: [260943, 260944, 260945]
 test_access: sealed
 generator_config: configs/meta_world/world_generators_h013.yaml
+dataset_integrity_report: research/preflights/CHM-W-H013-WG4-integrity.json
 arms:
   factorized_counterfactual_transition: configs/meta_world/world_h013_development_factorized.yaml
   matched_direct_factual_no_op_transition: configs/meta_world/world_h013_development_direct.yaml

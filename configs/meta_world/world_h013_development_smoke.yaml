@@ -1,0 +1,47 @@
+run_id: H013-DEVELOPMENT-SMOKE-S260942
+mode: preflight
+arm: factorized_counterfactual_transition
+generator_config: configs/meta_world/world_generators_h013.yaml
+model:
+  observation_features: 8
+  relation_features: 4
+  intervention_types: 1
+  intervention_parameters: 3
+  effect_dimensions: 4
+  domain_count: 1
+  mechanism_count: 8
+  hidden_dim: 512
+  num_heads: 8
+  spatial_layers: 8
+  temporal_layers: 6
+  transition_layers: 6
+  feedforward_multiplier: 4
+  max_slots: 10
+  context_steps: 4
+  dropout: 0.1
+  log_variance_min: -6.0
+  log_variance_max: 2.0
+training:
+  seed: 260942
+  batch_size: 4
+  active_slots: 4
+  steps: 2
+  learning_rate: 0.0002
+  weight_decay: 0.01
+  max_grad_norm: 1.0
+  next_state_weight: 1.0
+  effect_weight: 1.0
+  alignment_weight: 0.0
+  variance_weight: 0.01
+  alignment_margin: 0.2
+  primary_effect_weight: 4.0
+  ema_decay: 0.995
+  device: cuda
+  precision: bfloat16
+evaluation:
+  evaluation_interval: 1
+  validation_trajectories: 4
+  rollout_horizon: 4
+transition_semantics: no_op_plus_intervention_delta_v1
+no_op_state_weight: 1.0
+intervention_delta_weight: 1.0

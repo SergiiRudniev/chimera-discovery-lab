@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-from dataclasses import dataclass, fields
+from dataclasses import dataclass
 
 import torch
 from torch import Tensor
@@ -111,14 +111,37 @@ def concatenate_sequence_samples(
     reference = samples[0]
     if any(sample.state_features != reference.state_features for sample in samples[1:]):
         raise ValueError("sequence samples must share the state feature count")
-    batch_values = {
-        item.name: torch.cat(
-            [getattr(sample.batch, item.name) for sample in samples],
+    counterfactual_values = [
+        sample.batch.counterfactual_no_op_observations for sample in samples
+    ]
+    if any(value is None for value in counterfactual_values) and not all(
+        value is None for value in counterfactual_values
+    ):
+        raise ValueError("sequence samples disagree on counterfactual targets")
+    counterfactual = (
+        None
+        if counterfactual_values[0] is None
+        else torch.cat(
+            [
+                value
+                for value in counterfactual_values
+                if value is not None
+            ],
             dim=0,
         )
-        for item in fields(reference.batch)
-    }
-    combined_batch = GeneratedWorldBatch(**batch_values)
+    )
+    combined_batch = GeneratedWorldBatch(
+        observations=torch.cat([sample.batch.observations for sample in samples]),
+        object_mask=torch.cat([sample.batch.object_mask for sample in samples]),
+        relations=torch.cat([sample.batch.relations for sample in samples]),
+        relation_mask=torch.cat([sample.batch.relation_mask for sample in samples]),
+        actions=torch.cat([sample.batch.actions for sample in samples]),
+        action_targets=torch.cat([sample.batch.action_targets for sample in samples]),
+        delta_time=torch.cat([sample.batch.delta_time for sample in samples]),
+        outcomes=torch.cat([sample.batch.outcomes for sample in samples]),
+        sequence_mask=torch.cat([sample.batch.sequence_mask for sample in samples]),
+        counterfactual_no_op_observations=counterfactual,
+    )
     combined_batch.validate()
     return GeneratedSequenceSample(
         batch=combined_batch,
@@ -261,6 +284,11 @@ def make_transition_window(
         mechanism_ids=sample.mechanism_ids,
         action_history=action_history,
         action_target_history=action_target_history,
+        counterfactual_no_op_observations=(
+            generated.counterfactual_no_op_observations[:, prediction_step]
+            if generated.counterfactual_no_op_observations is not None
+            else None
+        ),
     )
     window.validate()
     return window

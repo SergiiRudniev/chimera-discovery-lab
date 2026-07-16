@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 from abc import ABC, abstractmethod
 
 import numpy as np
@@ -145,20 +146,35 @@ class _BaseWorld(ABC):
             magnitude=0.0,
             control=0.0,
         )
-        _, baseline_metrics = self._advance(self._state.copy(), no_op, event)
+        no_op_state, baseline_metrics = self._advance(
+            self._state.copy(), no_op, event
+        )
         self._state = self._clip_state(next_state)
         outcome = np.asarray(
             [metrics[0], metrics[1], metrics[2], metrics[0] - baseline_metrics[0]],
             dtype=np.float32,
         )
+        renderer_state = copy.deepcopy(self._renderer_rng.bit_generator.state)
+        factual_observation = self._renderer.render(
+            self._state,
+            self._relations,
+            self._renderer_rng,
+        )
+        factual_renderer_state = copy.deepcopy(
+            self._renderer_rng.bit_generator.state
+        )
+        self._renderer_rng.bit_generator.state = renderer_state
+        no_op_observation = self._renderer.render(
+            self._clip_state(no_op_state),
+            self._relations,
+            self._renderer_rng,
+        )
+        self._renderer_rng.bit_generator.state = factual_renderer_state
         return WorldTransition(
             action=action,
-            observation=self._renderer.render(
-                self._state,
-                self._relations,
-                self._renderer_rng,
-            ),
+            observation=factual_observation,
             outcome=outcome,
+            counterfactual_no_op_observation=no_op_observation,
         )
 
     def _clip_state(self, state: NDArray[np.generic]) -> FloatArray:

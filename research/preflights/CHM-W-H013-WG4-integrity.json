@@ -1,0 +1,40 @@
+{
+  "checks": {
+    "count_consistency": true,
+    "deterministic_replay": true,
+    "exact_configuration_isolation": true,
+    "file_integrity": true,
+    "generator_source_integrity": true,
+    "held_world_family_policy": true,
+    "known_template_policy": true,
+    "mechanism_id_isolation": true,
+    "paired_counterfactual_transition_present": true,
+    "paired_renderer_trajectory_consistency": true,
+    "seed_isolation": true,
+    "service_metadata_excluded_from_model_batch": true,
+    "tensor_shapes": true,
+    "tensors_finite": true,
+    "unseen_mechanism_policy": true,
+    "unseen_renderer_policy": true,
+    "world_instance_isolation": true
+  },
+  "claim_boundary": "H013 WG4 engineering integrity evidence only; no model-quality, transfer, causal, business-utility or production claim.",
+  "counts": {
+    "test_mechanism": 16,
+    "test_renderer": 16,
+    "test_world_transfer": 16,
+    "total": 80,
+    "train": 16,
+    "validation": 16
+  },
+  "dataset_config": "configs/meta_world/world_generators_h013.yaml",
+  "dataset_config_sha256": "a946f649ae5202c342a89ff4d26c0311388a16006f34498077b3ce9cab4c2c8d",
+  "dataset_id": "CHM-W-WG4",
+  "human_or_llm_judging": false,
+  "hypothesis_id": "CHM-W-H013",
+  "manifest_sha256": "8319890ca3d48f53c1ffc6c22fc98b6cc1373b1d9d6c8d2342ddf9e0a1065965",
+  "preflight_id": "CHM-W-H013-WG4-INTEGRITY-001",
+  "schema_version": 1,
+  "status": "passed",
+  "test_metrics_opened": false
+}

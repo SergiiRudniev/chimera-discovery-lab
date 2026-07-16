@@ -48,6 +48,7 @@ MODEL_FIELDS = (
     "outcomes",
     "sequence_mask",
 )
+COUNTERFACTUAL_MODEL_FIELDS = ("counterfactual_no_op_observations",)
 METADATA_FIELDS = (
     "world_family_ids",
     "world_instance_ids",
@@ -93,14 +94,26 @@ class GeneratedWorldDatasetConfig:
     fixed_trajectories_per_split: int
     split_configs: tuple[DatasetSplitConfig, ...]
     held_family_by_template: dict[int, int]
+    paired_counterfactual_transitions: bool = False
+    shared_external_event: bool = False
+    shared_renderer_noise: bool = False
 
     def __post_init__(self) -> None:
         if (
             re.fullmatch(r"CHM-W-H\d{3}", self.hypothesis_id) is None
             or re.fullmatch(r"CHM-W-WG\d+", self.dataset_id) is None
-            or self.schema_version not in {1, 2}
+            or self.schema_version not in {1, 2, 3}
         ):
             raise ValueError("unexpected generated-world identity or schema")
+        counterfactual_flags = (
+            self.paired_counterfactual_transitions,
+            self.shared_external_event,
+            self.shared_renderer_noise,
+        )
+        if self.schema_version >= 3 and not all(counterfactual_flags):
+            raise ValueError("schema v3 requires exact paired counterfactual transitions")
+        if self.schema_version < 3 and any(counterfactual_flags):
+            raise ValueError("paired counterfactual transitions require schema v3")
         if self.base_seed < 0 or self.trajectory_steps <= 1:
             raise ValueError("base_seed and trajectory_steps are invalid")
         if self.min_objects <= 1 or self.max_objects < self.min_objects:
@@ -187,6 +200,11 @@ class GeneratedWorldDatasetConfig:
             ),
             split_configs=tuple(split_configs),
             held_family_by_template={int(key): int(value) for key, value in held_raw.items()},
+            paired_counterfactual_transitions=bool(
+                generation.get("paired_counterfactual_transitions", False)
+            ),
+            shared_external_event=bool(generation.get("shared_external_event", False)),
+            shared_renderer_noise=bool(generation.get("shared_renderer_noise", False)),
         )
 
     @classmethod
@@ -232,6 +250,13 @@ class GeneratedWorldDatasetConfig:
             generation = cast(dict[str, object], result["generation"])
             generation["render_views_per_world"] = self.render_views_per_world
             generation["view_coupling"] = self.view_coupling.value
+        if self.schema_version >= 3:
+            generation = cast(dict[str, object], result["generation"])
+            generation["paired_counterfactual_transitions"] = (
+                self.paired_counterfactual_transitions
+            )
+            generation["shared_external_event"] = self.shared_external_event
+            generation["shared_renderer_noise"] = self.shared_renderer_noise
         return result
 
 
@@ -413,6 +438,8 @@ def collate_trajectories(
     action_targets = np.zeros((batch_size, time, max_objects), dtype=np.float32)
     delta_time = np.zeros((batch_size, time), dtype=np.float32)
     outcomes = np.zeros((batch_size, time, outcome_features), dtype=np.float32)
+    counterfactual_no_op_observations = np.zeros_like(observations)
+    has_counterfactual = True
     sequence_mask = np.zeros((batch_size, time), dtype=np.bool_)
     for batch_index, trajectory in enumerate(trajectories):
         current = trajectory.initial_observation
@@ -429,6 +456,12 @@ def collate_trajectories(
             action_targets[batch_index, step, transition.action.target] = 1.0
             delta_time[batch_index, step] = current.delta_time
             outcomes[batch_index, step] = transition.outcome
+            if transition.counterfactual_no_op_observation is None:
+                has_counterfactual = False
+            else:
+                counterfactual_no_op_observations[
+                    batch_index, step, :objects
+                ] = transition.counterfactual_no_op_observation.values
             sequence_mask[batch_index, step] = True
             current = transition.observation
     batch = GeneratedWorldBatch(
@@ -441,6 +474,11 @@ def collate_trajectories(
         delta_time=torch.from_numpy(delta_time),
         outcomes=torch.from_numpy(outcomes),
         sequence_mask=torch.from_numpy(sequence_mask),
+        counterfactual_no_op_observations=(
+            torch.from_numpy(counterfactual_no_op_observations)
+            if has_counterfactual
+            else None
+        ),
     )
     batch.validate()
     return batch
@@ -474,11 +512,21 @@ def _write_deterministic_npz(
             archive.writestr(info, buffer.getvalue(), compress_type=zipfile.ZIP_DEFLATED)
 
 
-def _batch_arrays(batch: GeneratedWorldBatch) -> dict[str, NDArray[np.generic]]:
-    return {
+def _batch_arrays(
+    batch: GeneratedWorldBatch,
+    *,
+    include_counterfactual: bool = False,
+) -> dict[str, NDArray[np.generic]]:
+    arrays = {
         name: cast(torch.Tensor, getattr(batch, name)).detach().cpu().numpy()
         for name in MODEL_FIELDS
     }
+    if include_counterfactual:
+        values = batch.counterfactual_no_op_observations
+        if values is None:
+            raise ValueError("counterfactual dataset is missing no-op transitions")
+        arrays[COUNTERFACTUAL_MODEL_FIELDS[0]] = values.detach().cpu().numpy()
+    return arrays
 
 
 def _metadata_arrays(
@@ -571,7 +619,13 @@ def build_generated_world_dataset(
         )
         trajectories = [pipeline.materialize(split, index) for index in range(count)]
         batch = collate_trajectories(trajectories, max_objects=config.max_objects)
-        arrays = {**_batch_arrays(batch), **_metadata_arrays(trajectories)}
+        arrays = {
+            **_batch_arrays(
+                batch,
+                include_counterfactual=config.paired_counterfactual_transitions,
+            ),
+            **_metadata_arrays(trajectories),
+        }
         shard_path = output / f"{split.value}.npz"
         _write_deterministic_npz(shard_path, arrays)
         metadata = [item.metadata for item in trajectories]
@@ -648,6 +702,18 @@ def build_generated_world_dataset(
             "delta_time": ["batch", "time"],
             "outcomes": ["batch", "time", "outcome_features"],
             "sequence_mask": ["batch", "time"],
+            **(
+                {
+                    "counterfactual_no_op_observations": [
+                        "batch",
+                        "time",
+                        "objects",
+                        "features",
+                    ]
+                }
+                if config.paired_counterfactual_transitions
+                else {}
+            ),
         },
         split_policy=split_policy,
         source_hashes=source_hashes,
@@ -750,13 +816,18 @@ def validate_generated_world_dataset(
         path = root / shard["file"]
         file_integrity = file_integrity and path.is_file() and _sha256(path) == shard["sha256"]
         with np.load(path, allow_pickle=False) as arrays:
-            if not {*MODEL_FIELDS, *METADATA_FIELDS} <= set(arrays.files):
+            model_fields = (
+                (*MODEL_FIELDS, *COUNTERFACTUAL_MODEL_FIELDS)
+                if config.paired_counterfactual_transitions
+                else MODEL_FIELDS
+            )
+            if not {*model_fields, *METADATA_FIELDS} <= set(arrays.files):
                 shape_validity = False
                 continue
             batch = GeneratedWorldBatch(
                 **{
                     name: torch.from_numpy(np.asarray(arrays[name]).copy())
-                    for name in MODEL_FIELDS
+                    for name in model_fields
                 }
             )
             try:
@@ -765,7 +836,14 @@ def validate_generated_world_dataset(
                 shape_validity = False
             tensors_finite = tensors_finite and all(
                 np.isfinite(arrays[name]).all()
-                for name in ("observations", "relations", "actions", "outcomes")
+                for name in (
+                    "observations",
+                    "relations",
+                    "actions",
+                    "outcomes",
+                    *COUNTERFACTUAL_MODEL_FIELDS,
+                )
+                if name in arrays.files
             )
             count = int(arrays["mechanism_ids"].shape[0])
             counts_valid = counts_valid and count == int(shard["trajectories"])
@@ -782,7 +860,8 @@ def validate_generated_world_dataset(
             trajectories = [pipeline.materialize(split, index) for index in range(count)]
             expected = {
                 **_batch_arrays(
-                    collate_trajectories(trajectories, max_objects=config.max_objects)
+                    collate_trajectories(trajectories, max_objects=config.max_objects),
+                    include_counterfactual=config.paired_counterfactual_transitions,
                 ),
                 **_metadata_arrays(trajectories),
             }
@@ -860,7 +939,12 @@ def validate_generated_world_dataset(
         "unseen_renderer_policy": renderer_policy,
         "held_world_family_policy": transfer_policy,
         "service_metadata_excluded_from_model_batch": not set(METADATA_FIELDS)
-        & set(MODEL_FIELDS),
+        & {*MODEL_FIELDS, *COUNTERFACTUAL_MODEL_FIELDS},
+        "paired_counterfactual_transition_present": (
+            config.paired_counterfactual_transitions
+            if config.schema_version >= 3
+            else True
+        ),
     }
     return {
         "dataset_id": config.dataset_id,

@@ -61,6 +61,21 @@ Versus the matched direct model, the factorized arm must achieve:
 
 Failure keeps frozen validation and test sealed and promotes no checkpoint.
 
+## Commands
+
+```powershell
+python -m chimera.cli meta-world-h013-smoke-dataset `
+  --config configs/meta_world/world_generators_h013.yaml `
+  --output artifacts/meta_world_h013_smoke `
+  --report research/preflights/CHM-W-H013-WG4-integrity.json
+
+python -m chimera.cli meta-world-h013-preflight `
+  --config configs/meta_world/world_h013_development_factorized.yaml `
+  --output runs/h013_development_factorized
+
+python -m chimera.cli meta-world-h013-suite
+```
+
 ## Claim boundary
 
 This protocol can establish a numerical representation result inside the
